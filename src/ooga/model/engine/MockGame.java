@@ -22,9 +22,11 @@ public class MockGame implements GameFramework {
     }
 
     @Override
-    public int getUserGameStatus() {
+    public int getEndGameStatus() {
         return 0;
     }
+
+
 
     @Override
     public List<List<Integer>> getVisualInfo() {

@@ -60,4 +60,16 @@ public interface ControllerFramework {
      *  -
      */
     int getUserNumber();
+
+    /**
+     * METHOD PURPOSE:
+     *  -
+     */
+    boolean gameOver();
+
+    /**
+     * METHOD PURPOSE:
+     *  -
+     */
+    int gameWinner();
 }

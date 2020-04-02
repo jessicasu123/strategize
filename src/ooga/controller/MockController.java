@@ -68,4 +68,16 @@ public class MockController implements ControllerFramework {
     public int getUserNumber() {
         return 0;
     }
+
+    @Override
+    public boolean gameOver() {
+        return false;
+    }
+
+    @Override
+    public int gameWinner() {
+        return 0;
+    }
+
+
 }
