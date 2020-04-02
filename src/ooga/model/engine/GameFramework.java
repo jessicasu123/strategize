@@ -27,10 +27,10 @@ public interface GameFramework {
      * METHOD PURPOSE:
      *  - gets the status of the game to know if the game is over, and if so who won
      * @return - if the game is still continuing will return 0
-     *          - if the game is over(no moves left):
+     *          - if the game is over:
      *                  -if player1 has won will return 1
      *                  -if player2 has won will return 2
-     *                  -if no one one will return 3
+     *                  -if no one won (no moves left) will return 3
      */
     int getEndGameStatus();
 

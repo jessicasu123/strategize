@@ -16,6 +16,7 @@ public interface FileHandler {
     /**
      * METHOD PURPOSE:
      *  - gives the game piece configuration from the file in order to build the board
+     *      - will be passed to the view from the controller (getting the information from the game and board)
      */
     List<List<Integer>> loadFileConfiguration();
 

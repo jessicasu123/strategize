@@ -18,17 +18,12 @@ public class MockController implements ControllerFramework {
     int squareSelectedX;
     int squareSelectedY;
 
-    //TODO: figure out parameter, based on FileHandler
+
     public MockController(FileHandler fileHandle){
         myFileHandler = fileHandle;
         myGame = new MockGame("", myFileHandler.loadFileConfiguration());
     }
 
-    //TODO: would these by private helper methods called in the constructor?
-    @Override
-    public List<List<Integer>> getStartingStateConfiguaration() {
-        return null;
-    }
 
     @Override
     public Map<String,String> getStartingProperties() {
