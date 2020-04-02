@@ -3,7 +3,7 @@ PROJECT PLAN
 
 ### Division of Tasks 
 
-The preliminary division of tasks is shown in the screenshot below. APIs are in bold, and classes are in italics. 
+The preliminary division of tasks is shown in the screenshot below. APIs are in **bold**, and classes are in *italics*. Example strategy games that we plan to implement are underlined. 
 
 ![](sprint_pics/divisionOfTasks.png)
 

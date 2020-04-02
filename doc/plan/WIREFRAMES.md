@@ -11,7 +11,7 @@ Here are also screenshots taken from the AdobeXD document and descriptions to sh
 
 **GAME CENTER**: *Choose a game by clicking on its name or enter a custom configuration in text box. Profile icon (top left) takes you to the PROFILE page, LogOut icon (top right) takes you to PLAYER REGISTRATION screen.*
 
-**PROFILE**: *Personal info (name, username, password), and # games won for each game*. 
+**PROFILE**: *Personal info (name, username, password), and the percent of games won for each game*. 
 
 ![](wireframe_pics/prof_gameCenter.png)
 
