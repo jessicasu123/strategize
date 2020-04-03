@@ -17,6 +17,14 @@ public interface ControllerFramework {
 
     /**
      * METHOD PURPOSE:
+     *  -sends the needed properties and the filename to the file handler to be saved
+     * @param fileName - the String the user indicates they want the file to be saved as
+     * @param properties - the properties the user specified/changed to be stored
+     */
+    void saveANewFile(String fileName, Map<String,String> properties);
+
+    /**
+     * METHOD PURPOSE:
      *  -sends the needed properties from the file handler to the view/model
      * @return a map of the key,value pairs from the file
      */

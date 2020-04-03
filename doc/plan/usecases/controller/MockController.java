@@ -26,6 +26,11 @@ public class MockController implements ControllerFramework {
 
 
     @Override
+    public void saveANewFile(String fileName, Map<String, String> properties) {
+        myFileHandler.saveToFile(fileName,properties,myGame.getVisualInfo());
+    }
+
+    @Override
     public Map<String,String> getStartingProperties() {
         return null;
     }
@@ -47,7 +52,7 @@ public class MockController implements ControllerFramework {
         myGame.makeUserMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
     }
 
-    //TODO: figure out when this should be called
+
     @Override
     public void haveAgentMove() throws InvalidMoveException {
         myGame.makeAgentMove();
