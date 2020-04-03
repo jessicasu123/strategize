@@ -15,6 +15,10 @@ PRESENTATION PLAN
         - **Winning** based on having “more” than your opponent
             - Example: in Othello, having the most black pieces; in Connect 4, having 4 in a row first; etc. 
     - (BRIAN) differences 
+         -  The main differences between the 6 strategy games is that Tic-Tac-Toe and Connect4 begin with an empty board configuration where game pieces are added while the other games
+               begin with a specific configuration of game pieces. All games will also have a different default configuration and board dimensions.  
+         -  In addition, the rules of each game are completely different. For example, in tic-tac-toe, gamepieces can be placed in any empty spot while in Connect 4, a gamepiece can only be placed if the spot below either contains a gamepiece or is the bottom of the board.
+        
 * (JESSICA) Who is expected to work on which parts of the project
     - The chart below shows how the APIs/classes will roughly be divided between all of us. The APIs are in bold, the classes in italics, and the extensions underlined. It’s important to note that this division of tasks is not rigid, meaning many of us will probably work on/refactor the same APIs at different points of the project even if it’s currently only listed under one person for now.
     ![](../plan/sprint_pics/divisionOfTasks.png) 
@@ -81,9 +85,12 @@ PRESENTATION PLAN
     - The design is centered around supporting the existing games with closed game and board functionality, while 
 its abstraction of game piece types makes it open to adding different types of strategy games. 
         - Examples of flexibility through APIS: 
-            - FileHandler - allows flexibility in loading/saving configuration 
-            - GamePiece - new types of strategy games 
-            - GameViewFramework - framework to allow any view to update the appearance of a strategy game  
+            - *FileHandler* - allows flexibility in loading/saving configuration 
+            - *GamePiece* - new types of strategy games 
+            - *GameViewFramework* - framework to allow any view to update the appearance of a strategy game  
+        - Examples of what is closed/fixed 
+            - the subclasses of *GamePiece* (ex. CheckersGamePiece, TicTacToeGamePiece) - each will implement concrete game rules 
+            - the subclasses of *AgentPlayer* (ex. CheckersAgentPlayer, TicTacToeAgentPlayer) - each will implement the AI algorithm specifically based on how to best win the game its associated with  
 
 * (SANYA) provide an overview of the project's modules: what is each responsible for and how does it depend on other modules
 ![](../plan/uml_pics/modulesPackageView.png)
