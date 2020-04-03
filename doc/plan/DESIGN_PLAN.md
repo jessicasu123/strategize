@@ -2,7 +2,7 @@ Design Plan
 ====
 ## Introduction
 Our team is focused on building a program that supports a variety of two-player strategy games such as Tic Tac Toe, Connect 4 
-and Muncala. The design is centered around supporting the existing games with closed game and board functionality, while 
+and Mancala. The design is centered around supporting the existing games with closed game and board functionality, while 
 its abstraction of game piece types makes it open to adding different types of strategy games. The game and board will be set up based on instructions from data files and be responsible for communicating updates to the controller, while the game specific pieces and players will dictate the game interactions and execute the updates. The user will be able to choose a game, load a previously saved game to continue and customize on-screen components such as the board and piece graphics. The view will be responsible for setting up GUI interactions and allowing the player to make a move which will then be communicated to the controller to tell the model what updates it needs to carry out. The opponent will run on AI based automation which will be open so that each game can have its own agent.  
 
 ## Overview

@@ -4,7 +4,6 @@ PRESENTATION PLAN
 * what genre or game are you focusing on and what commonalities and differences have you identified
     - We are developing a series of strategy games, namely Tic-Tac-Toe, Connect 4, Othello, Mancala, Checkers, and Chopsticks. 
     - (SANYA) commonalities 
-    - 
     - (BRIAN) differences:
     -  The main differences between the 6 strategy games is that Tic-Tac-Toe and Connect4 begin with an empty board configuration where game pieces are added while the other games
        begin with a specific configuration of game pieces. All games will also have a different default configuration and board dimensions.  
