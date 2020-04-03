@@ -2,10 +2,15 @@ PRESENTATION PLAN
 ====
 ## **Implementation Plan**
 * what genre or game are you focusing on and what commonalities and differences have you identified
+    - We are developing a series of strategy games, namely Tic-Tac-Toe, Connect 4, Othello, Mancala, Checkers, and Chopsticks. 
     - (SANYA) commonalities 
-    - (BRIAN) differences 
+    - 
+    - (BRIAN) differences:
+    -  The main differences between the 6 strategy games is that Tic-Tac-Toe and Connect4 begin with an empty board configuration where game pieces are added while the other games
+       begin with a specific configuration of game pieces. All games will also have a different default configuration and board dimensions.  
+    -  In addition, the rules of each game are completely different. For example, in tic-tac-toe, gamepieces can be placed in any empty spot while in Connect 4, a gamepiece can only be placed if the spot below either contains a gamepiece or is the bottom of the board.
 * (JESSICA) Who is expected to work on which parts of the project
-    - The chart below shows how the APIs/classes will roughly be divided between all of us. The APIs are in bold, the classes in italics, and the extensions underlined. It’s important to note that this division of tasks is not rigid, meaning many of us will probably work on/refactor the same APIs at different points of the project even if it’s currently only listed under one person for now.
+    - The chart below shows how the APIs/classes will roughly be divided between all of us. The APIs are in bold, the classes in italics, and the extensions underlined. It’s important to note that this division of tasks is not rigid, meaning many of us will probably work on/refactor the same APIs at different points of the project even if it’s currently only listed under one person for now. 
     ![](sprint_pics/divisionOfTasks.png) 
 * (JESSICA) what extensions you are expecting to work on
     - Tic Tac Toe 
