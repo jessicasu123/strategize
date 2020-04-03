@@ -1,10 +1,10 @@
 Use Cases
 ====
-* User chooses and clicks on game from list of games on StartView
+* User chooses and clicks on game from list of games on GameCenter View
 
     - Controller is created and passed in as a paramter to GameView
 
-    - Game text and icons parsed from StartView JSON file
+    - Game Center text and icons parsed from GameCenterView JSON file
 
 * User is presented with GameView starting configuration and button pannel
 
@@ -12,7 +12,7 @@ Use Cases
 
      - GameView text and icons parsed from GameView JSON file
 
-     -  View calls controller for updated (starting) configuration of states
+     -  User calls controller (Filereader) for initial configuration of board 
 
     - User calls GameView.display() to show game configuration on board
 
