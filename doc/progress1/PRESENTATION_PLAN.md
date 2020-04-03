@@ -78,7 +78,7 @@ PRESENTATION PLAN
   1.) GamePiece API
     * Service it provides:
         * At a high level, this API provides the ability for pieces to act according to certain game rules. It is what calculates which ways a piece can move that are valid and it also then implements the move with the effects specified by the game rules. 
-        * At a lower level, this API is what validates the moves by the user and then makes them to have the game state be changed based on the move. It also gives all the possible moves so that the AI agent can determine a move by considering only the moves it is allowed to make.
+        * At a lower level, this API is what validates the moves indicated by the user and then makes them which changes the game state based on the move. It also gives all the possible moves of a piece so that the AI agent can determine a move by considering only the moves it is allowed to make.
     * How it provides for extension:
         * This API provides for extension because it is very simple to create a new type of GamePiece. The new extension would just need to implement the two methods in the interface based on the rules for the extension you would like to implement. So it helps to easily allow the program to accommodate more game types and variations.
     * How it supports readable and well designed code:
@@ -89,12 +89,13 @@ PRESENTATION PLAN
         
   2.) FileHandler API
     * Service it provides:
-        * This API provides the ability to read and parse a file as well as save a new one.
+        * This API provides the ability to read and parse a file as well as save a new one that is customized based on what the user wants.
     * How it provides for extension:
         * This API provides for extension because it gives the flexibility to easily extend the program to be able to take in multiple different types of files.
     * How it supports readable and well designed code:
-        * It supports the writing of well designed code because it help to ensure that other parts of the code are following the Single Responsibility Principle because this API separates all of the logic dealing with files, so no other part of the code has to.
-        * Similar to the GamePiece API, because of the well named methods and comments this code can help code written in other parts of the program be more readable because the method names make it clear what is happening in this part of the class
+        * It supports the writing of well designed code because it help to ensure that other parts of the code are following the Single Responsibility Principle because this API separates all of the logic dealing with files, so no other part of the code has to. 
+            * And similarly it encapsulates the formatting of the data files to the rest of the program.
+        * Similar to the GamePiece API, because of the well named methods and comments this code can help code written in other parts of the program be more readable because the FileHandler method names make it clear what is happening.
 * (BRIAN) describe two use cases in detail that show off how to use one or more of the APIs described previously
 
 * (SANYA) describe one alternative design considered and what trade-offs led to it not being chosen
