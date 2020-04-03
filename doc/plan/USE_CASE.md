@@ -65,7 +65,7 @@ Use Cases
 
     -  Game text and icons parsed from StartView JSON file
 
-*   User moves game piece to valid location and presses 
+*   User moves game piece to valid location and presses make move
 
     -  User passes x and y coordinates of game piece location to controller
 
@@ -73,7 +73,7 @@ Use Cases
 
     - Controller passes new configuration to GameView which updates the view.
 
-* User moves game piece to invalid location
+* User moves game piece to invalid location and presses make move
 
     -    User passes x and y coordinates of game piece location to controller
 

@@ -144,6 +144,34 @@ its abstraction of game piece types makes it open to adding different types of s
         * Similar to the GamePiece API, because of the well named methods and comments this code can help code written in other parts of the program be more readable because the FileHandler method names make it clear what is happening.
 * (BRIAN) describe two use cases in detail that show off how to use one or more of the APIs described previously
 
+1.) Use Case: User selects to play Connect 4 game in the Game Center menu
+
+*  A controller is created and passed in as a parameter for the Connect 4 GameView
+  
+*  controller.getStartingProperties() is called to acquire the JSON file properties to set up the Connect 4 game in GameView. 
+
+*  FileReader.loadFileConfiguration() is called to parse Game JSON file for default Connect 4 game configuration which is a 6x6 board with no game pieces present.
+
+* controller.getGameVisualInfo() is called to acquire the JSON file properties to set up the Connect 4 visual elements such as buttons and text.
+
+*  FileReader.loadFileProperties() is called to parse GameView JSON file for view elements (buttons and text).
+  
+*  User calls GameView.update() to show game configuration on board 
+
+* User is also presented with GameView's series of buttons (Restart, Make Move, Save, Back to Menu, Settings) through GameView.createButtons()
+
+2.) Use Case: User moves game piece to valid location and presses make move
+
+* User passes x and y coordinates of game piece location and square seleced to move piece in to controller
+  
+* controller.pieceselected(x,y), controller.squareselected(x,y) are called to store the x and y coordinates of the original and new game piece location, respectively.
+
+* controller.playMove() is called and sends the move information stored by pieceSelected and squareSelected to the back-end to validate and act upon
+
+* In the model, board.makeMove() is called to validate the move and make the move in Game through Game.makeUserMove() and the model is updated 
+
+* Controller passes new configuration to GameView which updates the view with GameView.update().
+
 * (SANYA) describe one alternative design considered and what trade-offs led to it not being chosen
     - *How to calculate specific neighbors for different games:* 
         - This consideration is one that has made us reconsider whether to keep the board common across all games or specific to each game. Each game has different requirements in terms of which neighbors it needs to know. For example, placing a piece in Checkers requires knowledge of all the adjacent pieces that piece could potentially skip over. Chopsticks needs to know the positions of all of its own pieces. The board has knowledge of all the piece positions, which would make it the likely candidate to provide this information, but it would also make our design less general. We have chosen not to include this method in the board because it would force us to create a board hierarchy.
