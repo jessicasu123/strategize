@@ -24,7 +24,8 @@ Use Cases
 
 * User clicks the “make move” button after finalizing move
 
-    -  User calls controller.playMove(move information)
+    -  User calls controller.playMove()
+    -  Controller sends the move information stored by pieceSelected and squareSelected to the back-end to validate and act upon
 
 * User clicks the main menu button
 
@@ -34,23 +35,23 @@ Use Cases
 
     - User calls Popup.save() and prompts user to enter file details
 
-    -  JSON File with current configuration is created by the FileCreator 
-
 * User enters save details and clicks enter button
 
     -  User calls FileGenerator.createFile() to create a new file based on the user’s inputted details. 
+    
+    -  JSON File with current configuration is created by the FileCreator 
 
 * User clicks the settings button
 
-    -  User calls Popup.settings() and provides user with option to update preferences, change level, and/or 
+    -  User calls Popup.settings() and provides user with option to change gamepiece color/image and gameboard background color.
     
-    -  User clicks save button and calls controller or GameView to update settings depending on what options are changed.  
+    -  User clicks save button and calls GameView to update settings with GameView.update().  
 
 *  User clicks the help button
 
     - User calls Popup.help() and provides user with how-to-play information.
 
-    -   User parses help text from Game JSON file.
+    -  User parses help text from GameView JSON file through calling FileReader.read().
 
 * User clicks the restart button
 
@@ -60,13 +61,13 @@ Use Cases
 
     -  User calls FileReader.read(file) and determines game type, rules, and starting configuration.
 
-    - Controller is created and passed in as a paramter to GameView
+    -  Controller is created and passed in as a paramter to GameView
 
     -  Game text and icons parsed from StartView JSON file
 
-*   User moves game piece to valid location
+*   User moves game piece to valid location and presses 
 
-    -    User passes x and y coordinates of new game piece location to controller
+    -  User passes x and y coordinates of game piece location to controller
 
     - User calls board.makeMove to validate the move with board.getMovesOfPiece and the model is updated 
 
@@ -74,7 +75,7 @@ Use Cases
 
 * User moves game piece to invalid location
 
-    -    User passes x and y coordinates of new game piece location to controller
+    -    User passes x and y coordinates of game piece location to controller
 
     -    User calls Game.makeUserMove to validate the move with board.getMovesOfPiece (invalid in this case)
 
