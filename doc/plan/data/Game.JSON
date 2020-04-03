@@ -1,0 +1,44 @@
+{
+  "Icons": [
+    {
+      "GameIcons": {
+        "Tictactoeicon": "tictactoeicon.png",
+        "MancalaIcon": "Mancalaicon.png",
+        "Connect4Icon": "connect4icon.png",
+        "CheckersIcon": "checkersicon.png",
+        "ChopsticksIcon": "chopsticksicon.png"
+      },
+      "ButtonIcon": {
+        "ProfileButton": "profile.png",
+        "LogoutButton": "logout.png"
+      }
+    }
+  ],
+  "Text": {
+    "LabelText": {
+      "Games": "Games",
+      "TicTacToe": "Tic-Tac-Toe",
+      "Mancala": "Mancala",
+      "Connect4": "Connect4",
+      "Othello": "Othello",
+      "Checkers": "Checkers",
+      "Chopsticks": "Chopsticks",
+      "LoadGame": "Load your own game",
+      "LoadSavedGame": "Load a saved game"
+    },
+    "GameDescription": {
+      "Tictactoedescription": "Classic game to get 3 of your player in a row.",
+      "mancaladescription": "Get the most marbles on your side.",
+      "connect4description": "Get 4 pieces in a row before your opponent.",
+      "othellodescription": "End with more pieces than your opponent.",
+      "checkersdescription": "Capture all your opponents pieces.",
+      "chopsticksdescription": "Make your opponent lose all their chopsticks."
+    }
+  },
+  "Icons": {
+  "HelpIcon": "helpicon.png",
+  "MessageIcon": "messageicon.png",
+  "SettingIcon": "settingicon.png"
+}
+
+}
