@@ -1,0 +1,40 @@
+{
+  "Text": {
+    "ButtonText": {
+      "RestartButton": "Restart",
+      "SaveButton": "Save",
+      "MenuButton": "Back to Menu",
+      "SettingsButton": "Settings",
+      "MakeMoveButton": "Make Move"
+    },
+    "LabelText": {
+      "Player": "Player",
+      "Opponent": "Opponent",
+      "GamesWon": "Games Won"
+    }
+  },
+
+  "Icons": {
+  "HelpIcon": "helpicon.png",
+  "MessageIcon": "messageicon.png",
+  "SettingIcon": "settingicon.png"
+  },
+
+  "GamePieceImage": {
+  "TriangleImage": "triangle.png",
+  "HexagonImage": "hexagon.ong",
+  "StarImage": "star.png"
+  },
+
+  "GameColor":{
+  "Black": "black",
+  "White": "white",
+  "Red": "red",
+  "Blue": "blue",
+  "Purple": "purple",
+  "Orange": "orange",
+  "Yellow": "yellow"
+  }
+
+  }
+

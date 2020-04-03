@@ -1,0 +1,23 @@
+{
+  "Gametype": "Connect4",
+  "Board": {
+    "Height": 100,
+    "Width": 100,
+    "InitialConfig": {
+      "Config": "0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0;"
+    }
+  },
+
+  "Player1": {
+    "State" : 1,
+    "Color": "Red",
+    "Image": "red_circle.png"
+  },
+
+  "Player2": {
+    "State": 2,
+    "Color": "Yellow",
+    "Image": "yellow_circle.png"
+  }
+
+}
