@@ -1,0 +1,62 @@
+{
+  "PlayerIcons": [
+    {
+      "ButtonIcon": {
+        "ProfileButton": "profile.png",
+        "LogoutButton": "logout.png"
+      }
+    }
+  ],
+  "Games": [
+      {
+          "GameLabel": "Tic-Tac-Toe",
+          "GameIcon": "tic-tac-toe.png",
+          "GameDescription": "Classic game to get 3 of your player in a row."
+      },
+      {
+        "GameLabel": "Mancala",
+        "GameIcon": "mancala.png",
+        "GameDescription": "Get the most marbles on your side."
+      },
+      {
+        "GameLabel": "Connect4",
+        "GameIcon": "connect-4.png",
+        "GameDescription": "Get 4 pieces in a row before your opponent."
+      },
+      {
+        "GameLabel": "Othello",
+        "GameIcon": "othello.png",
+        "GameDescription": "End with more pieces than your opponent."
+      },
+      {
+        "GameLabel": "Checkers",
+        "GameIcon": "checkers.png",
+        "GameDescription": "Capture all your opponents pieces."
+      },
+      {
+        "GameLabel": "Chopsticks",
+        "GameIcon": "chopsticks.png",
+        "GameDescription": "Make your opponent lose all their chopsticks."
+      }
+  ],
+  "Text": {
+    "LabelText": {
+      "Title": "Games",
+      "LoadGame": "Load your own game:",
+      "LoadSavedGame": "Load a saved game:"
+    },
+    "FieldText": {
+      "LoadGame": "Enter JSON file name",
+      "LoadSavedGame": "Select a saved file"
+    },
+    "ButtonText": {
+      "Submit": "Submit"
+    }
+  },
+  "Icons": {
+    "HelpIcon": "helpicon.png",
+    "MessageIcon": "messageicon.png",
+    "SettingIcon": "settingicon.png"
+  }
+
+}
