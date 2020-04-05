@@ -20,4 +20,37 @@ public interface BoardFramework {
      * can legally move to
      */
     Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player);
+
+    /**
+     * METHOD PURPOSE:
+     *  -lets the AgentPlayer know whether this configuration of the board is good or bad for itself
+     * @param player - the player whose moves you are looking for
+     * @return an integer for the evaluation of this state of the board
+     */
+    int evaluateBoard(int player);
+
+    /**
+     * METHOD PURPOSE:
+     *  - moves a piece on the board and updates the state accordingly
+     *  - calls on the Game pieces to do this
+     *  - verifies the move
+     * @param startCoordinate - the coordinate you are moving from
+     * @param endCoordinate - the coordinate you are moving to (may be the same as start coordinate if no movement
+     *                      is happening)
+     */
+    void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
+
+    /**
+     * METHOD PURPOSE:
+     *  - gets the info for all of the current states of the game pieces for the front-end to use
+     * @return list of list of the integers used to represent the state at each location
+     */
+    List<List<Integer>> getStateInfo();
+
+    /**
+     * METHOD PURPOSE:
+     *  - makes a copy of the board so the agent can try out moves without affecting the actual game state
+     * @return a copy of the board
+     */
+    BoardFramework copyBoard();
 }

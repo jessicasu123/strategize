@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.engine;
 
 import ooga.model.engine.Coordinate;
 import org.junit.jupiter.api.Test;
