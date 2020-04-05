@@ -1,4 +1,4 @@
-package ooga.model.engine;
+package ooga.model;
 
 /**
  * This class is responsible for representing a coordinate,
