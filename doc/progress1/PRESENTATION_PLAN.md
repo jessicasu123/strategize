@@ -16,7 +16,9 @@ PRESENTATION PLAN
             - Example: in Othello, having the most black pieces; in Connect 4, having 4 in a row first; etc. 
     - (BRIAN) differences 
          -  The main differences between the 6 strategy games is that Tic-Tac-Toe and Connect4 begin with an empty board configuration where game pieces are added while the other games
-               begin with a specific configuration of game pieces. All games will also have a different default configuration and board dimensions.  
+               begin with a specific configuration of game pieces. 
+                 
+         - All games will also have a different default configuration and board dimensions.  
          -  In addition, the rules of each game are completely different. For example, in tic-tac-toe, gamepieces can be placed in any empty spot while in Connect 4, a gamepiece can only be placed if the spot below either contains a gamepiece or is the bottom of the board.
         
 * (JESSICA) Who is expected to work on which parts of the project
@@ -144,7 +146,7 @@ its abstraction of game piece types makes it open to adding different types of s
         * Similar to the GamePiece API, because of the well named methods and comments this code can help code written in other parts of the program be more readable because the FileHandler method names make it clear what is happening.
 * (BRIAN) describe two use cases in detail that show off how to use one or more of the APIs described previously
 
-1.) Use Case: User selects to play Connect 4 game in the Game Center menu
+1.) Use Case: User selects to play Connect 4 game in the Game Center menu and is presented with starting configuration
 
 *  A controller is created and passed in as a parameter for the Connect 4 GameView
   
@@ -160,13 +162,13 @@ its abstraction of game piece types makes it open to adding different types of s
 
 * User is also presented with GameView's series of buttons (Restart, Make Move, Save, Back to Menu, Settings) through GameView.createButtons()
 
-2.) Use Case: User moves game piece to valid location and presses make move
+2.) Use Case: User moves game piece to valid location and presses make move and is presented with updated view.
 
 * User passes x and y coordinates of game piece location and square seleced to move piece in to controller
   
 * controller.pieceselected(x,y), controller.squareselected(x,y) are called to store the x and y coordinates of the original and new game piece location, respectively.
 
-* controller.playMove() is called and sends the move information stored by pieceSelected and squareSelected to the back-end to validate and act upon
+* controller.playMove() is called and sends the move information stored by pieceSelected and squareSelected to the model 
 
 * In the model, board.makeMove() is called to validate the move and make the move in Game through Game.makeUserMove() and the model is updated 
 
