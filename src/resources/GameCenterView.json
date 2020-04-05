@@ -1,43 +1,53 @@
 {
-  "PlayerIcons": [
-    {
-      "ButtonIcon": {
-        "ProfileButton": "profile.png",
-        "LogoutButton": "logout.png"
-      }
+  "Icons": {
+    "PlayerIcons": {
+      "ProfileButton": "profile.png",
+      "LogoutButton": "logout.png"
+    },
+    "ButtonIcons": {
+      "HelpIcon": "helpicon.png",
+      "MessageIcon": "messageicon.png",
+      "SettingIcon": "settingicon.png"
     }
-  ],
+  },
   "Games": [
       {
           "GameLabel": "Tic-Tac-Toe",
           "GameIcon": "tic-tac-toe.png",
-          "GameDescription": "Classic game to get 3 of your player in a row."
+          "GameDescription": "Classic game to get 3 of your player in a row.",
+        "DefaultFile": "tic-tac-toe.json"
       },
       {
         "GameLabel": "Mancala",
         "GameIcon": "mancala.png",
-        "GameDescription": "Get the most marbles on your side."
+        "GameDescription": "Get the most marbles on your side.",
+        "DefaultFile": "mancala.json"
       },
       {
         "GameLabel": "Connect4",
         "GameIcon": "connect-4.png",
-        "GameDescription": "Get 4 pieces in a row before your opponent."
+        "GameDescription": "Get 4 pieces in a row before your opponent.",
+        "DefaultFile": "connect4.json"
       },
       {
         "GameLabel": "Othello",
         "GameIcon": "othello.png",
-        "GameDescription": "End with more pieces than your opponent."
+        "GameDescription": "End with more pieces than your opponent.",
+        "DefaultFile": "othello.json"
       },
       {
         "GameLabel": "Checkers",
         "GameIcon": "checkers.png",
-        "GameDescription": "Capture all your opponents pieces."
+        "GameDescription": "Capture all your opponents pieces.",
+        "DefaultFile": "checkers.json"
       },
       {
         "GameLabel": "Chopsticks",
         "GameIcon": "chopsticks.png",
-        "GameDescription": "Make your opponent lose all their chopsticks."
+        "GameDescription": "Make your opponent lose all their chopsticks.",
+        "DefaultFile": "chopsticks.json"
       }
+
   ],
   "Text": {
     "LabelText": {
@@ -52,11 +62,6 @@
     "ButtonText": {
       "Submit": "Submit"
     }
-  },
-  "Icons": {
-    "HelpIcon": "helpicon.png",
-    "MessageIcon": "messageicon.png",
-    "SettingIcon": "settingicon.png"
   }
 
 }

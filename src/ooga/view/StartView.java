@@ -1,6 +1,5 @@
 package ooga.view;
 
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,8 +19,8 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONTokener;
-
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 
@@ -33,15 +32,13 @@ public class StartView {
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameCenterView.json";
     public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
-    private Timeline myAnimation;
+    public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject startScreenData;
 
 
-    public StartView(Stage displayStage, Timeline animation) throws FileNotFoundException {
+    public StartView(Stage displayStage) throws FileNotFoundException {
         myStage = displayStage;
-        myAnimation = animation;
-
         FileReader br = new FileReader(DATAFILE);
         JSONTokener token = new JSONTokener(br);
         startScreenData = new JSONObject(token);
@@ -61,7 +58,7 @@ public class StartView {
         root.getStyleClass().add("root");
 
         root.setTop(addTitle());
-        root.setCenter(createGameOptionHolder(width));
+        root.setCenter(createGameOptionHolder(width, height));
         root.setMaxWidth(width);
         return startScene;
     }
@@ -77,32 +74,52 @@ public class StartView {
     private VBox createLoadFileOptions(){
         VBox fileSelections = new VBox(SPACING);
 
-        HBox loadFile = new HBox(SPACING);
-        Text loadFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadGame"));
         TextField fileField = new TextField();
-        fileField.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadGame"));
-        loadFile.getChildren().addAll(loadFileLabel, fileField);
-        loadFile.setAlignment(Pos.CENTER);
+        HBox loadFile = initializeTextField(fileField);
 
-        HBox loadSavedFile = new HBox(SPACING);
-        Text loadSavedFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadSavedGame"));
-        //TODO: get list of all the files saved
-        ObservableList<String> obList = FXCollections.observableList(new ArrayList<>());
-        ComboBox<String> fileOptions = new ComboBox<>(obList);
-        fileOptions.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame"));
-        loadSavedFile.getChildren().addAll(loadSavedFileLabel, fileOptions);
-        loadSavedFile.setAlignment(loadFile.getAlignment());
+        ComboBox<String> savedFileOptions = new ComboBox<>();
+        HBox loadSavedFile = initializeDropDown(loadFile.getAlignment(), savedFileOptions);
+
         fileSelections.getChildren().addAll(loadFile,loadSavedFile);
 
         Button submit = new Button(startScreenData.getJSONObject("Text").getJSONObject("ButtonText").getString("Submit"));
+        //TODO: uncomment once GameView class is created
+//        submit.setOnAction(e -> {
+//            if(fileField.getText() != null && !fileField.getText().trim().isEmpty()){
+//                new GameView(fileField.getText());
+//            }else if(!savedFileOptions.getSelectionModel().isEmpty()){
+//                new GameView(savedFileOptions.getValue());
+//            }}
+//        );
         submit.getStyleClass().add("gameButton");
         fileSelections.getChildren().add(submit);
         return fileSelections;
     }
 
-    private VBox createGameOptionHolder(int width){
+    private HBox initializeDropDown(Pos position, ComboBox<String> fileOptions) {
+        HBox loadSavedFile = new HBox(SPACING);
+        Text loadSavedFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadSavedGame"));
+        //TODO: get list of all the files saved
+        ObservableList<String> obList = FXCollections.observableList(new ArrayList<>());
+        fileOptions.setItems(obList);
+        fileOptions.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame"));
+        loadSavedFile.getChildren().addAll(loadSavedFileLabel, fileOptions);
+        loadSavedFile.setAlignment(position);
+        return loadSavedFile;
+    }
+
+    private HBox initializeTextField(TextField fileField) {
+        HBox loadFile = new HBox(SPACING);
+        Text loadFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadGame"));
+        fileField.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadGame"));
+        loadFile.getChildren().addAll(loadFileLabel, fileField);
+        loadFile.setAlignment(Pos.CENTER);
+        return loadFile;
+    }
+
+    private VBox createGameOptionHolder(int width, int height){
         VBox container = new VBox();
-        GridPane defaultOptions = defaultGameOptionHolder(width);
+        GridPane defaultOptions = defaultGameOptionHolder(width, height);
         VBox fileOptions = createLoadFileOptions();
         fileOptions.setAlignment(Pos.CENTER);
         container.getChildren().addAll(defaultOptions, fileOptions);
@@ -110,52 +127,75 @@ public class StartView {
 
     }
 
-    private GridPane defaultGameOptionHolder(int width){
+    private GridPane defaultGameOptionHolder(int width, int height){
         GridPane gameOptionHolder = new GridPane();
-        gameOptionHolder.setPadding(new Insets(PADDING,0,PADDING,0));
+        gameOptionHolder.setPadding(new Insets(PADDING,PADDING,PADDING,PADDING));
         gameOptionHolder.setHgap(PADDING);
         gameOptionHolder.setVgap(SPACING);
+
         JSONArray gameArray = startScreenData.getJSONArray("Games");
-        double gridLayoutProportion = Math.sqrt(gameArray.length());
-        int numRows = (int) Math.ceil(gridLayoutProportion);
-        int numCols = (int) Math.floor(gridLayoutProportion);
-        int widthMinusPadding = width - (numCols * PADDING) - (PADDING * 2);
-        for(int i = 0; i < gameArray.length(); i++ ){
-            HBox currentGame = createGameContainer(gameArray.getJSONObject(i),  numCols, widthMinusPadding);
-            gameOptionHolder.add(currentGame, i % numCols, i % numRows );
-        }
+        int numCols = (int) Math.round(Math.sqrt(gameArray.length()));
+        double containerSize = calculateCellSize(width, height, numCols, gameArray.length());
+
+        createGameMenuCells(gameOptionHolder, gameArray, numCols, containerSize);
         gameOptionHolder.setAlignment(Pos.TOP_CENTER);
         return gameOptionHolder;
     }
 
-    private HBox createGameContainer(JSONObject game, int cols, int width){
+    private void createGameMenuCells(GridPane gameOptionHolder, JSONArray gameArray, int numCols, double containerSize) {
+        int rowCounter = 0;
+        for(int i = 0; i < gameArray.length(); i++ ){
+            HBox currentGame = createGameContainer(gameArray.getJSONObject(i), numCols, containerSize);
+            gameOptionHolder.add(currentGame, i % numCols, rowCounter);
+            if((i + 1) % numCols == 0){
+                rowCounter++;
+            }
+        }
+    }
+
+    private double calculateCellSize(int width, int height, int numCols, int numCells){
+        int widthMinusPadding = width - (numCols * PADDING) - (PADDING * 2);
+        int heightMinusPadding = height - (numCells/numCols * PADDING) - (PADDING * 2);
+        return Math.min(widthMinusPadding, heightMinusPadding);
+    }
+    private HBox createGameContainer(JSONObject game, int cols, double containerSize){
         HBox gameContainer = new HBox(SPACING);
-
-        ImageView gameIcon = setUpGameIcon(game, cols, width);
-
-        VBox gameText = setUpGameText(game, cols, width);
-
+        ImageView gameIcon = setUpGameIcon(game, cols, containerSize);
+        VBox gameText = setUpGameText(game, cols, containerSize);
         gameContainer.getChildren().addAll(gameIcon, gameText);
         gameText.setAlignment(Pos.TOP_LEFT);
         return gameContainer;
     }
 
-    private VBox setUpGameText(JSONObject game, int cols, float width) {
+    private VBox setUpGameText(JSONObject game, int cols, double size) {
         VBox gameText = new VBox(SPACING);
-        Button gameButton = new Button(game.getString("GameLabel"));
-        gameButton.setId(gameButton.getText());
-        gameButton.getStyleClass().add("gameButton");
-        Text gameDescription= new Text(game.getString("GameDescription"));
-        gameDescription.getStyleClass().add("gameDescription");
-        gameDescription.setWrappingWidth(width / (cols * 2));
-        gameText.getChildren().addAll(gameButton, gameDescription);
+        double sizeConstraint = size / (cols * 2);
+        Button gameButton = createGameNameButton(game, sizeConstraint);
+        createGameDescription(game, gameText, sizeConstraint, gameButton);
         return gameText;
     }
 
-    private ImageView setUpGameIcon(JSONObject game, int cols, float width) {
+    private void createGameDescription(JSONObject game, VBox gameText, double sizeConstraint, Button gameButton) {
+        Text gameDescription= new Text(game.getString("GameDescription"));
+        gameDescription.getStyleClass().add("gameDescription");
+        gameDescription.setWrappingWidth(sizeConstraint);
+        gameText.getChildren().addAll(gameButton, gameDescription);
+    }
+
+    private Button createGameNameButton(JSONObject game, double sizeConstraint) {
+        Button gameButton = new Button(game.getString("GameLabel"));
+        gameButton.setId(gameButton.getText());
+        gameButton.getStyleClass().add("gameButton");
+        gameButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
+        //TODO: uncomment once GameView class is created
+        //gameButton.setOnAction(e -> new GameView(game.getString("DefaultFile")));
+        return gameButton;
+    }
+
+    private ImageView setUpGameIcon(JSONObject game, int cols, double size) {
         Image img = new Image(ICON_RESOURCES + game.getString("GameIcon"));
         ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(width / (cols * 2));
+        gameIcon.setFitWidth(size / (cols * 2));
         gameIcon.setPreserveRatio(true);
         return gameIcon;
     }

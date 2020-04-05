@@ -22,7 +22,7 @@ public class Main extends Application {
     public void start(Stage stage){
 
         try {
-            StartView startScreen = new StartView(stage,new Timeline());
+            StartView startScreen = new StartView(stage);
             startScreen.displayToStage(500,500);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
