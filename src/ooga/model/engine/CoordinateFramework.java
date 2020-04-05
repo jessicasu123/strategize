@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.engine;
 /**
  * PURPOSE OF INTERFACE:
  *  - to ensure continuity amongst all parts of the program that require a x,y coordinate

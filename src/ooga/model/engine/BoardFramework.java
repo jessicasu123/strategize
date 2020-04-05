@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.engine;
 
 import java.util.List;
 import java.util.Map;

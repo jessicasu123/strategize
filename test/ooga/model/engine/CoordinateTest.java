@@ -1,6 +1,5 @@
 package ooga.model.engine;
 
-import ooga.model.Coordinate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 class CoordinateTest {

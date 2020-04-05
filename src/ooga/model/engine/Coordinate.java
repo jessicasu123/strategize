@@ -1,10 +1,10 @@
-package ooga.model;
+package ooga.model.engine;
 
 /**
  * This class is responsible for representing a coordinate,
  * which consists of an x position and a y position.
  */
-public class Coordinate implements CoordinateFramework{
+public class Coordinate implements CoordinateFramework {
     private int xPos;
     private int yPos;
 
