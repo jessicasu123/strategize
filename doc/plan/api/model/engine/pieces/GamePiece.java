@@ -38,6 +38,12 @@ public interface GamePiece {
      */
     void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors);
 
-
+    /**
+     * METHOD PURPOSE:
+     *  - to evaluate the state of this given piece so the Agent can know its value and understand the overall
+     *  evaluation of the board
+     * @param neighbors - the neighbors of this game piece which may give information on the state of this piece
+     */
+    int evaluateState( List<GamePiece> neighbors);
 }
 

@@ -24,6 +24,14 @@ public interface BoardFramework {
 
     /**
      * METHOD PURPOSE:
+     *  -lets the AgentPlayer know whether this configuration of the board is good or bad for itself
+     * @param player - the player whose moves you are looking for
+     * @return an integer for the evaluation of this state of the board
+     */
+    int evaluateBoard(int player);
+
+    /**
+     * METHOD PURPOSE:
      *  - moves a piece on the board and updates the state accordingly
      *  - calls on the Game pieces to do this
      *  - verifies the move
