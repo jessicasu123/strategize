@@ -39,7 +39,12 @@ public class Board implements BoardFramework{
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
-                GamePiece newPiece = gamePieceCreator.createGamePiece(myGameType, state, pos);
+                GamePiece newPiece = null;
+                try {
+                    newPiece = gamePieceCreator.createGamePiece(myGameType, state, pos);
+                } catch (InvalidGameTypeException e) {
+                    e.printStackTrace();
+                }
                 boardRow.append(newPiece);
             }
             myGamePieces.append(boardRow);
