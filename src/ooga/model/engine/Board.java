@@ -1,9 +1,6 @@
 package ooga.model.engine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board implements BoardFramework{
 
@@ -11,10 +8,26 @@ public class Board implements BoardFramework{
     private List<List<Integer>> myStartingConfiguration;
     private String myGameType;
 
+    /**
+     * Constructor to create a Board object.
+     * @param gameType - type of game (ex. tic-tac-toe, mancala, etc.)
+     * @param startingConfiguration - the starting configuration read from the JSON file
+     */
     public Board(String gameType, List<List<Integer>> startingConfiguration) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
         myGameType = gameType;
+        createBoardFromStartingConfig();
+    }
+
+    /**
+     * Constructor for copying board to give it to the AgentPlayer.
+     */
+    public Board (Board originalBoard) {
+        this.myGameType = originalBoard.myGameType;
+        this.myStartingConfiguration = originalBoard.myStartingConfiguration;
+        //need to deep copy the current state of game pieces
+        this.myGamePieces = new ArrayList<>(originalBoard.myGamePieces);
     }
 
     private void createBoardFromStartingConfig() {
@@ -22,8 +35,8 @@ public class Board implements BoardFramework{
         int numCols = myStartingConfiguration.get(0).size();
         GamePieceFactory gamePieceCreator = new GamePieceFactory();
         for (int r = 0; r < numRows; r++) {
+            List<GamePiece> boardRow = new ArrayList<>();
             for (int c = 0; c < numCols; c++) {
-                List<GamePiece> boardRow = new ArrayList<>();
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
                 GamePiece newPiece = gamePieceCreator.createGamePiece(myGameType, state, pos);
@@ -34,12 +47,25 @@ public class Board implements BoardFramework{
     }
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
-
+        //TODO: implement finding neighbors
+        List<GamePiece> neighbors = new ArrayList<GamePiece>();
+        return neighbors;
     }
 
     @Override
     public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player) {
-        return null;
+        Map<Coordinate, List<Coordinate>> allLegalMoves = new HashMap<>();
+        for (List<GamePiece> row: myGamePieces) {
+            for (int col = 0; col < row.size();col++) {
+                GamePiece currPiece = row.get(col);
+                if (currPiece.getStatus()==player) {
+                    Coordinate currCoord = currPiece.getPosition();
+                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(currPiece.getNeighbors());
+                    allLegalMoves.put(currCoord, moves);
+                }
+            }
+        }
+        return allLegalMoves;
     }
 
     @Override
@@ -49,16 +75,32 @@ public class Board implements BoardFramework{
 
     @Override
     public void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
-
+        GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
+        List<GamePiece> neighbors = getNeighbors(curr);
+        if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
+            curr.makeMove(endCoordinate, neighbors);
+        } else {
+            throw new InvalidMoveException("Your move is invalid");
+        }
     }
 
     @Override
     public List<List<Integer>> getStateInfo() {
-        return Collections.unmodifiableList(myGamePieces);
+        List<List<Integer>> currStateConfig = new ArrayList<>();
+        for (List<GamePiece> row: myGamePieces) {
+            List<Integer> rowStates = new ArrayList<>();
+            for (int col = 0; col < row.size(); col++) {
+                int currState = row.get(col).getState();
+                rowStates.append(currState);
+            }
+            currStateConfig.append(rowStates);
+        }
+        return Collections.unmodifiableList(currStateConfig);
     }
 
     @Override
     public BoardFramework copyBoard() {
-        return null;
+        //TODO: test that changing values of copied board don't affect original
+        return new Board(this);
     }
 }
