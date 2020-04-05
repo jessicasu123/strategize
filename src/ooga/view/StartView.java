@@ -23,7 +23,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-
+/**
+ * This class creates the GUI for the start up screen
+ * The GUI contains buttons for all of the games, a textfield
+ * to enter your own game, and a dropdown to select a saved game
+ * Upon submission of the form (either clicking a game button or
+ * the submit button) a GameView is created, starting the Game
+ * @author Holly Ansel
+ */
 public class StartView {
     public static final int PADDING = 20;
     public static final int SPACING = 10;
@@ -37,6 +44,11 @@ public class StartView {
     private JSONObject startScreenData;
 
 
+    /**
+     * Creates the StartView object and finds the JSON datafile
+     * @param displayStage - the stage that the screen will be displayed on
+     * @throws FileNotFoundException - if the JSON file can't be found
+     */
     public StartView(Stage displayStage) throws FileNotFoundException {
         myStage = displayStage;
         FileReader br = new FileReader(DATAFILE);
@@ -44,6 +56,11 @@ public class StartView {
         startScreenData = new JSONObject(token);
     }
 
+    /**
+     * Calls on this class to present its GUI to the screen
+     * @param width - the width of the screen to display
+     * @param height - the height of the screen to display
+     */
     public void displayToStage(int width, int height){
         Scene startScene = makeStartDisplay(width, height);
         myStage.setScene(startScene);
@@ -92,6 +109,7 @@ public class StartView {
 //            }}
 //        );
         submit.getStyleClass().add("gameButton");
+        submit.setId(submit.getText());
         fileSelections.getChildren().add(submit);
         return fileSelections;
     }
@@ -102,6 +120,7 @@ public class StartView {
         //TODO: get list of all the files saved
         ObservableList<String> obList = FXCollections.observableList(new ArrayList<>());
         fileOptions.setItems(obList);
+        fileOptions.setId("fileOptions");
         fileOptions.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame"));
         loadSavedFile.getChildren().addAll(loadSavedFileLabel, fileOptions);
         loadSavedFile.setAlignment(position);
@@ -112,6 +131,7 @@ public class StartView {
         HBox loadFile = new HBox(SPACING);
         Text loadFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadGame"));
         fileField.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadGame"));
+        fileField.setId("fileField");
         loadFile.getChildren().addAll(loadFileLabel, fileField);
         loadFile.setAlignment(Pos.CENTER);
         return loadFile;
@@ -187,6 +207,7 @@ public class StartView {
         gameButton.setId(gameButton.getText());
         gameButton.getStyleClass().add("gameButton");
         gameButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
+        gameButton.setId(gameButton.getText());
         //TODO: uncomment once GameView class is created
         //gameButton.setOnAction(e -> new GameView(game.getString("DefaultFile")));
         return gameButton;

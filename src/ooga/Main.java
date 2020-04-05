@@ -25,7 +25,7 @@ public class Main extends Application {
             StartView startScreen = new StartView(stage);
             startScreen.displayToStage(500,500);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Internal error, data file not found");
         }
 
     }
