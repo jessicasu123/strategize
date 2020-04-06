@@ -12,7 +12,12 @@ import java.util.List;
  *  and the game elements (players/agent and the board)
  */
 public interface GameFramework {
-
+    /**
+     * METHOD PURPOSE:
+     *  - makes the move of a user player on the board
+     * @param moveCoordinates - list of the coordinates the controller has collected from the view for the move
+     */
+    void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
      *  - makes the agent's move on the board

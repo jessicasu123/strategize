@@ -7,6 +7,8 @@ public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
     private String myGameType;
+    private int numRows;
+    private int numCols;
 
     /**
      * Constructor to create a Board object.
@@ -31,8 +33,8 @@ public class Board implements BoardFramework{
     }
 
     private void createBoardFromStartingConfig() {
-        int numRows = myStartingConfiguration.size();
-        int numCols = myStartingConfiguration.get(0).size();
+        numRows = myStartingConfiguration.size();
+        numCols = myStartingConfiguration.get(0).size();
         GamePieceFactory gamePieceCreator = new GamePieceFactory();
         for (int r = 0; r < numRows; r++) {
             List<GamePiece> boardRow = new ArrayList<>();
@@ -45,9 +47,9 @@ public class Board implements BoardFramework{
                 } catch (InvalidGameTypeException e) {
                     e.printStackTrace();
                 }
-                boardRow.append(newPiece);
+                boardRow.add(newPiece);
             }
-            myGamePieces.append(boardRow);
+            myGamePieces.add(boardRow);
         }
     }
 
@@ -65,7 +67,7 @@ public class Board implements BoardFramework{
                 GamePiece currPiece = row.get(col);
                 if (currPiece.getStatus()==player) {
                     Coordinate currCoord = currPiece.getPosition();
-                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(currPiece.getNeighbors());
+                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
                     allLegalMoves.put(currCoord, moves);
                 }
             }
@@ -75,6 +77,7 @@ public class Board implements BoardFramework{
 
     @Override
     public int evaluateBoard(int player) {
+        //TODO: figure out what this does
         return 0;
     }
 
@@ -85,7 +88,7 @@ public class Board implements BoardFramework{
         if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors);
         } else {
-            throw new InvalidMoveException("Your move is invalid");
+            throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
     }
 
@@ -96,9 +99,9 @@ public class Board implements BoardFramework{
             List<Integer> rowStates = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
                 int currState = row.get(col).getState();
-                rowStates.append(currState);
+                rowStates.add(currState);
             }
-            currStateConfig.append(rowStates);
+            currStateConfig.add(rowStates);
         }
         return Collections.unmodifiableList(currStateConfig);
     }
