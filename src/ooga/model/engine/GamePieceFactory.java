@@ -1,5 +1,8 @@
 package ooga.model.engine;
 
+import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.TicTacToeGamePiece;
+
 /**
  * The purpose of this class is to generate different types
  * of GamePieces based on the game type. This class follows
