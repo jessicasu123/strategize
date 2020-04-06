@@ -31,17 +31,23 @@ public interface GamePiece {
     List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors);
 
     /**
-     * METHOD PURPOSE:
-     *  - to officially make a move and change the state and/or position of the game piece and potentially
+     * This method makes a "move": it changes the state and/or position of the game piece and potentially
      *  its neighbors state
      * @param endCoordinateInfo - the coordinate of where this piece will move to
      * @param neighbors - the neighbors of this game piece which may be affected by the movement of this piece (ex:
      *                  a piece being captured)
      */
-    void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors);
+    void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState);
 
+    /**
+     * @return the state of the piece
+     */
     int getState();
 
+    /**
+     *
+     * @return the position of the piece
+     */
     Coordinate getPosition();
 
 }
