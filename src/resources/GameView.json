@@ -17,9 +17,9 @@
   },
   "Buttons": {
     "NavigationButtons": {
-      "MenuButtonText": "Back to Menu",
-      "RestartButtonText": "Restart",
-      "SaveButtonText": "Save"
+      "Menu": "Back to Menu",
+      "Restart": "Restart",
+      "Save": "Save"
     },
     "MakeMoveButton": {
       "ButtonText": "MAKE MOVE",
