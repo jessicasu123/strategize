@@ -59,6 +59,61 @@ public class Board implements BoardFramework{
         return neighbors;
     }
 
+    private List<GamePiece> getMainDiag(int r, int c) {
+        int row = 0;
+        int col = 0;
+        int boundChecker, upperLim;
+        if (c > r) { //to the right of center diag
+            col = c - r;
+            boundChecker = col;
+            upperLim = numCols;
+        }
+        else { //to the left or ON center diag
+            row = r - c;
+            boundChecker = row;
+            upperLim = numRows;
+        }
+        List<GamePiece> mainDiag = new ArrayList<>();
+        while (boundChecker < upperLim) {
+            addPiece(mainDiag,r,c,row,col);
+            row++;
+            col++;
+            boundChecker++;
+        }
+        return mainDiag;
+    }
+
+    private List<GamePiece> getMinorDiag(int r, int c) {
+        int row = 0;
+        int col = numCols-1;
+        int lowerlim;
+        boolean colBound = false;
+        boolean rowBound = false;
+        List<GamePiece> minorDiag = new ArrayList<>();
+        if (r+c<=numCols-1) { //to the left or ON center diag
+            lowerlim = 0;
+            col = r+c;
+            colBound = true;
+        }
+        else { //to the right of center diag 
+            lowerlim = numRows;
+            row = (r+c)-(numCols-1);
+            rowBound = true;
+        }
+        while ((row < lowerlim && rowBound) || (col >= lowerlim && colBound)){
+            addPiece(minorDiag, r,c,row,col);
+            row++;
+            col--;
+        }
+        return minorDiag;
+    }
+
+    private void addPiece(List<GamePiece> lst, int origRow, int origCol, int newRow, int newCol) {
+        if (newRow != origRow && newCol != origCol) {
+            lst.add(myGamePieces.get(newRow).get(newCol));
+        }
+    }
+
     @Override
     public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player) {
         Map<Coordinate, List<Coordinate>> allLegalMoves = new HashMap<>();
