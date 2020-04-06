@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * so in tic tac toe, the user/agent will create a new piece with a user/agent status (1 or 2). once it has been placed in makemove,
- * we will update its position
+ * This implements the game pieces for TicTacToe, allowing the board to make moves and calculate all possible moves.
+ * The board is initialized to have all coordinates "filled" with game pieces with empty states.
+ * When a piece is "placed" in Tic Tac Toe, it will take the state of the player who played it.
+ * @author Sanya Kochhar
  */
 
 public class TicTacToeGamePiece implements GamePiece {
