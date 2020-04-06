@@ -1,0 +1,29 @@
+{
+  "Icons": {
+    "PlayerIcons": {
+      "ProfileButton": "profile.png",
+      "LogoutButton": "logout.png"
+    },
+    "ButtonIcons": {
+      "HelpIcon": "helpicon.png",
+      "MessageIcon": "messageicon.png",
+      "SettingIcon": "settingicon.png"
+    }
+  },
+  "StatusBar": {
+    "Player": "Player",
+    "Opponent": "Opponent",
+    "FieldLabel": "Games won"
+  },
+  "Buttons": {
+    "NavigationButtons": {
+      "MenuButtonText": "Back to Menu",
+      "RestartButtonText": "Restart",
+      "SaveButtonText": "Save"
+    },
+    "MakeMoveButton": {
+      "ButtonText": "MAKE MOVE",
+    }
+  }
+
+}
