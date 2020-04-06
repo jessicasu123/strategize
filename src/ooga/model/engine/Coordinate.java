@@ -39,4 +39,12 @@ public class Coordinate implements CoordinateFramework {
         return this.getXCoord() == otherCoord.getXCoord() &&
                 this.getYCoord() == otherCoord.getYCoord();
     }
+
+    /**
+     * @return - String representation of the coordinate: (x,y)
+     */
+    @Override
+    public String toString() {
+        return "(" + Integer.toString(xPos) + ", " + Integer.toString(yPos) + ")";
+    }
 }
