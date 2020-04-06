@@ -99,6 +99,7 @@ public class TicTacToeAgent extends Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return if that player has won or not
      */
+    //TODO: see if need to check only one player has won
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
         List<List<Integer>> rows = getRows(boardStateInfo);
         List<List<Integer>> cols = getCols(boardStateInfo);
@@ -108,17 +109,21 @@ public class TicTacToeAgent extends Agent {
     }
 
     private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){
-        int consecutive = 0;
+        boolean win = false;
         for(List<Integer> allOfGroup: spaceChecking){
+            int consecutive = 0;
             for(int state : allOfGroup){
                 if(state == player){
                     consecutive ++;
                 }else{
                     consecutive = 0;
                 }
+                if(consecutive >= myInARow){
+                    return true;
+                }
             }
         }
-        return consecutive >= myInARow;
+        return win;
     }
 
 }

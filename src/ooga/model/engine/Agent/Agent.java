@@ -57,29 +57,27 @@ public abstract class Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return the game winner
      *          - if the game is won this is the player ID of the winner
-     *          - if the game is tied returns 0
-     *          - if this method was called and the game isn't over it returns -1
+     *          - if this method was called and the game isn't over it returns 0
      */
     public int findGameWinner(List<List<Integer>> boardStateInfo){
         if(isGaveOver(boardStateInfo)){
             if(isWin(myMaxPlayer, boardStateInfo)){
                 return myMaxPlayer;
-            }else if(isWin(myMinPlayer, boardStateInfo)){
+            }
+            else {
                 return myMinPlayer;
-            }else {
-                return 0;
             }
         }
-        return -1;
+        return 0;
     }
 
     /**
      *
      * @param boardStateInfo - all of the current state information from the board
-     * @return a boolean for if the game is over (has been won or there are no moves left)
+     * @return a boolean for if the game is over has been won
      */
+    //TODO: figure out where to handle responsibility of when board has no moves
     public boolean isGaveOver(List<List<Integer>> boardStateInfo){
-        return isWin(myMaxPlayer, boardStateInfo) || isWin(myMinPlayer, boardStateInfo)
-                || evaluateCurrentGameState(boardStateInfo) == 0;
+        return isWin(myMaxPlayer, boardStateInfo) || isWin(myMinPlayer, boardStateInfo);
     }
 }

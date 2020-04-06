@@ -22,6 +22,7 @@ public class AgentPlayer implements Player{
     private int myID;
     private Agent myAgent;
     private int myOpponent;
+    //TODO: later maybe have ability to take in this value from data
     public static final int MAX_SEARCH_DEPTH = 5;
 
     /**
