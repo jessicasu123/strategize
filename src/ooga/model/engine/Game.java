@@ -11,14 +11,14 @@ public class Game implements GameFramework{
     }
 
     @Override
-    public void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
+    public void makeUserMove(int player, List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
-        myBoard.makeMove(startCoord, endCoord);
+        myBoard.makeMove(player, startCoord, endCoord);
     }
 
     @Override
-    public void makeAgentMove() throws InvalidMoveException {
+    public void makeAgentMove(int player) throws InvalidMoveException {
         //TODO: call on agent player calculateMove
     }
 
