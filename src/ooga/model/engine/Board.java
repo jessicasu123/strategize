@@ -215,7 +215,7 @@ public class Board implements BoardFramework{
      * @return a copy of the board
      */
     @Override
-    public Board copyBoard() {
+    public BoardFramework copyBoard() {
         //TODO: test that changing values of copied board don't affect original
         return new Board(this);
     }
