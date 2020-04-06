@@ -59,7 +59,7 @@ public class AgentPlayer implements Player{
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myID).entrySet()){
             for(Coordinate moveTo: moves.getValue()){
                 Board testMoveBoard = boardCopy.copyBoard();
-                testMoveBoard.makeMove(moves.getKey(), moveTo);
+                testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth, alpha, beta);
                 currMaxVal = Math.max(currMaxVal, curr);
                 if(currMaxVal > beta){
@@ -79,7 +79,7 @@ public class AgentPlayer implements Player{
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponent).entrySet()) {
             for (Coordinate moveTo : moves.getValue()) {
                 Board testMoveBoard = boardCopy.copyBoard();
-                testMoveBoard.makeMove(moves.getKey(), moveTo);
+                testMoveBoard.makeMove(myOpponent, moves.getKey(), moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth + 1, alpha, beta);
                 currMinVal = Math.min(currMinVal, curr);
                 if(currMinVal < alpha){
