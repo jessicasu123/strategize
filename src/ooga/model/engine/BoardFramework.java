@@ -34,11 +34,12 @@ public interface BoardFramework {
      *  - moves a piece on the board and updates the state accordingly
      *  - calls on the Game pieces to do this
      *  - verifies the move
+     * @param player - the player to be moved (1 or 2)
      * @param startCoordinate - the coordinate you are moving from
      * @param endCoordinate - the coordinate you are moving to (may be the same as start coordinate if no movement
      *                      is happening)
      */
-    void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
+    void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
