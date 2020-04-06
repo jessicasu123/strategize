@@ -55,22 +55,27 @@ public class Board implements BoardFramework{
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
         //TODO: implement finding neighbors
-        List<GamePiece> neighbors = new ArrayList<GamePiece>();
-        return neighbors;
+        List<GamePiece> allNeighbors = new ArrayList<GamePiece>();
+        int r = currPiece.getPosition().getXCoord();
+        int c = currPiece.getPosition().getYCoord();
+        allNeighbors.addAll(getMainDiagNeighbors(r,c)); //adding main diag
+        allNeighbors.addAll(getMinorDiagNeighbors(r,c)); //adding minor diag
+        allNeighbors.addAll(getHorizontalAndVerticalNeighbors(r,c)); //adding horiz & vert
+        return allNeighbors;
     }
 
-    private List<GamePiece> getMainDiag(int r, int c) {
+    private List<GamePiece> getMainDiagNeighbors(int r, int c) {
         int row = 0;
         int col = 0;
         int boundChecker, upperLim;
         if (c > r) { //to the right of center diag
-            col = c - r;
-            boundChecker = col;
+            col = c - r; //col offset on row 0
+            boundChecker = col; //ends on last column
             upperLim = numCols;
         }
         else { //to the left or ON center diag
-            row = r - c;
-            boundChecker = row;
+            row = r - c; //row offset on col 0
+            boundChecker = row; //ends on last row
             upperLim = numRows;
         }
         List<GamePiece> mainDiag = new ArrayList<>();
@@ -83,7 +88,7 @@ public class Board implements BoardFramework{
         return mainDiag;
     }
 
-    private List<GamePiece> getMinorDiag(int r, int c) {
+    private List<GamePiece> getMinorDiagNeighbors(int r, int c) {
         int row = 0;
         int col = numCols-1;
         int lowerlim;
@@ -91,12 +96,12 @@ public class Board implements BoardFramework{
         boolean rowBound = false;
         List<GamePiece> minorDiag = new ArrayList<>();
         if (r+c<=numCols-1) { //to the left or ON center diag
-            lowerlim = 0;
+            lowerlim = 0; //ends on col 0
             col = r+c;
             colBound = true;
         }
-        else { //to the right of center diag 
-            lowerlim = numRows;
+        else { //to the right of center diag
+            lowerlim = numRows; //ends on last row
             row = (r+c)-(numCols-1);
             rowBound = true;
         }
@@ -106,6 +111,24 @@ public class Board implements BoardFramework{
             col--;
         }
         return minorDiag;
+    }
+
+    private List<GamePiece> getHorizontalAndVerticalNeighbors(int r, int c) {
+        List<GamePiece> horizAndVert = new ArrayList<>();
+        boolean addedRow = false;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                if (horizAndVert.size()==numCols+numRows) { break; }
+                if (!addedRow && row == r) {
+                    for (int i = 0; i < numCols; i++) {
+                        addPiece(horizAndVert,r,c,row,i); //adding row
+                    }
+                    addedRow = true;
+                }
+                if (col==c) { addPiece(horizAndVert,r,c,row,col); }
+            }
+        }
+        return horizAndVert;
     }
 
     private void addPiece(List<GamePiece> lst, int origRow, int origCol, int newRow, int newCol) {
