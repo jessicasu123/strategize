@@ -60,7 +60,7 @@ public abstract class Agent {
      *          - if this method was called and the game isn't over it returns 0
      */
     public int findGameWinner(List<List<Integer>> boardStateInfo){
-        if(isGaveOver(boardStateInfo)){
+        if(isGameWon(boardStateInfo)){
             if(isWin(myMaxPlayer, boardStateInfo)){
                 return myMaxPlayer;
             }
@@ -77,7 +77,7 @@ public abstract class Agent {
      * @return a boolean for if the game is over has been won
      */
     //TODO: figure out where to handle responsibility of when board has no moves
-    public boolean isGaveOver(List<List<Integer>> boardStateInfo){
+    public boolean isGameWon(List<List<Integer>> boardStateInfo){
         return isWin(myMaxPlayer, boardStateInfo) || isWin(myMinPlayer, boardStateInfo);
     }
 }

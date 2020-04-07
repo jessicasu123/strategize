@@ -77,7 +77,7 @@ public class AgentPlayer implements Player{
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
-        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGaveOver(boardCopy.getStateInfo())){
+        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGameWon(boardCopy.getStateInfo())){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMaxVal = Integer.MIN_VALUE;
@@ -98,7 +98,7 @@ public class AgentPlayer implements Player{
 
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
-        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGaveOver(boardCopy.getStateInfo())){
+        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGameWon(boardCopy.getStateInfo())){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMinVal = Integer.MAX_VALUE;
