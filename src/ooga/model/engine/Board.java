@@ -23,17 +23,6 @@ public class Board implements BoardFramework{
         createBoardFromStartingConfig();
     }
 
-    /**
-     * Constructor for copying board to give it to the AgentPlayer.
-     */
-    //TODO: I don't think you need a separate constructor, just do this logic in copyBoard
-    public Board (Board originalBoard) {
-        this.myGameType = originalBoard.myGameType;
-        this.myStartingConfiguration = new ArrayList<>(originalBoard.myStartingConfiguration);
-        //need to deep copy the current state of game pieces
-        this.myGamePieces = new ArrayList<>(originalBoard.myGamePieces);
-    }
-
     private void createBoardFromStartingConfig() {
         numRows = myStartingConfiguration.size();
         numCols = myStartingConfiguration.get(0).size();
@@ -163,12 +152,6 @@ public class Board implements BoardFramework{
         return allLegalMoves;
     }
 
-    @Override
-    public int evaluateBoard(int player) {
-        //TODO: figure out what this does
-        return 0;
-    }
-
     /**
      * METHOD PURPOSE:
      *  - moves a piece on the board and updates the state accordingly
@@ -218,6 +201,8 @@ public class Board implements BoardFramework{
     @Override
     public BoardFramework copyBoard() {
         //TODO: test that changing values of copied board don't affect original
-        return new Board(this);
+        Board b = new Board(this.myGameType, new ArrayList<>(this.myStartingConfiguration));
+        b.myGamePieces = new ArrayList<>(this.myGamePieces);
+        return b;
     }
 }
