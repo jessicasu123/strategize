@@ -75,8 +75,9 @@ public class Board implements BoardFramework{
             } catch (InvalidNeighborhoodException e) {
                 e.printStackTrace();
             }
-            List<Coordinate> neighbors = n.getNeighbors(pieceRow,pieceCol);
-            allCoords.addAll(neighbors);
+            //TODO: this is broken so i commented it out
+            //List<Coordinate> neighbors = n.getNeighbors(pieceRow,pieceCol);
+            //allCoords.addAll(neighbors);
         }
         return allCoords;
     }
