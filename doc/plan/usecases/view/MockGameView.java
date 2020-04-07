@@ -1,6 +1,5 @@
 package ooga.view;
 
-import ooga.controller.ControllerFramework;
 import ooga.controller.MockController;
 
 public class MockGameView implements GameViewFramework {
