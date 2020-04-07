@@ -6,6 +6,7 @@ import ooga.model.engine.Coordinate;
 import ooga.model.engine.InvalidMoveException;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class AgentPlayer implements Player{
     private final int myID;
     private Agent myAgent;
     private final int myOpponent;
-    private Map.Entry<Coordinate, Coordinate> bestMove;
+    private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
     //TODO: later maybe have ability to take in this value from data
     public static final int MAX_SEARCH_DEPTH = 5;
 
@@ -36,6 +37,7 @@ public class AgentPlayer implements Player{
         myID = id;
         myAgent = gameAgent;
         myOpponent = opponentID;
+        moveMappings = new HashMap<>();
     }
 
     /**
@@ -53,13 +55,12 @@ public class AgentPlayer implements Player{
      * @return - the move that the agent player has chosen
      * @throws InvalidMoveException - throws an exception if the move is not legal or no legal moves are available
      */
-    //TODO: is it better to do it like this rather than refind the move?
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
-        getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        if(bestMove == null){
-            throw new InvalidMoveException("No possible moves to make");
+        int bestMove = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        if(moveMappings.isEmpty()){
+            throw new InvalidMoveException("No legal moves for agent to play");
         }
-        return bestMove;
+        return moveMappings.get(bestMove);
     }
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
@@ -68,17 +69,20 @@ public class AgentPlayer implements Player{
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMaxVal = Integer.MIN_VALUE;
+
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myID).entrySet()){
             for(Coordinate moveTo: moves.getValue()){
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
                 testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth, myAlpha, beta);
                 currMaxVal = Math.max(currMaxVal, curr);
+                if(depth == 0){
+                    moveMappings.put(currMaxVal, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
+                }
                 if(currMaxVal > beta){
                     return currMaxVal;
                 }
                 myAlpha = Math.max(currMaxVal, myAlpha);
-                bestMove = new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo);
             }
         }
         return currMaxVal;
