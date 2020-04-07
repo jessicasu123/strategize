@@ -4,7 +4,7 @@ package ooga.model.engine;
  * that is not valid according to the game rules
  */
 
-public class InvalidMoveException extends Exception {
+public class InvalidMoveException extends RuntimeException {
     public InvalidMoveException(String message, Object ... values) {
         super(String.format(message, values));
     }
