@@ -33,31 +33,32 @@ public class TicTacToeAgent extends Agent {
     @Override
     //TODO: would it be cleaner if allOpen calculate the difference between max and min?
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
-        int myMaxPlayer = this.getMaxPlayer();
-        int myMinPlayer = this.getMinPlayer();
-
-        if(isWin(myMaxPlayer, boardStateInfo)){
+        if(isWin(this.getMaxPlayer(), boardStateInfo)){
             return boardStateInfo.size() * boardStateInfo.get(0).size();
-        }else if(isWin(myMinPlayer, boardStateInfo)){
+        }else if(isWin(this.getMinPlayer(), boardStateInfo)){
             return -1 * boardStateInfo.size() * boardStateInfo.get(0).size();
         }
-        int openForMax = allOpen(getRows(boardStateInfo), myMaxPlayer) + allOpen(getCols(boardStateInfo), myMaxPlayer)
-                + allOpen(getDiagonals(boardStateInfo), myMaxPlayer);
-        int openForMin = allOpen(getRows(boardStateInfo), myMinPlayer) + allOpen(getCols(boardStateInfo), myMinPlayer)
-                + allOpen(getDiagonals(boardStateInfo), myMinPlayer);
-        return openForMax - openForMin;
+
+        int rowEvaluation = evaluateMaxOpenMinusMinOpen(getRows(boardStateInfo));
+        int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
+        int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));
+        return rowEvaluation + colEvaluation + diagEvaluation;
     }
-    private int allOpen(List<List<Integer>> groupChecking, int playerOpenFor){
-        int numOpen = 0;
-        for(List<Integer> group : getRows(groupChecking)){
-            if(checkOpen(group, playerOpenFor)){
-                numOpen++;
+    private int evaluateMaxOpenMinusMinOpen(List<List<Integer>> neighborhood){
+        int numOpenMax = 0;
+        int numOpenMin = 0;
+        for(List<Integer> group : neighborhood){
+            if(checkNeighborhoodOpen(group, this.getMaxPlayer())){
+                numOpenMax++;
+            }
+            if(checkNeighborhoodOpen(group, this.getMinPlayer())){
+                numOpenMin++;
             }
         }
-        return numOpen;
+        return numOpenMax - numOpenMin;
     }
     //if not either player ID is empty
-    private boolean checkOpen(List<Integer> check, int playerOpenFor){
+    private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
         for(int state: check){
             if(state == playerOpenFor || (state != this.getMaxPlayer() && state != this.getMinPlayer())){
@@ -110,12 +111,11 @@ public class TicTacToeAgent extends Agent {
     }
 
     private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){
-        boolean win = false;
         for(List<Integer> allOfGroup: spaceChecking){
             int consecutive = 0;
             for(int state : allOfGroup){
                 if(state == player){
-                    consecutive ++;
+                    consecutive++;
                 }else{
                     consecutive = 0;
                 }
@@ -124,7 +124,7 @@ public class TicTacToeAgent extends Agent {
                 }
             }
         }
-        return win;
+        return false;
     }
 
 }

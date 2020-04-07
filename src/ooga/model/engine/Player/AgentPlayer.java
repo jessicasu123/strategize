@@ -5,6 +5,7 @@ import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.InvalidMoveException;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class AgentPlayer implements Player{
     private final int myID;
     private Agent myAgent;
     private final int myOpponent;
+    private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
     //TODO: later maybe have ability to take in this value from data
     public static final int MAX_SEARCH_DEPTH = 5;
 
@@ -35,6 +37,7 @@ public class AgentPlayer implements Player{
         myID = id;
         myAgent = gameAgent;
         myOpponent = opponentID;
+        moveMappings = new HashMap<>();
     }
 
     /**
@@ -50,30 +53,14 @@ public class AgentPlayer implements Player{
      * Calculates the move that the agent player wants to make based on its agent's evaluation of the game state
      * @param boardCopy - a copy of the game board to tryout moves on
      * @return - the move that the agent player has chosen
-     * @throws InvalidMoveException - throws an exception if the move is not legal
+     * @throws InvalidMoveException - throws an exception if the move is not legal or no legal moves are available
      */
-    //TODO: is there another way to ensure only 2 coordinates other than Map entry?
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
-        int bestMoveVal = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        return findMove(bestMoveVal, boardCopy);
-    }
-
-    private Map.Entry<Coordinate, Coordinate> findMove(int bestMoveVal,BoardFramework startBoard) throws InvalidMoveException {
-        Map<Coordinate, Coordinate> allBestMoves = new HashMap<>();
-        for(Map.Entry<Coordinate, List<Coordinate>> moves: startBoard.getAllLegalMoves(myID).entrySet()) {
-            for (Coordinate moveTo : moves.getValue()) {
-                BoardFramework testMoveBoard = startBoard.copyBoard();
-                testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
-                if(myAgent.evaluateCurrentGameState(testMoveBoard.getStateInfo()) == bestMoveVal){
-                    allBestMoves.put(moves.getKey(), moveTo);
-                }
-            }
+        int bestMove = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        if(moveMappings.isEmpty()){
+            throw new InvalidMoveException("No legal moves for agent to play");
         }
-        for(Map.Entry<Coordinate, Coordinate> bestMoves: allBestMoves.entrySet()){
-            return bestMoves;
-        }
-        //TODO: see if there is a way to return something other than null
-        return null;
+        return moveMappings.get(bestMove);
     }
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
@@ -82,12 +69,16 @@ public class AgentPlayer implements Player{
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMaxVal = Integer.MIN_VALUE;
+
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myID).entrySet()){
             for(Coordinate moveTo: moves.getValue()){
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
                 testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth, myAlpha, beta);
                 currMaxVal = Math.max(currMaxVal, curr);
+                if(depth == 0){
+                    moveMappings.put(currMaxVal, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
+                }
                 if(currMaxVal > beta){
                     return currMaxVal;
                 }
