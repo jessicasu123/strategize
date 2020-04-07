@@ -1,5 +1,6 @@
-package ooga.model.engine;
+package ooga.model.engine.Neighborhood;
 
+import ooga.model.engine.InvalidNeighborhoodException;
 import ooga.model.engine.Neighborhood.DiagonalNeighborhood;
 import ooga.model.engine.Neighborhood.HorizontalNeighborhood;
 import ooga.model.engine.Neighborhood.Neighborhood;

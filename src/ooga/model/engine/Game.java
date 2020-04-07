@@ -29,14 +29,14 @@ public class Game implements GameFramework{
     }
 
     @Override
-    public void makeUserMove(int player, List<Integer> moveCoordinates) throws InvalidMoveException {
+    public void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
-        myBoard.makeMove(player, startCoord, endCoord);
+        myBoard.makeMove(myUserPlayerID, startCoord, endCoord);
     }
 
     @Override
-    public void makeAgentMove(int player) throws InvalidMoveException {
+    public void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
         myBoard.makeMove(myAgentPlayerID, agentMove.getKey(), agentMove.getValue());
     }
