@@ -23,16 +23,6 @@ public class Board implements BoardFramework{
         createBoardFromStartingConfig();
     }
 
-    /**
-     * Constructor for copying board to give it to the AgentPlayer.
-     */
-    public Board (Board originalBoard) {
-        this.myGameType = originalBoard.myGameType;
-        this.myStartingConfiguration = new ArrayList<>(originalBoard.myStartingConfiguration);
-        //need to deep copy the current state of game pieces
-        this.myGamePieces = new ArrayList<>(originalBoard.myGamePieces);
-    }
-
     private void createBoardFromStartingConfig() {
         numRows = myStartingConfiguration.size();
         numCols = myStartingConfiguration.get(0).size();
@@ -152,7 +142,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
-                if (currPiece.getState()==player) {
+                if (currPiece.getState() == player) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
                     allLegalMoves.put(currCoord, moves);
@@ -162,23 +152,19 @@ public class Board implements BoardFramework{
         return allLegalMoves;
     }
 
-    @Override
-    public int evaluateBoard(int player) {
-        //TODO: figure out what this does
-        return 0;
-    }
-
     /**
      * METHOD PURPOSE:
      *  - moves a piece on the board and updates the state accordingly
      *  - calls on the Game pieces to do this
      *  - verifies the move
+     * @param player - the player to be moved (1 or 2)
      * @param startCoordinate - the coordinate you are moving from
      * @param endCoordinate - the coordinate you are moving to (may be the same as start coordinate if no movement
      *                      is happening)
      */
     @Override
-    public void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
+    public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
+        //TODO: add player parameter for curr.makeMove
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
@@ -215,6 +201,8 @@ public class Board implements BoardFramework{
     @Override
     public BoardFramework copyBoard() {
         //TODO: test that changing values of copied board don't affect original
-        return new Board(this);
+        Board b = new Board(this.myGameType, new ArrayList<>(this.myStartingConfiguration));
+        b.myGamePieces = new ArrayList<>(this.myGamePieces);
+        return b;
     }
 }

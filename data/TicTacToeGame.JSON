@@ -1,9 +1,9 @@
 {
-  "Gametype": "Connect4",
+  "Gametype": "TicTacToe",
   "Board": {
     "Height": 100,
     "Width": 100,
-    "InitialConfig": "0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0; 0,0,0,0,0,0;"
+    "InitialConfig": "0,0,0;0,1,0;2,1,0"
   },
 
   "Player1": {
@@ -14,8 +14,8 @@
 
   "Player2": {
     "State": 2,
-    "Color": "Yellow",
-    "Image": "yellow_circle.png"
+    "Color": "Blue",
+    "Image": "blue_cross.png"
   }
 
 }

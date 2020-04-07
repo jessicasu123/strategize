@@ -21,24 +21,18 @@ public interface BoardFramework {
      */
     Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player);
 
-    /**
-     * METHOD PURPOSE:
-     *  -lets the AgentPlayer know whether this configuration of the board is good or bad for itself
-     * @param player - the player whose moves you are looking for
-     * @return an integer for the evaluation of this state of the board
-     */
-    int evaluateBoard(int player);
 
     /**
      * METHOD PURPOSE:
      *  - moves a piece on the board and updates the state accordingly
      *  - calls on the Game pieces to do this
      *  - verifies the move
+     * @param player - the player to be moved (1 or 2)
      * @param startCoordinate - the coordinate you are moving from
      * @param endCoordinate - the coordinate you are moving to (may be the same as start coordinate if no movement
      *                      is happening)
      */
-    void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
+    void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:

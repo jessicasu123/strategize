@@ -15,14 +15,16 @@ public interface GameFramework {
     /**
      * METHOD PURPOSE:
      *  - makes the move of a user player on the board
+     * @param player - the player (1 or 2) to be moved
      * @param moveCoordinates - list of the coordinates the controller has collected from the view for the move
      */
-    void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+    void makeUserMove(int player, List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
      *  - makes the agent's move on the board
+     * @param player - the player (1 or 2) to be moved
      */
-    void makeAgentMove() throws InvalidMoveException;
+    void makeAgentMove(int player) throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
