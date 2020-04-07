@@ -136,10 +136,11 @@ public class Board implements BoardFramework{
      * @param player - the player whose moves you are looking for
      * @return a map which maps the start coordinates of a piece to all of the possible end coordinates that piece
      * can legally move to
+     * uses tree map to sort the coordinates
      */
     @Override
     public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player) {
-        Map<Coordinate, List<Coordinate>> allLegalMoves = new HashMap<>();
+        Map<Coordinate, List<Coordinate>> allLegalMoves = new TreeMap<>();
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
