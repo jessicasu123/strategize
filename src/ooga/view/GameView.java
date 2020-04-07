@@ -87,10 +87,10 @@ public class GameView {
     private HBox createNavigationBar(int width, int height){
         HBox container = new HBox();
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
-        Button menu = createButton(buttonTexts, "Menu", e -> myStage.setScene(new startView()));
-        Button restart = createButton(buttonTexts, "Restart", e -> myStage.setScene(new startGame()));
-        Button save = createButton(buttonTexts, "Save", e -> new SaveView());
-        container.getChildren().addAll(menu, restart, save);
+//        Button menu = createButton(buttonTexts, "Menu", e -> myStage.setScene(new startView()));
+//        Button restart = createButton(buttonTexts, "Restart", e -> myStage.setScene(new startGame()));
+//        Button save = createButton(buttonTexts, "Save", e -> new SaveView());
+//        container.getChildren().addAll(menu, restart, save);
         return container;
 
     }
@@ -99,7 +99,7 @@ public class GameView {
         Button button = new Button(buttonTexts.getString(key));
         button.setId(button.getText());
         button.getStyleClass().add("gameButton");
-        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
+//        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         // TODO: uncomment once actions for restart, save have been set up
 //        button.setOnAction(handler);
         return button;
