@@ -46,6 +46,8 @@ public class Board implements BoardFramework{
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
         //TODO: implement finding neighbors
+        //call on neighborhood to get neighbor positions
+        //instantiate with actual GamePieces
         List<GamePiece> allNeighbors = new ArrayList<GamePiece>();
         int r = currPiece.getPosition().getXCoord();
         int c = currPiece.getPosition().getYCoord();
