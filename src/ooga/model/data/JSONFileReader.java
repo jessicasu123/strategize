@@ -13,6 +13,12 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * This class is responsible for parsing JSON files and
+ * retrieving initial configurations and View properties
+ * as well as saving a view configuration to a JSON file
+ */
+
 public class JSONFileReader implements FileHandler {
 
     private String fileNameGame = "";
@@ -30,6 +36,10 @@ public class JSONFileReader implements FileHandler {
         fileNameGame = JSONFile;
     }
 
+    /**
+     * parses the configuration string and adds to the configuration 2-D List
+     * @param config - the String configuration from the JSON File
+     */
     private void parseJSONConfiguration(String config){
         for(int i = 0;i<config.length();i++){
             if(config.substring(i,i+1).equals(";")){
@@ -41,15 +51,25 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
-    private void createJSONArray(String filename, String header) throws IOException, ParseException {
+    /**
+     * creates a JSONArray and iterator from the JSON File
+     * @param filename - the file name of the JSON File
+     * @param object - the particular object of the JSON File
+     */
+    private void createJSONArray(String filename, String object) throws IOException, ParseException {
         obj = new JSONParser().parse(new FileReader(filename));
         JO = (JSONObject) obj;
-        ja = (JSONArray) JO.get(header);
+        ja = (JSONArray) JO.get(object);
         it = ja.iterator();
     }
 
-    private void getGameProperty(String header) throws IOException, ParseException {
-        createJSONArray(fileNameView, header);
+
+    /**
+     * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
+     * @param object - the particular object of the JSON File
+     */
+    private void getGameProperty(String object) throws IOException, ParseException {
+        createJSONArray(fileNameView, object);
         while(it.hasNext()){
             itrl = ((Map) it.next()).entrySet().iterator();
             while(itrl.hasNext()){
@@ -59,6 +79,9 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    /**
+     * @return - a 2-D arraylist of integers representing the game configuration
+     */
     @Override
     public List<List<Integer>> loadFileConfiguration() throws IOException, ParseException {
         createJSONArray(fileNameGame, "Board");
@@ -75,6 +98,9 @@ public class JSONFileReader implements FileHandler {
         return configuration;
     }
 
+    /**
+     * @return - a Hashmap that maps Game View property names
+     */
     @Override
     public Map<String, String> loadFileProperties() throws IOException, ParseException {
         getGameProperty("Text");
@@ -84,10 +110,15 @@ public class JSONFileReader implements FileHandler {
         return gameProperties;
     }
 
-
+    /**
+     * saves current configuration to a JSON File
+     * @param fileName - the name of the JSON File
+     * @param properties - a map of the Game View properties
+     * @param configurationInfo - a 2-D list of the current game view configuration
+     */
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
-        
+
     }
 
 }
