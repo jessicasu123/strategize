@@ -4,6 +4,7 @@ import ooga.model.engine.pieces.GamePiece;
 
 import java.util.*;
 
+
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
@@ -144,7 +145,8 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
-                if (currPiece.getState() == player) {
+                //TODO: later change to use data value for empty state
+                if (currPiece.getState() == player || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
                     allLegalMoves.put(currCoord, moves);
@@ -201,9 +203,6 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        //TODO: test that changing values of copied board don't affect original
-        Board b = new Board(this.myGameType, new ArrayList<>(this.myStartingConfiguration));
-        b.myGamePieces = new ArrayList<>(this.myGamePieces);
-        return b;
+        return new Board(this.myGameType, new ArrayList<>(this.getStateInfo()));
     }
 }
