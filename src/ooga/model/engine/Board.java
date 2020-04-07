@@ -1,5 +1,6 @@
 package ooga.model.engine;
 
+import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.pieces.GamePiece;
 
 import java.util.*;
@@ -11,23 +12,28 @@ public class Board implements BoardFramework{
     private String myGameType;
     private int numRows;
     private int numCols;
+    private List<String> myNeighborhoods;
+    private NeighborhoodFactory neighborFactory;
+    private GamePieceFactory gamePieceFactory;
 
     /**
      * Constructor to create a Board object.
      * @param gameType - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
-    public Board(String gameType, List<List<Integer>> startingConfiguration) {
+    public Board(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
         myGameType = gameType;
+        myNeighborhoods = neighborhoods;
+        neighborFactory = new NeighborhoodFactory();
+        gamePieceFactory = new GamePieceFactory();
         createBoardFromStartingConfig();
     }
 
     private void createBoardFromStartingConfig() {
         numRows = myStartingConfiguration.size();
         numCols = myStartingConfiguration.get(0).size();
-        GamePieceFactory gamePieceCreator = new GamePieceFactory();
         for (int r = 0; r < numRows; r++) {
             List<GamePiece> boardRow = new ArrayList<>();
             for (int c = 0; c < numCols; c++) {
@@ -35,7 +41,7 @@ public class Board implements BoardFramework{
                 int state = myStartingConfiguration.get(r).get(c);
                 GamePiece newPiece = null;
                 try {
-                    newPiece = gamePieceCreator.createGamePiece(myGameType, state, pos);
+                    newPiece = gamePieceFactory.createGamePiece(myGameType, state, pos);
                 } catch (InvalidGameTypeException e) {
                     e.printStackTrace();
                 }
@@ -46,89 +52,33 @@ public class Board implements BoardFramework{
     }
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
-        //TODO: implement finding neighbors
         //call on neighborhood to get neighbor positions
         //instantiate with actual GamePieces
+        int pieceRow = currPiece.getPosition().getXCoord();
+        int pieceCol = currPiece.getPosition().getYCoord();
+        List<Coordinate> coordinates = getNeighborCoordinates(pieceRow,pieceCol);
         List<GamePiece> allNeighbors = new ArrayList<GamePiece>();
-        int r = currPiece.getPosition().getXCoord();
-        int c = currPiece.getPosition().getYCoord();
-        allNeighbors.addAll(getMainDiagNeighbors(r,c)); //adding main diag
-        allNeighbors.addAll(getMinorDiagNeighbors(r,c)); //adding minor diag
-        allNeighbors.addAll(getHorizontalAndVerticalNeighbors(r,c)); //adding horiz & vert
+        for (Coordinate coord: coordinates) {
+            int row = coord.getXCoord();
+            int col = coord.getYCoord();
+            allNeighbors.add(myGamePieces.get(row).get(col));
+        }
         return allNeighbors;
     }
 
-    private List<GamePiece> getMainDiagNeighbors(int r, int c) {
-        int row = 0;
-        int col = 0;
-        int boundChecker, upperLim;
-        if (c > r) { //to the right of center diag
-            col = c - r; //col offset on row 0
-            boundChecker = col; //ends on last column
-            upperLim = numCols;
-        }
-        else { //to the left or ON center diag
-            row = r - c; //row offset on col 0
-            boundChecker = row; //ends on last row
-            upperLim = numRows;
-        }
-        List<GamePiece> mainDiag = new ArrayList<>();
-        while (boundChecker < upperLim) {
-            addPiece(mainDiag,r,c,row,col);
-            row++;
-            col++;
-            boundChecker++;
-        }
-        return mainDiag;
-    }
-
-    private List<GamePiece> getMinorDiagNeighbors(int r, int c) {
-        int row = 0;
-        int col = numCols-1;
-        int lowerlim;
-        boolean colBound = false;
-        boolean rowBound = false;
-        List<GamePiece> minorDiag = new ArrayList<>();
-        if (r+c<=numCols-1) { //to the left or ON center diag
-            lowerlim = 0; //ends on col 0
-            col = r+c;
-            colBound = true;
-        }
-        else { //to the right of center diag
-            lowerlim = numRows; //ends on last row
-            row = (r+c)-(numCols-1);
-            rowBound = true;
-        }
-        while ((row < lowerlim && rowBound) || (col >= lowerlim && colBound)){
-            addPiece(minorDiag, r,c,row,col);
-            row++;
-            col--;
-        }
-        return minorDiag;
-    }
-
-    private List<GamePiece> getHorizontalAndVerticalNeighbors(int r, int c) {
-        List<GamePiece> horizAndVert = new ArrayList<>();
-        boolean addedRow = false;
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                if (horizAndVert.size()==numCols+numRows) { break; }
-                if (!addedRow && row == r) {
-                    for (int i = 0; i < numCols; i++) {
-                        addPiece(horizAndVert,r,c,row,i); //adding row
-                    }
-                    addedRow = true;
-                }
-                if (col==c) { addPiece(horizAndVert,r,c,row,col); }
+    private List<Coordinate> getNeighborCoordinates(int pieceRow, int pieceCol) {
+        List<Coordinate> allCoords = new ArrayList<>();
+        for (String neighbor: myNeighborhoods) {
+            Neighborhood n = null;
+            try {
+                neighborFactory.createNeighborhood(neighbor, numRows, numCols);
+            } catch (InvalidNeighborhoodException e) {
+                e.printStackTrace();
             }
+            List<Coordinate> neighbors = n.getNeighbors(pieceRow,pieceCol);
+            allCoords.addAll(neighbors);
         }
-        return horizAndVert;
-    }
-
-    private void addPiece(List<GamePiece> lst, int origRow, int origCol, int newRow, int newCol) {
-        if (newRow != origRow && newCol != origCol) {
-            lst.add(myGamePieces.get(newRow).get(newCol));
-        }
+        return allCoords;
     }
 
     /**
@@ -203,6 +153,6 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        return new Board(this.myGameType, new ArrayList<>(this.getStateInfo()));
+        return new Board(this.myGameType, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
     }
 }

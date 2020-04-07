@@ -12,7 +12,7 @@ public class Game implements GameFramework{
     private int myAgentPlayerID;
 
     public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
-        myBoard = new Board(gameType, startingConfiguration);
+        myBoard = new Board(gameType, startingConfiguration, neighborhoods);
         myUserPlayerID = userID;
         myAgentPlayerID = agentID;
         //TODO: assign Agent to agent player based on gameType

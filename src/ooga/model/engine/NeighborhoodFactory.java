@@ -1,5 +1,10 @@
 package ooga.model.engine;
 
+import ooga.model.engine.Neighborhood.DiagonalNeighborhood;
+import ooga.model.engine.Neighborhood.HorizontalNeighborhood;
+import ooga.model.engine.Neighborhood.Neighborhood;
+import ooga.model.engine.Neighborhood.VerticalNeighborhood;
+
 /**
  * This class is responsible for creating different types of
  * neighborhood objects, following the factory pattern.
