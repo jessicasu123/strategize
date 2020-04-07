@@ -9,6 +9,16 @@ public class HorizontalNeighborhood extends Neighborhood {
 
     @Override
     public List<Coordinate> getNeighbors(int r, int c) {
+        boolean addedRow = false;
+        for (int row = 0; row < numRows; row++) {
+            if (addedRow) break;
+            if (row==r) {
+                for (int col = 0; col < numCols;col++) {
+                    addCoord(r,c,row,col);
+                }
+                addedRow=true;
+            }
+        }
         return allCoordinates;
     }
 }

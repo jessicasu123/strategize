@@ -14,7 +14,7 @@ public abstract class Neighborhood {
     }
     public abstract List<Coordinate> getNeighbors (int r, int c);
 
-    public void addPiece(int origRow, int origCol, int newRow, int newCol) {
+    public void addCoord(int origRow, int origCol, int newRow, int newCol) {
         if (newRow != origRow && newCol != origCol) {
             allCoordinates.add(new Coordinate(newRow, newCol));
         }

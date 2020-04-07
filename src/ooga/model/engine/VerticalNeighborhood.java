@@ -9,6 +9,13 @@ public class VerticalNeighborhood extends Neighborhood {
 
     @Override
     public List<Coordinate> getNeighbors(int r, int c) {
+        for (int row = 0; row < numRows;row++) {
+            for (int col = 0; col < numCols;col++) {
+                if (col==c) {
+                    addCoord(r,c,row,col);
+                }
+            }
+        }
         return allCoordinates;
     }
 }
