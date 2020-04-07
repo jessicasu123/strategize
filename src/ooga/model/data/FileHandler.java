@@ -23,7 +23,7 @@ public interface FileHandler {
      *  -loads all of the properties from the file for the specifications of the game
      * @return a map to represent the key,value pairings from the file
      */
-    Map<String, String> loadFileProperties();
+    Map<String, String> loadFileProperties() throws IOException, ParseException;
 
 
     /**

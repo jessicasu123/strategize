@@ -13,12 +13,10 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.InputStream;
-
 public class JSONFileReader implements FileHandler {
 
-    private String fileName = "";
-    public static List<List<Integer>> gameConfiguration;
+    private String fileNameGame = "";
+    private String fileNameView = "";
     public static Map<String, String> gameProperties;
     private JSONObject JO = new JSONObject();
     private Object obj;
@@ -29,7 +27,7 @@ public class JSONFileReader implements FileHandler {
     private int counter = 0;
 
     public JSONFileReader(String JSONFile){
-        fileName = JSONFile;
+        fileNameGame = JSONFile;
     }
 
     private void parseJSONConfiguration(String config){
@@ -43,13 +41,27 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    private void createJSONArray(String filename, String header) throws IOException, ParseException {
+        obj = new JSONParser().parse(new FileReader(filename));
+        JO = (JSONObject) obj;
+        ja = (JSONArray) JO.get(header);
+        it = ja.iterator();
+    }
+
+    private void getGameProperty(String header) throws IOException, ParseException {
+        createJSONArray(fileNameView, header);
+        while(it.hasNext()){
+            itrl = ((Map) it.next()).entrySet().iterator();
+            while(itrl.hasNext()){
+                Map.Entry pair = itrl.next();
+                gameProperties.put((String) pair.getKey(), (String) pair.getValue());
+            }
+        }
+    }
+
     @Override
     public List<List<Integer>> loadFileConfiguration() throws IOException, ParseException {
-        obj = new JSONParser().parse(new FileReader(fileName));
-        JO = (JSONObject) obj;
-        ja = (JSONArray) JO.get("Board");
-        it = ja.iterator();
-
+        createJSONArray(fileNameGame, "Board");
         while(it.hasNext()){
             itrl = ((Map) it.next()).entrySet().iterator();
             while(itrl.hasNext()){
@@ -60,18 +72,22 @@ public class JSONFileReader implements FileHandler {
                 }
             }
         }
-
         return configuration;
     }
 
     @Override
-    public Map<String, String> loadFileProperties() {
-        return null;
+    public Map<String, String> loadFileProperties() throws IOException, ParseException {
+        getGameProperty("Text");
+        getGameProperty("Icons");
+        getGameProperty("GamePieceImage");
+        getGameProperty("GameColor");
+        return gameProperties;
     }
+
 
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
-
+        
     }
 
 }
