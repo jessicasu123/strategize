@@ -35,6 +35,7 @@ public class GameSetupOptions {
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameSetupOptions.json";
     public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
+    public static final String DEFAULT_GAME_RESOURCES = "data/resources";
     public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject gameFileData;
@@ -52,13 +53,13 @@ public class GameSetupOptions {
      */
     public GameSetupOptions(Stage displayStage, String gameFileName) throws FileNotFoundException {
         myStage = displayStage;
-        FileReader br = new FileReader(gameFileName);
+        FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
         JSONTokener token = new JSONTokener(br);
         gameFileData = new JSONObject(token);
 
-        FileReader brData = new FileReader(DATAFILE);
-        JSONTokener tokenData = new JSONTokener(br);
-        setupData = new JSONObject(tokenData);
+        FileReader br2 = new FileReader(DATAFILE);
+        JSONTokener token2 = new JSONTokener(br2);
+        setupData = new JSONObject(token2);
 
         displayToStage();
     }
@@ -83,7 +84,7 @@ public class GameSetupOptions {
     }
 
     private Text addTitle(){
-        String titleText = gameFileData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
+        String titleText = setupData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
         Text title = new Text(titleText.toUpperCase());
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
@@ -91,12 +92,13 @@ public class GameSetupOptions {
     }
 
     private VBox createGameOptionHolder(int width, int height) {
-        VBox gameOptions = new VBox();
+        VBox gameOptions = new VBox(PADDING);
         HBox opponentOptions = setOpponentOptions();
         HBox playerOptions = setPlayerOptions();
 //        Hbox boardOptions = setBoardInputBox();
 //        Button start = creatStartButton();
-//        gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions);
+        gameOptions.getChildren().addAll(opponentOptions, playerOptions);
+
         // TODO: potentially add winStatus choices here (Eg: connect5?)
         return gameOptions;
     }
@@ -107,8 +109,6 @@ public class GameSetupOptions {
      * @return
      */
     private HBox setOpponentOptions() {
-        HBox opponentOptions = new HBox(SPACING);
-
         ToggleGroup group = new ToggleGroup();
         RadioButton vsComputer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsComputer"));
         vsComputer.setToggleGroup(group);
@@ -117,6 +117,7 @@ public class GameSetupOptions {
         RadioButton vsPlayer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsPlayer"));
         vsPlayer.setToggleGroup(group);
 
+        HBox opponentOptions = new HBox(SPACING, vsComputer, vsPlayer);
         // TODO once play vs. player mode is added: Add a radio button listener to provide this information to Controller
 
         return opponentOptions;
@@ -125,9 +126,11 @@ public class GameSetupOptions {
     private HBox setPlayerOptions() {
         HBox playerOptions = new HBox(SPACING);
         Text selectionText = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
-        Image player1Image = new Image(getClass().getResourceAsStream(gameFileData.getJSONObject("Player1").getString("Image")));
-        Image player2Image = new Image(getClass().getResourceAsStream(gameFileData.getJSONObject("Player2").getString("Image")));
+        Image player1Image = new Image(ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"));
+        Image player2Image = new Image(ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"));
         Button player1Button = new Button("Player1", new ImageView(player1Image));
+//        player1Button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
+        // TODO: figure out sizing here based on overall size
         Button player2Button = new Button("Player2", new ImageView(player2Image));
         playerOptions.getChildren().addAll(selectionText, player1Button, player2Button);
         return playerOptions;
