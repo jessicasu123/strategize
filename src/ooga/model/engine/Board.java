@@ -39,13 +39,12 @@ public class Board implements BoardFramework{
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
-                GamePiece newPiece = null;
                 try {
-                    newPiece = gamePieceFactory.createGamePiece(myGameType, state, pos);
+                    GamePiece newPiece = gamePieceFactory.createGamePiece(myGameType, state, pos);
+                    boardRow.add(newPiece);
                 } catch (InvalidGameTypeException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
-                boardRow.add(newPiece);
             }
             myGamePieces.add(boardRow);
         }
@@ -69,15 +68,13 @@ public class Board implements BoardFramework{
     private List<Coordinate> getNeighborCoordinates(int pieceRow, int pieceCol) {
         List<Coordinate> allCoords = new ArrayList<>();
         for (String neighbor: myNeighborhoods) {
-            Neighborhood n = null;
             try {
-                neighborFactory.createNeighborhood(neighbor, numRows, numCols);
+                Neighborhood neighborhood = neighborFactory.createNeighborhood(neighbor, numRows, numCols);
+                List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
+                allCoords.addAll(neighbors);
             } catch (InvalidNeighborhoodException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
-            //TODO: this is broken so i commented it out
-            //List<Coordinate> neighbors = n.getNeighbors(pieceRow,pieceCol);
-            //allCoords.addAll(neighbors);
         }
         return allCoords;
     }
