@@ -26,6 +26,7 @@ public class Board implements BoardFramework{
     /**
      * Constructor for copying board to give it to the AgentPlayer.
      */
+    //TODO: I don't think you need a separate constructor, just do this logic in copyBoard
     public Board (Board originalBoard) {
         this.myGameType = originalBoard.myGameType;
         this.myStartingConfiguration = new ArrayList<>(originalBoard.myStartingConfiguration);
@@ -152,7 +153,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
-                if (currPiece.getState()==player) {
+                if (currPiece.getState() == player || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
                     allLegalMoves.put(currCoord, moves);

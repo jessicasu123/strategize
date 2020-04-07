@@ -19,9 +19,9 @@ import java.util.Map;
  *      have a higher branching factor
  */
 public class AgentPlayer implements Player{
-    private int myID;
+    private final int myID;
     private Agent myAgent;
-    private int myOpponent;
+    private final int myOpponent;
     //TODO: later maybe have ability to take in this value from data
     public static final int MAX_SEARCH_DEPTH = 5;
 
@@ -52,6 +52,7 @@ public class AgentPlayer implements Player{
      * @return - the move that the agent player has chosen
      * @throws InvalidMoveException - throws an exception if the move is not legal
      */
+    //TODO: is there another way to ensure only 2 coordinates other than Map entry?
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
         int bestMoveVal = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return findMove(bestMoveVal, boardCopy);

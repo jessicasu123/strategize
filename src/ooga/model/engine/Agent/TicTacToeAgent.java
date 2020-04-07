@@ -2,7 +2,7 @@ package ooga.model.engine.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO: is there a way to have one factory for agent and game piece?
 /**
  * This an AI agent for the Tic-Tac-Toe game
  * It uses the rules about winning the game (getting a certain number of pieces in a row) to determine if the game
@@ -56,6 +56,7 @@ public class TicTacToeAgent extends Agent {
         }
         return numOpen;
     }
+    //if not either player ID is empty
     private boolean checkOpen(List<Integer> check, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
         for(int state: check){

@@ -6,7 +6,7 @@ package ooga.model.engine.Player;
  * Later more utility may be added to this class
  */
 public class UserPlayer implements Player{
-    private int myID;
+    private final int myID;
 
     /**
      * Creates a user player
