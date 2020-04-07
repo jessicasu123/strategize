@@ -62,19 +62,23 @@ public class Controller implements ControllerFramework {
         squareSelectedY = y;
     }
 
+    //TODO: from Jessica - I removed the playerID from Game.makeUserMove because the Game already has instance var for the userID
+    //not sure if you want to also remove the userID parameter?
     @Override
     public void playMove(int userID) throws InvalidMoveException {
         if (!isPieceSelected) {
             pieceSelected(squareSelectedX, squareSelectedY);
         }
-        myGame.makeUserMove(userID, new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
+        myGame.makeUserMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
         isPieceSelected = false;
     }
 
 
+    //TODO: from Jessica - I removed the agentID from Game.makeAgentMove because the Game already has instance var for the agentID
+    //not sure if you want to also remove the agentID parameter?
     @Override
     public void haveAgentMove(int agentID) throws InvalidMoveException {
-        myGame.makeAgentMove(agentID);
+        myGame.makeAgentMove();
     }
 
     @Override

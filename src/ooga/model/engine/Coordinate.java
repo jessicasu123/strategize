@@ -4,7 +4,7 @@ package ooga.model.engine;
  * This class is responsible for representing a coordinate,
  * which consists of an x position and a y position.
  */
-public class Coordinate implements CoordinateFramework {
+public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
     private int xPos;
     private int yPos;
 
@@ -47,4 +47,23 @@ public class Coordinate implements CoordinateFramework {
     public String toString() {
         return "(" + Integer.toString(xPos) + ", " + Integer.toString(yPos) + ")";
     }
+
+    /**
+     *
+     * @param o - the coordinate to compare to
+     * @return this > o if the x coordinate is greater or the x coord is the same and the y coordinate is greater
+     * otherwise they are the same
+     */
+    @Override
+    public int compareTo(Coordinate o) {
+        if(this.getXCoord() != o.getXCoord()){
+            return this.getXCoord() - o.getXCoord();
+        }else if(this.getYCoord() != o.getYCoord()){
+            return this.getYCoord() - o.getYCoord();
+        }
+        return 0;
+    }
+
+
+
 }

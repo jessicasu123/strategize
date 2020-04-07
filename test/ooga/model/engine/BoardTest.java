@@ -23,7 +23,9 @@ public class BoardTest {
 
     //creating board object
     List<List<Integer>> config = createTestConfig();
-    Board b = new Board("Tic-Tac-Toe", config);
+    List<String> neighborhoods = new ArrayList<>();
+
+    Board b = new Board("Tic-Tac-Toe", config, neighborhoods);
 
     @Test
     void testCreateBoardFromStartingConfig() {

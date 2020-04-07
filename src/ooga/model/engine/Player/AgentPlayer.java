@@ -5,10 +5,7 @@ import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.InvalidMoveException;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * An agent player is a player that uses AI to calculate its move
@@ -23,23 +20,34 @@ public class AgentPlayer implements Player{
     private final int myID;
     private Agent myAgent;
     private final int myOpponent;
+    private final int mySearchDepth;
     private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
-    //TODO: later maybe have ability to take in this value from data
-    public static final int MAX_SEARCH_DEPTH = 5;
+    public static final int MAX_SEARCH_DEPTH = 3;
 
     /**
-     * Creates an agent player
+     * Creates an agent player using the default search depth
      * @param id - the id of this player (the state of the game piece's that belong to this player)
      * @param gameAgent - the AI agent for this type of game
      * @param opponentID - the id of the opponent player (the state of the game piece's that belong to the opponent)
      */
     public AgentPlayer(int id, Agent gameAgent, int opponentID){
+        this(id, gameAgent, opponentID, MAX_SEARCH_DEPTH);
+    }
+
+    /**
+     * Creates an agent player using specified search depth
+     * @param id - the id of this player (the state of the game piece's that belong to this player)
+     * @param gameAgent - the AI agent for this type of game
+     * @param opponentID - the id of the opponent player (the state of the game piece's that belong to the opponent)
+     */
+    //TODO: take in search depth from data
+    public AgentPlayer(int id, Agent gameAgent, int opponentID, int searchDepth){
         myID = id;
         myAgent = gameAgent;
         myOpponent = opponentID;
         moveMappings = new HashMap<>();
+        mySearchDepth = searchDepth;
     }
-
     /**
      * this keeps track of which id belongs to each player
      * @return the id of this player
@@ -52,7 +60,8 @@ public class AgentPlayer implements Player{
     /**
      * Calculates the move that the agent player wants to make based on its agent's evaluation of the game state
      * @param boardCopy - a copy of the game board to tryout moves on
-     * @return - the move that the agent player has chosen
+     * @return - the move that the agent player has chosen, if there are many that are equal it chooses the most recent
+     * one evaluated
      * @throws InvalidMoveException - throws an exception if the move is not legal or no legal moves are available
      */
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
@@ -65,7 +74,7 @@ public class AgentPlayer implements Player{
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
-        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGameWon(boardCopy.getStateInfo())){
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMaxVal = Integer.MIN_VALUE;
@@ -75,14 +84,15 @@ public class AgentPlayer implements Player{
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
                 testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth, myAlpha, beta);
-                currMaxVal = Math.max(currMaxVal, curr);
                 if(depth == 0){
-                    moveMappings.put(currMaxVal, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
+                    moveMappings.put(curr, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
                 }
+                currMaxVal = Math.max(currMaxVal, curr);
                 if(currMaxVal > beta){
                     return currMaxVal;
                 }
                 myAlpha = Math.max(currMaxVal, myAlpha);
+
             }
         }
         return currMaxVal;
@@ -90,7 +100,7 @@ public class AgentPlayer implements Player{
 
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
-        if(depth >= MAX_SEARCH_DEPTH || myAgent.isGameWon(boardCopy.getStateInfo())){
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMinVal = Integer.MAX_VALUE;

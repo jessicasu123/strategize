@@ -1,4 +1,7 @@
-package ooga.model.engine;
+package ooga.model.engine.Neighborhood;
+
+import ooga.model.engine.Coordinate;
+import ooga.model.engine.Neighborhood.Neighborhood;
 
 import java.util.List;
 
