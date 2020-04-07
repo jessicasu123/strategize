@@ -33,7 +33,9 @@ public class Controller implements ControllerFramework {
         // TODO: add in logic to set player id
         myUserPlayerID = userID;
         myAgentPlayerID = agentID;
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myUserPlayerID, myAgentPlayerID);
+        // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
+        List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);
     }
 
 
