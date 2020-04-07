@@ -164,11 +164,10 @@ public class Board implements BoardFramework{
      */
     @Override
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
-        //TODO: add player parameter for curr.makeMove
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
-            curr.makeMove(endCoordinate, neighbors);
+            curr.makeMove(endCoordinate, neighbors, player);
         } else {
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
