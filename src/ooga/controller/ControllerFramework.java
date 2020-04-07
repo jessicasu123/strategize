@@ -1,7 +1,9 @@
 package ooga.controller;
 
 import ooga.model.engine.InvalidMoveException;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public interface ControllerFramework {
      *  -sends the needed properties from the file handler to the view/model
      * @return a map of the key,value pairs from the file
      */
-    Map<String, String> getStartingProperties();
+    Map<String, String> getStartingProperties() throws IOException, ParseException;
 
     /**
      * METHOD PURPOSE:

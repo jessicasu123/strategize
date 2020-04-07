@@ -35,7 +35,7 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public Map<String,String> getStartingProperties() {
+    public Map<String,String> getStartingProperties() throws IOException, ParseException {
         return myFileHandler.loadFileProperties();
     }
 
