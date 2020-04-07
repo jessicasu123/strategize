@@ -11,11 +11,10 @@ public class Game implements GameFramework{
     private int myUserPlayerID;
     private int myAgentPlayerID;
 
-    public Game(String gameType, List<List<Integer>> startingConfiguration) {
-        myBoard = new Board(gameType, startingConfiguration);
-        //TODO: figure out how to assign player ID's
-        myUserPlayerID = 1;
-        myAgentPlayerID = 2;
+    public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
+        myBoard = new Board(gameType, startingConfiguration, neighborhoods);
+        myUserPlayerID = userID;
+        myAgentPlayerID = agentID;
         //TODO: assign Agent to agent player based on gameType
         //myAgentPlayer = new AgentPlayer(myAgentPlayerID, new TicTacToeAgent(), myUserPlayerID);
     }
