@@ -4,6 +4,7 @@ import ooga.model.data.FileHandler;
 import ooga.model.engine.Game;
 import ooga.model.engine.GameFramework;
 import ooga.model.engine.InvalidMoveException;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ public class Controller implements ControllerFramework {
     int squareSelectedY;
 
 
-    public Controller(String gameType, FileHandler fileHandle) throws IOException {
+    public Controller(String gameType, FileHandler fileHandle) throws IOException, ParseException {
         myFileHandler = fileHandle;
+        // TODO: change this to take in a filename only
+        // also add in logic to set player id
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration());
     }
 
@@ -32,7 +35,7 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public Map<String,String> getStartingProperties() {
+    public Map<String,String> getStartingProperties() throws IOException, ParseException {
         return myFileHandler.loadFileProperties();
     }
 
@@ -40,6 +43,7 @@ public class Controller implements ControllerFramework {
     public void pieceSelected(int x, int y) {
         pieceSelectedX = x;
         pieceSelectedY = y;
+        // add a boolean once this has been set that gets checked in playMove
     }
 
     @Override
@@ -73,7 +77,7 @@ public class Controller implements ControllerFramework {
 
     @Override
     public boolean gameOver() {
-        return myGame.getEndGameStatus() != 0;
+        return myGame.getEndGameStatus() > 0;
     }
 
     @Override
