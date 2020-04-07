@@ -153,7 +153,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
-                if (currPiece.getState() == player || currPiece.getState() == 0) {
+                if (currPiece.getState() == player) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
                     allLegalMoves.put(currCoord, moves);
