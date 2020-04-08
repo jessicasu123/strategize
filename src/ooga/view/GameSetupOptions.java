@@ -33,7 +33,7 @@ public class GameSetupOptions {
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameSetupOptions.json";
-    public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/";
+    public static final String PIECE_ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/pieces/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final String DEFAULT_GAME_RESOURCES = "data/resources";
     public static final double BUTTON_FONT_FACTOR = 0.125;
@@ -126,8 +126,8 @@ public class GameSetupOptions {
     private HBox setPlayerOptions() {
         HBox playerOptions = new HBox(SPACING);
         Text selectionText = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
-        Image player1Image = new Image(ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"));
-        Image player2Image = new Image(ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"));
+        Image player1Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"));
+        Image player2Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"));
         Button player1Button = new Button("Player1", new ImageView(player1Image));
 //        player1Button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         // TODO: figure out sizing here based on overall size
