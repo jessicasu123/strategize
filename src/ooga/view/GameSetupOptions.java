@@ -1,7 +1,5 @@
 package ooga.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -100,36 +98,36 @@ public class GameSetupOptions {
 
     private VBox createGameSetupHolder(int width, int height) {
         VBox gameOptions = new VBox(PADDING);
-        HBox opponentOptions = createOpponentOptions();
-        HBox playerOptions = createPlayerOptions(opponentOptions.getAlignment());
-        HBox boardOptions = createBoardOptions(playerOptions.getAlignment());
-        Button start = creatStartButton(boardOptions.getAlignment());
+        JSONObject labelText = setupData.getJSONObject("Text").getJSONObject("LabelText");
+        HBox opponentOptions = createOpponentOptions(labelText);
+        HBox playerOptions = createPlayerOptions(opponentOptions.getAlignment(), labelText);
+        HBox boardOptions = createBoardOptions(playerOptions.getAlignment(), labelText);
+        Button start = creatStartButton();
         gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions, start);
         gameOptions.setAlignment(Pos.CENTER);
-        // TODO: potentially add winStatus choices here (Eg: connect5?)
+        // TODO for future feature: potentially add winStatus choices here (Eg: connect5?)
         return gameOptions;
     }
 
     /**
      * Sets options for playing against the computer or against another player.
      * Defaults to computer
-     * @return
+     * @return HBox with radio buttons to select opponent type
      */
-    private HBox createOpponentOptions() {
-        Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectOpponent"));
+    private HBox createOpponentOptions(JSONObject labelText) {
+        Text selectionPrompt = new Text(labelText.getString("SelectOpponent"));
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ob, o, n) -> {
             RadioButton rb = (RadioButton)group.getSelectedToggle();
             if (rb != null) {
                 opponent = rb.getText();
-                System.out.println(opponent);
             }
         });
-        RadioButton vsComputer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsComputer"));
+        RadioButton vsComputer = new RadioButton(labelText.getString("VsComputer"));
         vsComputer.setToggleGroup(group);
         vsComputer.setSelected(true);
 
-        RadioButton vsPlayer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsPlayer"));
+        RadioButton vsPlayer = new RadioButton(labelText.getString("VsPlayer"));
         vsPlayer.setToggleGroup(group);
 
         HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
@@ -137,15 +135,14 @@ public class GameSetupOptions {
         return opponentOptions;
     }
 
-    private HBox createPlayerOptions(Pos position) {
+    private HBox createPlayerOptions(Pos position, JSONObject labelText) {
         HBox playerOptions = new HBox(SPACING);
-        Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
+        Text selectionPrompt = new Text(labelText.getString("SelectPlayer"));
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ob, o, n) -> {
             RadioButton rb = (RadioButton)group.getSelectedToggle();
             if (rb != null) {
                 userPlayerID = rb.getText();
-                System.out.println(userPlayerID);
             }
         });
         RadioButton player1Button = createPlayerRadioButton(group,"Player1");
@@ -157,19 +154,19 @@ public class GameSetupOptions {
     }
 
 
-    private RadioButton createPlayerRadioButton(ToggleGroup group, String player1) {
+    private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
-        Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player1).getString("Image"), iconSize, iconSize, true, true);
-        RadioButton playerButton = new RadioButton(player1);
+        Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player).getString("Image"), iconSize, iconSize, true, true);
+        RadioButton playerButton = new RadioButton(player);
         playerButton.setGraphic(new ImageView(playerImage));
         playerButton.setToggleGroup(group);
         return playerButton;
     }
 
-    private HBox createBoardOptions(Pos position) {
-        // TODO: add listener for defaults permissible values for boards from JSON
+    private HBox createBoardOptions(Pos position, JSONObject labelText) {
+        // TODO for future feature: add defaults permissible values for board dimensions from JSON
         HBox boardOptions = new HBox(SPACING);
-        Text loadDimensionsLabel = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("BoardSizeText"));
+        Text loadDimensionsLabel = new Text(labelText.getString("BoardSizeText"));
         ObservableList<String> dimensionList = FXCollections.observableList(new ArrayList<>());
         ComboBox<String> boardDropdown = new ComboBox(dimensionList);
         boardDropdown.setId("boardDropdown");
@@ -178,18 +175,18 @@ public class GameSetupOptions {
         return boardOptions;
     }
 
-    private Button creatStartButton(Pos position) {
+    private Button creatStartButton() {
         Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
-        start.setOnAction(e -> {
-                    try {
-                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
-//                        new GameView(myStage, c);
-                    } catch (IOException | ParseException ex) {
-                        ex.printStackTrace();
-                        // TODO:
-                    }
-                }
-        );
+//        TODO: @Brian uncomment once GameView is up
+//        start.setOnAction(e -> {
+//                    try {
+//                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
+////                        new GameView(myStage, c);
+//                    } catch (IOException | ParseException ex) {
+//                        throw new FileNotFoundException("File entered does not exist.");
+//                    }
+//                }
+//        );
         start.getStyleClass().add("gameButton");
         return start;
     }
