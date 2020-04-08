@@ -27,7 +27,7 @@ public class Controller implements ControllerFramework {
 
 
     public Controller(String fileName, int userID, int agentID) throws IOException, ParseException {
-        myFileHandler = new JSONFileReader(fileName);
+//        myFileHandler = new JSONFileReader(fileName);
 //        String gameType = getStartingProperties.get("gameType");
         String gameType = "";
         // TODO: add in logic to set player id

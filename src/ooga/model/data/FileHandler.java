@@ -30,8 +30,7 @@ public interface FileHandler {
      * METHOD PURPOSE:
      *  - saving a new file based on the information passed from other parts of the program
      * @param fileName - the name of the file it will be saved to
-     * @param  properties - the properties to save to the file
      * @param configurationInfo  - the board configuration to save to the file
      */
-    void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
+    void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
 }
