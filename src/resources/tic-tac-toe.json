@@ -8,14 +8,14 @@
 
   "Player1": {
     "State" : 1,
-    "Color": "Red",
-    "Image": "red_circle.png"
+    "Color": "Black",
+    "Image": "X.png"
   },
 
   "Player2": {
     "State": 2,
-    "Color": "Blue",
-    "Image": "blue_cross.png"
+    "Color": "Black",
+    "Image": "O.png"
   }
 
 }

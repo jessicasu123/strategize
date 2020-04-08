@@ -1,0 +1,29 @@
+{
+  "Icons": {
+    "PlayerIcons": {
+      "ProfileButton": "profile.png",
+      "LogoutButton": "logout.png"
+    },
+    "ButtonIcons": {
+      "HelpIcon": "helpicon.png",
+      "MessageIcon": "messageicon.png",
+      "SettingIcon": "settingicon.png"
+    }
+  },
+  "Text": {
+    "LabelText": {
+      "Title": "Select Game Options",
+      "VsComputer": "Play vs. Computer",
+      "VsPlayer": "Play vs. Player",
+      "SelectPlayer": "Select Your Player",
+      "Player1": "Player1",
+      "Player2": "Player2",
+      "BoardSizeText": "Enter custom board dimensions",
+      "BoardSizeFieldText": "Number of columns"
+    },
+    "ButtonText": {
+      "Start": "Start"
+    }
+  }
+
+}

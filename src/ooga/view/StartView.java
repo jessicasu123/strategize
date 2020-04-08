@@ -103,9 +103,9 @@ public class StartView {
         //TODO: uncomment once GameView class is created
 //        submit.setOnAction(e -> {
 //            if(fileField.getText() != null && !fileField.getText().trim().isEmpty()){
-//                new GameView(fileField.getText());
+//                new GameSetupOptions(myStage, fileField.getText());
 //            }else if(!savedFileOptions.getSelectionModel().isEmpty()){
-//                new GameView(savedFileOptions.getValue());
+//                new GameSetupOptions(myStage, savedFileOptions.getValue());
 //            }}
 //        );
         submit.getStyleClass().add("gameButton");
@@ -209,7 +209,13 @@ public class StartView {
         gameButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         gameButton.setId(gameButton.getText());
         //TODO: uncomment once GameView class is created
-        //gameButton.setOnAction(e -> new GameView(game.getString("DefaultFile")));
+        gameButton.setOnAction(e -> {
+            try {
+                new GameSetupOptions(myStage, game.getString("DefaultFile"));
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         return gameButton;
     }
 
