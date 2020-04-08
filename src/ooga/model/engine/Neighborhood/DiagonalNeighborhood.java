@@ -7,11 +7,20 @@ import ooga.model.engine.pieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This neighborhood is for calculating diagonal neighbors.
+ */
 public class DiagonalNeighborhood extends Neighborhood {
     public DiagonalNeighborhood(int rows, int cols) {
         super(rows, cols);
     }
 
+    /**
+     * Getting all neighbors on BOTH diagonals (right and left)
+     * @param r - the row of the current position
+     * @param c - the column of the current position
+     * @return - list of all the coordinates on the diagonals
+     */
     @Override
     public List<Coordinate> getNeighbors(int r, int c) {
         getRightDiag(r,c);
@@ -19,6 +28,11 @@ public class DiagonalNeighborhood extends Neighborhood {
         return allCoordinates;
     }
 
+    /**
+     * Getting the right diagonal
+     * @param r - current row
+     * @param c - current column
+     */
     private void getRightDiag(int r, int c) {
         int row = 0;
         int col = 0;
@@ -43,6 +57,11 @@ public class DiagonalNeighborhood extends Neighborhood {
 
     }
 
+    /**
+     * Getting the left diagonal
+     * @param r - current row
+     * @param c - current column
+     */
     private void getLeftDiag(int r, int c) {
         int row = 0;
         int col = numCols-1;
