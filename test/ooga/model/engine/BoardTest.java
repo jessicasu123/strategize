@@ -29,7 +29,7 @@ public class BoardTest {
 
     //creating tic tac toe board with one player in center
     List<List<Integer>> config = createTestConfig(startingConfig);
-    List<String> neighborhoods = Arrays.asList(new String[]{"entireBoard"});
+    List<String> neighborhoods = new ArrayList<>();
     Board ticTacToeBoard = new Board("Tic-Tac-Toe", config, neighborhoods);
 
     //board that has no more moves
@@ -53,50 +53,50 @@ public class BoardTest {
     void testCopyBoard() {
         BoardFramework newBoard = ticTacToeBoard.copyBoard();
         //making a move on newBoard - this should NOT affect other board, b
-        //newBoard.makeMove(1, new Coordinate(0,0), new Coordinate(0,0));
+        newBoard.makeMove(1, new Coordinate(0,0), new Coordinate(0,0));
 
         //checking that states for newBoard are updated, but b remains same
-        //assertNotEquals(newBoard.getStateInfo(), b.getStateInfo());
+        assertNotEquals(newBoard.getStateInfo(), ticTacToeBoard.getStateInfo());
 
         //b should still reflect starting config
-        //assertEquals(b.getStateInfo(), config);
+        assertEquals(ticTacToeBoard.getStateInfo(), config);
     }
 
     @Test
     void testMakeMove() {
-//        //test for a valid move
-//        BoardFramework testMoveBoard = ticTacToeBoard.copyBoard();
-//        testMoveBoard.makeMove(1, new Coordinate(2,2), new Coordinate(2,2));
-//        Integer[][] desiredConfig = {
-//                {0,0,0},
-//                {0,1,0},
-//                {0,0,1}
-//        };
-//        assertEquals(createTestConfig(desiredConfig), testMoveBoard.getStateInfo());
-//
-//        //test for invalid move - can't try to move on a square that already has a player
-//        assertThrows(InvalidMoveException.class,
-//                () -> testMoveBoard.makeMove(2, new Coordinate(1,1), new Coordinate(1,1)));
+        //test for a valid move
+        BoardFramework testMoveBoard = ticTacToeBoard.copyBoard();
+        testMoveBoard.makeMove(1, new Coordinate(2,2), new Coordinate(2,2));
+        Integer[][] desiredConfig = {
+                {0,0,0},
+                {0,1,0},
+                {0,0,1}
+        };
+        assertEquals(createTestConfig(desiredConfig), testMoveBoard.getStateInfo());
+
+        //test for invalid move - can't try to move on a square that already has a player
+        assertThrows(InvalidMoveException.class,
+                () -> testMoveBoard.makeMove(2, new Coordinate(1,1), new Coordinate(1,1)));
     }
 
     @Test
     void testGetAllLegalMoves() {
-//        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
-//        Coordinate squareWithPlayer = new Coordinate(1,1);
-//        //checking that an coordinate with a player is NOT a legal "move"
-//        assertEquals(0,moves.get(squareWithPlayer).size());
-//
-//        //checking that a coordinate with an empty square is a legal "move"
-//        Coordinate emptySquare = new Coordinate(1,2);
-//        assertEquals(1, moves.get(emptySquare).size());
+        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
+        Coordinate squareWithPlayer = new Coordinate(1,1);
+        //checking that an coordinate with a player is NOT a legal "move"
+        assertEquals(0,moves.get(squareWithPlayer).size());
+
+        //checking that a coordinate with an empty square is a legal "move"
+        Coordinate emptySquare = new Coordinate(1,2);
+        assertEquals(1, moves.get(emptySquare).size());
     }
 
     @Test
     void testNoMovesLeft() {
         //should be no moves left on a full board with no winner
-        //assertEquals(true, noMovesBoard.checkNoMovesLeft(1,2));
+        assertEquals(true, noMovesBoard.checkNoMovesLeft(1,2));
         //should be moves left on board with only one player
-        //assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1,2));
+        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1,2));
     }
 
 }
