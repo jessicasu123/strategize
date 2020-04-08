@@ -32,6 +32,26 @@ public class Board implements BoardFramework{
         createBoardFromStartingConfig();
     }
 
+    /**
+     * Checks that there are no moves left for either the user player
+     * or the agent player.
+     * @param userID - the ID of the user player
+     * @param agentID - the ID of the agent player
+     * @return
+     */
+    public boolean checkNoMovesLeft(int userID, int agentID) {
+        return checkEmptyMovesForPlayer(userID) &&
+                checkEmptyMovesForPlayer(agentID);
+    }
+
+    private boolean checkEmptyMovesForPlayer(int playerID) {
+        //check that list of moves is EMPTY for every piece with playerID
+        for (List<Coordinate> coords: getAllLegalMoves(playerID).values()) {
+            if (coords.size() > 0) return false;
+        }
+        return true;
+    }
+
     private void createBoardFromStartingConfig() {
         numRows = myStartingConfiguration.size();
         numCols = myStartingConfiguration.get(0).size();
