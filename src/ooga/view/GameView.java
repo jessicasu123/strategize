@@ -45,7 +45,7 @@ import java.util.Map;
 
 public class GameView {
     public static final int PADDING = 20;
-    public static final int SPACING = 10;
+    public static final int SPACING = 50;
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
@@ -56,12 +56,12 @@ public class GameView {
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
-    private BorderPane group;
     private Map<String, String> properties;
     private List<List<Integer>> config;
+    private BorderPane root;
+    public static final int MINWIDTH = 100;
 
     FileHandler FH = new JSONFileReader();
-    StartView sv = new StartView(myStage);
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -69,7 +69,7 @@ public class GameView {
      * @throws FileNotFoundException - if the JSON file can't be found
      */
     public GameView(Stage displayStage) throws FileNotFoundException {
-//        myStage = displayStage;         // TODO: this probably shouldn't be accessible here
+        myStage = displayStage;         // TODO: this probably shouldn't be accessible here
         FileReader br = new FileReader(DATAFILE);
         JSONTokener token = new JSONTokener(br);
         gameScreenData = new JSONObject(token);
@@ -87,74 +87,78 @@ public class GameView {
     }
 
     private Scene makeGameDisplay(int width, int height){
-        BorderPane root = new BorderPane();
+
+        root = new BorderPane();
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
+        root.setBottom(createNavigationBar(20,20));
+        root.setTop(createTopButtons());
+        makeGrid(3);
         Scene startScene = new Scene(root, width, height);
         startScene.getStylesheets().add(STYLESHEET);
         root.getStyleClass().add("root");
         root.setMaxWidth(width);
         return startScene;
+
     }
 
     private void makeGrid(int numCells){
         pane = new GridPane();
-        pane.setHgap(20);
-        pane.setVgap(20);
         double cellWidth;
         double cellHeight;
         cellHeight = pane.getWidth() / numCells;
         cellWidth = cellHeight;
         createCells(numCells, numCells, cellWidth, cellHeight);
-        group.getChildren().add(pane);
+        root.getChildren().add(pane);
     }
 
     private void createCells(int numCellsHeight, int numCellsWidth, double cellWidth, double cellHeight) {
         for (int x = 0; x < numCellsWidth; x++) {
             for (int y = 0; y < numCellsHeight; y++) {
                 Rectangle rect = new Rectangle();
-                //set color of squares
-                rect.setFill(Black);
+                rect.setFill(Color.BLUE);
                 rect.setWidth(cellWidth);
                 rect.setHeight(cellHeight);
-                int finalX = x;
-                int finalY = y;
                 pane.add(rect, x, y);
             }
         }
     }
 
-    private HBox createNavigationBar(int width, int height){
-        HBox container = new HBox();
+    private VBox createNavigationBar(int width, int height){
+        VBox ButtonContainer = new VBox(PADDING);
+        HBox container = new HBox(SPACING);
+        HBox container2 = new HBox(SPACING);
+
+        container.setAlignment(Pos.CENTER);
+        container2.setAlignment(Pos.CENTER);
+
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
         Button menu = createButton(buttonTexts, "Menu", e -> {
-            try {
-                myStage.setScene(new StartView());
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
+            //                myStage.setScene(new StartView());
         });
         Button restart = createButton(buttonTexts, "Restart", e -> {
-            try {
-                myStage.setScene(new StartView());
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        };
+            //                myStage.setScene(new StartView());
+        });
         Button save = createButton(buttonTexts, "Save", e -> FH.saveToFile("file",properties,config));
         container.getChildren().addAll(menu, restart, save);
-        return container;
+        JSONObject buttonTexts2 = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
+        Button makemove = createButton(buttonTexts2,"ButtonText", e-> MakeMove());
+        makemove.setMinWidth(400);
+        container2.getChildren().add(makemove);
+        ButtonContainer.getChildren().addAll(container2,container);
+        return ButtonContainer;
     }
 
-    private Button createMakeMoveButton(){
-        JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
-        Button makemove = createButton(buttonTexts,"ButtonText", e-> MakeMove());
-        return makemove;
-    }
 
     private HBox createStatusBar(){
         HBox container = new HBox();
         JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        
+
+        return container;
+    }
+
+    private HBox createTopButtons(){
+        HBox container = new HBox();
+
         return container;
     }
 
@@ -162,6 +166,7 @@ public class GameView {
         Button button = new Button(buttonTexts.getString(key));
         button.setId(button.getText());
         button.getStyleClass().add("gameButton");
+        button.setMinWidth(MINWIDTH);
 //        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         // TODO: uncomment once actions for restart, save have been set up
 //        button.setOnAction(handler);
