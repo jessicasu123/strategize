@@ -1,23 +1,25 @@
 package ooga.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * This class allows a user to make selections such choosing to play as player 1
@@ -26,8 +28,8 @@ import java.io.FileReader;
  */
 
 public class GameSetupOptions {
-    public static final int PADDING = 20;
-    public static final int SPACING = 10;
+    public static final int PADDING = 35;
+    public static final int SPACING = 25;
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
     public static final String DEFAULT_RESOURCES = "src/resources/";
@@ -78,7 +80,7 @@ public class GameSetupOptions {
         root.getStyleClass().add("root");
 
         root.setTop(addTitle());
-        root.setCenter(createGameOptionHolder(WIDTH, HEIGHT));
+        root.setCenter(createGameSetupHolder(WIDTH, HEIGHT));
         root.setMaxWidth(GameSetupOptions.WIDTH);
         return setupScene;
     }
@@ -91,14 +93,14 @@ public class GameSetupOptions {
         return title;
     }
 
-    private VBox createGameOptionHolder(int width, int height) {
+    private VBox createGameSetupHolder(int width, int height) {
         VBox gameOptions = new VBox(PADDING);
-        HBox opponentOptions = setOpponentOptions();
-        HBox playerOptions = setPlayerOptions();
-//        Hbox boardOptions = setBoardInputBox();
-//        Button start = creatStartButton();
-        gameOptions.getChildren().addAll(opponentOptions, playerOptions);
-
+        HBox opponentOptions = createOpponentOptions();
+        HBox playerOptions = createPlayerOptions(opponentOptions.getAlignment());
+        HBox boardOptions = createBoardOptions(playerOptions.getAlignment());
+        Button start = creatStartButton(boardOptions.getAlignment());
+        gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions, start);
+        gameOptions.setAlignment(Pos.CENTER);
         // TODO: potentially add winStatus choices here (Eg: connect5?)
         return gameOptions;
     }
@@ -108,7 +110,8 @@ public class GameSetupOptions {
      * Defaults to computer
      * @return
      */
-    private HBox setOpponentOptions() {
+    private HBox createOpponentOptions() {
+        Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectOpponent"));
         ToggleGroup group = new ToggleGroup();
         RadioButton vsComputer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsComputer"));
         vsComputer.setToggleGroup(group);
@@ -117,32 +120,60 @@ public class GameSetupOptions {
         RadioButton vsPlayer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsPlayer"));
         vsPlayer.setToggleGroup(group);
 
-        HBox opponentOptions = new HBox(SPACING, vsComputer, vsPlayer);
+        HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
+        opponentOptions.setAlignment(Pos.CENTER);
         // TODO once play vs. player mode is added: Add a radio button listener to provide this information to Controller
 
         return opponentOptions;
     }
 
-    private HBox setPlayerOptions() {
+    private HBox createPlayerOptions(Pos position) {
         HBox playerOptions = new HBox(SPACING);
-        Text selectionText = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
-        Image player1Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"));
-        Image player2Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"));
-        Button player1Button = new Button("Player1", new ImageView(player1Image));
-//        player1Button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
-        // TODO: figure out sizing here based on overall size
-        Button player2Button = new Button("Player2", new ImageView(player2Image));
-        playerOptions.getChildren().addAll(selectionText, player1Button, player2Button);
+        Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
+        int iconSize = WIDTH/15;
+        Image player1Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"), iconSize, iconSize, true, true);
+        Image player2Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"), iconSize, iconSize, true, true);
+        ToggleGroup group = new ToggleGroup();
+//        player1Button.setId("Player1");
+        RadioButton player1Button = new RadioButton("Player1");
+        player1Button.setGraphic(new ImageView(player1Image));
+        player1Button.setToggleGroup(group);
+        player1Button.setSelected(true);
+        player1Button.requestFocus();
+        RadioButton player2Button = new RadioButton("Player2");
+        player2Button.setGraphic(new ImageView(player2Image));
+        player2Button.setToggleGroup(group);
+        playerOptions.getChildren().addAll(selectionPrompt, player1Button, player2Button);
+        playerOptions.setAlignment(position);
         return playerOptions;
     }
 
-    private HBox boardOptions() {
-        // TODO: add defaults permissible values for boards from JSON
-        return null;
+    private HBox createBoardOptions(Pos position) {
+        // TODO: add listener for defaults permissible values for boards from JSON
+        HBox boardOptions = new HBox(SPACING);
+        Text loadDimensionsLabel = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("BoardSizeText"));
+        ObservableList<String> dimensionList = FXCollections.observableList(new ArrayList<>());
+        ComboBox<String> boardDropdown = new ComboBox(dimensionList);
+        boardDropdown.setId("boardDropdown");
+        boardOptions.getChildren().addAll(loadDimensionsLabel, boardDropdown);
+        boardOptions.setAlignment(position);
+        return boardOptions;
     }
 
-    private Button creatStartButton() {
-        return null;
+    private Button creatStartButton(Pos position) {
+        Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
+//        String userPlayerID =
+//        start.setOnAction(e -> {
+//            String playerUserID =
+//                }
+//            if(fileField.getText() != null && !fileField.getText().trim().isEmpty()){
+//                new GameSetupOptions(myStage, fileField.getText());
+//            }else if(!savedFileOptions.getSelectionModel().isEmpty()){
+//                new GameSetupOptions(myStage, savedFileOptions.getValue());
+//            }}
+//        );
+        start.getStyleClass().add("gameButton");
+        return start;
     }
 
 }
