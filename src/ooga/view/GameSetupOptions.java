@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -37,7 +36,6 @@ public class GameSetupOptions {
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameSetupOptions.json";
     public static final String PIECE_ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/pieces/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
-    public static final String DEFAULT_GAME_RESOURCES = "data/resources";
     public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject gameFileData;
@@ -130,22 +128,21 @@ public class GameSetupOptions {
     private HBox createPlayerOptions(Pos position) {
         HBox playerOptions = new HBox(SPACING);
         Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
-        int iconSize = WIDTH/15;
-        Image player1Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player1").getString("Image"), iconSize, iconSize, true, true);
-        Image player2Image = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject("Player2").getString("Image"), iconSize, iconSize, true, true);
         ToggleGroup group = new ToggleGroup();
-//        player1Button.setId("Player1");
-        RadioButton player1Button = new RadioButton("Player1");
-        player1Button.setGraphic(new ImageView(player1Image));
-        player1Button.setToggleGroup(group);
-        player1Button.setSelected(true);
-        player1Button.requestFocus();
-        RadioButton player2Button = new RadioButton("Player2");
-        player2Button.setGraphic(new ImageView(player2Image));
-        player2Button.setToggleGroup(group);
+        RadioButton player1Button = getPlayerRadioButton(group,"Player1");
+        RadioButton player2Button = getPlayerRadioButton(group,"Player2");
         playerOptions.getChildren().addAll(selectionPrompt, player1Button, player2Button);
         playerOptions.setAlignment(position);
         return playerOptions;
+    }
+
+    private RadioButton getPlayerRadioButton(ToggleGroup group, String player1) {
+        int iconSize = WIDTH/15;
+        Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player1).getString("Image"), iconSize, iconSize, true, true);
+        RadioButton playerButton = new RadioButton(player1);
+        playerButton.setGraphic(new ImageView(playerImage));
+        playerButton.setToggleGroup(group);
+        return playerButton;
     }
 
     private HBox createBoardOptions(Pos position) {
