@@ -1,5 +1,8 @@
 {
   "Gametype": "TicTacToe",
+
+  "Neighborhood": [],
+
   "Board": {
     "Height": 100,
     "Width": 100,
