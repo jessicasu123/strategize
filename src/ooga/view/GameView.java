@@ -16,14 +16,20 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ooga.model.data.FileHandler;
+import ooga.model.data.JSONFileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class creates the GUI for the game screen once a game is selected
@@ -46,9 +52,16 @@ public class GameView {
     public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "icons/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final double BUTTON_FONT_FACTOR = 0.125;
+    private Color Black = Color.BLACK;
+    private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
+    private BorderPane group;
+    private Map<String, String> properties;
+    private List<List<Integer>> config;
 
+    FileHandler FH = new JSONFileReader();
+    StartView sv = new StartView(myStage);
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -83,26 +96,80 @@ public class GameView {
         return startScene;
     }
 
+    private void makeGrid(int numCells){
+        pane = new GridPane();
+        pane.setHgap(20);
+        pane.setVgap(20);
+        double cellWidth;
+        double cellHeight;
+        cellHeight = pane.getWidth() / numCells;
+        cellWidth = cellHeight;
+        createCells(numCells, numCells, cellWidth, cellHeight);
+        group.getChildren().add(pane);
+    }
+
+    private void createCells(int numCellsHeight, int numCellsWidth, double cellWidth, double cellHeight) {
+        for (int x = 0; x < numCellsWidth; x++) {
+            for (int y = 0; y < numCellsHeight; y++) {
+                Rectangle rect = new Rectangle();
+                //set color of squares
+                rect.setFill(Black);
+                rect.setWidth(cellWidth);
+                rect.setHeight(cellHeight);
+                int finalX = x;
+                int finalY = y;
+                pane.add(rect, x, y);
+            }
+        }
+    }
 
     private HBox createNavigationBar(int width, int height){
         HBox container = new HBox();
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
-//        Button menu = createButton(buttonTexts, "Menu", e -> myStage.setScene(new startView()));
-//        Button restart = createButton(buttonTexts, "Restart", e -> myStage.setScene(new startGame()));
-//        Button save = createButton(buttonTexts, "Save", e -> new SaveView());
-//        container.getChildren().addAll(menu, restart, save);
+        Button menu = createButton(buttonTexts, "Menu", e -> {
+            try {
+                myStage.setScene(new StartView());
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        Button restart = createButton(buttonTexts, "Restart", e -> {
+            try {
+                myStage.setScene(new StartView());
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        };
+        Button save = createButton(buttonTexts, "Save", e -> FH.saveToFile("file",properties,config));
+        container.getChildren().addAll(menu, restart, save);
         return container;
-
     }
 
-    private Button createButton(JSONObject buttonTexts, String key, EventHandler<ActionEvent> handler) {
+    private Button createMakeMoveButton(){
+        JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
+        Button makemove = createButton(buttonTexts,"ButtonText", e-> MakeMove());
+        return makemove;
+    }
+
+    private HBox createStatusBar(){
+        HBox container = new HBox();
+        JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
+        
+        return container;
+    }
+
+    private Button createButton(JSONObject buttonTexts, String key,EventHandler<ActionEvent> handler) {
         Button button = new Button(buttonTexts.getString(key));
         button.setId(button.getText());
         button.getStyleClass().add("gameButton");
-        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
+//        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         // TODO: uncomment once actions for restart, save have been set up
 //        button.setOnAction(handler);
         return button;
+    }
+
+    private void MakeMove(){
+
     }
 
 }
