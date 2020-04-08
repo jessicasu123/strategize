@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import ooga.model.engine.Neighborhood.Neighborhood;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -130,7 +132,7 @@ public class JSONFileReader implements FileHandler {
     public String getNeighborhood(){
         return gameProperties.get("Neighborhood");
     }
-    
+
     /**
      * @return - a 2-D arraylist of integers representing the game configuration
      */
@@ -200,6 +202,12 @@ public class JSONFileReader implements FileHandler {
         player2_1.put("Color", properties.get("Color"));
         player2_1.put("Image", properties.get("Image"));
         player2.put("Player2", player2_1);
+
+        fileArray.add(GameType);
+        fileArray.add(neighborhood);
+        fileArray.add(board);
+        fileArray.add(player1);
+        fileArray.add(player2);
 
         try (FileWriter file = new FileWriter(fileName)) {
 
