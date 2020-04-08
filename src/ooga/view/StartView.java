@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -101,13 +102,21 @@ public class StartView {
 
         Button submit = new Button(startScreenData.getJSONObject("Text").getJSONObject("ButtonText").getString("Submit"));
         //TODO: uncomment once GameView class is created
-//        submit.setOnAction(e -> {
-//            if(fileField.getText() != null && !fileField.getText().trim().isEmpty()){
-//                new GameSetupOptions(myStage, fileField.getText());
-//            }else if(!savedFileOptions.getSelectionModel().isEmpty()){
-//                new GameSetupOptions(myStage, savedFileOptions.getValue());
-//            }}
-//        );
+        submit.setOnAction(e -> {
+            try {
+                if (fileField.getText() != null && !fileField.getText().trim().isEmpty()) {
+                    new GameSetupOptions(myStage, fileField.getText());
+                } else if (!savedFileOptions.getSelectionModel().isEmpty()) {
+                    new GameSetupOptions(myStage, savedFileOptions.getValue());
+                }
+            } catch (FileNotFoundException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Could not find selected file!");
+                alert.setContentText("Please enter or select another JSON file.");
+                alert.showAndWait();
+            }
+        });
         submit.getStyleClass().add("gameButton");
         submit.setId(submit.getText());
         fileSelections.getChildren().add(submit);
@@ -208,12 +217,15 @@ public class StartView {
         gameButton.getStyleClass().add("gameButton");
         gameButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
         gameButton.setId(gameButton.getText());
-        //TODO: uncomment once GameView class is created
         gameButton.setOnAction(e -> {
             try {
                 new GameSetupOptions(myStage, game.getString("DefaultFile"));
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Could not find default file for selected game!");
+                alert.setContentText("Please select another game or enter JSON file name below.");
+                alert.showAndWait();
             }
         });
         return gameButton;

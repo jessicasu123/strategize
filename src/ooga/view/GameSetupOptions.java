@@ -1,5 +1,7 @@
 package ooga.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,11 +15,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -39,19 +44,21 @@ public class GameSetupOptions {
     public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject gameFileData;
+    private String gameFileName;
     private JSONObject setupData;
-    private int userPlayerID;
-    private int agentPlayerID;
+    private String userPlayerID;
+    private String opponent;
 
 
     /**
      * Creates the GameSetupOptions object based on JSON instructions
      * Uses game file instructions to set up options for players and board dimensions
      * @param displayStage - the stage that the screen will be displayed on
-     * @param gameFileName - the game file for the game the user has chosen
+     * @param fileName - the game file for the game the user has chosen
      * @throws FileNotFoundException - if the JSON file can't be found
      */
-    public GameSetupOptions(Stage displayStage, String gameFileName) throws FileNotFoundException {
+    public GameSetupOptions(Stage displayStage, String fileName) throws FileNotFoundException {
+        gameFileName = fileName;
         myStage = displayStage;
         FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
         JSONTokener token = new JSONTokener(br);
@@ -111,6 +118,13 @@ public class GameSetupOptions {
     private HBox createOpponentOptions() {
         Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectOpponent"));
         ToggleGroup group = new ToggleGroup();
+        group.selectedToggleProperty().addListener((ob, o, n) -> {
+            RadioButton rb = (RadioButton)group.getSelectedToggle();
+            if (rb != null) {
+                opponent = rb.getText();
+                System.out.println(opponent);
+            }
+        });
         RadioButton vsComputer = new RadioButton(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("VsComputer"));
         vsComputer.setToggleGroup(group);
         vsComputer.setSelected(true);
@@ -120,8 +134,6 @@ public class GameSetupOptions {
 
         HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
         opponentOptions.setAlignment(Pos.CENTER);
-        // TODO once play vs. player mode is added: Add a radio button listener to provide this information to Controller
-
         return opponentOptions;
     }
 
@@ -129,14 +141,23 @@ public class GameSetupOptions {
         HBox playerOptions = new HBox(SPACING);
         Text selectionPrompt = new Text(setupData.getJSONObject("Text").getJSONObject("LabelText").getString("SelectPlayer"));
         ToggleGroup group = new ToggleGroup();
-        RadioButton player1Button = getPlayerRadioButton(group,"Player1");
-        RadioButton player2Button = getPlayerRadioButton(group,"Player2");
+        group.selectedToggleProperty().addListener((ob, o, n) -> {
+            RadioButton rb = (RadioButton)group.getSelectedToggle();
+            if (rb != null) {
+                userPlayerID = rb.getText();
+                System.out.println(userPlayerID);
+            }
+        });
+        RadioButton player1Button = createPlayerRadioButton(group,"Player1");
+        player1Button.setSelected(true);
+        RadioButton player2Button = createPlayerRadioButton(group,"Player2");
         playerOptions.getChildren().addAll(selectionPrompt, player1Button, player2Button);
         playerOptions.setAlignment(position);
         return playerOptions;
     }
 
-    private RadioButton getPlayerRadioButton(ToggleGroup group, String player1) {
+
+    private RadioButton createPlayerRadioButton(ToggleGroup group, String player1) {
         int iconSize = WIDTH/15;
         Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player1).getString("Image"), iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player1);
@@ -159,16 +180,16 @@ public class GameSetupOptions {
 
     private Button creatStartButton(Pos position) {
         Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
-//        String userPlayerID =
-//        start.setOnAction(e -> {
-//            String playerUserID =
-//                }
-//            if(fileField.getText() != null && !fileField.getText().trim().isEmpty()){
-//                new GameSetupOptions(myStage, fileField.getText());
-//            }else if(!savedFileOptions.getSelectionModel().isEmpty()){
-//                new GameSetupOptions(myStage, savedFileOptions.getValue());
-//            }}
-//        );
+        start.setOnAction(e -> {
+                    try {
+                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
+//                        new GameView(myStage, c);
+                    } catch (IOException | ParseException ex) {
+                        ex.printStackTrace();
+                        // TODO:
+                    }
+                }
+        );
         start.getStyleClass().add("gameButton");
         return start;
     }
