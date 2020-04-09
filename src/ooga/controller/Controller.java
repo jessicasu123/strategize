@@ -32,24 +32,10 @@ public class Controller implements ControllerFramework {
         myFileHandler = new JSONFileReader(fileName);
         isPieceSelected = false;
         setPlayerID(userID);
-        String gameType = "Tic-Tac-Toe"; //getStartingProperties().get("GameType");
+        String gameType = getStartingProperties().get("Gametype");
         // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
         List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
-        myGame = new Game(gameType, createTestConfig(), neighborhoods, myUserPlayerID, myAgentPlayerID);
-    }
-
-    //TODO: remove once JSON handling works
-    public List<List<Integer>> createTestConfig() {
-        Integer[][] startingConfig = {
-                {0,0,0},
-                {0,0,0},
-                {0,0,0}
-        };
-        List<List<Integer>> config = new ArrayList<>();
-        for (int i = 0; i < 3;i++) {
-            config.add(Arrays.asList(startingConfig[i]));
-        }
-        return config;
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);
     }
 
     private void setPlayerID(String userID) {

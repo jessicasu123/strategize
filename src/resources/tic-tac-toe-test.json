@@ -1,0 +1,24 @@
+{
+  "Gametype": "TicTacToe",
+
+  "Neighborhood": "",
+
+  "Board": {
+    "Height": "100",
+    "Width": "100",
+    "InitialConfig": "1,2,1;0,1,1;2,0,2"
+  },
+
+  "Player1": {
+    "State" : "1",
+    "Color": "Black",
+    "Image": "X.png"
+  },
+
+  "Player2": {
+    "State": "2",
+    "Color": "Black",
+    "Image": "O.png"
+  }
+
+}
