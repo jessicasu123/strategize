@@ -35,7 +35,7 @@ class ControllerTest {
     @Test
     void testGetStartingProperties() throws IOException, ParseException {
         Map<String, String> gameProperties = testController.getStartingProperties();
-        assertEquals("TicTacToe", gameProperties.get("Gametype"));
+        assertEquals("Tic-Tac-Toe", gameProperties.get("Gametype"));
         assertEquals("", gameProperties.get("Neighborhood"));
         assertEquals("1", gameProperties.get("State1"));
         assertEquals("2", gameProperties.get("State2"));
