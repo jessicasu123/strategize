@@ -1,14 +1,11 @@
 package ooga.view;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -17,17 +14,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.data.FileHandler;
-import ooga.model.data.JSONFileReader;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,10 +62,10 @@ public class GameView {
 
     /**
      * Creates the GameView object and finds the JSON datafile
-     * @param displayStage - the stage that the screen will be displayed on
+     * @param displayStage - the stage that the screen will be displayed of
      * @throws FileNotFoundException - if the JSON file can't be found
      */
-    public GameView(Stage displayStage, Controller c) throws FileNotFoundException {
+    public GameView(Stage displayStage) throws FileNotFoundException {
         myStage = displayStage;         // TODO: this probably shouldn't be accessible here
         FileReader br = new FileReader(DATAFILE);
         JSONTokener token = new JSONTokener(br);

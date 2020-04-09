@@ -4,19 +4,19 @@
   "Neighborhood": "",
 
   "Board": {
-    "Height": 100,
-    "Width": 100,
+    "Height": "100",
+    "Width": "100",
     "InitialConfig": "0,0,0;0,0,0;0,0,0"
   },
 
   "Player1": {
-    "State" : 1,
+    "State" : "1",
     "Color": "Black",
     "Image": "X.png"
   },
 
   "Player2": {
-    "State": 2,
+    "State": "2",
     "Color": "Black",
     "Image": "O.png"
   }

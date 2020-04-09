@@ -181,7 +181,7 @@ public class GameSetupOptions {
         start.setOnAction(e -> {
                     try {
                         Controller c = new Controller(gameFileName, userPlayerID, opponent);
-                        new GameView(myStage, c);
+                        new GameView(myStage);
                     } catch (IOException | ParseException ex) {
                         try {
                             throw new FileNotFoundException("File entered does not exist.");

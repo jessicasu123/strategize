@@ -4,16 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import ooga.model.engine.Neighborhood.Neighborhood;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONTokener;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 
 
 /**
@@ -29,22 +26,24 @@ public class JSONFileReader implements FileHandler {
     private JSONObject JO = new JSONObject();
     private Object obj;
     private List<List<Integer>> configuration;
-    private JSONArray ja;
     private Iterator it;
     private Iterator<Map.Entry> itrl;
     private int counter = 0;
     private String configAsString;
-    private JSONArray fileArray;
     private JSONObject GameType;
     private JSONObject neighborhood;
-    private  JSONObject board2;
-    private  JSONObject board;
+    private JSONObject board2;
+    private JSONObject board;
     private JSONObject player1_1;
-    private  JSONObject player2_1;
-    private  JSONObject player1;
+    private JSONObject player2_1;
+    private JSONObject player1;
     private JSONObject player2;
+    public static final String DEFAULT_RESOURCES = "src/resources/";
+    public static final String DATAFILE = DEFAULT_RESOURCES+ "tic-tac-toe.json";
+    private org.json.JSONObject gameData;
 
-    public JSONFileReader(String file){
+
+    public JSONFileReader(String file) throws FileNotFoundException {
         fileNameGame = file;
         gameProperties = new HashMap<>();
     }
@@ -54,55 +53,48 @@ public class JSONFileReader implements FileHandler {
      * @param config - the String configuration from the JSON File
      */
     private void parseJSONConfiguration(String config){
+        configuration = new ArrayList<List<Integer>>();
+        List<Integer> row = new ArrayList<Integer>();
         for(int i = 0;i<config.length();i++){
-            if(config.substring(i,i+1).equals(";")){
-                counter++;
+            if(!config.substring(i,i+1).equals(",") && !config.substring(i,i+1).equals(";")){
+                row.add(Integer.parseInt(config.substring(i,i+1)));
+                System.out.println(row);
+
             }
-            else if(!config.substring(i,i+1).equals(",")){
-                configuration.get(counter).add(Integer.parseInt(config.substring(i,i+1)));
+            if(config.substring(i,i+1).equals(";") || i == config.length()-1){
+                configuration.add(row);
+                row = new ArrayList<Integer>();
+                System.out.println();
             }
         }
     }
 
     /**
      * creates a JSONArray and iterator from the JSON File
-     * @param filename - the file name of the JSON File
-     * @param object - the particular object of the JSON File
      */
-    private void createJSONArray(String filename, String object) throws IOException, ParseException {
-        obj = new JSONParser().parse(new FileReader(filename));
-        JO = (JSONObject) obj;
-        ja = (JSONArray) JO.get(object);
-        it = ja.iterator();
+    private void createJSONArray() throws IOException {
+        FileReader br = new FileReader(DATAFILE);
+        JSONTokener token = new JSONTokener(br);
+        gameData = new org.json.JSONObject(token);
     }
 
     /**
      * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
-     * @param object - the particular object of the JSON File
      */
-    //debug
-    private void getGameProperty(String object) throws IOException, ParseException {
-        createJSONArray(fileNameGame, object);
-            itrl = ((Map) it.next()).entrySet().iterator();
-            while (itrl.hasNext()) {
-                Map.Entry pair = itrl.next();
-                gameProperties.put((String) pair.getKey(), (String) pair.getValue());
-            }
-    }
+    private void getGamePropertyNested() throws IOException {
+        gameProperties.put("State1",gameData.getJSONObject("Player1").getString("State"));
+        gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
+        gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
 
-    /**
-     * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
-     * @param object - the particular object of the JSON File
-     */
-    private void getGamePropertyNested(String object) throws IOException, ParseException {
-        createJSONArray(fileNameGame, object);
-        while(it.hasNext()){
-            itrl = ((Map) it.next()).entrySet().iterator();
-            while(itrl.hasNext()){
-                Map.Entry pair = itrl.next();
-                gameProperties.put((String) pair.getKey(), (String) pair.getValue());
-            }
-        }
+
+        gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
+        gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
+        gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
+
+        gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
+        gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
+
+
     }
 
     /**
@@ -124,36 +116,26 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return gametype in string form
      */
-    public String getGameType(){
-        return gameProperties.get("GameType");
+    public String getGameType() throws IOException {
+        return loadFileProperties().get("Gametype");
     }
 
     /**
      * @return neighborhood in string form
      */
-    public String getNeighborhood(){
-        return gameProperties.get("Neighborhood");
+    public String getNeighborhood() throws IOException {
+        return loadFileProperties().get("Neighborhood");
     }
 
     /**
      * @return - a 2-D arraylist of integers representing the game configuration
      */
     @Override
-    public List<List<Integer>> loadFileConfiguration() throws IOException, ParseException {
-        createJSONArray(fileNameGame, "Board");
-        while(it.hasNext()){
-            itrl = ((Map) it.next()).entrySet().iterator();
-            while(itrl.hasNext()){
-                Map.Entry pair = itrl.next();
-                if(pair.getKey().equals("InitialConfig")) {
-                    parseJSONConfiguration((String) pair.getValue());
-                    break;
-                }
-                else if(pair.getKey().equals("Height") || pair.getKey().equals("Width")){
-                    gameProperties.put((String) pair.getKey(), (String) pair.getValue());
-                }
-            }
-        }
+    public List<List<Integer>> loadFileConfiguration() throws IOException {
+        createJSONArray();
+        JSONObject config = gameData.getJSONObject("Board");
+        System.out.println(config.getString("InitialConfig"));
+        parseJSONConfiguration(config.getString("InitialConfig"));
         return configuration;
     }
 
@@ -161,11 +143,11 @@ public class JSONFileReader implements FileHandler {
      * @return - a Hashmap that maps Game properties names
      */
     @Override
-    public Map<String, String> loadFileProperties() throws IOException, ParseException {
-        getGameProperty("GameType");
-        getGameProperty("Neighborhood");
-        getGamePropertyNested("Player1");
-        getGamePropertyNested("Player2");
+    public Map<String, String> loadFileProperties() throws IOException {
+        createJSONArray();
+        gameProperties.put("Gametype", gameData.getString("Gametype"));
+        gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        getGamePropertyNested();
         return gameProperties;
     }
 
@@ -176,7 +158,7 @@ public class JSONFileReader implements FileHandler {
      */
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
-        fileArray = new JSONArray();
+//      fileArray = new JSONArray();
         GameType = new JSONObject();
         neighborhood = new JSONObject();
         board2 = new JSONObject();
@@ -205,15 +187,15 @@ public class JSONFileReader implements FileHandler {
         player2_1.put("Image", properties.get("Image"));
         player2.put("Player2", player2_1);
 
-        fileArray.add(GameType);
-        fileArray.add(neighborhood);
-        fileArray.add(board);
-        fileArray.add(player1);
-        fileArray.add(player2);
+//        fileArray.add(GameType);
+//        fileArray.add(neighborhood);
+//        fileArray.add(board);
+//        fileArray.add(player1);
+//        fileArray.add(player2);
 
         try (FileWriter file = new FileWriter(fileName)) {
 
-            file.write(fileArray.toJSONString());
+//            file.write(fileArray.toJSONString());
             file.flush();
 
         } catch (IOException e) {
