@@ -19,7 +19,8 @@
       "SelectPlayer": "Select Your Player:",
       "Player1": "Player1",
       "Player2": "Player2",
-      "BoardSizeText": "Select board/game dimensions:"
+      "BoardSizeText": "Select board/game dimensions:",
+      "BoardDropdown": "Make selection"
     },
     "ButtonText": {
       "Start": "Start"

@@ -6,11 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import ooga.model.engine.Neighborhood.Neighborhood;
 import org.json.JSONTokener;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
 
 
 /**
@@ -41,7 +38,8 @@ public class JSONFileReader implements FileHandler {
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "tic-tac-toe.json";
     private org.json.JSONObject gameData;
-
+private String neighbString;
+List<String> neighborhoodlist;
 
     public JSONFileReader(String file) throws FileNotFoundException {
         fileNameGame = file;
@@ -68,6 +66,7 @@ public class JSONFileReader implements FileHandler {
             }
         }
     }
+
 
     /**
      * creates a JSONArray and iterator from the JSON File
@@ -116,15 +115,36 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return gametype in string form
      */
+
     public String getGameType() throws IOException {
         return loadFileProperties().get("Gametype");
+
     }
 
     /**
      * @return neighborhood in string form
      */
-    public String getNeighborhood() throws IOException {
-        return loadFileProperties().get("Neighborhood");
+
+    public List<String> getNeighborhood() throws IOException {
+
+        createJSONArray();
+        neighborhoodlist = new ArrayList<String>();
+        neighbString = gameData.getString("Neighborhood");
+        int start = 0;
+        for(int i = 0;i<neighbString.length();i++){
+            if(neighbString.substring(i,i+1).equals(",")){
+                start = i+1;
+                neighborhoodlist.add(neighbString.substring(start,i));
+            }
+        }
+        return neighborhoodlist;
+    }
+
+    //TODO: fix
+    @Override
+    public String getPlayerImage(int playerID) {
+        return null;
+
     }
 
     /**

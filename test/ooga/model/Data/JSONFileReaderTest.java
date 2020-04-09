@@ -26,7 +26,8 @@ class JSONFileReaderTest {
 
     @org.junit.jupiter.api.Test
     void getNeighborhood() throws IOException {
-        assertEquals("",fr.getNeighborhood());
+        List<String> neighb = new ArrayList<String>();
+        assertEquals(neighb,fr.getNeighborhood());
     }
 
     @org.junit.jupiter.api.Test

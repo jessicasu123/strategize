@@ -33,4 +33,9 @@ public interface FileHandler {
      * @param configurationInfo  - the board configuration to save to the file
      */
     void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
+
+    public String getGameType() throws IOException;
+    public List<String> getNeighborhood() throws IOException;
+    public String getPlayerImage(int playerID);
+
 }

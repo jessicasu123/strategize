@@ -16,11 +16,11 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -116,6 +116,7 @@ public class GameSetupOptions {
      */
     private HBox createOpponentOptions(JSONObject labelText) {
         Text selectionPrompt = new Text(labelText.getString("SelectOpponent"));
+        selectionPrompt.setId("SelectOpponentText");
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ob, o, n) -> {
             RadioButton rb = (RadioButton)group.getSelectedToggle();
@@ -123,21 +124,25 @@ public class GameSetupOptions {
                 opponent = rb.getText();
             }
         });
-        RadioButton vsComputer = new RadioButton(labelText.getString("VsComputer"));
-        vsComputer.setToggleGroup(group);
+        RadioButton vsComputer = getOpponentButton(labelText, group, "VsComputer");
+        RadioButton vsPlayer = getOpponentButton(labelText, group, "VsPlayer");
         vsComputer.setSelected(true);
-
-        RadioButton vsPlayer = new RadioButton(labelText.getString("VsPlayer"));
-        vsPlayer.setToggleGroup(group);
-
         HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
         opponentOptions.setAlignment(Pos.CENTER);
         return opponentOptions;
     }
 
+    private RadioButton getOpponentButton(JSONObject labelText, ToggleGroup group, String vs) {
+        RadioButton vsSelection = new RadioButton(labelText.getString(vs));
+        vsSelection.setToggleGroup(group);
+        vsSelection.setId(vs);
+        return vsSelection;
+    }
+
     private HBox createPlayerOptions(Pos position, JSONObject labelText) {
         HBox playerOptions = new HBox(SPACING);
         Text selectionPrompt = new Text(labelText.getString("SelectPlayer"));
+        selectionPrompt.setId("SelectPlayerText");
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ob, o, n) -> {
             RadioButton rb = (RadioButton)group.getSelectedToggle();
@@ -146,8 +151,8 @@ public class GameSetupOptions {
             }
         });
         RadioButton player1Button = createPlayerRadioButton(group,"Player1");
-        player1Button.setSelected(true);
         RadioButton player2Button = createPlayerRadioButton(group,"Player2");
+        player1Button.setSelected(true);
         playerOptions.getChildren().addAll(selectionPrompt, player1Button, player2Button);
         playerOptions.setAlignment(position);
         return playerOptions;
@@ -160,6 +165,7 @@ public class GameSetupOptions {
         RadioButton playerButton = new RadioButton(player);
         playerButton.setGraphic(new ImageView(playerImage));
         playerButton.setToggleGroup(group);
+        playerButton.setId(player);
         return playerButton;
     }
 
@@ -167,8 +173,10 @@ public class GameSetupOptions {
         // TODO for future feature: add defaults permissible values for board dimensions from JSON
         HBox boardOptions = new HBox(SPACING);
         Text loadDimensionsLabel = new Text(labelText.getString("BoardSizeText"));
+        loadDimensionsLabel.setId("SelectBoardText");
         ObservableList<String> dimensionList = FXCollections.observableList(new ArrayList<>());
         ComboBox<String> boardDropdown = new ComboBox(dimensionList);
+        boardDropdown.setPromptText(labelText.getString("BoardDropdown"));
         boardDropdown.setId("boardDropdown");
         boardOptions.getChildren().addAll(loadDimensionsLabel, boardDropdown);
         boardOptions.setAlignment(position);
@@ -181,17 +189,16 @@ public class GameSetupOptions {
         start.setOnAction(e -> {
                     try {
                         Controller c = new Controller(gameFileName, userPlayerID, opponent);
-                        new GameView(myStage);
-                    } catch (IOException | ParseException ex) {
-                        try {
-                            throw new FileNotFoundException("File entered does not exist.");
-                        } catch (FileNotFoundException exc) {
-                            exc.printStackTrace();
-                        }
+
+                        new GameView(myStage, c);
+                    } catch (IOException | org.json.simple.parser.ParseException ex) {
+                        //TODO: figure out what to do with this exception
+                        System.out.println(ex.getMessage());
                     }
                 }
         );
         start.getStyleClass().add("gameButton");
+        start.setId("Start");
         return start;
     }
 
