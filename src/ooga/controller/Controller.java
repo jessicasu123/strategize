@@ -28,10 +28,9 @@ public class Controller implements ControllerFramework {
 
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException {
-//        myFileHandler = new JSONFileReader(fileName);
-//        String gameType = getStartingProperties.get("gameType");
-        String gameType = "";
+        myFileHandler = new JSONFileReader(fileName);
         setPlayerID(userID);
+        String gameType = getStartingProperties().get("GameType");
         // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
         List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);

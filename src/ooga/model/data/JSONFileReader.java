@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import org.json.simple.parser.ParseException;
 
 public class JSONFileReader implements FileHandler {
 
-    private String fileNameGame = "tic-tac-toe.json";
+    private String fileNameGame;// = "tic-tac-toe.json";
     public static Map<String, String> gameProperties;
     private JSONObject JO = new JSONObject();
     private Object obj;
@@ -43,8 +44,9 @@ public class JSONFileReader implements FileHandler {
     private  JSONObject player1;
     private JSONObject player2;
 
-    public JSONFileReader(){
-
+    public JSONFileReader(String file){
+        fileNameGame = file;
+        gameProperties = new HashMap<>();
     }
 
     /**
