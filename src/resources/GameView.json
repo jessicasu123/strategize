@@ -5,9 +5,9 @@
       "LogoutButton": "logout.png"
     },
     "ButtonIcons": {
-      "HelpIcon": "helpicon.png",
-      "MessageIcon": "messageicon.png",
-      "SettingIcon": "settingicon.png"
+      "help": "help.png",
+      "chat": "chat.png",
+      "settings": "settings.png"
     }
   },
   "StatusBar": {
