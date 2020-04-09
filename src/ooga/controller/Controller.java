@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +30,26 @@ public class Controller implements ControllerFramework {
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException {
         myFileHandler = new JSONFileReader(fileName);
+        isPieceSelected = false;
         setPlayerID(userID);
-        String gameType = getStartingProperties().get("GameType");
+        String gameType = "Tic-Tac-Toe"; //getStartingProperties().get("GameType");
         // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
         List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);
+        myGame = new Game(gameType, createTestConfig(), neighborhoods, myUserPlayerID, myAgentPlayerID);
+    }
+
+    //TODO: remove once JSON handling works
+    public List<List<Integer>> createTestConfig() {
+        Integer[][] startingConfig = {
+                {0,0,0},
+                {0,0,0},
+                {0,0,0}
+        };
+        List<List<Integer>> config = new ArrayList<>();
+        for (int i = 0; i < 3;i++) {
+            config.add(Arrays.asList(startingConfig[i]));
+        }
+        return config;
     }
 
     private void setPlayerID(String userID) {

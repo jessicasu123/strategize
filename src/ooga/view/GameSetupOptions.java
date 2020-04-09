@@ -13,11 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -183,15 +186,16 @@ public class GameSetupOptions {
     private Button creatStartButton() {
         Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
 //        TODO: @Brian uncomment once GameView is up
-//        start.setOnAction(e -> {
-//                    try {
-//                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
-////                        new GameView(myStage, c);
-//                    } catch (IOException | ParseException ex) {
-//                        throw new FileNotFoundException("File entered does not exist.");
-//                    }
-//                }
-//        );
+        start.setOnAction(e -> {
+                    try {
+                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
+                        new GameView(myStage, c);
+                    } catch (IOException | org.json.simple.parser.ParseException ex) {
+                        //TODO: figure out what to do with this exception
+                        System.out.println(ex.getMessage());
+                    }
+                }
+        );
         start.getStyleClass().add("gameButton");
         start.setId("Start");
         return start;

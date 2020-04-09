@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import ooga.model.engine.Neighborhood.Neighborhood;
 import org.json.simple.JSONArray;
@@ -63,6 +60,7 @@ public class JSONFileReader implements FileHandler {
             }
         }
     }
+
 
     /**
      * creates a JSONArray and iterator from the JSON File
@@ -124,6 +122,7 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return gametype in string form
      */
+    //TODO: fix
     public String getGameType(){
         return gameProperties.get("GameType");
     }
@@ -131,8 +130,16 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return neighborhood in string form
      */
-    public String getNeighborhood(){
-        return gameProperties.get("Neighborhood");
+    //TODO: fix
+    public List<String> getNeighborhood(){
+        return new ArrayList<>();
+        //return gameProperties.get("Neighborhood");
+    }
+
+    //TODO: fix
+    @Override
+    public String getPlayerImage(int playerID) {
+        return null;
     }
 
     /**
