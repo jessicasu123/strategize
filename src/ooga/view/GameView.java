@@ -19,6 +19,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.model.data.FileHandler;
 import ooga.model.data.JSONFileReader;
 import org.json.JSONArray;
@@ -73,7 +74,7 @@ public class GameView {
      * @param displayStage - the stage that the screen will be displayed on
      * @throws FileNotFoundException - if the JSON file can't be found
      */
-    public GameView(Stage displayStage) throws FileNotFoundException {
+    public GameView(Stage displayStage, Controller c) throws FileNotFoundException {
         myStage = displayStage;         // TODO: this probably shouldn't be accessible here
         FileReader br = new FileReader(DATAFILE);
         JSONTokener token = new JSONTokener(br);

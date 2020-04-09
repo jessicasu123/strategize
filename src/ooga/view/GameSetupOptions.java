@@ -178,15 +178,19 @@ public class GameSetupOptions {
     private Button creatStartButton() {
         Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
 //        TODO: @Brian uncomment once GameView is up
-//        start.setOnAction(e -> {
-//                    try {
-//                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
-////                        new GameView(myStage, c);
-//                    } catch (IOException | ParseException ex) {
-//                        throw new FileNotFoundException("File entered does not exist.");
-//                    }
-//                }
-//        );
+        start.setOnAction(e -> {
+                    try {
+                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
+                        new GameView(myStage, c);
+                    } catch (IOException | ParseException ex) {
+                        try {
+                            throw new FileNotFoundException("File entered does not exist.");
+                        } catch (FileNotFoundException exc) {
+                            exc.printStackTrace();
+                        }
+                    }
+                }
+        );
         start.getStyleClass().add("gameButton");
         return start;
     }
