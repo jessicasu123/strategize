@@ -34,8 +34,8 @@ public interface FileHandler {
      */
     void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
 
-    public String getGameType();
-    public List<String> getNeighborhood();
+    public String getGameType() throws IOException;
+    public List<String> getNeighborhood() throws IOException;
     public String getPlayerImage(int playerID);
 
 }

@@ -189,6 +189,7 @@ public class GameSetupOptions {
         start.setOnAction(e -> {
                     try {
                         Controller c = new Controller(gameFileName, userPlayerID, opponent);
+
                         new GameView(myStage, c);
                     } catch (IOException | org.json.simple.parser.ParseException ex) {
                         //TODO: figure out what to do with this exception
