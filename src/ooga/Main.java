@@ -23,8 +23,9 @@ public class Main extends Application {
     public void start(Stage stage){
 
         try {
-            GameView startScreen = new GameView(stage);
-            startScreen.displayToStage(600,700);
+//            GameView startScreen = new GameView(stage);
+            StartView startScreen = new StartView(stage);
+            startScreen.displayToStage(500,500);
         } catch (FileNotFoundException e) {
             System.out.println("Internal error, data file not found");
         }
