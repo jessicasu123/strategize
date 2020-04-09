@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -53,15 +54,12 @@ public class GameView {
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
     public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "navicons/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
-    public static final double BUTTON_FONT_FACTOR = 0.125;
     public static final Color Black = Color.BLACK;
     public static final int DIMENSION = 3; //TODO: read from JSON file
     public static final int gamepiecewidth = 115;
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
-    private Map<String, String> properties;
-    private List<List<Integer>> config;
     private BorderPane root;
     public static final int MINWIDTH = 100;
     private double cellWidth;
@@ -72,7 +70,11 @@ public class GameView {
 
     private int lastSquareSelectedX;
     private int lastSquareSelectedY;
+    private int lastPieceSelectedX;
+    private int lastPieceSelectedY;
+    boolean didSelectPiece;
     List<List<Shape>> allBoardCells;
+    List<List<Integer>> myGameStates;
 
     //TODO: get userID and agentID from controller
 
@@ -89,6 +91,8 @@ public class GameView {
         gameScreenData = new JSONObject(token);
         myController = c;
         allBoardCells = new ArrayList<>();
+        myGameStates = myController.getGameVisualInfo();
+        didSelectPiece = false;//TODO: i added this boolean var, otherwise didSelectPiece automatically sends 0,0 to the controller even if no piece is chosen
         displayToStage();
     }
 
@@ -152,14 +156,9 @@ public class GameView {
             List<Shape> boardRow = new ArrayList<>();
             for (int y = 0; y < dimension; y++) {
                 Rectangle rect = new Rectangle();
-                rect.setFill(Color.WHITE);
-                rect.setStroke(Black);
                 rect.setWidth(cellWidth);
                 rect.setHeight(cellHeight);
-                int finalX = x;
-                int finalY = y;
-                Image Ximage = new Image("/resources/images/pieces/X.png");
-                rect.setOnMouseClicked(e -> processUserClickOnSquare(rect, Ximage,finalX,finalY));
+                updateCellAppearance(rect,x,y);
                 boardRow.add(rect);
                 pane.add(rect, y, x);
             }
@@ -170,15 +169,14 @@ public class GameView {
 
     private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
         //TODO: only allow user to click one square, somehow do validation
+        System.out.println("SQUARE SELECTED");
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
         updateImageOnSquare(rect, img, finalX, finalY);
-
     }
 
     private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
         rect.setFill(new ImagePattern(img,finalX,finalY,gamepiecewidth,gamepiecewidth,false));
-
     }
 
     /**
@@ -268,8 +266,6 @@ public class GameView {
         button.setId(button.getText());
         button.getStyleClass().add("gameButton");
         button.setMinWidth(MINWIDTH);
-//        button.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
-        // TODO: uncomment once actions for restart, save have been set up
         button.setOnAction(handler);
         return button;
     }
@@ -304,22 +300,57 @@ public class GameView {
     }
 
     private void updateBoardAppearance() {
-        //TODO: update to be reading from data file
-        List<List<Integer>> gameStates = myController.getGameVisualInfo();
+        //TODO: update to be reading DIMENSION from data file
+        myGameStates = myController.getGameVisualInfo();
         for (int r = 0; r < DIMENSION; r++) {
             for (int c = 0; c < DIMENSION; c++) {
                 Shape currSquare = allBoardCells.get(r).get(c);
-                if (gameStates.get(r).get(c)==2) { //TODO: read from data file
-                    Image OImage = new Image("/resources/images/pieces/O.png");
-                    updateImageOnSquare(currSquare, OImage, r,c);
-                }
+                updateCellAppearance(currSquare, r, c);
             }
         }
     }
 
+    private void updateCellAppearance(Shape currSquare, int r, int c) {
+        if (myGameStates.get(r).get(c)==1) {
+            Image player1Image = new Image("/resources/images/pieces/X.png"); //TODO: change to player 1 image
+            updatePlayerCell(player1Image, currSquare, r, c);
+        }
+        else if (myGameStates.get(r).get(c)==2) {
+            Image player2Image = new Image("/resources/images/pieces/O.png"); //TODO: change to player 2 image
+            updatePlayerCell(player2Image, currSquare, r, c);
+        } else {
+            updateEmptyCell(currSquare, r,c);
+        }
+    }
+
+    private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
+        updateImageOnSquare(currSquare, playerImage, r,c);
+        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c));
+    }
+
+    private void updateEmptyCell(Shape currSquare, int r, int c) {
+        currSquare.setFill(Color.WHITE);
+        currSquare.setStroke(Black);
+        Image Ximage = new Image("/resources/images/pieces/X.png"); //TODO: change to user player image
+        EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare, Ximage,r,c); };
+        currSquare.setOnMouseClicked(e -> processUserClickOnSquare(currSquare, Ximage,r,c));
+        currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
+    }
+
+    private void handlePieceSelected(int r, int c) {
+        System.out.println("PIECE SELECTED");
+        didSelectPiece = true;
+        lastPieceSelectedX = r;
+        lastPieceSelectedY = c;
+    }
+
     private void makeMove(){
         myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
-        myController.playMove(); //TODO: read from controller
+        if (didSelectPiece) { //TODO: if user accidentally selects a piece, this will send over information still
+            myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
+            didSelectPiece = false; //reset - do I need this?
+        }
+        myController.playMove();
         myController.haveAgentMove();
         updateBoardAppearance();
     }
