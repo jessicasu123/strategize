@@ -33,9 +33,7 @@ public class Controller implements ControllerFramework {
         isPieceSelected = false;
         setPlayerID(userID);
         String gameType = getStartingProperties().get("Gametype");
-        // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
-        List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
     }
 
     private void setPlayerID(String userID) {
