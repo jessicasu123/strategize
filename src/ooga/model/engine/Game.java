@@ -15,7 +15,7 @@ public class Game implements GameFramework{
     private int myAgentPlayerID;
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
-    //should find a way to shorten parameter
+    //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
     public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID)  {
         myBoard = new Board(gameType, startingConfiguration, neighborhoods);
         myUserPlayerID = userID;

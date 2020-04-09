@@ -12,14 +12,14 @@
   },
   "Text": {
     "LabelText": {
-      "Title": "Select Game Options",
-      "VsComputer": "Play vs. Computer",
-      "VsPlayer": "Play vs. Player",
-      "SelectPlayer": "Select Your Player",
+      "Title": "Select Game Preferences",
+      "SelectOpponent": "Select Opponent:",
+      "VsComputer": "vs. Computer",
+      "VsPlayer": "vs. Player",
+      "SelectPlayer": "Select Your Player:",
       "Player1": "Player1",
       "Player2": "Player2",
-      "BoardSizeText": "Enter custom board dimensions",
-      "BoardSizeFieldText": "Number of columns"
+      "BoardSizeText": "Select board/game dimensions:"
     },
     "ButtonText": {
       "Start": "Start"

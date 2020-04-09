@@ -55,8 +55,7 @@ public class GameView {
     public static final double BUTTON_FONT_FACTOR = 0.125;
     public static final Color Black = Color.BLACK;
     public static final int DIMENSION = 3;
-
-    private Image Ximage = new Image("/resources/icons/X.png");
+    public static final int gamepiecewidth = 115;
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
@@ -92,6 +91,12 @@ public class GameView {
         myStage.show();
     }
 
+    /**
+     * creates the display by adding to root borderpane
+     * @param width - the width of the screen to display
+     * @param height - the height of the screen to display
+     * @return startScene
+     */
     private Scene makeGameDisplay(int width, int height){
 
         root = new BorderPane();
@@ -108,12 +113,17 @@ public class GameView {
 
     }
 
+    /**
+     * creates the grid given a specific board dimension
+     * @param dimension - Board dimension
+     * @return Gridpane of board
+     */
     private GridPane makeGrid(int dimension){
         pane = new GridPane();
         pane.setPadding(new Insets(PanePadding,PanePadding,PanePadding,PanePadding));
-        pane.setHgap(PanePadding);
-        pane.setVgap(PanePadding);
-        pane.setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY, Insets.EMPTY)));
+        pane.setHgap(1);
+        pane.setVgap(1);
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
         cellHeight = PaneHeight / dimension;
         cellWidth = cellHeight;
         createCells(dimension, cellWidth, cellHeight);
@@ -121,22 +131,33 @@ public class GameView {
         return pane;
     }
 
+    /**
+     * creates the square cells and adds to Gridpane
+     * @param dimension - Board dimension
+     * @param cellHeight - height of cell
+     * @param cellWidth - width of cell
+     */
     private void createCells(int dimension, double cellWidth, double cellHeight) {
         for (int x = 0; x < dimension; x++) {
             for (int y = 0; y < dimension; y++) {
                 Rectangle rect = new Rectangle();
                 rect.setFill(Color.WHITE);
+                rect.setStroke(Black);
                 rect.setWidth(cellWidth);
                 rect.setHeight(cellHeight);
                 int finalX = x;
                 int finalY = y;
-                rect.setOnMouseClicked(e -> rect.setFill(new ImagePattern(new Image("/resources/images/pieces/X.png"))));
+                Image Ximage = new Image("/resources/images/pieces/X.png");
+                rect.setOnMouseClicked(e -> rect.setFill(new ImagePattern(Ximage,finalX,finalY,gamepiecewidth,gamepiecewidth,false)));
                 pane.add(rect, x, y);
             }
         }
     }
 
-
+    /**
+     * creates a navigation bar of buttons and board
+     * @return VBox object containing 4 buttons and board
+     */
     private VBox createNavigationBar(){
         VBox GridContainer = new VBox(PADDING);
         HBox navcontainer = new HBox(SPACING);
@@ -163,6 +184,9 @@ public class GameView {
         return GridContainer;
     }
 
+    /**
+     * @return HBox object containing top buttons
+     */
     private HBox createTopButtons(){
         HBox topButtons = new HBox(SPACING+80);
         topButtons.setAlignment(Pos.TOP_CENTER);
@@ -174,6 +198,9 @@ public class GameView {
         return topButtons;
     }
 
+    /**
+     * @return HBox object containing status bar
+     */
     private HBox createStatusBar(){
         HBox container = new HBox(SPACING-20);
         container.setAlignment(Pos.TOP_CENTER);
@@ -194,13 +221,21 @@ public class GameView {
         return container;
     }
 
+    /**
+     * @return VBox object containing top buttons and status bar
+     */
     private VBox createViewTop(){
         VBox ViewTop = new VBox(SPACING);
         ViewTop.getChildren().addAll(createTopButtons(), createStatusBar());
         return ViewTop;
     }
 
-
+    /**
+     * @param buttonTexts - JSON object containing button text mappings
+     * @param key - key object to get button text value
+     * @param handler - action handler
+     * @return Button with desired properties
+     */
     private Button createButton(JSONObject buttonTexts, String key,EventHandler<ActionEvent> handler) {
         Button button = new Button(buttonTexts.getString(key));
         button.setId(button.getText());
@@ -212,6 +247,11 @@ public class GameView {
         return button;
     }
 
+    /**
+     * @param game - JSON object containing icons
+     * @param key - key object to get icon value
+     * @return Button with desired properties
+     */
     private Button setUpGameIconButton(JSONObject game, String key) {
         Image img = new Image(ICON_RESOURCES + game.getString(key));
         ImageView gameIcon = new ImageView(img);
@@ -223,6 +263,11 @@ public class GameView {
         return button;
     }
 
+
+    /**
+     * @param key - key object to get icon value
+     * @return Button with desired properties
+     */
     private ImageView setUpGameIcon(String key) {
         Image img = new Image(ICON_RESOURCES + (key));
         ImageView gameIcon = new ImageView(img);

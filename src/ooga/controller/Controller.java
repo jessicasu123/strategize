@@ -26,18 +26,27 @@ public class Controller implements ControllerFramework {
     private int myAgentPlayerID;
 
 
-    public Controller(String fileName, int userID, int agentID) throws IOException, ParseException {
+
+    public Controller(String fileName, String userID, String opponent) throws IOException, ParseException {
 //        myFileHandler = new JSONFileReader(fileName);
 //        String gameType = getStartingProperties.get("gameType");
         String gameType = "";
-        // TODO: add in logic to set player id
-        myUserPlayerID = userID;
-        myAgentPlayerID = agentID;
+        setPlayerID(userID);
         // TODO: change neighborhoods to be result of call to fileHandler. Neighborhood type should be specified in JSON file for each game.
         List<String> neighborhoods = new ArrayList<>(); //eventually change to call to fileHandler
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), neighborhoods, myUserPlayerID, myAgentPlayerID);
     }
 
+    private void setPlayerID(String userID) {
+        if (userID.equals("Player1")) {
+            myUserPlayerID = 1;
+            myAgentPlayerID = 2;
+        }
+        else {
+            myUserPlayerID = 2;
+            myAgentPlayerID = 1;
+        }
+    }
 
     @Override
     public void saveANewFile(String fileName, Map<String, String> properties) {
