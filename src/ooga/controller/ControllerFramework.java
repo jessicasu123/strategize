@@ -56,13 +56,13 @@ public interface ControllerFramework {
      *  and act upon
      *  - if no piece is selected will repeat the square selected information
      */
-    void playMove(int userID) throws InvalidMoveException;
+    void playMove() throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
      *  - tells the backend to do the logic for having an agent play its turn
      */
-    void haveAgentMove(int agentID) throws InvalidMoveException;
+    void haveAgentMove() throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
@@ -83,7 +83,7 @@ public interface ControllerFramework {
      *  - lets the view know if the game is over based on the logic from the backend
      * @boolean if the game is over
      */
-    boolean gameOver();
+    boolean isGameOver();
 
     /**
      * METHOD PURPOSE:

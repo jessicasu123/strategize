@@ -70,10 +70,8 @@ public class Controller implements ControllerFramework {
         squareSelectedY = y;
     }
 
-    //TODO: from Jessica - I removed the playerID from Game.makeUserMove because the Game already has instance var for the userID
-    //not sure if you want to also remove the userID parameter?
     @Override
-    public void playMove(int userID) throws InvalidMoveException {
+    public void playMove() throws InvalidMoveException {
         if (!isPieceSelected) {
             pieceSelected(squareSelectedX, squareSelectedY);
         }
@@ -82,10 +80,8 @@ public class Controller implements ControllerFramework {
     }
 
 
-    //TODO: from Jessica - I removed the agentID from Game.makeAgentMove because the Game already has instance var for the agentID
-    //not sure if you want to also remove the agentID parameter?
     @Override
-    public void haveAgentMove(int agentID) throws InvalidMoveException {
+    public void haveAgentMove() throws InvalidMoveException {
         myGame.makeAgentMove();
     }
 
@@ -101,7 +97,7 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public boolean gameOver() {
+    public boolean isGameOver() {
         return myGame.getEndGameStatus() > 0;
     }
 
