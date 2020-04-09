@@ -25,11 +25,9 @@ public class TicTacToeGamePiece implements GamePiece {
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        //for (GamePiece n : neighbors ) {
-            if (this.getState() == 0) { // TODO: check how we're representing empty state pieces
-                possibleMoves.add(this.getPosition());
-            }
-        //}
+        if (this.getState() == 0) {
+            possibleMoves.add(this.getPosition());
+        }
         return possibleMoves;
     }
 
