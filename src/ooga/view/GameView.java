@@ -67,7 +67,6 @@ public class GameView {
     private double cellWidth;
     private double cellHeight;
 
-    FileHandler FH = new JSONFileReader();
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -171,7 +170,7 @@ public class GameView {
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
         Button menu = createButton(buttonTexts, "Menu", e -> {});
         Button restart = createButton(buttonTexts, "Restart", e -> {});
-        Button save = createButton(buttonTexts, "Save", e -> FH.saveToFile("file",properties,config));
+        Button save = createButton(buttonTexts, "Save", e -> {});//FH.saveToFile("file",properties,config));
         JSONObject buttonTexts2 = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
         Button makemove = createButton(buttonTexts2,"ButtonText", e-> MakeMove());
         makemove.setMinWidth(400);
