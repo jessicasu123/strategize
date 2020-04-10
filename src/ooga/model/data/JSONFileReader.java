@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ public class JSONFileReader implements FileHandler {
 
     private String fileNameGame;// = "tic-tac-toe.json";
     public static Map<String, String> gameProperties;
+    private JSONArray fileArray;
     private JSONObject JO = new JSONObject();
     private Object obj;
     private List<List<Integer>> configuration;
@@ -140,12 +142,11 @@ List<String> neighborhoodlist;
         return neighborhoodlist;
     }
 
-    //TODO: fix
     @Override
     public String getPlayerImage(int playerID) {
         return null;
-
     }
+
 
     /**
      * @return - a 2-D arraylist of integers representing the game configuration
@@ -178,7 +179,7 @@ List<String> neighborhoodlist;
      */
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
-//      fileArray = new JSONArray();
+        fileArray = new JSONArray();
         GameType = new JSONObject();
         neighborhood = new JSONObject();
         board2 = new JSONObject();
@@ -207,15 +208,15 @@ List<String> neighborhoodlist;
         player2_1.put("Image", properties.get("Image"));
         player2.put("Player2", player2_1);
 
-//        fileArray.add(GameType);
-//        fileArray.add(neighborhood);
-//        fileArray.add(board);
-//        fileArray.add(player1);
-//        fileArray.add(player2);
+        fileArray.put(GameType);
+        fileArray.put(neighborhood);
+        fileArray.put(board);
+        fileArray.put(player1);
+        fileArray.put(player2);
 
-        try (FileWriter file = new FileWriter(fileName)) {
+        try (FileWriter file = new FileWriter("src/resources")) {
 
-//            file.write(fileArray.toJSONString());
+            file.write(fileArray.toString());
             file.flush();
 
         } catch (IOException e) {
