@@ -21,7 +21,7 @@ class JSONFileReaderTest {
 
     @org.junit.jupiter.api.Test
     void getGameType() throws IOException {
-        assertEquals("TicTacToe",fr.getGameType());
+        assertEquals("Tic-Tac-Toe",fr.getGameType());
     }
 
     @org.junit.jupiter.api.Test
@@ -49,8 +49,13 @@ class JSONFileReaderTest {
         map.put("State1","1");
         map.put("State2","2");
         map.put("Image2","O.png");
-        map.put("Gametype","TicTacToe");
+        map.put("Gametype","Tic-Tac-Toe");
         map.put("Image1","X.png");
+        map.put("Height","3");
+        map.put("Color2","Black");
+        map.put("Color1","Black");
+        map.put("Width","3");
+        map.put("Neighborhood","");
         assertEquals(map, fr.loadFileProperties());
     }
 

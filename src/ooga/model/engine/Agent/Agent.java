@@ -76,7 +76,6 @@ public abstract class Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return a boolean for if the game is over has been won
      */
-    //TODO: figure out where to handle responsibility of when board has no moves
     public boolean isGameWon(List<List<Integer>> boardStateInfo){
         return isWin(myMaxPlayer, boardStateInfo) || isWin(myMinPlayer, boardStateInfo);
     }

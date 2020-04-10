@@ -57,6 +57,7 @@ public class GameView {
     public static final Color Black = Color.BLACK;
     public static final int DIMENSION = 3; //TODO: read from JSON file
     public static final int gamepiecewidth = 115;
+    public static final int CELL_SPACING = 1;
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
@@ -73,6 +74,7 @@ public class GameView {
     private int lastPieceSelectedX;
     private int lastPieceSelectedY;
     boolean didSelectPiece;
+    private boolean hasSelectedSquare;
     List<List<Shape>> allBoardCells;
     List<List<Integer>> myGameStates;
 
@@ -135,8 +137,8 @@ public class GameView {
     private GridPane makeGrid(int dimension){
         pane = new GridPane();
         pane.setPadding(new Insets(PanePadding,PanePadding,PanePadding,PanePadding));
-        pane.setHgap(1);
-        pane.setVgap(1);
+        pane.setHgap(CELL_SPACING);
+        pane.setVgap(CELL_SPACING);
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
         cellHeight = PaneHeight / dimension;
         cellWidth = cellHeight;
@@ -165,18 +167,6 @@ public class GameView {
             allBoardCells.add(boardRow);
         }
 
-    }
-
-    private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        //TODO: only allow user to click one square, somehow do validation
-        System.out.println("SQUARE SELECTED");
-        lastSquareSelectedX = finalX;
-        lastSquareSelectedY = finalY;
-        updateImageOnSquare(rect, img, finalX, finalY);
-    }
-
-    private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        rect.setFill(new ImagePattern(img,finalX,finalY,gamepiecewidth,gamepiecewidth,false));
     }
 
     /**
@@ -299,6 +289,21 @@ public class GameView {
         return gameIcon;
     }
 
+    private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
+        if(hasSelectedSquare){
+            allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.WHITE);
+        }
+        hasSelectedSquare = true;
+        lastSquareSelectedX = finalX;
+        lastSquareSelectedY = finalY;
+        updateImageOnSquare(rect, img, finalX, finalY);
+
+    }
+
+    private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
+        rect.setFill(new ImagePattern(img,finalX,finalY,gamepiecewidth,gamepiecewidth,false));
+    }
+
     private void updateBoardAppearance() {
         //TODO: update to be reading DIMENSION from data file
         myGameStates = myController.getGameVisualInfo();
@@ -311,7 +316,7 @@ public class GameView {
     }
 
     private void updateCellAppearance(Shape currSquare, int r, int c) {
-        if (myGameStates.get(r).get(c)==1) {
+        if (myGameStates.get(r).get(c) == 1) {
             Image player1Image = new Image("/resources/images/pieces/X.png"); //TODO: change to player 1 image
             updatePlayerCell(player1Image, currSquare, r, c);
         }
@@ -338,21 +343,21 @@ public class GameView {
     }
 
     private void handlePieceSelected(int r, int c) {
-        System.out.println("PIECE SELECTED");
-        didSelectPiece = true;
-        lastPieceSelectedX = r;
-        lastPieceSelectedY = c;
+        //didSelectPiece = true;
+        //lastPieceSelectedX = r;
+        //lastPieceSelectedY = c;
     }
 
     private void makeMove(){
-        myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
-        if (didSelectPiece) { //TODO: if user accidentally selects a piece, this will send over information still
+        if (didSelectPiece) {   //TODO: if user accidentally selects a piece, this will send over information still
             myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
-            didSelectPiece = false; //reset - do I need this?
         }
+        myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
         myController.playMove();
         myController.haveAgentMove();
         updateBoardAppearance();
+        hasSelectedSquare = false;
+        didSelectPiece = false;
     }
 
 }

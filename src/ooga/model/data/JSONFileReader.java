@@ -53,17 +53,16 @@ List<String> neighborhoodlist;
      * @param config - the String configuration from the JSON File
      */
     private void parseJSONConfiguration(String config){
-        configuration = new ArrayList<List<Integer>>();
-        List<Integer> row = new ArrayList<Integer>();
+        configuration = new ArrayList<>();
+        List<Integer> row = new ArrayList<>();
         for(int i = 0;i<config.length();i++){
             if(!config.substring(i,i+1).equals(",") && !config.substring(i,i+1).equals(";")){
                 row.add(Integer.parseInt(config.substring(i,i+1)));
-                System.out.println(row);
 
             }
             if(config.substring(i,i+1).equals(";") || i == config.length()-1){
                 configuration.add(row);
-                row = new ArrayList<Integer>();
+                row = new ArrayList<>();
                 System.out.println();
             }
         }
@@ -130,7 +129,7 @@ List<String> neighborhoodlist;
     public List<String> getNeighborhood() throws IOException {
 
         createJSONArray();
-        neighborhoodlist = new ArrayList<String>();
+        neighborhoodlist = new ArrayList<>();
         neighbString = gameData.getString("Neighborhood");
         int start = 0;
         for(int i = 0;i<neighbString.length();i++){
@@ -155,7 +154,6 @@ List<String> neighborhoodlist;
     public List<List<Integer>> loadFileConfiguration() throws IOException {
         createJSONArray();
         JSONObject config = gameData.getJSONObject("Board");
-        System.out.println(config.getString("InitialConfig"));
         parseJSONConfiguration(config.getString("InitialConfig"));
         return configuration;
     }

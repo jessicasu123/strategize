@@ -2,7 +2,7 @@ package ooga.model.engine.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
-//TODO: is there a way to have one factory for agent and game piece?
+
 /**
  * This an AI agent for the Tic-Tac-Toe game
  * It uses the rules about winning the game (getting a certain number of pieces in a row) to determine if the game
@@ -31,7 +31,6 @@ public class TicTacToeAgent extends Agent {
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
     @Override
-    //TODO: would it be cleaner if allOpen calculate the difference between max and min?
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
         if(isWin(this.getMaxPlayer(), boardStateInfo)){
             return boardStateInfo.size() * boardStateInfo.get(0).size();
@@ -57,7 +56,7 @@ public class TicTacToeAgent extends Agent {
         }
         return numOpenMax - numOpenMin;
     }
-    //if not either player ID is empty
+    //TODO: know empty state
     private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
         for(int state: check){
@@ -83,7 +82,7 @@ public class TicTacToeAgent extends Agent {
         }
         return allCols;
     }
-    //TODO: currently assuming square board, so there will only be 2 diagonals
+
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
         List<Integer> leftDiag = new ArrayList<>();
         List<Integer> rightDiag = new ArrayList<>();
@@ -101,7 +100,6 @@ public class TicTacToeAgent extends Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return if that player has won or not
      */
-    //TODO: see if need to check only one player has won
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
         List<List<Integer>> rows = getRows(boardStateInfo);
         List<List<Integer>> cols = getCols(boardStateInfo);
