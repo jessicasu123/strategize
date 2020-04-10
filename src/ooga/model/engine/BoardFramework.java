@@ -47,4 +47,6 @@ public interface BoardFramework {
      * @return a copy of the board
      */
     BoardFramework copyBoard();
+
+    boolean checkNoMovesLeft(int userID, int agentID);
 }

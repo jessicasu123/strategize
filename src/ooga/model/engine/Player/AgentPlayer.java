@@ -76,50 +76,50 @@ public class AgentPlayer implements Player{
     }
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())){
+        int myAlpha = alpha;
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo()) || boardCopy.checkNoMovesLeft(myOpponent,myID)){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMaxVal = Integer.MIN_VALUE;
+
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myID).entrySet()){
             for(Coordinate moveTo: moves.getValue()){
-                BoardFramework testMoveBoard = testMoveOnBoard(boardCopy, moves.getKey(), moveTo, myID);
-                int curr = getMinPlayerMove(testMoveBoard, depth, alpha, beta);
+                BoardFramework testMoveBoard = boardCopy.copyBoard();
+                testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
+                int curr = getMinPlayerMove(testMoveBoard, depth, myAlpha, beta);
+                currMaxVal = Math.max(currMaxVal, curr);
                 if(depth == 0){
                     moveMappings.put(curr, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
                 }
-                currMaxVal = Math.max(currMaxVal, curr);
                 if(currMaxVal > beta){
                     return currMaxVal;
                 }
-                alpha = Math.max(currMaxVal, alpha);
+                myAlpha = Math.max(currMaxVal, myAlpha);
 
             }
         }
         return currMaxVal;
     }
 
-    private BoardFramework testMoveOnBoard(BoardFramework boardCopy, Coordinate moveStart, Coordinate moveTo, int id) {
-        BoardFramework testMoveBoard = boardCopy.copyBoard();
-        testMoveBoard.makeMove(id, moveStart, moveTo);
-        return testMoveBoard;
-    }
-
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())){
+        int myBeta = beta;
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())|| boardCopy.checkNoMovesLeft(myOpponent,myID)){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
         }
         int currMinVal = Integer.MAX_VALUE;
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponent).entrySet()) {
             for (Coordinate moveTo : moves.getValue()) {
-                BoardFramework testMoveBoard = testMoveOnBoard(boardCopy, moves.getKey(), moveTo, myOpponent);
-                int curr = getMaxPlayerMove(testMoveBoard, depth + 1, alpha, beta);
+                BoardFramework testMoveBoard = boardCopy.copyBoard();
+                testMoveBoard.makeMove(myOpponent, moves.getKey(), moveTo);
+                int curr = getMaxPlayerMove(testMoveBoard, depth + 1, alpha, myBeta);
                 currMinVal = Math.min(currMinVal, curr);
                 if(currMinVal < alpha){
                     return currMinVal;
                 }
-                beta = Math.min(currMinVal, beta);
+                myBeta = Math.min(currMinVal, myBeta);
             }
         }
+
         return currMinVal;
     }
 

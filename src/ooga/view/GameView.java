@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -61,16 +62,14 @@ public class GameView {
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
-    private BorderPane root;
-    private double cellWidth;
-    private double cellHeight;
     private Controller myController;
     private int lastSquareSelectedX;
     private int lastSquareSelectedY;
     private int lastPieceSelectedX;
     private int lastPieceSelectedY;
-    boolean didSelectPiece;
+    private boolean didSelectPiece;
     private boolean hasSelectedSquare;
+    private boolean gameInProgress;
     List<List<Shape>> allBoardCells;
     List<List<Integer>> myGameStates;
     private int boardRows;
@@ -94,6 +93,7 @@ public class GameView {
         myController = c;
         allBoardCells = new ArrayList<>();
         myGameStates = myController.getGameVisualInfo();
+        gameInProgress = true;
         didSelectPiece = false;//TODO: i added this boolean var, otherwise didSelectPiece automatically sends 0,0 to the controller even if no piece is chosen
         getGameDisplayInfo();
         displayToStage();
@@ -115,7 +115,7 @@ public class GameView {
      * @return startScene
      */
     private Scene makeGameDisplay(int width, int height){
-        root = new BorderPane();
+        BorderPane root = new BorderPane();
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
         root.setTop(createViewTop());
         root.setBottom(createNavigationBar());
@@ -150,8 +150,8 @@ public class GameView {
         pane.setHgap(CELL_SPACING);
         pane.setVgap(CELL_SPACING);
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
-        cellHeight = PaneHeight / boardRows;
-        cellWidth = cellHeight; //TODO: change to pane width / boardCols
+        double cellHeight = PaneHeight / boardRows;
+        double cellWidth = cellHeight; //TODO: change to pane width / boardCols
         createCells(cellWidth, cellHeight);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
@@ -197,7 +197,7 @@ public class GameView {
         Button restart = createButton(buttonTexts, "Restart", e -> {});
         Button save = createButton(buttonTexts, "Save", e -> {});//FH.saveToFile("file",properties,config));
         JSONObject buttonTexts2 = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
-        Button makemove = createButton(buttonTexts2,"ButtonText", e-> makeMove());
+        Button makemove = createButton(buttonTexts2,"ButtonText", e -> makeMove());
         makemove.setMinWidth(400);
 
         navcontainer.getChildren().addAll(menu, restart, save);
@@ -358,15 +358,43 @@ public class GameView {
     }
 
     private void makeMove(){
-        if (didSelectPiece) {   //TODO: if user accidentally selects a piece, this will send over information still
-            myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
+        if(gameInProgress) {
+            if (didSelectPiece) {   //TODO: if user accidentally selects a piece, this will send over information still
+                myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
+            }
+            myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
+            myController.playMove();
+            checkGameOver();
+            if(gameInProgress){
+                myController.haveAgentMove();
+            }
+            updateBoardAppearance();
+            checkGameOver();
+            hasSelectedSquare = false;
+            didSelectPiece = false;
         }
-        myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
-        myController.playMove();
-        myController.haveAgentMove();
-        updateBoardAppearance();
-        hasSelectedSquare = false;
-        didSelectPiece = false;
+    }
+
+    private void checkGameOver() {
+        if (myController.isGameOver()) {
+            gameInProgress = false;
+            endGame(myController.gameWinner());
+        }
+    }
+
+    private void endGame(int winner){
+        String endMessage;
+        if(winner == myController.getUserNumber()){
+            endMessage = "You Won!";
+        }else if(winner == 2){
+            endMessage = "You Lost:(";
+        }else{
+            endMessage = "It was a tie";
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setContentText(endMessage);
+        alert.showAndWait();
     }
 
 }
