@@ -17,12 +17,12 @@
   },
   "Buttons": {
     "NavigationButtons": {
-      "Menu": "Back to Menu",
-      "Restart": "Restart",
-      "Save": "Save"
+      "Back to Menu": "backToMenu",
+      "Restart": "restart",
+      "Save": "save"
     },
     "MakeMoveButton": {
-      "ButtonText": "MAKE MOVE",
+      "MAKE MOVE": "makeMove",
     }
   }
 

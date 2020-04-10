@@ -1,21 +1,15 @@
 package ooga.view;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
@@ -26,8 +20,11 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class creates the GUI for the game screen once a game is selected
@@ -42,24 +39,19 @@ import java.util.List;
  */
 
 public class GameView {
-    public static final int PADDING = 20;
-    public static final int PanePadding = 2;
-    public static final int PaneHeight = 350;
-    public static final int SPACING = 50;
+
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
-    public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "navicons/";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final Color Black = Color.BLACK;
-    public static final int gamepiecewidth = 115;
-    public static final int CELL_SPACING = 1;
-    public static final int MINWIDTH = 100;
+    public static final int PANE_HEIGHT = 350;
+    public static final int SPACING = 40;
+    public static final int GAME_PIECE_WIDTH = 115;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
-    private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
     private Controller myController;
@@ -79,6 +71,9 @@ public class GameView {
     private String userImage;
     private String agentImage;
 
+    private GridView grid;
+    private NavigationPanel navPanel;
+    private StatusPanel statusPanel;
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -87,16 +82,26 @@ public class GameView {
      */
     public GameView(Stage displayStage, Controller c) throws FileNotFoundException {
         myStage = displayStage;
-        FileReader br = new FileReader(DATAFILE);
-        JSONTokener token = new JSONTokener(br);
-        gameScreenData = new JSONObject(token);
+        initializeJSONReader();
         myController = c;
-        allBoardCells = new ArrayList<>();
         myGameStates = myController.getGameVisualInfo();
         gameInProgress = true;
         didSelectPiece = false;//TODO: i added this boolean var, otherwise didSelectPiece automatically sends 0,0 to the controller even if no piece is chosen
         getGameDisplayInfo();
+        initializeSubPanels();
         displayToStage();
+    }
+
+    private void initializeJSONReader() throws FileNotFoundException {
+        FileReader br = new FileReader(DATAFILE);
+        JSONTokener token = new JSONTokener(br);
+        gameScreenData = new JSONObject(token);
+    }
+
+    private void initializeSubPanels() {
+        statusPanel = new StatusPanel(gameScreenData);
+        grid = new RectangleGridView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
+        navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 
     /**
@@ -117,8 +122,16 @@ public class GameView {
     private Scene makeGameDisplay(int width, int height){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
-        root.setTop(createViewTop());
-        root.setBottom(createNavigationBar());
+
+        root.setTop(statusPanel.createStatusPanel(userImage,agentImage));
+
+        root.setCenter(grid.getGridContainer());
+        allBoardCells = grid.getBoardCells();
+        updateBoardAppearance();
+
+        root.setBottom(navPanel.createNavigationBar());
+        addActionsToButtons();
+
         Scene startScene = new Scene(root, width, height);
         startScene.getStylesheets().add(STYLESHEET);
         root.getStyleClass().add("root");
@@ -130,8 +143,8 @@ public class GameView {
         userID = myController.getUserNumber();
         agentID = 3 - userID; //TODO: make getAgentNumber method in controller
         try {
-            boardRows = Integer.parseInt(myController.getStartingProperties().get("Width"));
-            boardCols = Integer.parseInt(myController.getStartingProperties().get("Height"));
+            boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
+            boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             userImage = myController.getStartingProperties().get("Image" + Integer.toString(userID));
             agentImage = myController.getStartingProperties().get("Image" + Integer.toString(agentID));
 
@@ -141,163 +154,32 @@ public class GameView {
     }
 
     /**
-     * creates the grid given a specific board dimension
-     * @return Gridpane of board
+     * Using reflection to add action handlers to the buttons created in NavigationPanel.
+     * The methods associated with these buttons are private methods in this class,
+     * and they are specified in the GameView.json file.
      */
-    private GridPane makeGrid(){
-        pane = new GridPane();
-        pane.setPadding(new Insets(PanePadding,PanePadding,PanePadding,PanePadding));
-        pane.setHgap(CELL_SPACING);
-        pane.setVgap(CELL_SPACING);
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
-        double cellHeight = PaneHeight / boardRows;
-        double cellWidth = cellHeight; //TODO: change to pane width / boardCols
-        createCells(cellWidth, cellHeight);
-        pane.setAlignment(Pos.TOP_CENTER);
-        return pane;
-    }
-
-    /**
-     * creates the square cells and adds to Gridpane
-     * @param cellHeight - height of cell
-     * @param cellWidth - width of cell
-     */
-    private void createCells(double cellWidth, double cellHeight) {
-        for (int x = 0; x < boardRows; x++) {
-            List<Shape> boardRow = new ArrayList<>();
-            for (int y = 0; y < boardCols; y++) {
-                Rectangle rect = new Rectangle();
-                rect.setWidth(cellWidth);
-                rect.setHeight(cellHeight);
-                rect.setId("cell" + x + y);
-                updateCellAppearance(rect,x,y);
-                boardRow.add(rect);
-                pane.add(rect, y, x);
-            }
-            allBoardCells.add(boardRow);
+    private void addActionsToButtons() {
+        Map<Button,String> buttonActionsMap = navPanel.getButtonActionsMap();
+        for (Button b: buttonActionsMap.keySet()) {
+            b.setOnAction(handler -> {
+                String methodName = buttonActionsMap.get(b);
+                try {
+                    Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
+                    buttonAction.invoke(GameView.this, new Object[0]);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
         }
-
     }
+    //TODO: go back to game set up options
+    private void restart() { System.out.println("RESTART");}
 
-    /**
-     * creates a navigation bar of buttons and board
-     * @return VBox object containing 4 buttons and board
-     */
-    private VBox createNavigationBar(){
-        VBox GridContainer = new VBox(PADDING);
-        HBox navcontainer = new HBox(SPACING);
-        HBox movecontainer = new HBox(SPACING);
-        HBox panecontainer = new HBox(SPACING);
+    //TODO: popup to save current config
+    private void save() { System.out.println("SAVE");}
 
-        navcontainer.setAlignment(Pos.CENTER);
-        movecontainer.setAlignment(Pos.CENTER);
-
-        JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
-        Button menu = createButton(buttonTexts, "Menu", e -> {});
-        Button restart = createButton(buttonTexts, "Restart", e -> {});
-        Button save = createButton(buttonTexts, "Save", e -> {});//FH.saveToFile("file",properties,config));
-        JSONObject buttonTexts2 = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
-        Button makemove = createButton(buttonTexts2,"ButtonText", e -> makeMove());
-        makemove.setMinWidth(400);
-
-        navcontainer.getChildren().addAll(menu, restart, save);
-        movecontainer.getChildren().add(makemove);
-        panecontainer.getChildren().add(makeGrid());
-        panecontainer.setAlignment(Pos.CENTER);
-
-        GridContainer.getChildren().addAll(panecontainer,movecontainer,navcontainer);
-        return GridContainer;
-    }
-
-    /**
-     * @return HBox object containing top buttons
-     */
-    private HBox createTopButtons(){
-        HBox topButtons = new HBox(SPACING+80);
-        topButtons.setAlignment(Pos.TOP_CENTER);
-        JSONObject buttonIcons = gameScreenData.getJSONObject("Icons").getJSONObject("ButtonIcons");
-        Button settings = setUpGameIconButton(buttonIcons,"settings");
-        Button chat = setUpGameIconButton(buttonIcons,"chat");
-        Button help = setUpGameIconButton(buttonIcons,"help");
-        topButtons.getChildren().addAll(help, chat, settings);
-        return topButtons;
-    }
-
-    /**
-     * @return HBox object containing status bar
-     */
-    private HBox createStatusBar(){
-        HBox container = new HBox(SPACING-20);
-        container.setAlignment(Pos.TOP_CENTER);
-        JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        ImageView player1icon = setUpGameIcon(userImage);
-        ImageView opponenticon = setUpGameIcon(agentImage);
-        TextField playerscore = new TextField();
-        playerscore.setMaxWidth(50);
-        playerscore.setMinHeight(30);
-        TextField opponentscore = new TextField();
-        opponentscore.setMaxWidth(50);
-        opponentscore.setMinHeight(30);
-        Label player = new Label(buttonTexts.getString("Player"));
-        player.setMinHeight(30);
-        Label opponent = new Label(buttonTexts.getString("Opponent"));
-        opponent.setMinHeight(30);
-        container.getChildren().addAll(player1icon,player,playerscore,opponenticon,opponent,opponentscore);
-        return container;
-    }
-
-    /**
-     * @return VBox object containing top buttons and status bar
-     */
-    private VBox createViewTop(){
-        VBox ViewTop = new VBox(SPACING);
-        ViewTop.getChildren().addAll(createTopButtons(), createStatusBar());
-        return ViewTop;
-    }
-
-    /**
-     * @param buttonTexts - JSON object containing button text mappings
-     * @param key - key object to get button text value
-     * @param handler - action handler
-     * @return Button with desired properties
-     */
-    private Button createButton(JSONObject buttonTexts, String key,EventHandler<ActionEvent> handler) {
-        Button button = new Button(buttonTexts.getString(key));
-        button.setId(button.getText().replaceAll("\\s", ""));
-        button.getStyleClass().add("gameButton");
-        button.setMinWidth(MINWIDTH);
-        button.setOnAction(handler);
-        return button;
-    }
-
-    /**
-     * @param game - JSON object containing icons
-     * @param key - key object to get icon value
-     * @return Button with desired properties
-     */
-    private Button setUpGameIconButton(JSONObject game, String key) {
-        Image img = new Image(ICON_RESOURCES + game.getString(key));
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(30);
-        gameIcon.setPreserveRatio(true);
-        Button button = new Button();
-        button.getStyleClass().add("gameButton");
-        button.setGraphic(gameIcon);
-        return button;
-    }
-
-
-    /**
-     * @param key - key object to get icon value
-     * @return Button with desired properties
-     */
-    private ImageView setUpGameIcon(String key) {
-        Image img = new Image(PIECES_RESOURCES + (key));
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(30);
-        gameIcon.setPreserveRatio(true);
-        return gameIcon;
-    }
+    //TODO: go back to menu
+    private void backToMenu() {System.out.println("BACK");}
 
     private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
         if(hasSelectedSquare){
@@ -307,11 +189,10 @@ public class GameView {
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
         updateImageOnSquare(rect, img, finalX, finalY);
-
     }
 
     private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        rect.setFill(new ImagePattern(img,finalX,finalY,gamepiecewidth,gamepiecewidth,false));
+        rect.setFill(new ImagePattern(img,finalX,finalY, GAME_PIECE_WIDTH, GAME_PIECE_WIDTH,false));
     }
 
     private void updateBoardAppearance() {
