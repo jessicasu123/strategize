@@ -18,19 +18,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import ooga.controller.Controller;
-import ooga.model.data.FileHandler;
-import ooga.model.data.JSONFileReader;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.json.simple.parser.ParseException;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class creates the GUI for the game screen once a game is selected
@@ -53,22 +49,22 @@ public class GameView {
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
     public static final String ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "navicons/";
+    public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final Color Black = Color.BLACK;
-    public static final int DIMENSION = 3; //TODO: read from JSON file
     public static final int gamepiecewidth = 115;
     public static final int CELL_SPACING = 1;
+    public static final int MINWIDTH = 100;
+    public static int WIDTH = 600;
+    public static int HEIGHT = 700;
+
     private GridPane pane;
     private Stage myStage;
     private JSONObject gameScreenData;
     private BorderPane root;
-    public static final int MINWIDTH = 100;
     private double cellWidth;
     private double cellHeight;
     private Controller myController;
-    public static int WIDTH = 600;
-    public static int HEIGHT = 700;
-
     private int lastSquareSelectedX;
     private int lastSquareSelectedY;
     private int lastPieceSelectedX;
@@ -77,8 +73,12 @@ public class GameView {
     private boolean hasSelectedSquare;
     List<List<Shape>> allBoardCells;
     List<List<Integer>> myGameStates;
-
-    //TODO: get userID and agentID from controller
+    private int boardRows;
+    private int boardCols;
+    private int userID;
+    private int agentID;
+    private String userImage;
+    private String agentImage;
 
 
     /**
@@ -95,6 +95,7 @@ public class GameView {
         allBoardCells = new ArrayList<>();
         myGameStates = myController.getGameVisualInfo();
         didSelectPiece = false;//TODO: i added this boolean var, otherwise didSelectPiece automatically sends 0,0 to the controller even if no piece is chosen
+        getGameDisplayInfo();
         displayToStage();
     }
 
@@ -114,49 +115,57 @@ public class GameView {
      * @return startScene
      */
     private Scene makeGameDisplay(int width, int height){
-
         root = new BorderPane();
-
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
         root.setTop(createViewTop());
         root.setBottom(createNavigationBar());
-
         Scene startScene = new Scene(root, width, height);
         startScene.getStylesheets().add(STYLESHEET);
         root.getStyleClass().add("root");
         root.setMaxWidth(width);
         return startScene;
+    }
 
+    private void getGameDisplayInfo() {
+        userID = myController.getUserNumber();
+        agentID = 3 - userID; //TODO: make getAgentNumber method in controller
+        try {
+            boardRows = Integer.parseInt(myController.getStartingProperties().get("Width"));
+            boardCols = Integer.parseInt(myController.getStartingProperties().get("Height"));
+            userImage = myController.getStartingProperties().get("Image" + Integer.toString(userID));
+            agentImage = myController.getStartingProperties().get("Image" + Integer.toString(agentID));
+
+        } catch (IOException | ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
      * creates the grid given a specific board dimension
-     * @param dimension - Board dimension
      * @return Gridpane of board
      */
-    private GridPane makeGrid(int dimension){
+    private GridPane makeGrid(){
         pane = new GridPane();
         pane.setPadding(new Insets(PanePadding,PanePadding,PanePadding,PanePadding));
         pane.setHgap(CELL_SPACING);
         pane.setVgap(CELL_SPACING);
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
-        cellHeight = PaneHeight / dimension;
-        cellWidth = cellHeight;
-        createCells(dimension, cellWidth, cellHeight);
+        cellHeight = PaneHeight / boardRows;
+        cellWidth = cellHeight; //TODO: change to pane width / boardCols
+        createCells(cellWidth, cellHeight);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
     }
 
     /**
      * creates the square cells and adds to Gridpane
-     * @param dimension - Board dimension
      * @param cellHeight - height of cell
      * @param cellWidth - width of cell
      */
-    private void createCells(int dimension, double cellWidth, double cellHeight) {
-        for (int x = 0; x < dimension; x++) {
+    private void createCells(double cellWidth, double cellHeight) {
+        for (int x = 0; x < boardRows; x++) {
             List<Shape> boardRow = new ArrayList<>();
-            for (int y = 0; y < dimension; y++) {
+            for (int y = 0; y < boardCols; y++) {
                 Rectangle rect = new Rectangle();
                 rect.setWidth(cellWidth);
                 rect.setHeight(cellHeight);
@@ -192,7 +201,7 @@ public class GameView {
 
         navcontainer.getChildren().addAll(menu, restart, save);
         movecontainer.getChildren().add(makemove);
-        panecontainer.getChildren().add(makeGrid(DIMENSION));
+        panecontainer.getChildren().add(makeGrid());
         panecontainer.setAlignment(Pos.CENTER);
 
         GridContainer.getChildren().addAll(panecontainer,movecontainer,navcontainer);
@@ -220,8 +229,8 @@ public class GameView {
         HBox container = new HBox(SPACING-20);
         container.setAlignment(Pos.TOP_CENTER);
         JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        ImageView player1icon = setUpGameIcon("X.png");
-        ImageView opponenticon = setUpGameIcon("O.png");
+        ImageView player1icon = setUpGameIcon(userImage);
+        ImageView opponenticon = setUpGameIcon(agentImage);
         TextField playerscore = new TextField();
         playerscore.setMaxWidth(50);
         playerscore.setMinHeight(30);
@@ -282,7 +291,7 @@ public class GameView {
      * @return Button with desired properties
      */
     private ImageView setUpGameIcon(String key) {
-        Image img = new Image(ICON_RESOURCES + (key));
+        Image img = new Image(PIECES_RESOURCES + (key));
         ImageView gameIcon = new ImageView(img);
         gameIcon.setFitWidth(30);
         gameIcon.setPreserveRatio(true);
@@ -305,10 +314,9 @@ public class GameView {
     }
 
     private void updateBoardAppearance() {
-        //TODO: update to be reading DIMENSION from data file
         myGameStates = myController.getGameVisualInfo();
-        for (int r = 0; r < DIMENSION; r++) {
-            for (int c = 0; c < DIMENSION; c++) {
+        for (int r = 0; r < boardRows; r++) {
+            for (int c = 0; c < boardCols; c++) {
                 Shape currSquare = allBoardCells.get(r).get(c);
                 updateCellAppearance(currSquare, r, c);
             }
@@ -316,12 +324,12 @@ public class GameView {
     }
 
     private void updateCellAppearance(Shape currSquare, int r, int c) {
-        if (myGameStates.get(r).get(c) == 1) {
-            Image player1Image = new Image("/resources/images/pieces/X.png"); //TODO: change to player 1 image
+        if (myGameStates.get(r).get(c) == userID) {
+            Image player1Image = new Image(PIECES_RESOURCES + userImage);
             updatePlayerCell(player1Image, currSquare, r, c);
         }
-        else if (myGameStates.get(r).get(c)==2) {
-            Image player2Image = new Image("/resources/images/pieces/O.png"); //TODO: change to player 2 image
+        else if (myGameStates.get(r).get(c)==agentID) {
+            Image player2Image = new Image(PIECES_RESOURCES + agentImage);
             updatePlayerCell(player2Image, currSquare, r, c);
         } else {
             updateEmptyCell(currSquare, r,c);
@@ -336,9 +344,9 @@ public class GameView {
     private void updateEmptyCell(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.WHITE);
         currSquare.setStroke(Black);
-        Image Ximage = new Image("/resources/images/pieces/X.png"); //TODO: change to user player image
-        EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare, Ximage,r,c); };
-        currSquare.setOnMouseClicked(e -> processUserClickOnSquare(currSquare, Ximage,r,c));
+        Image playerImg = new Image(PIECES_RESOURCES + userImage);
+        EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
+        currSquare.setOnMouseClicked(userClick);
         currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }
 
