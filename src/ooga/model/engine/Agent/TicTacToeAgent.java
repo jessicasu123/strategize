@@ -33,9 +33,9 @@ public class TicTacToeAgent extends Agent {
     @Override
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
         if(isWin(this.getMaxPlayer(), boardStateInfo)){
-            return boardStateInfo.size() * boardStateInfo.get(0).size();
+            return Integer.MAX_VALUE;
         }else if(isWin(this.getMinPlayer(), boardStateInfo)){
-            return -1 * boardStateInfo.size() * boardStateInfo.get(0).size();
+            return Integer.MIN_VALUE;
         }
 
         int rowEvaluation = evaluateMaxOpenMinusMinOpen(getRows(boardStateInfo));
@@ -71,6 +71,7 @@ public class TicTacToeAgent extends Agent {
     private List<List<Integer>> getRows(List<List<Integer>> boardStateInfo){
         return boardStateInfo;
     }
+
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
         List<List<Integer>> allCols = new ArrayList<>();
         for(int i = 0; i < boardStateInfo.get(0).size(); i++) {
