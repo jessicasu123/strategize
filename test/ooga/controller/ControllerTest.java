@@ -16,7 +16,7 @@ class ControllerTest {
 
     ControllerTest() throws IOException, ParseException {
         testController = new Controller("tic-tac-toe.json", "Player1", "Computer");
-        testController2 = new Controller("tic-tac-toe.json", "Player2", "Computer");
+        testController2 = new Controller("tic-tac-toe-test.json", "Player2", "Computer");
     }
 
     public List<List<Integer>> createTestConfig(Integer[][] testConfig) {
@@ -35,10 +35,14 @@ class ControllerTest {
     @Test
     void testGetStartingProperties() throws IOException, ParseException {
         Map<String, String> gameProperties = testController.getStartingProperties();
-        assertEquals("TicTacToe", gameProperties.get("GameType"));
+        assertEquals("Tic-Tac-Toe", gameProperties.get("Gametype"));
         assertEquals("", gameProperties.get("Neighborhood"));
-        assertEquals(String.format("{\n    \"State\" : 1,\n    \"Color\": \"Black\",\n    \"Image\": \"X.png\"\n  }"), gameProperties.get("Player1"));
-        assertEquals(String.format("{\n    \"State\": 2,\n    \"Color\": \"Black\",\n    \"Image\": \"O.png\"\n  }"), gameProperties.get("Player2"));
+        assertEquals("1", gameProperties.get("State1"));
+        assertEquals("2", gameProperties.get("State2"));
+        assertEquals("Black", gameProperties.get("Color1"));
+        assertEquals("Black", gameProperties.get("Color2"));
+        assertEquals("X.png", gameProperties.get("Image1"));
+        assertEquals("O.png", gameProperties.get("Image2"));
     }
 
     @Test
@@ -94,6 +98,8 @@ class ControllerTest {
     @Test
     void testIsGameOver() {
         assertFalse(testController.isGameOver());
+
+
         // TODO: add testcases for when the game has been won/has tied
     }
 
