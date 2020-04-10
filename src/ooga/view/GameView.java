@@ -169,6 +169,7 @@ public class GameView {
                 Rectangle rect = new Rectangle();
                 rect.setWidth(cellWidth);
                 rect.setHeight(cellHeight);
+                rect.setId("cell" + x + y);
                 updateCellAppearance(rect,x,y);
                 boardRow.add(rect);
                 pane.add(rect, y, x);
@@ -262,7 +263,7 @@ public class GameView {
      */
     private Button createButton(JSONObject buttonTexts, String key,EventHandler<ActionEvent> handler) {
         Button button = new Button(buttonTexts.getString(key));
-        button.setId(button.getText());
+        button.setId(button.getText().replaceAll("\\s", ""));
         button.getStyleClass().add("gameButton");
         button.setMinWidth(MINWIDTH);
         button.setOnAction(handler);
