@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import java.util.*;
 
@@ -11,7 +12,7 @@ import java.util.*;
  * Responsible for creating the container that holds the visual
  * representation of the game board.
  */
-public abstract class GridView {
+public class GridView {
     protected List<List<Shape>> boardCells;
     protected int boardRows;
     protected int boardCols;
@@ -75,5 +76,19 @@ public abstract class GridView {
      * @param cellHeight - height of cell
      * @param cellWidth - width of cell
      */
-    public abstract void createCells(double cellWidth, double cellHeight);
+    public void createCells(double cellWidth, double cellHeight) {
+        for (int x = 0; x < boardRows; x++) {
+            List<Shape> boardRow = new ArrayList<>();
+            for (int y = 0; y < boardCols; y++) {
+                Rectangle rect = new Rectangle();
+                rect.setWidth(cellWidth);
+                rect.setHeight(cellHeight);
+                rect.setId("cell" + x + y);
+                //updateCellAppearance(rect,x,y);
+                boardRow.add(rect);
+                pane.add(rect, y, x);
+            }
+            boardCells.add(boardRow);
+        }
+    }
 }

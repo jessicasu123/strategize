@@ -100,7 +100,7 @@ public class GameView {
 
     private void initializeSubPanels() {
         statusPanel = new StatusPanel(gameScreenData);
-        grid = new RectangleGridView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
+        grid = new GridView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 
