@@ -76,6 +76,7 @@ public class NavigationPanel {
      * @return - Map with keys as the Buttons controlling navigation and values
      * as the string names of the methods (in GameView) that the buttons trigger
      */
+    //TODO: put this in super class/figure out better way to do this
     public Map<Button,String> getButtonActionsMap() {
         return buttonActionsMap;
     }

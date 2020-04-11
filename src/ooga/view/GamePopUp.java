@@ -8,22 +8,29 @@ import org.json.JSONTokener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+/**
+ * This class is responsible for displaying a pop up on top of the current view
+ * and will automatically close if the user clicks anywhere outside
+ * the pop up screen.
+ */
 public abstract class GamePopUp {
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
+
     protected Stage displayStage;
     protected double popUpWidth;
     protected double popUpHeight;
     protected Pane myPopUpContents;
     protected JSONObject popUpScreenData;
 
+    private Popup popUp;
     private double xOffset;
     private double yOffset;
 
-    public GamePopUp(Stage stage, int width, int height) throws FileNotFoundException {
+    public GamePopUp(Stage stage, int width, int height) {
         displayStage = stage;
 
         popUpWidth = width * (2.0/3.0);
@@ -35,14 +42,31 @@ public abstract class GamePopUp {
         setUpJSONReader();
     }
 
-    private void setUpJSONReader() throws FileNotFoundException {
-        FileReader br = new FileReader(DATAFILE);
+    private void setUpJSONReader()  {
+        FileReader br = null;
+        try {
+            br = new FileReader(DATAFILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("MISSING CUSTOMIZATION JSON FILE");
+        }
         JSONTokener token = new JSONTokener(br);
         popUpScreenData = new JSONObject(token);
     }
 
+    /**
+     * Force closes the pop-up
+     */
+    public void close() {
+        popUp.hide();
+    }
+
+    /**
+     * Displays the contents of the pop-up.
+     * Will be called by any other view class that needs to show
+     * a pop up on TOP of the current view.
+     */
     public void display() {
-        Popup popUp= new Popup();
+        popUp= new Popup();
         setUpPopUp();
         createPopUpContents();
         popUp.getContent().add(myPopUpContents);
@@ -50,7 +74,7 @@ public abstract class GamePopUp {
         popUp.show(displayStage, displayStage.getX()+xOffset, displayStage.getY()+yOffset);
     }
 
-    public void setUpPopUp() {
+    private void setUpPopUp() {
         myPopUpContents = new Pane();
         myPopUpContents.getStylesheets().add(STYLESHEET);
         myPopUpContents.getStyleClass().add("popUp");
@@ -58,5 +82,9 @@ public abstract class GamePopUp {
         myPopUpContents.setMinHeight(popUpHeight);
     }
 
+    /**
+     * Displays the contents of the pop up. This will be specific to
+     * each kind of pop-up, as each one has different information to display.
+     */
     public abstract void createPopUpContents();
 }

@@ -70,10 +70,12 @@ public class GameView {
     private int agentID;
     private String userImage;
     private String agentImage;
+    private String boardColor;
 
     private GridView grid;
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
+    private CustomizationPopUp customizePopUp;
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -85,10 +87,12 @@ public class GameView {
         initializeJSONReader();
         myController = c;
         myGameStates = myController.getGameVisualInfo();
+        boardColor = "white";
         gameInProgress = true;
-        didSelectPiece = false;//TODO: i added this boolean var, otherwise didSelectPiece automatically sends 0,0 to the controller even if no piece is chosen
+        didSelectPiece = false;
         getGameDisplayInfo();
         initializeSubPanels();
+        initializePopUps();
         displayToStage();
     }
 
@@ -102,6 +106,11 @@ public class GameView {
         statusPanel = new StatusPanel(gameScreenData);
         grid = new GridView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
+    }
+
+    private void initializePopUps() {
+        customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, userImage,
+                agentImage, boardColor);
     }
 
     /**
@@ -130,7 +139,9 @@ public class GameView {
         updateBoardAppearance();
 
         root.setBottom(navPanel.createNavigationBar());
-        addActionsToButtons();
+        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
+        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
+        addActionsToButtons(navAndStatusButtonActions);
 
         Scene startScene = new Scene(root, width, height);
         startScene.getStylesheets().add(STYLESHEET);
@@ -158,31 +169,24 @@ public class GameView {
      * The methods associated with these buttons are private methods in this class,
      * and they are specified in the GameView.json file.
      */
-    private void addActionsToButtons() {
-        Map<Button,String> buttonActionsMap = navPanel.getButtonActionsMap();
+    private void addActionsToButtons(Map<Button, String> buttonActionsMap) {
         for (Button b: buttonActionsMap.keySet()) {
-            b.setOnAction(handler -> {
-                String methodName = buttonActionsMap.get(b);
-                try {
-                    Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
-                    buttonAction.invoke(GameView.this, new Object[0]);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            });
+            reflectMethodOnButton(b, buttonActionsMap.get(b));
         }
     }
-    //TODO: go back to game set up options
-    private void restart() {
-        GamePopUp test = null;
-        try {
-            test = new CustomizationPopUp(myStage, 600,700, userImage, agentImage);
-            test.display();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println("RESTART");}
+    private void reflectMethodOnButton(Button b, String methodName) {
+        b.setOnAction(handler -> {
+            try {
+                Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
+                buttonAction.invoke(GameView.this, new Object[0]);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    //TODO: go back to game set up options
+    private void restart() { System.out.println("RESTART");}
 
     //TODO: popup to save current config
     private void save() { System.out.println("SAVE");}
@@ -190,9 +194,27 @@ public class GameView {
     //TODO: go back to menu
     private void backToMenu() {System.out.println("BACK");}
 
+    private void showRules() {System.out.println("SHOW RULES");}
+
+    private void showSocialCenter() {System.out.println("SOCIAL CENTER");}
+
+    private void customize() {
+        customizePopUp.display();
+        addActionsToButtons(customizePopUp.getButtonActionsMap());
+    }
+
+    private void setCustomizationPreferences() {
+        customizePopUp.close();
+        userImage = customizePopUp.getUserImageChoice();
+        agentImage = customizePopUp.getOpponentImageChoice();
+        boardColor = customizePopUp.getBoardColorChoice();
+        updateBoardAppearance();
+        statusPanel.updatePlayerIcons(userImage, agentImage);
+    }
+
     private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
         if(hasSelectedSquare){
-            allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.WHITE);
+            allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
         }
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
@@ -233,7 +255,7 @@ public class GameView {
     }
 
     private void updateEmptyCell(Shape currSquare, int r, int c) {
-        currSquare.setFill(Color.WHITE);
+        currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
@@ -249,7 +271,7 @@ public class GameView {
 
     private void makeMove(){
         if(gameInProgress) {
-            if (didSelectPiece) {   //TODO: if user accidentally selects a piece, this will send over information still
+            if (didSelectPiece) {   //TODO: add another check from JSON file that game requires 2 moves
                 myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
             }
             myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);

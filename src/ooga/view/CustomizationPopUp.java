@@ -1,30 +1,31 @@
 package ooga.view;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.chrono.MinguoDate;
+import java.util.*;
 import java.util.List;
 
+/**
+ * Responsible for allowing the user to customize the piece images
+ * for both his/her player and the opponent's player.
+ * These customization selections are finalized when the user
+ * clicks on the "SET PREFERENCES" button and reflected
+ * in the view.
+ */
 public class CustomizationPopUp extends GamePopUp{
-    private Pane customizationPane;
     private JSONObject labelText;
-    private JSONObject buttonText;
+    private JSONObject buttonInfo;
     private List<String> boardColorOptions;
     private List<String> playerImages;
     private String userImage;
@@ -32,25 +33,63 @@ public class CustomizationPopUp extends GamePopUp{
     private ImageView userImageChoice;
     private ImageView opponentImageChoice;
     private String boardColorChoice;
+    private Map<Button, String> buttonActionsMap;
 
-    public CustomizationPopUp(Stage stage, int width, int height, String currUserImg, String currOppImg) throws FileNotFoundException {
+    public static final int SPACING = 40;
+    public static final int MIN_ICON_WIDTH = 30;
+    public static final String IMG_EXTENSION = ".png";
+
+    public CustomizationPopUp(Stage stage, int width, int height,
+                              String currUserImg, String currOppImg, String currColor) {
         super(stage, width, height);
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
         getBoardAndPlayerCustomizationChoices();
         userImage = currUserImg;
         opponentImage = currOppImg;
-
+        boardColorChoice = currColor;
+        buttonActionsMap = new HashMap<>();
     }
 
+    /**
+     * For the CustomizationPopUp, the content includes the ability
+     * to customize the pieces for the player and opponent,
+     * as well as options to change the color of the Grid background.
+     */
     @Override
     public void createPopUpContents() {
         VBox customizationContents = new VBox();
-        customizationContents.setSpacing(40);
+        customizationContents.setSpacing(SPACING);
         customizationContents.getChildren().addAll(createPlayerCustomization(),
                 createBackgroundCustomization());
         myPopUpContents.getChildren().add(customizationContents);
     }
+
+    /**
+     * Tells the view in which this pop-up is created what the user's piece choice was.
+     * @return - the image that the user has chosen to represent his/her piece
+     */
+    public String getUserImageChoice() { return userImage; }
+
+    /**
+     * Tells the view in which this pop-up is created what the opponent's piece should be.
+     * @return - the image the user selected for the opponent's piece
+     */
+    public String getOpponentImageChoice() { return opponentImage; }
+
+    /**
+     * Tells the view in which this pop-up is created what the board color should be.
+     * @return - the desired board color
+     */
+    public String getBoardColorChoice() { return boardColorChoice; }
+
+    /**
+     * Provides the button and the name of the method (in a different class) that should
+     * be called when the button is clicked
+     * @return
+     */
+    //TODO: find better way to do this 
+    public Map<Button, String> getButtonActionsMap() {return buttonActionsMap;}
 
     private void getBoardAndPlayerCustomizationChoices() {
         String boardColors = popUpScreenData.getString("Colors");
@@ -62,7 +101,7 @@ public class CustomizationPopUp extends GamePopUp{
 
     private VBox createPlayerCustomization() {
         VBox playerCustomization = new VBox();
-        playerCustomization.setSpacing(20);
+        playerCustomization.setSpacing(SPACING/2);
 
         labelText = popUpScreenData.getJSONObject("Labels");
         HBox topCustomizeContainer = createContainerWithHeadingLabel(labelText.getString("PlayerCustomization"),
@@ -76,28 +115,34 @@ public class CustomizationPopUp extends GamePopUp{
         opponentImageChoice = setImageView(opponentImage);
         opponentChoiceContainer.getChildren().add(opponentImageChoice);
 
-        playerCustomization.getChildren().addAll(topCustomizeContainer,
-                userChoiceContainer,
-                opponentChoiceContainer);
+        playerCustomization.getChildren().addAll(topCustomizeContainer, userChoiceContainer, opponentChoiceContainer);
 
         return playerCustomization;
     }
 
     private VBox createBackgroundCustomization() {
         VBox backgroundCustomization = new VBox();
-        backgroundCustomization.setSpacing(20);
+        backgroundCustomization.setSpacing(SPACING/2);
 
-        buttonText = popUpScreenData.getJSONObject("Buttons");
+        buttonInfo = popUpScreenData.getJSONObject("Buttons");
         HBox customizeBackgroundContainer = createContainerWithHeadingLabel(labelText.getString("BackgroundCustomization"),
                 "customizeLabels");
         HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "customizeLabels");
-        HBox backgroundContainer = backgroundChoiceContainer();
+        HBox setPreferencesContainer = createSetPreferencesContainer();
 
         backgroundCustomization.getChildren().addAll(customizeBackgroundContainer,
-                boardColorContainer, backgroundContainer);
+                boardColorContainer, setPreferencesContainer);
 
         return backgroundCustomization;
+    }
 
+    private HBox createSetPreferencesContainer() {
+        HBox setPref = createHorizontalContainer();
+        setPref.setAlignment(Pos.CENTER);
+        Button setPreferencesButton = createButton("SET PREFERENCES");
+        buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
+        setPref.getChildren().add(setPreferencesButton);
+        return setPref;
     }
 
     private HBox createContainerWithHeadingLabel(String labelName, String style) {
@@ -119,11 +164,12 @@ public class CustomizationPopUp extends GamePopUp{
         return boardColorContainer;
     }
 
+    //TODO: move to GameSetUpOptions
     private HBox backgroundChoiceContainer() {
         HBox backgroundMode = createHorizontalContainer();
         backgroundMode.setAlignment(Pos.CENTER);
-        Button lightMode = createButton(buttonText.getString("LightMode"));
-        Button darkMode = createButton(buttonText.getString("DarkMode"));
+        Button lightMode = createButton(buttonInfo.getString("LightMode"));
+        Button darkMode = createButton(buttonInfo.getString("DarkMode"));
         backgroundMode.getChildren().addAll(lightMode, darkMode);
         return backgroundMode;
     }
@@ -137,8 +183,8 @@ public class CustomizationPopUp extends GamePopUp{
 
     private HBox createHorizontalContainer() {
         HBox container = new HBox();
-        container.setPadding(new Insets(20,20,0,20));
-        container.setSpacing(30);
+        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
+        container.setSpacing(SPACING-10);
         return container;
     }
 
@@ -156,11 +202,11 @@ public class CustomizationPopUp extends GamePopUp{
         playerImageChoice.setPromptText(comboBoxName);
         playerImageChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             if (isUser) {
-                userImage = (String) newValue + ".png";
+                userImage = (String) newValue + IMG_EXTENSION;
                 updateImageView(userImageChoice, userImage);
             }
             else {
-                opponentImage = (String) newValue + ".png";
+                opponentImage = (String) newValue + IMG_EXTENSION;
                 updateImageView(opponentImageChoice, opponentImage);
             }
         }));
@@ -172,15 +218,13 @@ public class CustomizationPopUp extends GamePopUp{
         imgView.setImage(new Image(PIECES_RESOURCES + newImg));
     }
 
-
     private ImageView setImageView(String imageName) {
         Image img = new Image(PIECES_RESOURCES + imageName);
         ImageView playerIconChoice = new ImageView(img);
-        playerIconChoice.setFitWidth(30);
+        playerIconChoice.setFitWidth(MIN_ICON_WIDTH);
         playerIconChoice.setPreserveRatio(true);
         return playerIconChoice;
     }
-
 
     private Label createHeadingLabel(String labelName, String styleName) {
         Label heading = createLabel(labelName);
@@ -188,7 +232,6 @@ public class CustomizationPopUp extends GamePopUp{
         heading.getStyleClass().add(styleName);
         return heading;
     }
-
 
     private Label createLabel(String labelName) {
         Label label = new Label();

@@ -10,6 +10,7 @@
   },
   "Buttons": {
     "LightMode": "Light Mode",
-    "DarkMode": "Dark Mode"
+    "DarkMode": "Dark Mode",
+    "SET PREFERENCES": "setCustomizationPreferences"
   }
 }

@@ -10,6 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Responsible for creating the panel at the top of GameView
  * that contains all the icons (help, settings, chat), as well
@@ -24,9 +27,32 @@ public class StatusPanel {
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
 
     private JSONObject gameScreenData;
+    private ImageView playerIcon;
+    private ImageView opponentIcon;
+
+
+    private Map<Button,String> buttonActionsMap;
 
     public StatusPanel(JSONObject gameData) {
         gameScreenData = gameData;
+        buttonActionsMap = new HashMap<>();
+    }
+
+    //TODO: figure out better way to do this.
+    //TODO: maybe make Panel super class because both StatusPanel and NavigationPanel have this method
+    public Map<Button,String> getButtonActions() {
+        return buttonActionsMap;
+    }
+
+    /**
+     * if the user chooses a new preference for player/opponent images, the icons
+     * in the status bar are updated as well
+     * @param playerImage - the new image that the player has chosen
+     * @param opponentImage - the new image to represent the opponent(agent)
+     */
+    public void updatePlayerIcons(String playerImage, String opponentImage) {
+        playerIcon.setImage(new Image(PIECES_RESOURCES + playerImage));
+        opponentIcon.setImage(new Image(PIECES_RESOURCES + opponentImage));
     }
 
     /**
@@ -47,8 +73,8 @@ public class StatusPanel {
         HBox container = new HBox(SPACING);
         container.setAlignment(Pos.TOP_CENTER);
         JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        ImageView player1icon = setUpGameIcon(userImage);
-        ImageView opponenticon = setUpGameIcon(agentImage);
+        playerIcon = setUpGameIcon(userImage);
+        opponentIcon = setUpGameIcon(agentImage);
         TextField playerscore = new TextField();
         playerscore.setMaxWidth(50);
         playerscore.setMinHeight(30);
@@ -59,7 +85,7 @@ public class StatusPanel {
         player.setMinHeight(30);
         Label opponent = new Label(buttonTexts.getString("Opponent"));
         opponent.setMinHeight(30);
-        container.getChildren().addAll(player1icon,player,playerscore,opponenticon,opponent,opponentscore);
+        container.getChildren().addAll(playerIcon,player,playerscore,opponentIcon,opponent,opponentscore);
         return container;
     }
 
@@ -95,14 +121,19 @@ public class StatusPanel {
      * @param key - key object to get icon value
      * @return Button with desired properties
      */
-    private Button setUpGameIconButton(JSONObject game, String key) {
-        Image img = new Image(ICON_RESOURCES + game.getString(key));
+        private Button setUpGameIconButton(JSONObject game, String key) {
+        String[] buttonInfo = game.getString(key).split(",");
+        String imgName = buttonInfo[0];
+        System.out.println(imgName);
+        String actionMethodName = buttonInfo[1];
+        Image img = new Image(ICON_RESOURCES + imgName);
         ImageView gameIcon = new ImageView(img);
         gameIcon.setFitWidth(30);
         gameIcon.setPreserveRatio(true);
         Button button = new Button();
         button.getStyleClass().add("gameButton");
         button.setGraphic(gameIcon);
+        buttonActionsMap.put(button,actionMethodName);
         return button;
     }
 }
