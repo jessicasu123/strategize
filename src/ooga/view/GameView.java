@@ -173,7 +173,16 @@ public class GameView {
         }
     }
     //TODO: go back to game set up options
-    private void restart() { System.out.println("RESTART");}
+    private void restart() {
+        GamePopUp test = null;
+        try {
+            test = new CustomizationPopUp(myStage, 600,700, userImage, agentImage);
+            test.display();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("RESTART");}
 
     //TODO: popup to save current config
     private void save() { System.out.println("SAVE");}

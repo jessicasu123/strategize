@@ -1,0 +1,15 @@
+{
+  "Colors": "red,pink,orange,yellow,green,blue,purple,black",
+  "Images": "cat,dog,fire,hedgehog,nurse,panda,virus,water",
+  "Labels": {
+    "PlayerCustomization": "CUSTOMIZE YOUR PLAYERS",
+    "BackgroundCustomization": "CUSTOMIZE YOUR BACKGROUND",
+    "PlayerChoice": "Player",
+    "OpponentChoice": "Opponent",
+    "BackgroundColor": "Choose Color"
+  },
+  "Buttons": {
+    "LightMode": "Light Mode",
+    "DarkMode": "Dark Mode"
+  }
+}
