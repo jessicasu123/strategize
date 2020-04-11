@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import java.time.chrono.MinguoDate;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Responsible for allowing the user to customize the piece images
@@ -44,9 +45,11 @@ public class CustomizationPopUp extends GamePopUp{
         super(stage, width, height);
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
-        getBoardAndPlayerCustomizationChoices();
         userImage = currUserImg;
         opponentImage = currOppImg;
+        getBoardAndPlayerCustomizationChoices();
+        playerImages.add(userImage.split("\\.")[0]);
+        playerImages.add(opponentImage.split("\\.")[0]);
         boardColorChoice = currColor;
         buttonActionsMap = new HashMap<>();
     }
@@ -93,10 +96,10 @@ public class CustomizationPopUp extends GamePopUp{
 
     private void getBoardAndPlayerCustomizationChoices() {
         String boardColors = popUpScreenData.getString("Colors");
-        boardColorOptions = Arrays.asList(boardColors.split(","));
+        boardColorOptions.addAll(Arrays.asList(boardColors.split(",")));
 
         String imageOptions = popUpScreenData.getString("Images");
-        playerImages = Arrays.asList(imageOptions.split(","));
+        playerImages.addAll(Arrays.asList(imageOptions.split(",")));
     }
 
     private VBox createPlayerCustomization() {

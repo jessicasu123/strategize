@@ -42,4 +42,5 @@
 .customizeLabels {
     -fx-font-weight: bold;
     -fx-font-size: 20;
+    -fx-stroke-width: 3.5;
 }

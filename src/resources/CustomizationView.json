@@ -3,7 +3,7 @@
   "Images": "cat,dog,fire,hedgehog,nurse,panda,virus,water",
   "Labels": {
     "PlayerCustomization": "CUSTOMIZE YOUR PLAYERS",
-    "BackgroundCustomization": "CUSTOMIZE YOUR BACKGROUND",
+    "BackgroundCustomization": "CUSTOMIZE BOARD BACKGROUND",
     "PlayerChoice": "Player",
     "OpponentChoice": "Opponent",
     "BackgroundColor": "Choose Color"

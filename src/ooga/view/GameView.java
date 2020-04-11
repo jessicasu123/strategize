@@ -22,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public class GameView {
     private String agentImage;
     private String boardColor;
 
-    private GridView grid;
+    private BoardView grid;
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
     private CustomizationPopUp customizePopUp;
@@ -104,7 +103,7 @@ public class GameView {
 
     private void initializeSubPanels() {
         statusPanel = new StatusPanel(gameScreenData);
-        grid = new GridView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
+        grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 

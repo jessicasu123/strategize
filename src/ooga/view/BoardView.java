@@ -12,7 +12,7 @@ import java.util.*;
  * Responsible for creating the container that holds the visual
  * representation of the game board.
  */
-public class GridView {
+public class BoardView {
     protected List<List<Shape>> boardCells;
     protected int boardRows;
     protected int boardCols;
@@ -24,7 +24,7 @@ public class GridView {
     public static final int CELL_SPACING = 1;
 
 
-    public GridView(int width, int height, int rows, int cols) {
+    public BoardView(int width, int height, int rows, int cols) {
         boardCells = new ArrayList<>();
         boardRows = rows;
         boardCols = cols;
@@ -91,4 +91,7 @@ public class GridView {
             boardCells.add(boardRow);
         }
     }
+
+
+
 }
