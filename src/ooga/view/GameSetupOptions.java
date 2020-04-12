@@ -69,7 +69,7 @@ public class GameSetupOptions {
         displayToStage();
     }
 
-    private void displayToStage(){
+    public void displayToStage(){
         Scene startScene = makeSetupDisplay();
         myStage.setScene(startScene);
         myStage.show();

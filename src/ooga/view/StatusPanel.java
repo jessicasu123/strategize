@@ -124,7 +124,6 @@ public class StatusPanel {
         private Button setUpGameIconButton(JSONObject game, String key) {
         String[] buttonInfo = game.getString(key).split(",");
         String imgName = buttonInfo[0];
-        System.out.println(imgName);
         String actionMethodName = buttonInfo[1];
         Image img = new Image(ICON_RESOURCES + imgName);
         ImageView gameIcon = new ImageView(img);
