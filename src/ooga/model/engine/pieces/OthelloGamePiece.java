@@ -29,4 +29,9 @@ public class OthelloGamePiece implements GamePiece {
     public Coordinate getPosition() {
         return null;
     }
+
+    @Override
+    public void changeState(int newState) {
+        
+    }
 }
