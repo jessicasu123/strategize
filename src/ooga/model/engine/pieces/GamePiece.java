@@ -59,10 +59,18 @@ public abstract class GamePiece {
         return myPosition;
     }
 
+    /**
+     * changes the state of this piece
+     * @param newState - the new state this piece will take on
+     */
     protected void changeState(int newState){
         myState = newState;
     }
 
+    /**
+     * changes the position of this piece
+     * @param moveTo - the new position this piece will take on
+     */
     protected void move(Coordinate moveTo){
         myPosition = moveTo;
     }

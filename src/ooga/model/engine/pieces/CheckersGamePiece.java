@@ -5,8 +5,16 @@ import ooga.model.engine.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This implements the game pieces for Checkers, allowing the board to make moves and calculate all possible moves.
+ * This class calculates all the possible moves of a checkers piece including normal moves, jumps, and multiple jumps
+ * It also acts to move a piece to the specified spot (verified by the board) and will capture opponent pieces as
+ * specified by the game rules
+ * @author Sanya Kochhar
+ */
 public class CheckersGamePiece extends GamePiece {
 
+    public static final int JUMP_SIZE = 2;
     // direction -> positive = moving towards bottom of board, negative = moving towards top of board
     private int myDirection;
     private final int myPawnState;
@@ -14,6 +22,15 @@ public class CheckersGamePiece extends GamePiece {
     private boolean isKing;
 
     //TODO: get empty state from data file
+
+    /**
+     * Creates a Checkers Game Piece
+     * @param state - the current state of this piece
+     * @param pawnState - the state this piece would be in when it is a pawn
+     * @param kingState - the state this piece would be in when it is a king
+     * @param direction - the direction this piece moves in (either +1 or -1)
+     * @param position - the coordinate for the position of this piece
+     */
     public CheckersGamePiece(int state, int pawnState, int kingState, int direction, Coordinate position){
         super(state, position);
         myPawnState = pawnState;
@@ -22,6 +39,21 @@ public class CheckersGamePiece extends GamePiece {
         isKing = state == kingState;
     }
 
+    /**
+     * METHOD PURPOSE:
+     *  - based on the Checkers rules it gets all of the possible moves
+     *      - Can only move to empty squares on adjacent diagonal in forward direction
+     *      (unless king and can move in forward and backwards direction)
+     *      -if there is an opponents piece in adjacent diagonal and an empty space in the following adjacent diagonal
+     *      can jump over and capture opponents piece, can have as many jumps as the board position allows
+     *  - this acts to validate the move made by a user
+     *  - and it helps the AI agent know what its options are
+     * @param neighbors - the neighbors of the Game Piece as determined by the Board, for checkers it will be
+     *                  diagonal neighbors
+     * @return a list of end coordinates that this piece can move to, this includes either a step to an adjacent diagonal
+     *         square or a jump (or multiple) which will capture an opponents piece
+     *
+     */
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
         List<Coordinate> possibleMoves = new ArrayList<>();
@@ -72,8 +104,10 @@ public class CheckersGamePiece extends GamePiece {
 
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
+        Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
         if(isAdjacentDiagonal(endCoordinateInfo)){
             this.move(endCoordinateInfo);
+
         }else {
             makeJumpMove(endCoordinateInfo, neighbors);
         }
@@ -82,10 +116,20 @@ public class CheckersGamePiece extends GamePiece {
             isKing = true;
             this.changeState(myKingState);
         }
+        switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
+    }
+
+    private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
+        for(GamePiece neighbor: neighbors){
+            if(neighbor.getPosition().equals(endCoordinateInfo)){
+                GamePiece switchWith = neighbor;
+                switchWith.move(posSwitchTo);
+            }
+        }
     }
 
     private void makeJumpMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors) {
-        int numJumps = Math.abs((this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / 2);
+        int numJumps = Math.abs((this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / JUMP_SIZE);
         for(int i = 0; i < numJumps; i++){
             for(GamePiece neighbor: neighbors){
                 if(isAdjacentDiagonal(neighbor.getPosition()) && isOnPathToEndCoord(neighbor.getPosition(), endCoordinateInfo)){
@@ -138,15 +182,15 @@ public class CheckersGamePiece extends GamePiece {
     private int findNewYCoordinateLocation(Coordinate jumpingOver) {
         int newYCoord = this.getYCoordinate();
         if (yDifference(jumpingOver) > 0){
-            newYCoord += 2;
+            newYCoord += JUMP_SIZE;
         }else{
-            newYCoord -= 2;
+            newYCoord -= JUMP_SIZE;
         }
         return newYCoord;
     }
 
     private int findNewXCoordinateLocation() {
-        return this.getXCoordinate() + (myDirection * 2);
+        return this.getXCoordinate() + (myDirection * JUMP_SIZE);
     }
 
     private int getXCoordinate(){
@@ -161,7 +205,8 @@ public class CheckersGamePiece extends GamePiece {
         int neighborXPos = neighbor.getXCoord();
         int neighborYPos = neighbor.getYCoord();
 
-        return isYCoordinateNeighbor(neighborYPos) && (neighborXPos == this.getXCoordinate() + (myDirection) || isKing && neighborXPos == this.getXCoordinate() + (myDirection * -1));
+        return isYCoordinateNeighbor(neighborYPos) && (neighborXPos == this.getXCoordinate() + (myDirection)
+                || isKing && neighborXPos == this.getXCoordinate() + (myDirection * -1));
     }
 
     private boolean isYCoordinateNeighbor(int neighborYPos) {
