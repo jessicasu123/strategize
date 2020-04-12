@@ -4,10 +4,10 @@ import ooga.model.engine.Coordinate;
 
 import java.util.List;
 
-public class OthelloGamePiece implements GamePiece {
+public class OthelloGamePiece extends GamePiece {
 
     public OthelloGamePiece(int status, Coordinate position) {
-
+        super(status, position);
     }
 
     @Override
@@ -20,18 +20,5 @@ public class OthelloGamePiece implements GamePiece {
 
     }
 
-    @Override
-    public int getState() {
-        return 0;
-    }
 
-    @Override
-    public Coordinate getPosition() {
-        return null;
-    }
-
-    @Override
-    public void changeState(int newState) {
-        
-    }
 }

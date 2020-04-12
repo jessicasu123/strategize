@@ -5,20 +5,17 @@ import ooga.model.engine.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckersGamePiece implements GamePiece {
+public class CheckersGamePiece extends GamePiece {
 
-    private int myState;
     // direction -> positive = moving towards bottom of board, negative = moving towards top of board
     private int myDirection;
-    private Coordinate myPosition;
     private final int myPawnState;
     private final int myKingState;
     private boolean isKing;
 
     //TODO: get empty state from data file
     public CheckersGamePiece(int state, int pawnState, int kingState, int direction, Coordinate position){
-        myState = state;
-        myPosition = position;
+        super(state, position);
         myPawnState = pawnState;
         myKingState = kingState;
         myDirection = direction;
@@ -50,7 +47,7 @@ public class CheckersGamePiece implements GamePiece {
         for (GamePiece endOfPossibleJump : neighbors) {
             if(checkJumpConditions(endOfPossibleJump, neighbor, jumpDirection) && !possibleMoves.contains(endOfPossibleJump.getPosition())){
                 possibleMoves.add(endOfPossibleJump.getPosition());
-                CheckersGamePiece jumpResult = new CheckersGamePiece(myState, myPawnState, myKingState, myDirection, endOfPossibleJump.getPosition());
+                CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState, myDirection, endOfPossibleJump.getPosition());
                 jumpResult.calculateAllPossibleJumps(neighbors, possibleMoves);
             }
         }
@@ -76,19 +73,19 @@ public class CheckersGamePiece implements GamePiece {
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
         if(isAdjacentDiagonal(endCoordinateInfo)){
-            myPosition = endCoordinateInfo;
+            this.move(endCoordinateInfo);
         }else {
             makeJumpMove(endCoordinateInfo, neighbors);
         }
         int endDiagonalLoc = findKingPromotionRow(neighbors);
         if(endCoordinateInfo.getXCoord() == endDiagonalLoc){
             isKing = true;
-            myState = myKingState;
+            this.changeState(myKingState);
         }
     }
 
     private void makeJumpMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors) {
-        int numJumps = Math.abs((this.myPosition.getXCoord() - endCoordinateInfo.getXCoord()) / 2);
+        int numJumps = Math.abs((this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / 2);
         for(int i = 0; i < numJumps; i++){
             for(GamePiece neighbor: neighbors){
                 if(isAdjacentDiagonal(neighbor.getPosition()) && isOnPathToEndCoord(neighbor.getPosition(), endCoordinateInfo)){
@@ -134,7 +131,7 @@ public class CheckersGamePiece implements GamePiece {
     private void jump(Coordinate jumpingOver){
         int newXCoord = findNewXCoordinateLocation();
         int newYCoord = findNewYCoordinateLocation(jumpingOver);
-        myPosition = new Coordinate(newXCoord, newYCoord);
+        this.move(new Coordinate(newXCoord, newYCoord));
     }
 
     //see if going over left or right
@@ -152,27 +149,12 @@ public class CheckersGamePiece implements GamePiece {
         return this.getXCoordinate() + (myDirection * 2);
     }
 
-    //TODO: make more encapsulated -> want to be protected
-    public void changeState(int newState){
-        myState = newState;
-    }
-
-    @Override
-    public int getState() {
-        return myState;
-    }
-
-    @Override
-    public Coordinate getPosition() {
-        return myPosition;
-    }
-
     private int getXCoordinate(){
-        return myPosition.getXCoord();
+        return this.getPosition().getXCoord();
     }
 
     private int getYCoordinate(){
-        return myPosition.getYCoord();
+        return this.getPosition().getYCoord();
     }
 
     private boolean isAdjacentDiagonal(Coordinate neighbor){

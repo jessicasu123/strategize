@@ -37,7 +37,7 @@ public class JSONFileReader implements FileHandler {
     private JSONObject player2_1;
     private JSONObject player1;
     private JSONObject player2;
-    public static final String DEFAULT_RESOURCES = "src/resources/";
+    public static final String DEFAULT_RESOURCES = "src/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "tic-tac-toe.json";
     private org.json.JSONObject gameData;
     private String neighbString;

@@ -14,8 +14,14 @@ import java.util.List;
  *          - this can be useful either for an AI agent
  */
 
-public interface GamePiece {
+public abstract class GamePiece {
+    private int myState;
+    private Coordinate myPosition;
 
+    public GamePiece(int state, Coordinate position){
+        myState = state;
+        myPosition = position;
+    }
     /**
      * METHOD PURPOSE:
      *  - based on the Game rules it gets all of the possible moves
@@ -27,7 +33,7 @@ public interface GamePiece {
      *         for game types that don't move just change state this will just contain itself as the end coordinate
      *         the list will be empty if no moves are possible
      */
-    List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors);
+    public abstract List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors);
 
     /**
      * This method makes a "move": it changes the state and/or position of the game piece and potentially
@@ -36,19 +42,29 @@ public interface GamePiece {
      * @param neighbors - the neighbors of this game piece which may be affected by the movement of this piece (ex:
      *                  a piece being captured)
      */
-    void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState);
+    public abstract void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState);
 
     /**
      * @return the state of the piece
      */
-    int getState();
+    public int getState(){
+        return myState;
+    }
 
     /**
      *
      * @return the position of the piece
      */
-    Coordinate getPosition();
+    public Coordinate getPosition(){
+        return myPosition;
+    }
 
-    void changeState(int newState);
+    protected void changeState(int newState){
+        myState = newState;
+    }
+
+    protected void move(Coordinate moveTo){
+        myPosition = moveTo;
+    }
 }
 
