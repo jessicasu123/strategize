@@ -46,4 +46,10 @@ public class TicTacToeGamePiece implements GamePiece {
     public Coordinate getPosition() {
         return myPosition;
     }
+
+    @Override
+    public void changeState(int newState) {
+        //do nothing
+        //tic tac toe game pieces don't change the state of other game pieces
+    }
 }

@@ -49,5 +49,6 @@ public interface GamePiece {
      */
     Coordinate getPosition();
 
+    void changeState(int newState);
 }
 
