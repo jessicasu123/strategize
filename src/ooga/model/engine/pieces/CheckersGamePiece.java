@@ -66,6 +66,13 @@ public class CheckersGamePiece extends GamePiece {
         return possibleMoves;
     }
 
+    /**
+     * Recursively calls calculateIfLegalJump so it can see if it is a jump based on the new position for this piece,
+     * without actually moving it
+     * @param neighbors  - the neighbors of the Game Piece as determined by the Board, for checkers it will be
+     *                        diagonal neighbors
+     * @param possibleMoves - the current list of possible moves so far, will add to this list if find more jump moves
+     */
     protected void calculateAllPossibleJumps(List<GamePiece> neighbors, List<Coordinate> possibleMoves) {
         for(GamePiece neighbor: neighbors) {
             if (checkIfOpponentPiece(neighbor) && isAdjacentDiagonal(neighbor.getPosition())) {
@@ -102,6 +109,13 @@ public class CheckersGamePiece extends GamePiece {
         return neighbor.getState() != myPawnState && neighbor.getState() != 0 && neighbor.getState() != myKingState;
     }
 
+    /**
+     * This method makes a "move": it changes the state and/or position of this game piece and potentially
+     *  its neighbors state if they are captured and will switch positions with the cell it is moving to
+     * @param endCoordinateInfo - the coordinate of where this piece will move to
+     * @param neighbors - the neighbors of this game piece which may be affected by the movement of this piece (ex:
+     *                  a piece being captured)
+     */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
         Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
