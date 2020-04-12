@@ -126,16 +126,15 @@ public class JSONFileReader implements FileHandler {
      */
 
     public List<String> getNeighborhood() throws IOException {
-
         createJSONArray();
         neighborhoodlist = new ArrayList<>();
         neighbString = gameData.getString("Neighborhood");
+        if (neighbString.length()==0) return neighborhoodlist;
         int start = 0;
         for(int i = 0;i<=neighbString.length();i++){
             if(i == neighbString.length() || neighbString.substring(i,i+1).equals(",")){
                 neighborhoodlist.add(neighbString.substring(start,i));
                 start = i+1;
-
             }
         }
         return neighborhoodlist;

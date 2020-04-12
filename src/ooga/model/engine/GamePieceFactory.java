@@ -1,6 +1,7 @@
 package ooga.model.engine;
 
 import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.OthelloGamePiece;
 import ooga.model.engine.pieces.TicTacToeGamePiece;
 
 /**
@@ -25,6 +26,8 @@ public class GamePieceFactory {
         switch (gameType) {
             case "Tic-Tac-Toe":
                 return new TicTacToeGamePiece(status, position);
+            case "Othello":
+                return new OthelloGamePiece(status,position);
             default:
                 //TODO: figure out whether to throw exception here or in Board (createBoardFromStartingConfig)
                 throw new InvalidGameTypeException(gameType + " is not a supported game type.");
