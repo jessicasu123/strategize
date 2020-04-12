@@ -40,8 +40,8 @@ public class JSONFileReader implements FileHandler {
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "tic-tac-toe.json";
     private org.json.JSONObject gameData;
-private String neighbString;
-List<String> neighborhoodlist;
+    private String neighbString;
+    List<String> neighborhoodlist;
 
     public JSONFileReader(String file) throws FileNotFoundException {
         fileNameGame = file;
@@ -63,7 +63,6 @@ List<String> neighborhoodlist;
             if(config.substring(i,i+1).equals(";") || i == config.length()-1){
                 configuration.add(row);
                 row = new ArrayList<>();
-                System.out.println();
             }
         }
     }
@@ -73,7 +72,7 @@ List<String> neighborhoodlist;
      * creates a JSONArray and iterator from the JSON File
      */
     private void createJSONArray() throws IOException {
-        FileReader br = new FileReader(DATAFILE);
+        FileReader br = new FileReader(DEFAULT_RESOURCES + fileNameGame);
         JSONTokener token = new JSONTokener(br);
         gameData = new org.json.JSONObject(token);
     }
@@ -132,10 +131,11 @@ List<String> neighborhoodlist;
         neighborhoodlist = new ArrayList<>();
         neighbString = gameData.getString("Neighborhood");
         int start = 0;
-        for(int i = 0;i<neighbString.length();i++){
-            if(neighbString.substring(i,i+1).equals(",")){
-                start = i+1;
+        for(int i = 0;i<=neighbString.length();i++){
+            if(i == neighbString.length() || neighbString.substring(i,i+1).equals(",")){
                 neighborhoodlist.add(neighbString.substring(start,i));
+                start = i+1;
+
             }
         }
         return neighborhoodlist;
