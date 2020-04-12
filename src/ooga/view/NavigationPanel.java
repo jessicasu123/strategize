@@ -69,6 +69,8 @@ public class NavigationPanel {
         return button;
     }
 
+
+
     /**
      * Gives the GameView the buttons created in this panel, as well
      * as the method name of the actions they should be associated with.

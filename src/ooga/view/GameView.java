@@ -16,6 +16,7 @@ import javafx.scene.shape.Shape;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
+import org.testfx.framework.junit5.Start;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -46,6 +47,7 @@ public class GameView {
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final Color Black = Color.BLACK;
     public static final int PANE_HEIGHT = 350;
+    public static final int START_DIM = 500;
     public static final int SPACING = 40;
     public static final int GAME_PIECE_WIDTH = 115;
     public static int WIDTH = 600;
@@ -185,13 +187,20 @@ public class GameView {
         });
     }
     //TODO: go back to game set up options
-    private void restart() { System.out.println("RESTART");}
+    private void restart() throws IOException, ParseException {
+        GameSetupOptions gso = new GameSetupOptions(myStage, "tic-tac-toe.json");
+        gso.displayToStage();
+        System.out.println("RESTART");
+    }
 
     //TODO: popup to save current config
     private void save() { System.out.println("SAVE");}
 
-    //TODO: go back to menu
-    private void backToMenu() {System.out.println("BACK");}
+    private void backToMenu() throws FileNotFoundException {
+        StartView sv = new StartView(myStage);
+        sv.displayToStage(START_DIM,START_DIM);
+        System.out.println("BACK");
+    }
 
     private void showRules() {System.out.println("SHOW RULES");}
 
