@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JSONFileReaderTest {
-    private String fileNameGame = "resources/tic-tac-toe.json";
+    private String fileNameGame = "tic-tac-toe.json";
     JSONFileReader fr = new JSONFileReader(fileNameGame);
 
     JSONFileReaderTest() throws FileNotFoundException {
