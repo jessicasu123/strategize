@@ -10,7 +10,7 @@ import java.util.List;
  * This class calculates all the possible moves of a checkers piece including normal moves, jumps, and multiple jumps
  * It also acts to move a piece to the specified spot (verified by the board) and will capture opponent pieces as
  * specified by the game rules
- * @author Sanya Kochhar
+ * @author Holly Ansel
  */
 public class CheckersGamePiece extends GamePiece {
 

@@ -3,6 +3,8 @@
 
   "Neighborhood": "",
 
+  "EmptyState": 0,
+
   "Board": {
     "Height": "3",
     "Width": "3",
@@ -11,12 +13,16 @@
 
   "Player1": {
     "State" : "1",
+    "SpecialState": "",
+    "Direction": "",
     "Color": "Black",
     "Image": "X.png"
   },
 
   "Player2": {
     "State": "2",
+    "SpecialState": "",
+    "Direction": "",
     "Color": "Black",
     "Image": "O.png"
   }
