@@ -29,7 +29,7 @@ class CheckersAgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(40,myCheckersAgent.evaluateCurrentGameState(boardConfig));
+        assertEquals(40 + (-4 * 4),myCheckersAgent.evaluateCurrentGameState(boardConfig));
 
         //test pawn value (different number of pieces) for max
         row1 = new ArrayList<>(List.of(1,0,1,0));
@@ -45,7 +45,7 @@ class CheckersAgentTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,4,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-40,myCheckersAgent.evaluateCurrentGameState(boardConfig));
+        assertEquals(-40 + (-4 * -4),myCheckersAgent.evaluateCurrentGameState(boardConfig));
 
         //test pawn value (different number of pieces) for min
         row1 = new ArrayList<>(List.of(0,0,1,0));
