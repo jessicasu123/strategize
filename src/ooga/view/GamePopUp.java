@@ -20,12 +20,12 @@ public abstract class GamePopUp {
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
 
-    protected Stage displayStage;
     protected double popUpWidth;
     protected double popUpHeight;
     protected Pane myPopUpContents;
     protected JSONObject popUpScreenData;
 
+    private Stage displayStage;
     private Popup popUp;
     private double xOffset;
     private double yOffset;
