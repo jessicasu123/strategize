@@ -15,6 +15,7 @@ public class CheckersAgent extends Agent {
     private int myMaxDirection;
     private int myMinDirection;
     private int myMinKingState;
+    private int myEmptyState;
     private Map<Integer, Integer> myStateMapping;
 
     /**
@@ -23,12 +24,13 @@ public class CheckersAgent extends Agent {
      * @param minimizingPlayerPawnState - the ID of the player who the agent will try to minimize its moves for
      */
     //TODO: lots of parameters
-    public CheckersAgent(int maximizingPlayerPawnState, int minimizingPlayerPawnState, int maxKingState, int minKingState, int maxDirection) {
+    public CheckersAgent(int maximizingPlayerPawnState, int minimizingPlayerPawnState, int maxKingState, int minKingState,int emptyState, int maxDirection) {
         super(maximizingPlayerPawnState, minimizingPlayerPawnState);
         myMaxKingState = maxKingState;
         myMaxDirection = maxDirection;
         myMinDirection = maxDirection * -1;
         myMinKingState = minKingState;
+        myEmptyState = emptyState;
         myStateMapping = new HashMap<>();
         myStateMapping.put(maximizingPlayerPawnState, myMaxKingState);
         myStateMapping.put(minimizingPlayerPawnState, myMinKingState);
@@ -149,7 +151,7 @@ public class CheckersAgent extends Agent {
         int numOfOpponentsPieces = 0;
         for(List<Integer> row: boardStateInfo){
             for(int state : row){
-                if(state != myStateMapping.get(playerID) && state != playerID && state != 0){
+                if(state != myStateMapping.get(playerID) && state != playerID && state != myEmptyState){
                     numOfOpponentsPieces++;
                 }
             }
