@@ -23,7 +23,6 @@ public class CheckersAgent extends Agent {
      * @param maximizingPlayerPawnState - the ID of the player who the agent will try to maximize its moves for
      * @param minimizingPlayerPawnState - the ID of the player who the agent will try to minimize its moves for
      */
-    //TODO: lots of parameters
     public CheckersAgent(int maximizingPlayerPawnState, int minimizingPlayerPawnState, int maxKingState, int minKingState,int emptyState, int maxDirection) {
         super(maximizingPlayerPawnState, minimizingPlayerPawnState);
         myMaxKingState = maxKingState;
@@ -56,7 +55,7 @@ public class CheckersAgent extends Agent {
         }
 
         return (pieceValue(boardStateInfo) * PIECE_WEIGHT) + (evaluatePositions(boardStateInfo) * POSITION_WEIGHT) +
-                (evaluateDistances(boardStateInfo) * DISTANCE_WEIGHT);
+                (evaluateKingDistances(boardStateInfo) * DISTANCE_WEIGHT);
     }
 
 
@@ -85,31 +84,34 @@ public class CheckersAgent extends Agent {
         for(List<Integer> row: boardStateInfo) {
             for (int state : row) {
                 if(state == this.getMaxPlayer() || state == this.myMaxKingState){
-                    if(rowCount * myMaxDirection > myMaxDirection * boardStateInfo.size()/2 ){
+                    if(myMaxDirection > 0 && rowCount  * myMaxDirection > myMaxDirection * (boardStateInfo.size() - 1)/2 ){
+                        maxPawnEvals += PAWN_POS_BONUS;
+                    }else if(myMaxDirection < 0 && rowCount  * myMaxDirection >= myMaxDirection * (boardStateInfo.size() - 1)/2){
                         maxPawnEvals += PAWN_POS_BONUS;
                     }
                 }else if(state == this.getMinPlayer() || state == this.myMinKingState){
-                    if(rowCount * myMinDirection > myMinDirection * boardStateInfo.size()/2 ){
+                    if(myMinDirection < 0 && rowCount * myMinDirection >=  myMinDirection * (boardStateInfo.size() - 1)/2 ){
+                        minPawnEvals += PAWN_POS_BONUS;
+                    }else if(myMinDirection > 0 && rowCount * myMinDirection >  myMinDirection * (boardStateInfo.size() - 1)/2){
                         minPawnEvals += PAWN_POS_BONUS;
                     }
                 }
             }
             rowCount++;
         }
-
         return maxPawnEvals - minPawnEvals;
     }
     
-    private int evaluateDistances(List<List<Integer>> boardStateInfo){
+    private int evaluateKingDistances(List<List<Integer>> boardStateInfo){
         int maxDistanceEval = 0;
         int minDistanceEval = 0;
         int rowNum = 0;
         for(List<Integer> row: boardStateInfo){
             int colNum = 0;
             for(int state: row){
-                if(state == this.getMaxPlayer() || state == this.myMaxKingState){
+                if(state == this.myMaxKingState){
                     maxDistanceEval += sumDistanceToOpponent(boardStateInfo, this.getMinPlayer(), rowNum, colNum);
-                }else if(state == this.getMinPlayer() || state == this.myMinKingState){
+                }else if(state == this.myMinKingState){
                     minDistanceEval += sumDistanceToOpponent(boardStateInfo, this.getMaxPlayer(), rowNum, colNum);
                 }
                 colNum++;
