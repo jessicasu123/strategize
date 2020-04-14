@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class OthelloGamePiece extends GamePiece {
+    private int playerID;
     private int opponentID;
     private int currRowPos;
     private int currColPos;
@@ -24,7 +25,8 @@ public class OthelloGamePiece extends GamePiece {
     public OthelloGamePiece(int status, Coordinate position) {
         super(status, position);
         neighborsToConvert = new ArrayList<>();
-        opponentID = 3 - status; //TODO: figure better way to get opponent ID
+        playerID = 1;
+        opponentID = 2; //TODO: figure better way to get opponent ID
         currRowPos = this.getPosition().getXCoord();
         currColPos = this.getPosition().getYCoord();
         initializeSubNeighborhoods();
@@ -56,6 +58,7 @@ public class OthelloGamePiece extends GamePiece {
         return possibleMoves;
     }
 
+
     private void getSubNeighborhoods(List<GamePiece> allNeighbors) {
         for (GamePiece neighbor: allNeighbors) {
             int neighborRow = neighbor.getPosition().getXCoord();
@@ -83,12 +86,12 @@ public class OthelloGamePiece extends GamePiece {
     }
 
     private boolean checkHorizontalAdjOpponentPieces() {
-        Collections.reverse(horizRightNeighbors); //TODO: change to sort
+        Collections.reverse(horizLeftNeighbors); //TODO: change to sort & sort horizRight
         return checkSubNeighborhood(horizLeftNeighbors, horizRightNeighbors);
     }
 
     private boolean checkVerticalAdjOpponentPieces() {
-        Collections.reverse(vertTopNeighbors);
+        Collections.reverse(vertTopNeighbors); //TODO: change to sort & sort vertBottom
         return checkSubNeighborhood(vertTopNeighbors, vertBottomNeighbors);
     }
 
@@ -96,12 +99,12 @@ public class OthelloGamePiece extends GamePiece {
         int numOpponents = 0;
         List<GamePiece> possibleNeighborsToConvert = new ArrayList<>();
         for (GamePiece piece: neighbors) {
-            if (piece.getState()==0) return false; //TODO: fix
+            if (piece.getState()==0) return false;
             if (piece.getState()==opponentID) {
                 possibleNeighborsToConvert.add(piece);
                 numOpponents++;
             }
-            if (piece.getState()==this.getState()&&numOpponents>0) {
+            if (piece.getState()==playerID&&numOpponents>0) {
                 neighborsToConvert.addAll(possibleNeighborsToConvert);
                 return true;
             }
@@ -117,6 +120,7 @@ public class OthelloGamePiece extends GamePiece {
 
 
     private boolean checkDiagonalAdjOpponentPieces() {
+        //TODO: sort rightDiagNext & leftDiagNext
         Collections.reverse(rightDiagPrevNeighbors); //TODO: sort instead
         Collections.reverse(leftDiagPrevNeighbors); //TODO: sort instead
         boolean rightDiagHasValid = checkSubNeighborhood(rightDiagPrevNeighbors, rightDiagNextNeighbors);
