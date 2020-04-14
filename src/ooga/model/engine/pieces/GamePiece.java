@@ -52,6 +52,14 @@ public abstract class GamePiece {
     }
 
     /**
+     * This method is so that pieces who have a visual representation can override this
+     * By default it will return the state
+     * @return the visual representation of this piece
+     */
+    public int getVisualRepresentation(){
+        return myState;
+    }
+    /**
      *
      * @return the position of the piece
      */

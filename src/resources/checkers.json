@@ -23,7 +23,7 @@
     "State": "3",
     "SpecialState": "4",
     "Direction": "down",
-    "Color": "White",
+    "Color": "Red",
     "Image": "redCircle.png"
   }
 

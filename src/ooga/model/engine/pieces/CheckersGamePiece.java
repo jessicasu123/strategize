@@ -122,8 +122,8 @@ public class CheckersGamePiece extends GamePiece {
      *                  a piece being captured)
      */
     @Override
-    public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
-        if(this.getState() != myEmptyState) {
+    public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
+        if(this.getState() == playerState || (this.getState() == myKingState && playerState == myPawnState)) {
             Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
             if (isAdjacentDiagonal(endCoordinateInfo)) {
                 this.move(endCoordinateInfo);

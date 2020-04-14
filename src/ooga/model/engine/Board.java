@@ -158,7 +158,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowStates = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getState();
+                int currState = row.get(col).getVisualRepresentation();
                 rowStates.add(currState);
             }
             currStateConfig.add(rowStates);

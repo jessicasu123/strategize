@@ -1,0 +1,30 @@
+{
+  "Gametype": "Mancala",
+
+  "Neighborhood": "horizontal",
+
+  "EmptyState": "0",
+
+  "Board": {
+    "Height": "2",
+    "Width": "8",
+    "InitialConfig": "4,3,3,3,3,3,3,2;4,1,1,1,1,1,1,2"
+  },
+
+  "Player1": {
+    "State" : "1",
+    "SpecialState": "2",
+    "Direction": "right",
+    "Color": "White",
+    "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"
+  },
+
+  "Player2": {
+    "State": "3",
+    "SpecialState": "4",
+    "Direction": "left",
+    "Color": "White",
+    "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"
+  }
+
+}
