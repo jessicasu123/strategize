@@ -13,13 +13,11 @@ import java.util.List;
  * @author Sanya Kochhar
  */
 
-public class TicTacToeGamePiece implements GamePiece {
-    private int myState;
-    private Coordinate myPosition;
+public class TicTacToeGamePiece extends GamePiece {
+
 
     public TicTacToeGamePiece(int state, Coordinate position){
-        myState = state;
-        myPosition = position;
+        super(state, position);
     }
 
     @Override
@@ -33,17 +31,8 @@ public class TicTacToeGamePiece implements GamePiece {
 
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
-        myPosition = endCoordinateInfo;
-        myState = newState;
+        this.move(endCoordinateInfo);
+        this.changeState(newState);
     }
 
-    @Override
-    public int getState() {
-        return myState;
-    }
-
-    @Override
-    public Coordinate getPosition() {
-        return myPosition;
-    }
 }

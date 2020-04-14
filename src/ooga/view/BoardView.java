@@ -1,7 +1,9 @@
 package ooga.view;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -23,6 +25,8 @@ public class BoardView {
     public static final int GRID_PADDING = 2;
     public static final int CELL_SPACING = 1;
 
+    private double cellHeight;
+    private double cellWidth;
 
     public BoardView(int width, int height, int rows, int cols) {
         boardCells = new ArrayList<>();
@@ -63,11 +67,19 @@ public class BoardView {
         pane.setPadding(new Insets(GRID_PADDING, GRID_PADDING, GRID_PADDING, GRID_PADDING));
         pane.setHgap(CELL_SPACING);
         pane.setVgap(CELL_SPACING);
-        double cellHeight = paneHeight / boardRows;
-        double cellWidth = paneWidth / boardCols;
+        cellHeight = paneHeight / boardRows;
+        cellWidth = paneWidth / boardCols;
         createCells(cellWidth, cellHeight);
         pane.setAlignment(Pos.TOP_CENTER);
         return pane;
+    }
+
+    public double getCellHeight() {
+        return cellHeight;
+    }
+
+    public double getCellWidth() {
+        return cellWidth;
     }
 
     /**
@@ -77,6 +89,7 @@ public class BoardView {
      * @param cellWidth - width of cell
      */
     public void createCells(double cellWidth, double cellHeight) {
+
         for (int x = 0; x < boardRows; x++) {
             List<Shape> boardRow = new ArrayList<>();
             for (int y = 0; y < boardCols; y++) {

@@ -36,6 +36,5 @@ public interface FileHandler {
 
     public String getGameType() throws IOException;
     public List<String> getNeighborhood() throws IOException;
-    public String getPlayerImage(int playerID);
 
 }

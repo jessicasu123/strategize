@@ -25,6 +25,8 @@ public class Controller implements ControllerFramework {
     private int squareSelectedY;
     private int myUserPlayerID;
     private int myAgentPlayerID;
+    private String myUserImage;
+    private String myAgentImage;
 
 
 
@@ -36,15 +38,41 @@ public class Controller implements ControllerFramework {
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
     }
 
+    //TODO: fix
     private void setPlayerID(String userID) {
+        int player1State = 0;
+        int player2State = 0;
+        String player1Image = "";
+        String player2Image = "";
+        try {
+            player1State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
+            player2State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(2)));
+            player1Image = getStartingProperties().get("Image"+Integer.toString(1));
+            player2Image = getStartingProperties().get("Image"+Integer.toString(2));
+            Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
+        } catch (IOException | ParseException e) {
+            System.out.println(e.getMessage());
+        }
         if (userID.equals("Player1")) {
-            myUserPlayerID = 1;
-            myAgentPlayerID = 2;
+            myUserPlayerID = player1State;
+            myAgentPlayerID = player2State;
+            myUserImage = player1Image;
+            myAgentImage = player2Image;
         }
         else {
-            myUserPlayerID = 2;
-            myAgentPlayerID = 1;
+            myUserPlayerID = player2State;
+            myAgentPlayerID = player1State;
+            myUserImage = player2Image;
+            myAgentImage = player1Image;
         }
+    }
+
+    public String getUserImage() {
+        return myUserImage;
+    }
+
+    public String getAgentImage() {
+        return myAgentImage;
     }
 
     @Override
@@ -95,6 +123,9 @@ public class Controller implements ControllerFramework {
     public int getUserNumber() {
         return myUserPlayerID;
     }
+
+    @Override
+    public int getAgentNumber() {return myAgentPlayerID;}
 
     @Override
     public boolean isGameOver() {

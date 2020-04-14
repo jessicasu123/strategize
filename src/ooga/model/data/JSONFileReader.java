@@ -19,15 +19,10 @@ import org.json.JSONObject;
 
 public class JSONFileReader implements FileHandler {
 
-    private String fileNameGame;// = "tic-tac-toe.json";
+    private String gameFileName;
     public static Map<String, String> gameProperties;
     private JSONArray fileArray;
-    private JSONObject JO = new JSONObject();
-    private Object obj;
     private List<List<Integer>> configuration;
-    private Iterator it;
-    private Iterator<Map.Entry> itrl;
-    private int counter = 0;
     private String configAsString;
     private JSONObject GameType;
     private JSONObject neighborhood;
@@ -38,13 +33,12 @@ public class JSONFileReader implements FileHandler {
     private JSONObject player1;
     private JSONObject player2;
     public static final String DEFAULT_RESOURCES = "src/resources/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "tic-tac-toe.json";
     private org.json.JSONObject gameData;
     private String neighbString;
     List<String> neighborhoodlist;
 
     public JSONFileReader(String file) throws FileNotFoundException {
-        fileNameGame = file;
+        gameFileName = file;
         gameProperties = new HashMap<>();
     }
 
@@ -72,7 +66,7 @@ public class JSONFileReader implements FileHandler {
      * creates a JSONArray and iterator from the JSON File
      */
     private void createJSONArray() throws IOException {
-        FileReader br = new FileReader(DEFAULT_RESOURCES + fileNameGame);
+        FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
         JSONTokener token = new JSONTokener(br);
         gameData = new org.json.JSONObject(token);
     }
@@ -138,11 +132,6 @@ public class JSONFileReader implements FileHandler {
             }
         }
         return neighborhoodlist;
-    }
-
-    @Override
-    public String getPlayerImage(int playerID) {
-        return null;
     }
 
 
