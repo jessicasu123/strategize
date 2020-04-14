@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
@@ -49,7 +50,6 @@ public class GameView {
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
-    public static final int GAME_PIECE_WIDTH = 115;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
@@ -72,6 +72,8 @@ public class GameView {
     private String userImage;
     private String agentImage;
     private String boardColor;
+    private double gamePieceWidth;
+    private double gamePieceHeight;
 
     private BoardView grid;
     private NavigationPanel navPanel;
@@ -137,6 +139,8 @@ public class GameView {
 
         root.setCenter(grid.getGridContainer());
         allBoardCells = grid.getBoardCells();
+        gamePieceWidth = grid.getCellWidth();
+        gamePieceHeight = grid.getCellHeight();
         updateBoardAppearance();
 
         root.setBottom(navPanel.createNavigationBar());
@@ -153,12 +157,12 @@ public class GameView {
 
     private void getGameDisplayInfo() {
         userID = myController.getUserNumber();
-        agentID = 3 - userID; //TODO: make getAgentNumber method in controller
+        agentID = myController.getAgentNumber();
         try {
             boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
-            userImage = myController.getStartingProperties().get("Image" + Integer.toString(userID));
-            agentImage = myController.getStartingProperties().get("Image" + Integer.toString(agentID));
+            userImage = myController.getUserImage(); //myController.getStartingProperties().get("Image" + Integer.toString(userID));
+            agentImage = myController.getAgentImage();//myController.getStartingProperties().get("Image" + Integer.toString(agentID));
 
         } catch (IOException | ParseException e) {
             System.out.println(e.getMessage());
@@ -231,7 +235,7 @@ public class GameView {
     }
 
     private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        rect.setFill(new ImagePattern(img,finalX,finalY, GAME_PIECE_WIDTH, GAME_PIECE_WIDTH,false));
+        rect.setFill(new ImagePattern(img,finalX,finalY, gamePieceWidth, gamePieceHeight,false));
     }
 
     private void updateBoardAppearance() {
@@ -245,6 +249,8 @@ public class GameView {
     }
 
     private void updateCellAppearance(Shape currSquare, int r, int c) {
+        currSquare.setFill(Color.valueOf(boardColor));
+        currSquare.setStroke(Black);
         if (myGameStates.get(r).get(c) == userID) {
             Image player1Image = new Image(PIECES_RESOURCES + userImage);
             updatePlayerCell(player1Image, currSquare, r, c);
@@ -263,8 +269,6 @@ public class GameView {
     }
 
     private void updateEmptyCell(Shape currSquare, int r, int c) {
-        currSquare.setFill(Color.valueOf(boardColor));
-        currSquare.setStroke(Black);
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
         currSquare.setOnMouseClicked(userClick);

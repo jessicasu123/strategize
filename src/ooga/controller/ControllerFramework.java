@@ -80,6 +80,13 @@ public interface ControllerFramework {
 
     /**
      * METHOD PURPOSE:
+     *  - indicated which state number represents the agent
+     * @return the state number that represents the agent
+     */
+    int getAgentNumber();
+
+    /**
+     * METHOD PURPOSE:
      *  - lets the view know if the game is over based on the logic from the backend
      * @boolean if the game is over
      */
