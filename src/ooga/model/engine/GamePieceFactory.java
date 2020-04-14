@@ -31,7 +31,7 @@ public class GamePieceFactory {
                 return new OthelloGamePiece(status,position);
             case "Checkers":
                 //TODO: get other values from data file
-                return new CheckersGamePiece(status,1,2,1, position);
+                return new CheckersGamePiece(status,1,2,0,1, position);
             default:
                 //TODO: figure out whether to throw exception here or in Board (createBoardFromStartingConfig)
                 throw new InvalidGameTypeException(gameType + " is not a supported game type.");

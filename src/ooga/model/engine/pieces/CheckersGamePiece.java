@@ -10,7 +10,7 @@ import java.util.List;
  * This class calculates all the possible moves of a checkers piece including normal moves, jumps, and multiple jumps
  * It also acts to move a piece to the specified spot (verified by the board) and will capture opponent pieces as
  * specified by the game rules
- * @author Sanya Kochhar
+ * @author Holly Ansel
  */
 public class CheckersGamePiece extends GamePiece {
 
@@ -19,6 +19,7 @@ public class CheckersGamePiece extends GamePiece {
     private int myDirection;
     private final int myPawnState;
     private final int myKingState;
+    private final int myEmptyState;
     private boolean isKing;
 
     //TODO: get empty state from data file
@@ -31,10 +32,11 @@ public class CheckersGamePiece extends GamePiece {
      * @param direction - the direction this piece moves in (either +1 or -1)
      * @param position - the coordinate for the position of this piece
      */
-    public CheckersGamePiece(int state, int pawnState, int kingState, int direction, Coordinate position){
+    public CheckersGamePiece(int state, int pawnState, int kingState, int emptyState, int direction, Coordinate position){
         super(state, position);
         myPawnState = pawnState;
         myKingState = kingState;
+        myEmptyState = emptyState;
         myDirection = direction;
         isKing = state == kingState;
     }
@@ -56,13 +58,16 @@ public class CheckersGamePiece extends GamePiece {
      */
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
+
         List<Coordinate> possibleMoves = new ArrayList<>();
-        for(GamePiece neighbor: neighbors){
-            if(neighbor.getState() == 0 && isAdjacentDiagonal(neighbor.getPosition())){
-                possibleMoves.add(neighbor.getPosition());
+        if(this.getState() != myEmptyState) {
+            for (GamePiece neighbor : neighbors) {
+                if (neighbor.getState() == myEmptyState && isAdjacentDiagonal(neighbor.getPosition())) {
+                    possibleMoves.add(neighbor.getPosition());
+                }
             }
+            calculateAllPossibleJumps(neighbors, possibleMoves);
         }
-        calculateAllPossibleJumps(neighbors, possibleMoves);
         return possibleMoves;
     }
 
@@ -86,7 +91,7 @@ public class CheckersGamePiece extends GamePiece {
         for (GamePiece endOfPossibleJump : neighbors) {
             if(checkJumpConditions(endOfPossibleJump, neighbor, jumpDirection) && !possibleMoves.contains(endOfPossibleJump.getPosition())){
                 possibleMoves.add(endOfPossibleJump.getPosition());
-                CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState, myDirection, endOfPossibleJump.getPosition());
+                CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState, myEmptyState, myDirection, endOfPossibleJump.getPosition());
                 jumpResult.calculateAllPossibleJumps(neighbors, possibleMoves);
             }
         }
@@ -106,7 +111,7 @@ public class CheckersGamePiece extends GamePiece {
        return endOfPossibleJump.getPosition().getYCoord() == neighbor.getPosition().getYCoord() + jumpDirection ;
     }
     private boolean checkIfOpponentPiece(GamePiece neighbor) {
-        return neighbor.getState() != myPawnState && neighbor.getState() != 0 && neighbor.getState() != myKingState;
+        return neighbor.getState() != myPawnState && neighbor.getState() != myEmptyState && neighbor.getState() != myKingState;
     }
 
     /**
@@ -118,19 +123,21 @@ public class CheckersGamePiece extends GamePiece {
      */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
-        Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
-        if(isAdjacentDiagonal(endCoordinateInfo)){
-            this.move(endCoordinateInfo);
+        if(this.getState() != myEmptyState) {
+            Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
+            if (isAdjacentDiagonal(endCoordinateInfo)) {
+                this.move(endCoordinateInfo);
 
-        }else {
-            makeJumpMove(endCoordinateInfo, neighbors);
+            } else {
+                makeJumpMove(endCoordinateInfo, neighbors);
+            }
+            int endDiagonalLoc = findKingPromotionRow(neighbors);
+            if (endCoordinateInfo.getXCoord() == endDiagonalLoc) {
+                isKing = true;
+                this.changeState(myKingState);
+            }
+            switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
         }
-        int endDiagonalLoc = findKingPromotionRow(neighbors);
-        if(endCoordinateInfo.getXCoord() == endDiagonalLoc){
-            isKing = true;
-            this.changeState(myKingState);
-        }
-        switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
     }
 
     private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
@@ -147,7 +154,7 @@ public class CheckersGamePiece extends GamePiece {
         for(int i = 0; i < numJumps; i++){
             for(GamePiece neighbor: neighbors){
                 if(isAdjacentDiagonal(neighbor.getPosition()) && isOnPathToEndCoord(neighbor.getPosition(), endCoordinateInfo)){
-                    neighbor.changeState(0);
+                    neighbor.changeState(myEmptyState);
                     jump(neighbor.getPosition());
                 }
             }

@@ -8,6 +8,7 @@ import java.util.List;
  * It uses the rules about winning the game (getting a certain number of pieces in a row) to determine if the game
  * has been won and if so by whom
  * This agent also has an evaluation function for evaluating the current game state for how "good" or "bad" it is
+ * @author Holly Ansel
  */
 public class TicTacToeAgent extends Agent {
     private final int myInARow;
@@ -26,7 +27,7 @@ public class TicTacToeAgent extends Agent {
     /**
      * Returns 0 when no moves are possible
      *  EVALUATION FUNCTION:
-     *      (number of rows, columns, and diagnols open for max) - (number of rows, columns, and diagonals open for min)
+     *      (number of rows, columns, and diagonals open for max) - (number of rows, columns, and diagonals open for min)
      * @param boardStateInfo - all of the current state information from the board
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
