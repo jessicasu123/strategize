@@ -48,8 +48,8 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public void saveANewFile(String fileName, Map<String, String> properties) {
-        myFileHandler.saveToFile(fileName, properties, myGame.getVisualInfo());
+    public void saveANewFile(String fileName, Map<String, String> startingProperties) throws IOException, ParseException {
+        myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
     }
 
     @Override
