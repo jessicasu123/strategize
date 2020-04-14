@@ -235,7 +235,7 @@ public class GameView {
     }
 
     private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        rect.setFill(new ImagePattern(img,finalX,finalY, gamePieceWidth, gamePieceHeight,false));
+        rect.setFill(new ImagePattern(img));
     }
 
     private void updateBoardAppearance() {
