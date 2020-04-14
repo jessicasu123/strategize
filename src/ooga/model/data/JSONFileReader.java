@@ -200,7 +200,7 @@ public class JSONFileReader implements FileHandler {
         fileArray.put(player1);
         fileArray.put(player2);
 
-        try (FileWriter file = new FileWriter("src/resources")) {
+        try (FileWriter file = new FileWriter(fileName)) {
 
             file.write(fileArray.toString());
             file.flush();
