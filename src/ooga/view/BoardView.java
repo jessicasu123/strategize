@@ -1,9 +1,7 @@
 package ooga.view;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -93,11 +91,8 @@ public class BoardView {
         for (int x = 0; x < boardRows; x++) {
             List<Shape> boardRow = new ArrayList<>();
             for (int y = 0; y < boardCols; y++) {
-                Rectangle rect = new Rectangle();
-                rect.setWidth(cellWidth);
-                rect.setHeight(cellHeight);
+                Rectangle rect = new Rectangle(cellWidth, cellHeight);
                 rect.setId("cell" + x + y);
-                //updateCellAppearance(rect,x,y);
                 boardRow.add(rect);
                 pane.add(rect, y, x);
             }

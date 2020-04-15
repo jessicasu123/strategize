@@ -33,7 +33,7 @@ public abstract class GamePiece {
      *         for game types that don't move just change state this will just contain itself as the end coordinate
      *         the list will be empty if no moves are possible
      */
-    public abstract List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors);
+    public abstract List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID);
 
     /**
      * This method makes a "move": it changes the state and/or position of the game piece and potentially
@@ -51,6 +51,14 @@ public abstract class GamePiece {
         return myState;
     }
 
+    /**
+     * This method is so that pieces who have a visual representation can override this
+     * By default it will return the state
+     * @return the visual representation of this piece
+     */
+    public int getVisualRepresentation(){
+        return myState;
+    }
     /**
      *
      * @return the position of the piece

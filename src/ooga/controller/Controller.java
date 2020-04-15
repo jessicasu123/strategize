@@ -28,10 +28,13 @@ public class Controller implements ControllerFramework {
     private String myUserImage;
     private String myAgentImage;
 
+    private String gameFileName;
+
 
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException {
-        myFileHandler = new JSONFileReader(fileName);
+        gameFileName = fileName;
+        myFileHandler = new JSONFileReader(gameFileName);
         isPieceSelected = false;
         setPlayerID(userID);
         String gameType = getStartingProperties().get("Gametype");
@@ -39,38 +42,33 @@ public class Controller implements ControllerFramework {
     }
 
     //TODO: fix
-    private void setPlayerID(String userID) {
-        int player1State = 0;
-        int player2State = 0;
-        String player1Image = "";
-        String player2Image = "";
-        try {
-            player1State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
-            player2State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(2)));
-            player1Image = getStartingProperties().get("Image"+Integer.toString(1));
-            player2Image = getStartingProperties().get("Image"+Integer.toString(2));
-            Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
-        } catch (IOException | ParseException e) {
-            System.out.println(e.getMessage());
-        }
+    private void setPlayerID(String userID) throws IOException, ParseException {
+        int player1State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
+        int player2State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(2)));
+        String player1Image = getStartingProperties().get("Image"+Integer.toString(1));
+        String player2Image = getStartingProperties().get("Image"+Integer.toString(2));
+
         if (userID.equals("Player1")) {
-            myUserPlayerID = player1State;
-            myAgentPlayerID = player2State;
-            myUserImage = player1Image;
-            myAgentImage = player2Image;
+            assignPlayerIDAndImages(player1State, player2State, player1Image, player2Image);
         }
         else {
-            myUserPlayerID = player2State;
-            myAgentPlayerID = player1State;
-            myUserImage = player2Image;
-            myAgentImage = player1Image;
+            assignPlayerIDAndImages(player2State, player1State, player2Image, player1Image);
         }
     }
 
+    private void assignPlayerIDAndImages(int userState, int agentState, String userImage, String agentImage) {
+        myUserPlayerID = userState;
+        myAgentPlayerID = agentState;
+        myUserImage = userImage;
+        myAgentImage = agentImage;
+    }
+
+    //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getUserImage() {
         return myUserImage;
     }
 
+    //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getAgentImage() {
         return myAgentImage;
     }
@@ -116,6 +114,11 @@ public class Controller implements ControllerFramework {
     @Override
     public List<List<Integer>> getGameVisualInfo() {
         return myGame.getVisualInfo();
+    }
+
+    @Override
+    public String getGameFileName() {
+        return gameFileName;
     }
 
 

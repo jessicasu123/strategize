@@ -118,8 +118,10 @@ public class Board implements BoardFramework{
                 //TODO: later change to use data value for empty state
                 if (currPiece.getState() == player || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
-                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
-                    allLegalMoves.put(currCoord, moves);
+                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece),player);
+                    if (moves.size()>0) {
+                        allLegalMoves.put(currCoord, moves);
+                    }
                 }
             }
         }
@@ -140,9 +142,10 @@ public class Board implements BoardFramework{
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
-        if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
+        if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
+            System.out.println(getStateInfo());
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
     }
@@ -158,7 +161,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowStates = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getState();
+                int currState = row.get(col).getVisualRepresentation();
                 rowStates.add(currState);
             }
             currStateConfig.add(rowStates);

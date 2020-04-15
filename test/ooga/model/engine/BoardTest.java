@@ -35,6 +35,26 @@ public class BoardTest {
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
     Board noMovesBoard = new Board ("Tic-Tac-Toe", noMoves, neighborhoods);
+
+    List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+    List<Integer> row2 = new ArrayList<>(List.of(0,0,1,0,0,0,0,0));
+    List<Integer> row3 = new ArrayList<>(List.of(0,1,1,0,0,0,0,0));
+    List<Integer> row4 = new ArrayList<>(List.of(2,2,2,2,1,0,0,0));
+    List<Integer> row5 = new ArrayList<>(List.of(0,0,0,1,2,0,0,0));
+    List<Integer> row6 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+    List<Integer> row7 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+    List<Integer> row8 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+    List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
+    List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
+    Board othelloBoard = new Board("Othello", othelloConfig, othelloNeighborhoods);
+
+    @Test
+    void testOthelloBoard() {
+        Map<Coordinate,List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1);
+        for (Coordinate c: moves.keySet()) {
+            System.out.println(moves.get(c));
+        }
+    }
     @Test
     void testCreateBoardFromStartingConfig() {
         /**
@@ -83,8 +103,6 @@ public class BoardTest {
     void testGetAllLegalMoves() {
         Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
         Coordinate squareWithPlayer = new Coordinate(1,1);
-        //checking that an coordinate with a player is NOT a legal "move"
-        assertEquals(0,moves.get(squareWithPlayer).size());
 
         //checking that a coordinate with an empty square is a legal "move"
         Coordinate emptySquare = new Coordinate(1,2);

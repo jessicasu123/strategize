@@ -1,9 +1,6 @@
 package ooga.model.engine;
 
-import ooga.model.engine.pieces.CheckersGamePiece;
-import ooga.model.engine.pieces.GamePiece;
-import ooga.model.engine.pieces.OthelloGamePiece;
-import ooga.model.engine.pieces.TicTacToeGamePiece;
+import ooga.model.engine.pieces.*;
 
 /**
  * The purpose of this class is to generate different types
@@ -32,6 +29,9 @@ public class GamePieceFactory {
             case "Checkers":
                 //TODO: get other values from data file
                 return new CheckersGamePiece(status,1,2,0,1, position);
+            case "Mancala":
+                //TODO get values from data file
+                return new MancalaGamePiece(status,2,4,1,4,0,position);
             default:
                 //TODO: figure out whether to throw exception here or in Board (createBoardFromStartingConfig)
                 throw new InvalidGameTypeException(gameType + " is not a supported game type.");
