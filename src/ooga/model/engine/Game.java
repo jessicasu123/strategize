@@ -14,9 +14,10 @@ public class Game implements GameFramework{
     private int myUserPlayerID;
     private int myAgentPlayerID;
 
+
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID)  {
+    public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
         myBoard = new Board(gameType, startingConfiguration, neighborhoods);
         myUserPlayerID = userID;
         myAgentPlayerID = agentID;

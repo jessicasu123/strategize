@@ -5,6 +5,8 @@
 
   "EmptyState": "0",
 
+  "PiecesMove": "false",
+
   "Board": {
     "Height": "2",
     "Width": "8",
@@ -15,7 +17,7 @@
     "State" : "1",
     "StartingPieces": "4",
     "SpecialState": "2",
-    "Direction": "right",
+    "PosDirection": "true",
     "Color": "White",
     "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png",
     "SpecialStateImage": ""
@@ -25,7 +27,7 @@
     "State": "3",
     "StartingPieces": "4",
     "SpecialState": "4",
-    "Direction": "left",
+    "PosDirection": "false",
     "Color": "White",
     "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png",
     "SpecialStateImage": ""

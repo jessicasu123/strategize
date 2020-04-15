@@ -10,14 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
-import org.testfx.framework.junit5.Start;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -74,7 +72,7 @@ public class GameView {
     private String boardColor;
     private double gamePieceWidth;
     private double gamePieceHeight;
-
+    private boolean piecesMove;
     private BoardView grid;
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
@@ -169,6 +167,7 @@ public class GameView {
             boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             userImage = myController.getUserImage(); //myController.getStartingProperties().get("Image" + Integer.toString(userID));
             agentImage = myController.getAgentImage();//myController.getStartingProperties().get("Image" + Integer.toString(agentID));
+            piecesMove = myController.doPiecesMove();
 
         } catch (IOException | ParseException e) {
             System.out.println(e.getMessage());
@@ -237,7 +236,12 @@ public class GameView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
+
+        if(didSelectPiece && piecesMove){
+            allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
+        }
         updateImageOnSquare(rect, img);
+
     }
 
     private void updateImageOnSquare(Shape rect, Image img) {
@@ -278,18 +282,21 @@ public class GameView {
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
         currSquare.setOnMouseClicked(userClick);
+        //TODO: fix
         currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }
 
     private void handlePieceSelected(int r, int c) {
-        //didSelectPiece = true;
-        //lastPieceSelectedX = r;
-        //lastPieceSelectedY = c;
+        if(piecesMove){
+            didSelectPiece = true;
+            lastPieceSelectedX = r;
+            lastPieceSelectedY = c;
+        }
     }
 
     private void makeMove(){
         if(gameInProgress) {
-            if (didSelectPiece) {   //TODO: add another check from JSON file that game requires 2 moves
+            if (didSelectPiece) {
                 myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
             }
             myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);

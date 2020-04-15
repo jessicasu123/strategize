@@ -46,6 +46,7 @@ class JSONFileReaderTest {
     @org.junit.jupiter.api.Test
     void loadFilePropertiesTest() throws IOException {
         Map<String, String> map = new HashMap<String, String>();
+        map.put("PiecesMove","false");
         map.put("State1","1");
         map.put("State2","2");
         map.put("Image2","O.png");

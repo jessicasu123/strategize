@@ -11,7 +11,7 @@ public class AgentFactory {
                 return new TicTacToeAgent(maxPlayer, minPlayer, 3);
             case "Checkers":
                 //TODO get to read from data file
-                return new CheckersAgent(maxPlayer,minPlayer,2,3,0,1);
+                return new CheckersAgent(maxPlayer,minPlayer,2,4,0,1);
             case "Othello":
                 return new OthelloAgent(maxPlayer, minPlayer);
             default:

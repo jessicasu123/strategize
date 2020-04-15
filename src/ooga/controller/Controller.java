@@ -27,7 +27,6 @@ public class Controller implements ControllerFramework {
     private int myAgentPlayerID;
     private String myUserImage;
     private String myAgentImage;
-
     private String gameFileName;
 
 
@@ -39,6 +38,7 @@ public class Controller implements ControllerFramework {
         setPlayerID(userID);
         String gameType = getStartingProperties().get("Gametype");
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
+
     }
 
     //TODO: fix
@@ -48,11 +48,14 @@ public class Controller implements ControllerFramework {
         String player1Image = getStartingProperties().get("Image"+Integer.toString(1));
         String player2Image = getStartingProperties().get("Image"+Integer.toString(2));
 
+
         if (userID.equals("Player1")) {
             assignPlayerIDAndImages(player1State, player2State, player1Image, player2Image);
+
         }
         else {
             assignPlayerIDAndImages(player2State, player1State, player2Image, player1Image);
+
         }
     }
 
@@ -63,6 +66,7 @@ public class Controller implements ControllerFramework {
         myAgentImage = agentImage;
     }
 
+
     //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getUserImage() {
         return myUserImage;
@@ -71,6 +75,10 @@ public class Controller implements ControllerFramework {
     //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getAgentImage() {
         return myAgentImage;
+    }
+
+    public boolean doPiecesMove() throws IOException, ParseException {
+        return  Boolean.parseBoolean(getStartingProperties().get("PiecesMove"));
     }
 
     @Override

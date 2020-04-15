@@ -79,14 +79,12 @@ public class JSONFileReader implements FileHandler {
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
         gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
 
-
         gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
         gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
 
         gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
         gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
-
 
     }
 
@@ -154,6 +152,7 @@ public class JSONFileReader implements FileHandler {
         createJSONArray();
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
         getGamePropertyNested();
         return gameProperties;
     }

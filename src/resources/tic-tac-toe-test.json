@@ -3,7 +3,9 @@
 
   "Neighborhood": "",
 
-  "EmptyState": 0,
+  "EmptyState": "0",
+
+  "PiecesMove": "false",
 
   "Board": {
     "Height": "100",
@@ -14,7 +16,7 @@
   "Player1": {
     "State" : "1",
     "SpecialState": "",
-    "Direction": "",
+    "PosDirection": "",
     "Color": "Black",
     "Image": "X.png",
     "SpecialStateImage": ""
@@ -23,7 +25,7 @@
   "Player2": {
     "State": "2",
     "SpecialState": "",
-    "Direction": "",
+    "PosDirection": "",
     "Color": "Black",
     "Image": "O.png",
     "SpecialStateImage": ""
