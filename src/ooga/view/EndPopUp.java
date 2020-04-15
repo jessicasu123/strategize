@@ -47,10 +47,12 @@ public class EndPopUp extends GamePopUp{
     public void createPopUpContents() {
         VBox gameEndContents = new VBox();
         gameEndContents.setSpacing(SPACING);
+        gameEndContents.setPadding(new Insets(40,SPACING/2.0,0,SPACING/2.0));
+        gameEndContents.setMinWidth(popUpWidth);
         gameEndContents.getChildren().addAll(createEndMessaging(), createNavigationOptions());
         gameEndContents.setAlignment(Pos.CENTER);
         myPopUpContents.getChildren().add(gameEndContents);
-        
+
     }
 
     /**
@@ -61,8 +63,8 @@ public class EndPopUp extends GamePopUp{
     //TODO: find better way to do this
     public Map<Button, String> getButtonActionsMap() {return buttonActionsMap;}
 
-    private HBox createEndMessaging() {
-        HBox endMessaging = new HBox();
+    private VBox createEndMessaging() {
+        VBox endMessaging = new VBox();
         endMessaging.setSpacing(SPACING/2.0);
         JSONObject labelText = popUpScreenData.getJSONObject("Labels");
         Text messageText = new Text(labelText.getString(winStatus+"Text"));
