@@ -37,7 +37,7 @@ import java.util.Map;
  * game instructions.
  * Upon clicking the settings icon, a CustomizationView is created.
  * Upon clicking save, a SaveView is created.
- * @author Sanya Kochhar, Brian Li
+ * @author Brian Li
  */
 
 public class GameView {
@@ -53,6 +53,8 @@ public class GameView {
     public static final int SPACING = 40;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
+    public static int SaveWIDTH = 300;
+    public static int SaveHEIGHT = 300;
 
     private Stage myStage;
     private JSONObject gameScreenData;
@@ -79,7 +81,9 @@ public class GameView {
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
     private CustomizationPopUp customizePopUp;
-
+    private SavePopUp save;
+    private RulesPopUp rules;
+    private List<String> rulelist;
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -111,9 +115,11 @@ public class GameView {
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 
-    private void initializePopUps() {
+    private void initializePopUps() throws FileNotFoundException {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, userImage,
                 agentImage, boardColor);
+        save = new SavePopUp(myStage,SaveWIDTH,SaveHEIGHT);
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, "tic-tac-toe.json");
     }
 
     /**
@@ -196,7 +202,7 @@ public class GameView {
             }
         });
     }
-    //TODO: go back to game set up options
+
     private void restart() throws IOException, ParseException {
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
@@ -204,7 +210,17 @@ public class GameView {
     }
 
     //TODO: popup to save current config
-    private void save() { System.out.println("SAVE");}
+    private void save() {
+        save.display();
+        addActionsToButtons(save.getButtonActionsMap());
+        System.out.println("SAVE");
+    }
+
+    private void saveConfig() throws IOException, ParseException {
+        save.close();
+        myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
+        System.out.println("SAVE CONFIG");
+    }
 
     private void backToMenu() throws FileNotFoundException {
         StartView sv = new StartView(myStage);
@@ -212,7 +228,11 @@ public class GameView {
         System.out.println("BACK");
     }
 
-    private void showRules() {System.out.println("SHOW RULES");}
+    private void showRules() {
+        rules.display();
+//        addActionsToButtons(rules.getButtonActionsMap());
+        System.out.println("SHOW RULES");
+    }
 
     private void showSocialCenter() {System.out.println("SOCIAL CENTER");}
 

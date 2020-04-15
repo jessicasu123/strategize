@@ -22,6 +22,8 @@ public class GamePieceFactory {
      */
     public GamePiece createGamePiece(String gameType, int status, Coordinate position) throws InvalidGameTypeException {
         switch (gameType) {
+            case "Connect4":
+                return new ConnectFourGamePiece(status,position);
             case "Tic-Tac-Toe":
                 return new TicTacToeGamePiece(status, position);
             case "Othello":
