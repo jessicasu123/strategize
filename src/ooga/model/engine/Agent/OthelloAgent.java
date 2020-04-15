@@ -43,6 +43,7 @@ public class OthelloAgent extends Agent {
     }
 
     private int calculateCornerPositions(List<List<Integer>> boardStateInfo) {
+        
         return 0;
     }
 
@@ -76,8 +77,6 @@ public class OthelloAgent extends Agent {
      */
     @Override
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
-        int numOpponentPieces = 0;
-        int numPlayerPieces = 0;
         //game is not won if board still has empty spots
         for (int row = 0; row < boardStateInfo.size();row++) {
             if (boardStateInfo.get(row).contains(0)) return false;
