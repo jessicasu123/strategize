@@ -10,25 +10,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MancalaGamePieceTest {
 
-    MancalaGamePiece goalPocket1 = new MancalaGamePiece(4,4,-1,0, 0, new Coordinate(0,0));
-    MancalaGamePiece goalPocket2 = new MancalaGamePiece(2,2,1,0, 0, new Coordinate(1,7));
+    MancalaGamePiece goalPocket1 = new MancalaGamePiece(4,4,2,-1,0, 0, new Coordinate(0,0));
+    MancalaGamePiece goalPocket2 = new MancalaGamePiece(2,2,4,1,0, 0, new Coordinate(1,7));
 
-    MancalaGamePiece emptySquare1 = new MancalaGamePiece(0,0,0,0, 0, new Coordinate(0,7));
-    MancalaGamePiece emptySquare2 = new MancalaGamePiece(0,0,0,0, 0, new Coordinate(1,0));
+    MancalaGamePiece emptySquare1 = new MancalaGamePiece(0,0,0,0,0, 0, new Coordinate(0,7));
+    MancalaGamePiece emptySquare2 = new MancalaGamePiece(0,0,0,0,0, 0, new Coordinate(1,0));
 
-    MancalaGamePiece topSqaure1 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,1));
-    MancalaGamePiece topSqaure2 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,2));
-    MancalaGamePiece topSqaure3 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,3));
-    MancalaGamePiece topSqaure4 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,4));
-    MancalaGamePiece topSqaure5 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,5));
-    MancalaGamePiece topSqaure6 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,6));
+    MancalaGamePiece topSqaure1 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,1));
+    MancalaGamePiece topSqaure2 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,2));
+    MancalaGamePiece topSqaure3 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,3));
+    MancalaGamePiece topSqaure4 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,4));
+    MancalaGamePiece topSqaure5 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,5));
+    MancalaGamePiece topSqaure6 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,6));
 
-    MancalaGamePiece bottomSqaure1 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,1));
-    MancalaGamePiece bottomSqaure2 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,2));
-    MancalaGamePiece bottomSqaure3 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,3));
-    MancalaGamePiece bottomSqaure4 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,4));
-    MancalaGamePiece bottomSqaure5 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,5));
-    MancalaGamePiece bottomSqaure6 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,6));
+    MancalaGamePiece bottomSqaure1 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,1));
+    MancalaGamePiece bottomSqaure2 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,2));
+    MancalaGamePiece bottomSqaure3 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,3));
+    MancalaGamePiece bottomSqaure4 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,4));
+    MancalaGamePiece bottomSqaure5 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,5));
+    MancalaGamePiece bottomSqaure6 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,6));
 
     List<GamePiece> allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
             topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -121,11 +121,11 @@ class MancalaGamePieceTest {
         assertEquals(5, topSqaure4.getVisualRepresentation());
         assertEquals(5, topSqaure3.getVisualRepresentation());
         assertEquals(5, topSqaure2.getVisualRepresentation());
-        topSqaure2 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,2));
-        topSqaure3 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,3));
-        topSqaure4 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,4));
-        topSqaure5 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,5));
-        topSqaure6 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,6));
+        topSqaure2 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,2));
+        topSqaure3 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,3));
+        topSqaure4 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,4));
+        topSqaure5 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,5));
+        topSqaure6 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,6));
         allPieces.add(topSqaure6);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -139,11 +139,11 @@ class MancalaGamePieceTest {
         assertEquals(5, topSqaure2.getVisualRepresentation());
         assertEquals(5, topSqaure1.getVisualRepresentation());
         assertEquals(1, goalPocket1.getVisualRepresentation());
-        topSqaure2 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,2));
-        topSqaure3 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,3));
-        topSqaure4 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,4));
-        topSqaure1 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,1));
-        goalPocket1 = new MancalaGamePiece(4,4,-1,0, 0, new Coordinate(0,0));
+        topSqaure2 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,2));
+        topSqaure3 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,3));
+        topSqaure4 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,4));
+        topSqaure1 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,1));
+        goalPocket1 = new MancalaGamePiece(4,4,2,-1,0, 0, new Coordinate(0,0));
         allPieces.add(topSqaure4);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -157,11 +157,11 @@ class MancalaGamePieceTest {
         assertEquals(5, bottomSqaure2.getVisualRepresentation());
         assertEquals(5, bottomSqaure3.getVisualRepresentation());
         assertEquals(1, goalPocket1.getVisualRepresentation());
-        bottomSqaure1 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,1));
-        bottomSqaure2 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,2));
-        bottomSqaure3 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,3));
-        topSqaure1 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,1));
-        goalPocket1 = new MancalaGamePiece(4,4,-1,0, 0, new Coordinate(0,0));
+        bottomSqaure1 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,1));
+        bottomSqaure2 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,2));
+        bottomSqaure3 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,3));
+        topSqaure1 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,1));
+        goalPocket1 = new MancalaGamePiece(4,4,2,-1,0, 0, new Coordinate(0,0));
         allPieces.add(topSqaure1);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -179,11 +179,11 @@ class MancalaGamePieceTest {
         assertEquals(5, bottomSqaure3.getVisualRepresentation());
         assertEquals(5, bottomSqaure4.getVisualRepresentation());
         assertEquals(5, bottomSqaure5.getVisualRepresentation());
-        bottomSqaure1 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,1));
-        bottomSqaure2 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,2));
-        bottomSqaure3 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,3));
-        bottomSqaure4 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,4));
-        bottomSqaure5 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,5));
+        bottomSqaure1 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,1));
+        bottomSqaure2 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,2));
+        bottomSqaure3 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,3));
+        bottomSqaure4 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,4));
+        bottomSqaure5 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,5));
         allPieces.add(bottomSqaure1);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -197,11 +197,11 @@ class MancalaGamePieceTest {
         assertEquals(5, bottomSqaure5.getVisualRepresentation());
         assertEquals(5, bottomSqaure6.getVisualRepresentation());
         assertEquals(1, goalPocket2.getVisualRepresentation());
-        bottomSqaure3 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,3));
-        bottomSqaure4 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,4));
-        bottomSqaure5 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,5));
-        bottomSqaure6 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,6));
-        goalPocket2 = new MancalaGamePiece(2,2,1,0, 0, new Coordinate(1,7));
+        bottomSqaure3 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,3));
+        bottomSqaure4 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,4));
+        bottomSqaure5 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,5));
+        bottomSqaure6 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,6));
+        goalPocket2 = new MancalaGamePiece(2,2,4,1,0, 0, new Coordinate(1,7));
         allPieces.add(bottomSqaure3);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
@@ -215,11 +215,11 @@ class MancalaGamePieceTest {
         assertEquals(5, topSqaure6.getVisualRepresentation());
         assertEquals(5, topSqaure5.getVisualRepresentation());
         assertEquals(5, topSqaure4.getVisualRepresentation());
-        bottomSqaure6 = new MancalaGamePiece(1,2,1,4, 0, new Coordinate(1,6));
-        goalPocket2 = new MancalaGamePiece(2,2,1,0, 0, new Coordinate(1,7));
-        topSqaure4 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,4));
-        topSqaure5 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,5));
-        topSqaure6 = new MancalaGamePiece(3,4,-1,4, 0, new Coordinate(0,6));
+        bottomSqaure6 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,6));
+        goalPocket2 = new MancalaGamePiece(2,2,4,1,0, 0, new Coordinate(1,7));
+        topSqaure4 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,4));
+        topSqaure5 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,5));
+        topSqaure6 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,6));
         allPieces.add(bottomSqaure6);
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));

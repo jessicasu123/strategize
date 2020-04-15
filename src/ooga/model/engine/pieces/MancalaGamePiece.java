@@ -9,13 +9,15 @@ public class MancalaGamePiece extends GamePiece {
     private int myMarbles;
     private int myGoalState;
     private int myDirection;
+    private int myOpponentsGoal;
     private final int myEmptyState;
 
-    public MancalaGamePiece(int state, int goalState, int direction, int numMarbles, int emptyState, Coordinate position) {
+    public MancalaGamePiece(int state, int goalState,int opponentGoal, int direction, int numMarbles, int emptyState, Coordinate position) {
         super(state, position);
         myMarbles = numMarbles;
         myGoalState = goalState;
         myDirection = direction;
+        myOpponentsGoal = opponentGoal;
         myEmptyState = emptyState;
     }
 
@@ -74,7 +76,8 @@ public class MancalaGamePiece extends GamePiece {
     private List<GamePiece> myOpponentRowOfPieces(List<GamePiece> neighbors){
         List<GamePiece> opponentsRow = new ArrayList<>();
         for(GamePiece square: neighbors){
-            if(square.getState() != this.getState() && square.getState() != myGoalState && square.getState() != myEmptyState){
+            if(square.getState() != this.getState() && square.getState() != myGoalState && square.getState() != myEmptyState
+                    && square.getState() != myOpponentsGoal){
                 opponentsRow.add(square);
             }
         }
