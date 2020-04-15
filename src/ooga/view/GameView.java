@@ -44,6 +44,8 @@ public class GameView {
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
+    public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
+    public static final String ENDGAME_FILE = "GameEndView.json";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final Color Black = Color.BLACK;
@@ -112,8 +114,8 @@ public class GameView {
     }
 
     private void initializePopUps() {
-        customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, userImage,
-                agentImage, boardColor);
+        customizePopUp = new CustomizationPopUp(myStage, WIDTH, HEIGHT, CUSTOMIZATION_FILE,
+                userImage, agentImage, boardColor);
     }
 
     /**

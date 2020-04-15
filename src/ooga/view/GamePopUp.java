@@ -18,7 +18,8 @@ public abstract class GamePopUp {
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
+//    public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
+    private String popUpFile;
 
     protected double popUpWidth;
     protected double popUpHeight;
@@ -30,7 +31,7 @@ public abstract class GamePopUp {
     private double xOffset;
     private double yOffset;
 
-    public GamePopUp(Stage stage, int width, int height) {
+    public GamePopUp(Stage stage, int width, int height, String fileName) {
         displayStage = stage;
 
         popUpWidth = width * (2.0/3.0);
@@ -39,15 +40,17 @@ public abstract class GamePopUp {
         xOffset = (width - popUpWidth)/2.5;
         yOffset = (height - popUpHeight)/2.0;
 
+        popUpFile = DEFAULT_RESOURCES + fileName;
         setUpJSONReader();
     }
 
     private void setUpJSONReader()  {
         FileReader br = null;
         try {
-            br = new FileReader(DATAFILE);
+            br = new FileReader(popUpFile);
         } catch (FileNotFoundException e) {
             System.out.println("MISSING CUSTOMIZATION JSON FILE");
+            System.out.println(popUpFile);
         }
         JSONTokener token = new JSONTokener(br);
         popUpScreenData = new JSONObject(token);

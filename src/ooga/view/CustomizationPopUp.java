@@ -40,9 +40,9 @@ public class CustomizationPopUp extends GamePopUp{
     public static final int MIN_ICON_WIDTH = 30;
     public static final String IMG_EXTENSION = ".png";
 
-    public CustomizationPopUp(Stage stage, int width, int height,
+    public CustomizationPopUp(Stage stage, int width, int height, String fileName,
                               String currUserImg, String currOppImg, String currColor) {
-        super(stage, width, height);
+        super(stage, width, height, fileName);
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
         userImage = currUserImg;

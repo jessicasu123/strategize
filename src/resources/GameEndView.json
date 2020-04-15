@@ -1,0 +1,25 @@
+{
+  "Colors": {
+    "WinColor": "green",
+    "LossColor": "red",
+    "TieColor": "blue"
+  },
+  "Images": {
+    "WinImage": "win.png",
+    "LossImage": "loss.png",
+    "TieImage": "tie.png"
+  },
+  "Labels": {
+    "WinText": "CONGRATULATIONS",
+    "WinSubtext": "You won!",
+    "LossText": "SAD!",
+    "LossSubtext": "You lost",
+    "TieText": "YOU TIED",
+    "TieSubtext": ""
+  },
+  "Buttons": {
+    "PlayAgain": "Play Again",
+    "ToSetup": "Return to Setup Mode",
+    "MainMenu": "Return to Main Menu"
+  }
+}
