@@ -322,6 +322,7 @@ public class GameView {
             }
             myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
             myController.playMove();
+            System.out.println("DONE");
             checkGameOver();
             if(gameInProgress){
                 myController.haveAgentMove();

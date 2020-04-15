@@ -27,6 +27,8 @@
     "Image": "yellowCircle.png"
   },
 
+  "possibleMove": "",
+
   "Rules": ["Place piece in any open spot on the first row or above another piece.", "Prevent opponent from getting 4 in a row (horizontal, vertical, diagonal).", "First one to get 4 in a row wins!", "If nobody gets 4 in a row, a tie is called."]
 
 }
