@@ -59,7 +59,7 @@ public class CheckersGamePiece extends GamePiece {
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        if(this.getState() != myEmptyState) {
+        if(this.getState() == playerID  || (this.getState() == myKingState && playerID == myPawnState)) {
             for (GamePiece neighbor : neighbors) {
                 if (neighbor.getState() == myEmptyState && isAdjacentDiagonal(neighbor.getPosition())) {
                     possibleMoves.add(neighbor.getPosition());
@@ -122,21 +122,19 @@ public class CheckersGamePiece extends GamePiece {
      */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
-        if(this.getState() == playerState || (this.getState() == myKingState && playerState == myPawnState)) {
-            Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
-            if (isAdjacentDiagonal(endCoordinateInfo)) {
-                this.move(endCoordinateInfo);
-
-            } else {
-                makeJumpMove(endCoordinateInfo, neighbors);
-            }
-            int endDiagonalLoc = findKingPromotionRow(neighbors);
-            if (endCoordinateInfo.getXCoord() == endDiagonalLoc) {
-                isKing = true;
-                this.changeState(myKingState);
-            }
-            switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
+        Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
+        if (isAdjacentDiagonal(endCoordinateInfo)) {
+            this.move(endCoordinateInfo);
+        } else {
+            makeJumpMove(endCoordinateInfo, neighbors);
         }
+        int endDiagonalLoc = findKingPromotionRow(neighbors);
+        if (endCoordinateInfo.getXCoord() == endDiagonalLoc) {
+            isKing = true;
+            this.changeState(myKingState);
+        }
+        switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
+
     }
 
     private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {

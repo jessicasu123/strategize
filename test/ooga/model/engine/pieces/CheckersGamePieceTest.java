@@ -86,44 +86,44 @@ class CheckersGamePieceTest {
         //test only one step move
         List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1,1)));
         List<GamePiece> neighbors = new ArrayList<>(List.of(checker2Empty, checker3Empty, checker6Red, checker4Empty, checker5Black));
-        List<Coordinate> movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors);
+        List<Coordinate> movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump (one path)
         moves = new ArrayList<>(List.of(new Coordinate(2,2)));
         neighbors = new ArrayList<>(List.of(checker2Black, checker3Empty, checker7Empty, checker4Empty, checker5Black));
-        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test double jump (one path)
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(4,4)));
         neighbors = new ArrayList<>(List.of(checker2Black, checker3Empty, checker7Empty, checker4Black, checker5Empty));
-        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test no moves
         moves = new ArrayList<>();
         neighbors = new ArrayList<>(List.of(checker2Red, checker3Empty, checker4Black, checker5Empty));
-        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test 2 step moves
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(2,0)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker3Empty, checker6Empty, checker4Empty, checker5Black));
-        movesCalculated = checker2Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker2Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump 2 paths
         moves = new ArrayList<>(List.of(new Coordinate(4,0), new Coordinate(4,4)));
         neighbors = new ArrayList<>(List.of(checker2Black, checker7Black, checker8Empty, checker4Black, checker5Empty));
-        movesCalculated = checker3Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker3Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
 
         //test double jump 2 paths
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(4,0), new Coordinate(4,4)));
         neighbors = new ArrayList<>(List.of(checker2Black, checker3Empty, checker7Black, checker8Empty, checker4Black, checker5Empty));
-        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
     }
@@ -132,43 +132,43 @@ class CheckersGamePieceTest {
         //test only one step move
         List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(3,3)));
         List<GamePiece> neighbors = new ArrayList<>(List.of(checker2Empty, checker3Empty, checker4Empty, checker1Black));
-        List<Coordinate> movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors);
+        List<Coordinate> movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump (one path)
         moves = new ArrayList<>(List.of(new Coordinate(2,2)));
         neighbors = new ArrayList<>(List.of(checker2Empty, checker3Empty, checker4Red, checker1Black, checker12Empty));
-        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test double jump (one path)
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(0,0)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red, checker3Empty, checker4Red, checker11Empty));
-        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test no moves
         moves = new ArrayList<>();
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red, checker3Empty, checker4Black));
-        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test 2 step moves
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(2,4)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red, checker3Empty, checker5Empty, checker11Empty));
-        movesCalculated = checker4Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker4Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump 2 paths
         moves = new ArrayList<>(List.of(new Coordinate(0,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red, checker13Empty, checker12Red, checker4Red, checker11Empty));
-        movesCalculated = checker3Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker3Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test double jump 2 paths
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(0,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red, checker13Empty, checker12Red, checker3Empty, checker4Red, checker11Empty));
-        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors);
+        movesCalculated = checker5Black.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
     }
     @Test
@@ -176,19 +176,19 @@ class CheckersGamePieceTest {
         //test step move
         List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1, 1), new Coordinate(3, 3), new Coordinate(3, 1), new Coordinate(1, 3)));
         List<GamePiece> neighbors = new ArrayList<>(List.of(checker2Empty, checker4Empty, checker1Black, checker10Empty, checker12Empty));
-        List<Coordinate> movesCalculated = king.calculateAllPossibleMoves(neighbors);
+        List<Coordinate> movesCalculated = king.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump
         moves = new ArrayList<>(List.of(new Coordinate(0,0), new Coordinate(4,4), new Coordinate(4,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Black,  checker4Black, checker5Empty, checker10Black, checker12Black, checker13Empty, checker8Empty));
-        movesCalculated = king.calculateAllPossibleMoves(neighbors);
+        movesCalculated = king.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
         //test double jump
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(4,4), new Coordinate(4,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker2Black, checker3Empty, checker4Black, checker5Empty, checker10Black, checker12Black, checker13Empty, checker8Empty));
-        movesCalculated = king2.calculateAllPossibleMoves(neighbors);
+        movesCalculated = king2.calculateAllPossibleMoves(neighbors, 1);
         assertEquals(moves, movesCalculated);
 
     }
@@ -198,19 +198,19 @@ class CheckersGamePieceTest {
         //test step move
         List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1, 1), new Coordinate(3, 3), new Coordinate(3, 1), new Coordinate(1, 3)));
         List<GamePiece> neighbors = new ArrayList<>(List.of(checker2Empty, checker4Empty, checker1Black, checker10Empty, checker12Empty));
-        List<Coordinate> movesCalculated = king3.calculateAllPossibleMoves(neighbors);
+        List<Coordinate> movesCalculated = king3.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test 1 jump
         moves = new ArrayList<>(List.of(new Coordinate(0,0), new Coordinate(4,4), new Coordinate(4,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker1Empty, checker2Red,  checker4Red, checker5Empty, checker10Red, checker12Red, checker13Empty, checker8Empty));
-        movesCalculated = king3.calculateAllPossibleMoves(neighbors);
+        movesCalculated = king3.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
         //test double jump
         moves = new ArrayList<>(List.of(new Coordinate(2,2), new Coordinate(4,4), new Coordinate(4,0), new Coordinate(0,4)));
         neighbors = new ArrayList<>(List.of(checker2Red, checker3Empty, checker4Red, checker5Empty, checker10Red, checker12Red, checker13Empty, checker8Empty));
-        movesCalculated = king4.calculateAllPossibleMoves(neighbors);
+        movesCalculated = king4.calculateAllPossibleMoves(neighbors, 3);
         assertEquals(moves, movesCalculated);
 
     }

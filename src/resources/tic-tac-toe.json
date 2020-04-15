@@ -16,7 +16,8 @@
     "SpecialState": "",
     "Direction": "",
     "Color": "Black",
-    "Image": "X.png"
+    "Image": "X.png",
+    "SpecialStateImage": ""
   },
 
   "Player2": {
@@ -24,7 +25,8 @@
     "SpecialState": "",
     "Direction": "",
     "Color": "Black",
-    "Image": "O.png"
+    "Image": "O.png",
+    "SpecialStateImage": ""
   }
 
 }
