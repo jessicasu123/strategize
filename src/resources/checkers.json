@@ -16,7 +16,8 @@
     "SpecialState": "2",
     "Direction": "up",
     "Color": "Black",
-    "Image": "blackCircle.png"
+    "Image": "blackCircle.png",
+    "SpecialStateImage": ""
   },
 
   "Player2": {
@@ -24,7 +25,8 @@
     "SpecialState": "4",
     "Direction": "down",
     "Color": "Red",
-    "Image": "redCircle.png"
+    "Image": "redCircle.png",
+    "SpecialStateImage": ""
   }
 
 }
