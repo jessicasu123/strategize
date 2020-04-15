@@ -20,7 +20,6 @@ public class ConnectFourGamePiece extends GamePiece {
         myPlayerID = playerID;
         List<Coordinate> possibleMoves = new ArrayList<>();
         if (this.getState() == 0 && checkBelow(neighbors)) {
-            System.out.println(this.getPosition());
             possibleMoves.add(this.getPosition());
         }
         return possibleMoves;

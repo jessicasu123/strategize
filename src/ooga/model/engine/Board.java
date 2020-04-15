@@ -89,7 +89,6 @@ public class Board implements BoardFramework{
     private List<Coordinate> getNeighborCoordinates(int pieceRow, int pieceCol) {
         List<Coordinate> allCoords = new ArrayList<>();
         for (String neighbor: myNeighborhoods) {
-            System.out.println(neighbor);
             try {
                 Neighborhood neighborhood = neighborFactory.createNeighborhood(neighbor, numRows, numCols);
                 List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
