@@ -3,21 +3,18 @@ package ooga.view;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
-import org.testfx.framework.junit5.Start;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -315,18 +312,20 @@ public class GameView {
     }
 
     private void endGame(int winner){
-        String endMessage;
+        String endStatus;
         if (winner == myController.getUserNumber()) {
-            endMessage = "You Won!";
+            endStatus = "Win";
         } else if(winner == 3) {
-            endMessage = "It was a tie";
+            endStatus = "Tie";
         } else {
-            endMessage = "You Lost :(";
+            endStatus = "Loss";
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game Over");
-        alert.setContentText(endMessage);
-        alert.showAndWait();
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Game Over");
+//        alert.setContentText(endMessage);
+//        alert.showAndWait();
+        EndPopUp gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus);
+        gameEnd.display();
     }
 
 }
