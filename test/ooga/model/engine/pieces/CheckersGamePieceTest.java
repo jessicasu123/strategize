@@ -82,6 +82,23 @@ class CheckersGamePieceTest {
     CheckersGamePiece king4 =  new CheckersGamePiece(4,3,4,0,-1,new Coordinate(0,0));
 
     @Test
+    void testCalculateAllPossibleWhenNoMoves() {
+        List<Coordinate> moves = new ArrayList<>();
+        List<GamePiece> neighbors = new ArrayList<>(List.of(checker2Empty, checker3Empty, checker6Red, checker4Empty, checker5Black));
+        //test empty id
+        List<Coordinate> movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 0);
+        assertEquals(moves, movesCalculated);
+
+        //test opponent id
+        movesCalculated = checker1Red.calculateAllPossibleMoves(neighbors, 2);
+        assertEquals(moves, movesCalculated);
+        
+        //test moving empty piece
+        movesCalculated = checker1Empty.calculateAllPossibleMoves(neighbors, 0);
+        assertEquals(moves, movesCalculated);
+    }
+
+    @Test
     void testCalculateAllPossibleMovesRedPawn() {
         //test only one step move
         List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1,1)));
