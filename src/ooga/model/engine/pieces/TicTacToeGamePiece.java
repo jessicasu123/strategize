@@ -21,7 +21,7 @@ public class TicTacToeGamePiece extends GamePiece {
     }
 
     @Override
-    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
+    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
         if (this.getState() == 0) {
             possibleMoves.add(this.getPosition());
