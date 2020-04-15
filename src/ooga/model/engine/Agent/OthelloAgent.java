@@ -8,7 +8,6 @@ public class OthelloAgent extends Agent {
     private static final int ADJ_CORNER_PENALTY = -2;
     private static final int BORDER_STABLE_BONUS = 3;
     private static final int RISK_REGION_PENALTY = -1;
-    private static final int INNER_CORNER_BONUS = 2;
     private int numRows;
     private int numCols;
 
@@ -43,7 +42,7 @@ public class OthelloAgent extends Agent {
             return Integer.MIN_VALUE;
         }
         return calculateDiskDifference(boardStateInfo) + calculateCornerPositions(boardStateInfo)
-                + calculateSquareWeights(boardStateInfo);
+                + calculateBoardPosWeights(boardStateInfo);
     }
 
     private int calculateDiskDifference(List<List<Integer>> boardStateInfo) {
@@ -54,7 +53,7 @@ public class OthelloAgent extends Agent {
         return countNumCornersPerPlayer(boardStateInfo, this.getMaxPlayer()) -
                 countNumCornersPerPlayer(boardStateInfo, this.getMinPlayer());
     }
-    private int calculateSquareWeights(List<List<Integer>> boardStateInfo) {
+    private int calculateBoardPosWeights(List<List<Integer>> boardStateInfo) {
         int[][] boardWeights = createBoardWeights();
         return calculateWeightsPerPlayer(boardWeights, boardStateInfo, this.getMaxPlayer()) -
                 calculateWeightsPerPlayer(boardWeights, boardStateInfo, this.getMinPlayer());
@@ -135,13 +134,13 @@ public class OthelloAgent extends Agent {
     private int calcDiffInPieces(List<List<Integer>> boardStateInfo, int playerID) {
         int numPlayerPieces = 0;
         int numOpponentPieces = 0;
-        for (int r = 0; r < numRows;r++) {
-            for (int c = 0; c < numCols;c++) {
+        for (int r = 0; r < boardStateInfo.size();r++) {
+            for (int c = 0; c < boardStateInfo.get(0).size();c++) {
                 int currPiece = boardStateInfo.get(r).get(c);
                 if (currPiece!=playerID && currPiece!=0) {
                     numOpponentPieces++;
                 }
-                if (boardStateInfo.get(r).get(c)==playerID) {
+                if (currPiece==playerID) {
                     numPlayerPieces++;
                 }
             }
@@ -154,7 +153,7 @@ public class OthelloAgent extends Agent {
      * the entire board is full
      * @param playerID - the ID of the player checking to see if they won
      * @param boardStateInfo - all of the current state information from the board
-     * @return
+     * @return true if player has won, false if player has not
      */
     @Override
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
