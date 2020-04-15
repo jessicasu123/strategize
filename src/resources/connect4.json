@@ -1,0 +1,32 @@
+{
+  "Gametype": "Connect4",
+
+  "Neighborhood": "vertical",
+
+  "EmptyState": "0",
+
+  "Board": {
+    "Height": "6",
+    "Width": "7",
+    "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;"
+  },
+
+  "Player1": {
+    "State" : "1",
+    "SpecialState": "",
+    "Direction": "",
+    "Color": "Red",
+    "Image": "redCircle.png"
+  },
+
+  "Player2": {
+    "State": "2",
+    "SpecialState": "",
+    "Direction": "",
+    "Color": "Yellow",
+    "Image": "yellowCircle.png"
+  },
+
+  "Rules": ["Place piece in any open spot on the first row or above another piece.", "Prevent opponent from getting 4 in a row (horizontal, vertical, diagonal).", "First one to get 4 in a row wins!", "If nobody gets 4 in a row, a tie is called."]
+
+}

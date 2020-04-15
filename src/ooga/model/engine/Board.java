@@ -143,6 +143,7 @@ public class Board implements BoardFramework{
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
+
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
             System.out.println(getStateInfo());
