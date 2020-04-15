@@ -48,5 +48,13 @@ public interface BoardFramework {
      */
     BoardFramework copyBoard();
 
+    /**
+     * METHOD PURPOSE:
+     *  - checks if there are no possible moves by either opponent
+     * @return true if there are moves left, false if there are not
+     */
     boolean checkNoMovesLeft(int userID, int agentID);
+
+
+
 }

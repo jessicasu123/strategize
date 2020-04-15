@@ -27,6 +27,8 @@
     "Color": "Black",
     "Image": "O.png",
     "SpecialStateImage": ""
-  }
+  },
+
+  "possibleMove": ""
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
+import ooga.model.engine.Coordinate;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -72,8 +73,7 @@ public class GameView {
     private String userImage;
     private String agentImage;
     private String boardColor;
-    private double gamePieceWidth;
-    private double gamePieceHeight;
+    private String possibleMoveImage;
 
     private BoardView grid;
     private NavigationPanel navPanel;
@@ -149,8 +149,6 @@ public class GameView {
     private void setCenter(BorderPane root) {
         root.setCenter(grid.getGridContainer());
         allBoardCells = grid.getBoardCells();
-        gamePieceWidth = grid.getCellWidth();
-        gamePieceHeight = grid.getCellHeight();
         updateBoardAppearance();
     }
 
@@ -164,11 +162,13 @@ public class GameView {
     private void getGameDisplayInfo() {
         userID = myController.getUserNumber();
         agentID = myController.getAgentNumber();
+        possibleMoveImage = "";
         try {
             boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             userImage = myController.getUserImage(); //myController.getStartingProperties().get("Image" + Integer.toString(userID));
             agentImage = myController.getAgentImage();//myController.getStartingProperties().get("Image" + Integer.toString(agentID));
+            possibleMoveImage = myController.getStartingProperties().get("possibleMove");
 
         } catch (IOException | ParseException e) {
             System.out.println(e.getMessage());
@@ -254,9 +254,17 @@ public class GameView {
         }
     }
 
+
+
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
+        if (myController.getPossibleMovesForView().contains(new Coordinate(r,c))) {
+            if (!possibleMoveImage.equals("")) {
+                Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
+                updateImageOnSquare(currSquare, possibleMove);
+            }
+        }
         if (myGameStates.get(r).get(c) == userID) {
             Image player1Image = new Image(PIECES_RESOURCES + userImage);
             updatePlayerCell(player1Image, currSquare, r, c);

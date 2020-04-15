@@ -41,4 +41,6 @@ public interface GameFramework {
      *  - passes along the visual state info from the board so the view can access it
      */
     List<List<Integer>> getVisualInfo();
+
+    List<Coordinate> possibleMovesForView();
 }

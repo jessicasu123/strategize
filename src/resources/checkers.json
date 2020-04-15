@@ -27,6 +27,8 @@
     "Color": "Red",
     "Image": "redCircle.png",
     "SpecialStateImage": ""
-  }
+  },
+
+  "possibleMove": "greyOutlineCircle.png"
 
 }

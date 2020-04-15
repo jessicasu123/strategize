@@ -2,6 +2,7 @@ package ooga.controller;
 
 import ooga.model.data.FileHandler;
 import ooga.model.data.JSONFileReader;
+import ooga.model.engine.Coordinate;
 import ooga.model.engine.Game;
 import ooga.model.engine.GameFramework;
 import ooga.model.engine.InvalidMoveException;
@@ -139,6 +140,8 @@ public class Controller implements ControllerFramework {
     public int gameWinner() {
         return myGame.getEndGameStatus();
     }
+
+    public List<Coordinate> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
 
 
 }

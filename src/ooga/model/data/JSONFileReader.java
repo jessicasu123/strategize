@@ -154,6 +154,7 @@ public class JSONFileReader implements FileHandler {
         createJSONArray();
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        gameProperties.put("possibleMove", gameData.getString("possibleMove"));
         getGamePropertyNested();
         return gameProperties;
     }

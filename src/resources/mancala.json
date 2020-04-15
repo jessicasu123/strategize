@@ -29,6 +29,8 @@
     "Color": "White",
     "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png",
     "SpecialStateImage": ""
-  }
+  },
+
+  "possibleMove": ""
 
 }
