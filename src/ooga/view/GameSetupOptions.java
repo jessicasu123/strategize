@@ -185,7 +185,6 @@ public class GameSetupOptions {
 
     private Button creatStartButton() {
         Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
-//        TODO: @Brian uncomment once GameView is up
         start.setOnAction(e -> {
                     try {
                         Controller c = new Controller(gameFileName, userPlayerID, opponent);
