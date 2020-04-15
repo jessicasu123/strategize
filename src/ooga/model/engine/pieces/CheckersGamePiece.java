@@ -57,8 +57,7 @@ public class CheckersGamePiece extends GamePiece {
      *
      */
     @Override
-    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
-
+    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
         if(this.getState() != myEmptyState) {
             for (GamePiece neighbor : neighbors) {

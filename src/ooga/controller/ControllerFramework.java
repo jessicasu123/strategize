@@ -73,6 +73,15 @@ public interface ControllerFramework {
 
     /**
      * METHOD PURPOSE:
+     * -returns the name of the JSON config file for the game currently running on a view.
+     * -enables a certain view to go back to the game set up options screen to
+     * restart a game.
+     * @return
+     */
+    String getGameFileName();
+
+    /**
+     * METHOD PURPOSE:
      *  - indicated which state number represents the user
      * @return the state number that represents the user
      */

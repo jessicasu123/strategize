@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class OthelloGamePiece extends GamePiece {
-    private int playerID;
+    private int myPlayerID;
     private int opponentID;
     private int currRowPos;
     private int currColPos;
@@ -25,8 +25,8 @@ public class OthelloGamePiece extends GamePiece {
     public OthelloGamePiece(int status, Coordinate position) {
         super(status, position);
         neighborsToConvert = new ArrayList<>();
-        playerID = 1;
-        opponentID = 2; //TODO: figure better way to get opponent ID
+        //myPlayerID = 1;
+        //opponentID = 2;
         currRowPos = this.getPosition().getXCoord();
         currColPos = this.getPosition().getYCoord();
         initializeSubNeighborhoods();
@@ -44,7 +44,8 @@ public class OthelloGamePiece extends GamePiece {
     }
 
     @Override
-    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors) {
+    public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
+        myPlayerID = playerID;
         getSubNeighborhoods(neighbors);
         List<Coordinate> possibleMoves = new ArrayList<>();
         boolean validHorizontalMove = checkHorizontalAdjOpponentPieces();
@@ -100,11 +101,11 @@ public class OthelloGamePiece extends GamePiece {
         List<GamePiece> possibleNeighborsToConvert = new ArrayList<>();
         for (GamePiece piece: neighbors) {
             if (piece.getState()==0) return false;
-            if (piece.getState()==opponentID) {
+            if (piece.getState() != myPlayerID && piece.getState()!=0) { //opponent piece
                 possibleNeighborsToConvert.add(piece);
                 numOpponents++;
             }
-            if (piece.getState()==playerID&&numOpponents>0) {
+            if (piece.getState()== myPlayerID &&numOpponents>0) {
                 neighborsToConvert.addAll(possibleNeighborsToConvert);
                 return true;
             }

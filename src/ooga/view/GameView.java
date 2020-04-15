@@ -136,23 +136,29 @@ public class GameView {
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
 
         root.setTop(statusPanel.createStatusPanel(userImage,agentImage));
-
-        root.setCenter(grid.getGridContainer());
-        allBoardCells = grid.getBoardCells();
-        gamePieceWidth = grid.getCellWidth();
-        gamePieceHeight = grid.getCellHeight();
-        updateBoardAppearance();
-
-        root.setBottom(navPanel.createNavigationBar());
-        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
-        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
-        addActionsToButtons(navAndStatusButtonActions);
+        setCenter(root);
+        setBottom(root);
 
         Scene startScene = new Scene(root, width, height);
         startScene.getStylesheets().add(STYLESHEET);
         root.getStyleClass().add("root");
         root.setMaxWidth(width);
         return startScene;
+    }
+
+    private void setCenter(BorderPane root) {
+        root.setCenter(grid.getGridContainer());
+        allBoardCells = grid.getBoardCells();
+        gamePieceWidth = grid.getCellWidth();
+        gamePieceHeight = grid.getCellHeight();
+        updateBoardAppearance();
+    }
+
+    private void setBottom(BorderPane root) {
+        root.setBottom(navPanel.createNavigationBar());
+        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
+        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
+        addActionsToButtons(navAndStatusButtonActions);
     }
 
     private void getGameDisplayInfo() {
@@ -192,7 +198,7 @@ public class GameView {
     }
     //TODO: go back to game set up options
     private void restart() throws IOException, ParseException {
-        GameSetupOptions gso = new GameSetupOptions(myStage, "tic-tac-toe.json");
+        GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
         System.out.println("RESTART");
     }
@@ -231,11 +237,11 @@ public class GameView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
-        updateImageOnSquare(rect, img, finalX, finalY);
+        updateImageOnSquare(rect, img);
     }
 
-    private void updateImageOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        rect.setFill(new ImagePattern(img,finalX,finalY, gamePieceWidth, gamePieceHeight,false));
+    private void updateImageOnSquare(Shape rect, Image img) {
+        rect.setFill(new ImagePattern(img));
     }
 
     private void updateBoardAppearance() {
@@ -264,7 +270,7 @@ public class GameView {
     }
 
     private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
-        updateImageOnSquare(currSquare, playerImage, r,c);
+        updateImageOnSquare(currSquare, playerImage);
         currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c));
     }
 

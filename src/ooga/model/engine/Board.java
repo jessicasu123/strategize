@@ -118,7 +118,7 @@ public class Board implements BoardFramework{
                 //TODO: later change to use data value for empty state
                 if (currPiece.getState() == player || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
-                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece));
+                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece),player);
                     allLegalMoves.put(currCoord, moves);
                 }
             }
@@ -140,7 +140,7 @@ public class Board implements BoardFramework{
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
-        if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
+        if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
