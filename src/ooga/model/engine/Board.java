@@ -119,7 +119,9 @@ public class Board implements BoardFramework{
                 if (currPiece.getState() == player || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece),player);
-                    allLegalMoves.put(currCoord, moves);
+                    if (moves.size()>0) {
+                        allLegalMoves.put(currCoord, moves);
+                    }
                 }
             }
         }
@@ -143,6 +145,7 @@ public class Board implements BoardFramework{
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
+            System.out.println(getStateInfo());
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
     }

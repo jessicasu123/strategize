@@ -8,7 +8,6 @@ import java.util.List;
 
 public class OthelloGamePiece extends GamePiece {
     private int myPlayerID;
-    private int opponentID;
     private int currRowPos;
     private int currColPos;
     private List<GamePiece> neighborsToConvert;
@@ -25,8 +24,6 @@ public class OthelloGamePiece extends GamePiece {
     public OthelloGamePiece(int status, Coordinate position) {
         super(status, position);
         neighborsToConvert = new ArrayList<>();
-        //myPlayerID = 1;
-        //opponentID = 2;
         currRowPos = this.getPosition().getXCoord();
         currColPos = this.getPosition().getYCoord();
         initializeSubNeighborhoods();
@@ -48,6 +45,9 @@ public class OthelloGamePiece extends GamePiece {
         myPlayerID = playerID;
         getSubNeighborhoods(neighbors);
         List<Coordinate> possibleMoves = new ArrayList<>();
+        //TODO: have to actually call all of these because I append to the neighborsToConvert AND check the boolean state
+        //TODO: at the same time. If it was just three boolean checks, then it might stop after one check and not
+        //TODO: add the neighbors needed to be converted in other directions. Maybe find a better way to do this.
         boolean validHorizontalMove = checkHorizontalAdjOpponentPieces();
         boolean validVerticalMove = checkVerticalAdjOpponentPieces();
         boolean validDiagonalMove = checkDiagonalAdjOpponentPieces();
@@ -87,12 +87,14 @@ public class OthelloGamePiece extends GamePiece {
     }
 
     private boolean checkHorizontalAdjOpponentPieces() {
-        Collections.reverse(horizLeftNeighbors); //TODO: change to sort & sort horizRight
+        //TODO: sort horizRight
+        Collections.sort(horizLeftNeighbors, (n1, n2)->n2.getPosition().getYCoord() - n1.getPosition().getYCoord());
         return checkSubNeighborhood(horizLeftNeighbors, horizRightNeighbors);
     }
 
     private boolean checkVerticalAdjOpponentPieces() {
-        Collections.reverse(vertTopNeighbors); //TODO: change to sort & sort vertBottom
+        //TODO: sort vertBottom
+        Collections.sort(vertTopNeighbors, (n1,n2)->n2.getPosition().getXCoord() - n1.getPosition().getXCoord());
         return checkSubNeighborhood(vertTopNeighbors, vertBottomNeighbors);
     }
 
@@ -101,6 +103,7 @@ public class OthelloGamePiece extends GamePiece {
         List<GamePiece> possibleNeighborsToConvert = new ArrayList<>();
         for (GamePiece piece: neighbors) {
             if (piece.getState()==0) return false;
+            if (piece.getState()==myPlayerID && numOpponents==0) return false;
             if (piece.getState() != myPlayerID && piece.getState()!=0) { //opponent piece
                 possibleNeighborsToConvert.add(piece);
                 numOpponents++;
@@ -122,8 +125,8 @@ public class OthelloGamePiece extends GamePiece {
 
     private boolean checkDiagonalAdjOpponentPieces() {
         //TODO: sort rightDiagNext & leftDiagNext
-        Collections.reverse(rightDiagPrevNeighbors); //TODO: sort instead
-        Collections.reverse(leftDiagPrevNeighbors); //TODO: sort instead
+        Collections.sort(rightDiagPrevNeighbors, (n1, n2) -> n2.getPosition().getXCoord() - n1.getPosition().getXCoord()); //biggest x coord first
+        Collections.sort(leftDiagPrevNeighbors, (n1,n2) -> n1.getPosition().getYCoord() - n2.getPosition().getYCoord()); //smallest y coord first
         boolean rightDiagHasValid = checkSubNeighborhood(rightDiagPrevNeighbors, rightDiagNextNeighbors);
         boolean leftDiagHasValid = checkSubNeighborhood(leftDiagPrevNeighbors, leftDiagNextNeighbors);
         return rightDiagHasValid || leftDiagHasValid;
