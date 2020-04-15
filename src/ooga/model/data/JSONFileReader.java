@@ -15,6 +15,7 @@ import org.json.JSONObject;
  * This class is responsible for parsing JSON files and
  * retrieving initial configurations and View properties
  * as well as saving a view configuration to a JSON file
+ * @author Brian Li
  */
 
 public class JSONFileReader implements FileHandler {

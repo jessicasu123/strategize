@@ -1,13 +1,13 @@
 {
-  "Gametype": "Connect-4",
+  "Gametype": "Connect4",
 
-  "Neighborhood": "",
+  "Neighborhood": "vertical",
 
-  "EmptyState": 0,
+  "EmptyState": "0",
 
   "Board": {
-    "Height": "3",
-    "Width": "3",
+    "Height": "6",
+    "Width": "7",
     "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;"
   },
 

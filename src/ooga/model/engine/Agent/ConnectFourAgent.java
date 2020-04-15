@@ -3,34 +3,20 @@ package ooga.model.engine.Agent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This an AI agent for the Tic-Tac-Toe game
- * It uses the rules about winning the game (getting a certain number of pieces in a row) to determine if the game
- * has been won and if so by whom
- * This agent also has an evaluation function for evaluating the current game state for how "good" or "bad" it is
- * @author Holly Ansel
- */
-public class TicTacToeAgent extends Agent {
+public class ConnectFourAgent extends Agent{
     private final int myInARow;
-
     /**
-     * Creates a Tic-Tac-Toe AI agent
+     * Creates an AI agent
+     *
      * @param maximizingPlayerID - the ID of the player who the agent will try to maximize its moves for
      * @param minimizingPlayerID - the ID of the player who the agent will try to minimize its moves for
-     * @param inARow - the number of pieces needed in a row to win
      */
-    public TicTacToeAgent(int maximizingPlayerID, int minimizingPlayerID, int inARow){
+    public ConnectFourAgent(int maximizingPlayerID, int minimizingPlayerID, int inARow) {
         super(maximizingPlayerID, minimizingPlayerID);
         myInARow = inARow;
     }
 
-    /**
-     * Returns 0 when no moves are possible
-     *  EVALUATION FUNCTION:
-     *      (number of rows, columns, and diagonals open for max) - (number of rows, columns, and diagonals open for min)
-     * @param boardStateInfo - all of the current state information from the board
-     * @return an integer representing the evaluation function's evaluation of the current game state
-     */
+
     @Override
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
         if(isWin(this.getMaxPlayer(), boardStateInfo)){
@@ -38,12 +24,12 @@ public class TicTacToeAgent extends Agent {
         }else if(isWin(this.getMinPlayer(), boardStateInfo)){
             return Integer.MIN_VALUE;
         }
-
         int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
         int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
         int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));
         return rowEvaluation + colEvaluation + diagEvaluation;
     }
+
     private int evaluateMaxOpenMinusMinOpen(List<List<Integer>> neighborhood){
         int numOpenMax = 0;
         int numOpenMin = 0;
@@ -57,6 +43,7 @@ public class TicTacToeAgent extends Agent {
         }
         return numOpenMax - numOpenMin;
     }
+
     //TODO: know empty state
     private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
@@ -70,6 +57,18 @@ public class TicTacToeAgent extends Agent {
         return consecutiveUnblockedSpots >= myInARow;
     }
 
+
+    //TODO: Fix diagonal function
+    private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
+        List<List<Integer>> leftDiag = new ArrayList<List<Integer>>();
+        List<List<Integer>> rightDiag = new ArrayList<List<Integer>>();
+
+        //change this later
+        return boardStateInfo;
+    }
+
+
+
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
         List<List<Integer>> allCols = new ArrayList<>();
         for(int i = 0; i < boardStateInfo.get(0).size(); i++) {
@@ -82,15 +81,6 @@ public class TicTacToeAgent extends Agent {
         return allCols;
     }
 
-    private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        List<Integer> leftDiag = new ArrayList<>();
-        List<Integer> rightDiag = new ArrayList<>();
-        for(int i = 0; i < Math.min(boardStateInfo.size(), boardStateInfo.get(0).size()); i++){
-            leftDiag.add(boardStateInfo.get(i).get(i));
-            rightDiag.add(boardStateInfo.get(i).get(boardStateInfo.size() - 1 - i));
-        }
-        return new ArrayList<>(List.of(leftDiag, rightDiag));
-    }
 
     /**
      * WIN BY:
@@ -123,5 +113,6 @@ public class TicTacToeAgent extends Agent {
         }
         return false;
     }
-
 }
+
+

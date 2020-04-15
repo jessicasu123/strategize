@@ -1,9 +1,6 @@
 package ooga.model.engine;
 
-import ooga.model.engine.pieces.CheckersGamePiece;
-import ooga.model.engine.pieces.GamePiece;
-import ooga.model.engine.pieces.OthelloGamePiece;
-import ooga.model.engine.pieces.TicTacToeGamePiece;
+import ooga.model.engine.pieces.*;
 
 /**
  * The purpose of this class is to generate different types
@@ -25,6 +22,8 @@ public class GamePieceFactory {
      */
     public GamePiece createGamePiece(String gameType, int status, Coordinate position) throws InvalidGameTypeException {
         switch (gameType) {
+            case "Connect4":
+                return new ConnectFourGamePiece(status,position);
             case "Tic-Tac-Toe":
                 return new TicTacToeGamePiece(status, position);
             case "Othello":

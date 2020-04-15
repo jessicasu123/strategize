@@ -140,6 +140,7 @@ public class Board implements BoardFramework{
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
+
         if (curr.calculateAllPossibleMoves(neighbors).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
