@@ -103,8 +103,6 @@ public class BoardTest {
     void testGetAllLegalMoves() {
         Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
         Coordinate squareWithPlayer = new Coordinate(1,1);
-        //checking that an coordinate with a player is NOT a legal "move"
-        assertEquals(0,moves.get(squareWithPlayer).size());
 
         //checking that a coordinate with an empty square is a legal "move"
         Coordinate emptySquare = new Coordinate(1,2);
