@@ -13,6 +13,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
+import ooga.model.engine.Coordinate;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -34,7 +35,7 @@ import java.util.Map;
  * game instructions.
  * Upon clicking the settings icon, a CustomizationView is created.
  * Upon clicking save, a SaveView is created.
- * @author Sanya Kochhar, Brian Li
+ * @author Brian Li
  */
 
 public class GameView {
@@ -50,6 +51,8 @@ public class GameView {
     public static final int SPACING = 40;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
+    public static int SaveWIDTH = 300;
+    public static int SaveHEIGHT = 300;
 
     private Stage myStage;
     private JSONObject gameScreenData;
@@ -73,11 +76,14 @@ public class GameView {
     private double gamePieceWidth;
     private double gamePieceHeight;
     private boolean piecesMove;
+    private String possibleMoveImage;
     private BoardView grid;
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
     private CustomizationPopUp customizePopUp;
-
+    private SavePopUp save;
+    private RulesPopUp rules;
+    private List<String> rulelist;
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -109,9 +115,11 @@ public class GameView {
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 
-    private void initializePopUps() {
+    private void initializePopUps() throws FileNotFoundException {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, userImage,
                 agentImage, boardColor);
+        save = new SavePopUp(myStage,SaveWIDTH,SaveHEIGHT);
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, "tic-tac-toe.json");
     }
 
     /**
@@ -147,8 +155,6 @@ public class GameView {
     private void setCenter(BorderPane root) {
         root.setCenter(grid.getGridContainer());
         allBoardCells = grid.getBoardCells();
-        gamePieceWidth = grid.getCellWidth();
-        gamePieceHeight = grid.getCellHeight();
         updateBoardAppearance();
     }
 
@@ -162,12 +168,14 @@ public class GameView {
     private void getGameDisplayInfo() {
         userID = myController.getUserNumber();
         agentID = myController.getAgentNumber();
+        possibleMoveImage = "";
         try {
             boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             userImage = myController.getUserImage(); //myController.getStartingProperties().get("Image" + Integer.toString(userID));
             agentImage = myController.getAgentImage();//myController.getStartingProperties().get("Image" + Integer.toString(agentID));
             piecesMove = myController.doPiecesMove();
+            possibleMoveImage = myController.getStartingProperties().get("possibleMove");
 
         } catch (IOException | ParseException e) {
             System.out.println(e.getMessage());
@@ -195,7 +203,7 @@ public class GameView {
             }
         });
     }
-    //TODO: go back to game set up options
+
     private void restart() throws IOException, ParseException {
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
@@ -203,7 +211,17 @@ public class GameView {
     }
 
     //TODO: popup to save current config
-    private void save() { System.out.println("SAVE");}
+    private void save() {
+        save.display();
+        addActionsToButtons(save.getButtonActionsMap());
+        System.out.println("SAVE");
+    }
+
+    private void saveConfig() throws IOException, ParseException {
+        save.close();
+        myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
+        System.out.println("SAVE CONFIG");
+    }
 
     private void backToMenu() throws FileNotFoundException {
         StartView sv = new StartView(myStage);
@@ -211,7 +229,11 @@ public class GameView {
         System.out.println("BACK");
     }
 
-    private void showRules() {System.out.println("SHOW RULES");}
+    private void showRules() {
+        rules.display();
+//        addActionsToButtons(rules.getButtonActionsMap());
+        System.out.println("SHOW RULES");
+    }
 
     private void showSocialCenter() {System.out.println("SOCIAL CENTER");}
 
@@ -258,9 +280,17 @@ public class GameView {
         }
     }
 
+
+
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
+        if (myController.getPossibleMovesForView().contains(new Coordinate(r,c))) {
+            if (!possibleMoveImage.equals("")) {
+                Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
+                updateImageOnSquare(currSquare, possibleMove);
+            }
+        }
         if (myGameStates.get(r).get(c) == userID) {
             Image player1Image = new Image(PIECES_RESOURCES + userImage);
             updatePlayerCell(player1Image, currSquare, r, c);
@@ -301,6 +331,7 @@ public class GameView {
             }
             myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
             myController.playMove();
+            System.out.println("DONE");
             checkGameOver();
             if(gameInProgress){
                 myController.haveAgentMove();

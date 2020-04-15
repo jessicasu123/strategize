@@ -27,6 +27,8 @@
     "PosDirection": "",
     "Color": "White",
     "Image": "blackOutlineCircle.png"
-  }
+  },
+
+  "possibleMove": "greyOutlineCircle.png"
 
 }

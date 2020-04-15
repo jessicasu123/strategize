@@ -6,6 +6,8 @@ import ooga.model.engine.InvalidGameTypeException;
 public class AgentFactory {
     public Agent createAgent(String gameType, int maxPlayer, int minPlayer) throws InvalidGameTypeException {
         switch (gameType) {
+            case "Connect4":
+                return new ConnectFourAgent(maxPlayer,minPlayer,4);
             case "Tic-Tac-Toe":
                 //TODO get to read inARow from datafile
                 return new TicTacToeAgent(maxPlayer, minPlayer, 3);

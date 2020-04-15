@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VerticalNeighborhoodTest {
     VerticalNeighborhood verticalNeighborhoodSquare = new VerticalNeighborhood(3,3);
-    VerticalNeighborhood verticalNeighborhoodRect = new VerticalNeighborhood(4,3);
+    VerticalNeighborhood verticalNeighborhoodRect = new VerticalNeighborhood(3,4);
 
     @Test
     void testFirstInColumn() {
@@ -43,7 +43,7 @@ public class VerticalNeighborhoodTest {
         List<Coordinate> bottomCoords = verticalNeighborhoodRect.getNeighbors(0, 0);
         //neighbors should be the other bottom two in column - (1,0) and (2,0)
         List<Coordinate> desiredCoords = Arrays.asList(new Coordinate[]{new Coordinate(1, 0),
-                new Coordinate(2, 0), new Coordinate(3, 0)});
+                new Coordinate(2, 0)});
         assertEquals(bottomCoords, desiredCoords);
     }
 

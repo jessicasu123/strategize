@@ -143,9 +143,9 @@ public class Board implements BoardFramework{
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
+
             curr.makeMove(endCoordinate, neighbors, player);
         } else {
-            System.out.println(getStateInfo());
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
     }
@@ -168,6 +168,17 @@ public class Board implements BoardFramework{
         }
         return Collections.unmodifiableList(currStateConfig);
     }
+
+    public List<List<Integer>> possibleMovesVisaulInfo() {
+        List<List<Integer>> possibleMovesConfig = new ArrayList<>();
+        for (int i = 0; i < numRows;i++) {
+            for (int c = 0; c < numCols;c++) {
+
+            }
+        }
+        return possibleMovesConfig; 
+    }
+
 
     /**
      * METHOD PURPOSE:

@@ -15,6 +15,7 @@ import org.json.JSONObject;
  * This class is responsible for parsing JSON files and
  * retrieving initial configurations and View properties
  * as well as saving a view configuration to a JSON file
+ * @author Brian Li
  */
 
 public class JSONFileReader implements FileHandler {
@@ -153,6 +154,7 @@ public class JSONFileReader implements FileHandler {
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
         gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
+        gameProperties.put("possibleMove", gameData.getString("possibleMove"));
         getGamePropertyNested();
         return gameProperties;
     }
@@ -199,7 +201,7 @@ public class JSONFileReader implements FileHandler {
         fileArray.put(player1);
         fileArray.put(player2);
 
-        try (FileWriter file = new FileWriter("src/resources")) {
+        try (FileWriter file = new FileWriter(fileName)) {
 
             file.write(fileArray.toString());
             file.flush();

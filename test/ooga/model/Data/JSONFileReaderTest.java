@@ -49,6 +49,7 @@ class JSONFileReaderTest {
         map.put("PiecesMove","false");
         map.put("State1","1");
         map.put("State2","2");
+        map.put("possibleMove","");
         map.put("Image2","O.png");
         map.put("Gametype","Tic-Tac-Toe");
         map.put("Image1","X.png");
