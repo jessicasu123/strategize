@@ -316,12 +316,12 @@ public class GameView {
 
     private void endGame(int winner){
         String endMessage;
-        if(winner == myController.getUserNumber()){
+        if (winner == myController.getUserNumber()) {
             endMessage = "You Won!";
-        }else if(winner == 2){
-            endMessage = "You Lost:(";
-        }else{
+        } else if(winner == 3) {
             endMessage = "It was a tie";
+        } else {
+            endMessage = "You Lost :(";
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game Over");
