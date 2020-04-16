@@ -29,6 +29,8 @@
     "Image": "blackOutlineCircle.png"
   },
 
-  "possibleMove": "greyOutlineCircle.png"
+  "possibleMove": "greyOutlineCircle.png",
+
+  "Rules": ["Place a new piece on an empty spot.", "There must be at least one straight line between the spot you choose", "and another one of your existing pieces.", "And there must be one or more opponent pieces IN BETWEEN.", "The line can be horizontal, vertical, or diagonal.", "You will turn all opponents in that line to your piece.", "The player with most pieces when there are no moves wins."]
 
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.json.JSONArray;
@@ -56,10 +57,12 @@ public class RulesPopUp extends GamePopUp {
         RuleView.getChildren().add(Title);
         for(int i = 0;i<myRules.size();i++){
             Label Rule = new Label(myRules.get(i));
-            Rule.setMinWidth(popUpWidth);
             Rule.setAlignment(Pos.CENTER);
+            Rule.setWrapText(true);
+            Rule.setMinWidth(popUpWidth);
             RuleView.getChildren().add(Rule);
         }
+        RuleView.setFillWidth(true);
         return RuleView;
     }
 }

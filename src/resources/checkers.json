@@ -32,7 +32,9 @@
     "SpecialStateImage": ""
   },
 
-  "possibleMove": "greyOutlineCircle.png"
+  "possibleMove": "greyOutlineCircle.png",
+
+  "Rules":[]
 
 
 

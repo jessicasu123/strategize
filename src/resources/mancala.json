@@ -33,6 +33,8 @@
     "SpecialStateImage": ""
   },
 
-  "possibleMove": ""
+  "possibleMove": "",
+
+  "Rules": []
 
 }
