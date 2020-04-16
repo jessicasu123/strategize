@@ -55,6 +55,15 @@ public interface BoardFramework {
      */
     boolean checkNoMovesLeft(int userID, int agentID);
 
+    /**
+     * METHOD PURPOSE:
+     *  - returns a visual representation of the possible moves.
+     * @return list of list of integers with the same row/col dimensions of a board.
+     *  - 1 indicates that a position is a possible move
+     *  - 0 indicated that a position is NOT a possible move
+     */
+    List<List<Integer>> possibleMovesVisualInfo(int playerID);
+
 
 
 }

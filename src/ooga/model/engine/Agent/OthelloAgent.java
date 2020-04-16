@@ -157,7 +157,7 @@ public class OthelloAgent extends Agent {
      */
     @Override
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
-        //game is not won if board still has empty spots
+        //TODO: change to figuring out if both players have no moves left
         for (int row = 0; row < boardStateInfo.size();row++) {
             if (boardStateInfo.get(row).contains(0)) return false;
         }
