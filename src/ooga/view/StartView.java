@@ -20,9 +20,12 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONTokener;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class creates the GUI for the start up screen
@@ -35,12 +38,13 @@ import java.util.ArrayList;
 public class StartView {
     public static final int PADDING = 20;
     public static final int SPACING = 10;
-    public static final String DEFAULT_RESOURCES = "src/resources/";
-    public static final String DEFAULT_VIEW_RESOURCES = "resources/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "GameCenterView.json";
-    public static final String GAME_ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/games/";
-    public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
+    public static final String DATAFILE = "src/resources/GameCenterView.json";
+    public static final String GAME_ICON_RESOURCES = "resources/images/games/";
+    public static final String STYLESHEET = "resources/style.css";
+    public static final String GAME_FILE_PATH = "gameFiles/";
+    public static final String GAME_FILES = "src/resources/gameFiles/";
     public static final double BUTTON_FONT_FACTOR = 0.125;
+    public static final String FILE_TYPE = ".json";
     private Stage myStage;
     private JSONObject startScreenData;
 
@@ -101,13 +105,12 @@ public class StartView {
         fileSelections.getChildren().addAll(loadFile,loadSavedFile);
 
         Button submit = new Button(startScreenData.getJSONObject("Text").getJSONObject("ButtonText").getString("Submit"));
-        //TODO: uncomment once GameView class is created
         submit.setOnAction(e -> {
             try {
                 if (fileField.getText() != null && !fileField.getText().trim().isEmpty()) {
-                    new GameSetupOptions(myStage, fileField.getText());
+                    new GameSetupOptions(myStage, GAME_FILE_PATH +  fileField.getText());
                 } else if (!savedFileOptions.getSelectionModel().isEmpty()) {
-                    new GameSetupOptions(myStage, savedFileOptions.getValue());
+                    new GameSetupOptions(myStage, GAME_FILE_PATH + savedFileOptions.getValue());
                 }
             } catch (FileNotFoundException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -126,14 +129,25 @@ public class StartView {
     private HBox initializeDropDown(Pos position, ComboBox<String> fileOptions) {
         HBox loadSavedFile = new HBox(SPACING);
         Text loadSavedFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadSavedGame"));
-        //TODO: get list of all the files saved
-        ObservableList<String> obList = FXCollections.observableList(new ArrayList<>());
+        ObservableList<String> obList = FXCollections.observableList(getFileNamesForDropDown());
         fileOptions.setItems(obList);
         fileOptions.setId("fileOptions");
         fileOptions.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame"));
         loadSavedFile.getChildren().addAll(loadSavedFileLabel, fileOptions);
         loadSavedFile.setAlignment(position);
         return loadSavedFile;
+    }
+
+    private List<String> getFileNamesForDropDown(){
+        List<String> fileNames = new ArrayList<>();
+        File folder = new File(GAME_FILES);
+        for (File f : folder.listFiles()) {
+            String name = f.getName();
+            if(name.substring(name.length() - FILE_TYPE.length()).equals(FILE_TYPE)){
+                fileNames.add(name);
+            }
+        }
+        return fileNames;
     }
 
     private HBox initializeTextField(TextField fileField) {
@@ -219,7 +233,7 @@ public class StartView {
         gameButton.setId(gameButton.getText());
         gameButton.setOnAction(e -> {
             try {
-                new GameSetupOptions(myStage, game.getString("DefaultFile"));
+                new GameSetupOptions(myStage, GAME_FILE_PATH + game.getString("DefaultFile"));
             } catch (FileNotFoundException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
