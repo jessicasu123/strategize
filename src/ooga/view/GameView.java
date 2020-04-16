@@ -364,10 +364,19 @@ public class GameView {
             didSelectPiece = false;
             updateBoardAppearance();
             checkGameOver();
+            checkPass();
             if(gameInProgress){
                 agentMove();
             }
             checkGameOver();
+            checkPass();
+        }
+    }
+
+    //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
+    private void checkPass() {
+        if (gameInProgress && myController.playerPass()) {
+            System.out.println("PASS");
         }
     }
     private void agentMove(){

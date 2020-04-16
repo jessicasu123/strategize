@@ -14,6 +14,7 @@ public class Game implements GameFramework{
     private int myUserPlayerID;
     private int myAgentPlayerID;
     private boolean isUserTurn;
+    private boolean didPlayerPass;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
@@ -26,21 +27,26 @@ public class Game implements GameFramework{
         isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
         myAgentPlayer = new AgentPlayer(myAgentPlayerID, myAgent, myUserPlayerID);
+        didPlayerPass = false;
     }
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
-        if(isUserTurn){
+        boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserPlayerID);
+        boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentPlayerID);
+        didPlayerPass = noMovesForUser || noMovesForAgent;
+        if(isUserTurn && ! noMovesForUser){
             makeUserMove(moveCoordinates);
-        }else{
+        }
+        else if (!isUserTurn && !noMovesForAgent){
             makeAgentMove();
         }
-
-        if(myBoard.changeTurns()){
+        if(myBoard.changeTurns() || didPlayerPass){
             isUserTurn = !isUserTurn;
         }
-
     }
+
+    public boolean didPlayerPass() { return didPlayerPass; }
 
     //TODO: implement later for disabling makeMove button
     public boolean isUserTurn(){

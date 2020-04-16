@@ -45,7 +45,8 @@ public class Board implements BoardFramework{
                 checkEmptyMovesForPlayer(agentID);
     }
 
-    private boolean checkEmptyMovesForPlayer(int playerID) {
+
+    public boolean checkEmptyMovesForPlayer(int playerID) {
         //check that list of moves is EMPTY for every piece with playerID
         for (List<Coordinate> coords: getAllLegalMoves(playerID).values()) {
             if (coords.size() > 0) return false;
