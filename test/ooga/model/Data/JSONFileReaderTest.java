@@ -47,8 +47,12 @@ class JSONFileReaderTest {
     void loadFilePropertiesTest() throws IOException {
         Map<String, String> map = new HashMap<String, String>();
         map.put("PiecesMove","false");
+        map.put("Player1Direction","false");
+        map.put("EmptyState","0");
         map.put("State1","1");
+        map.put("SpecialState1","0");
         map.put("State2","2");
+        map.put("SpecialState2","0");
         map.put("possibleMove","");
         map.put("Image2","O.png");
         map.put("Gametype","Tic-Tac-Toe");

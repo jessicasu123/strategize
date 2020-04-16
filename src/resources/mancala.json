@@ -7,6 +7,8 @@
 
   "PiecesMove": "false",
 
+  "Player1PosDirection": "true",
+
   "Board": {
     "Height": "2",
     "Width": "8",
@@ -17,7 +19,6 @@
     "State" : "1",
     "StartingPieces": "4",
     "SpecialState": "2",
-    "PosDirection": "true",
     "Color": "White",
     "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png",
     "SpecialStateImage": ""
@@ -27,7 +28,6 @@
     "State": "3",
     "StartingPieces": "4",
     "SpecialState": "4",
-    "PosDirection": "false",
     "Color": "White",
     "Image": "orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png",
     "SpecialStateImage": ""

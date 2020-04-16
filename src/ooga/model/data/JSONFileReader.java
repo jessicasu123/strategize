@@ -75,17 +75,22 @@ public class JSONFileReader implements FileHandler {
     /**
      * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
      */
+    //TODO special state images
     private void getGamePropertyNested() throws IOException {
         gameProperties.put("State1",gameData.getJSONObject("Player1").getString("State"));
+        gameProperties.put("SpecialState1",gameData.getJSONObject("Player1").getString("SpecialState"));
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
         gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
 
         gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
+        gameProperties.put("SpecialState2",gameData.getJSONObject("Player2").getString("SpecialState"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
         gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
 
         gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
         gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
+        gameProperties.put("Player1Direction", gameData.getString("Player1PosDirection"));
+        gameProperties.put("EmptyState", gameData.getString("EmptyState"));
 
     }
 

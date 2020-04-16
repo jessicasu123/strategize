@@ -1,7 +1,7 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Agent.AgentFactory;
+import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import ooga.model.engine.Player.AgentPlayer;
 
 import java.util.List;
@@ -17,15 +17,11 @@ public class Game implements GameFramework{
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
+    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
         myBoard = new Board(gameType, startingConfiguration, neighborhoods);
         myUserPlayerID = userID;
         myAgentPlayerID = agentID;
-        try {
-            myAgent = new AgentFactory().createAgent(gameType, myAgentPlayerID, myUserPlayerID);
-        } catch (InvalidGameTypeException e) {
-            System.out.println("game doesn't exist");
-        }
+        myAgent = gameType.createAgent();
         myAgentPlayer = new AgentPlayer(myAgentPlayerID, myAgent, myUserPlayerID);
     }
 

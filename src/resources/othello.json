@@ -7,6 +7,8 @@
 
   "PiecesMove": "false",
 
+  "Player1PosDirection": "false",
+
   "Board": {
     "Height": "8",
     "Width": "8",
@@ -15,16 +17,14 @@
 
   "Player1": {
     "State" : "1",
-    "SpecialState": "",
-    "PosDirection": "",
+    "SpecialState": "0",
     "Color": "Black",
     "Image": "blackCircle.png"
   },
 
   "Player2": {
     "State": "2",
-    "SpecialState": "",
-    "PosDirection": "",
+    "SpecialState": "0",
     "Color": "White",
     "Image": "blackOutlineCircle.png"
   },

@@ -1,5 +1,6 @@
 package ooga.model.engine;
 
+import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,13 +41,13 @@ public class GameTest {
         return config;
     }
 
-    Game inProgressGame = new Game("Tic-Tac-Toe", createTestConfig(startingConfig),
+    Game inProgressGame = new Game(new TicTacToeFactory(1,2), createTestConfig(startingConfig),
             new ArrayList<>(), 1, 2);
-    Game noMovesLeftGame = new Game("Tic-Tac-Toe", createTestConfig(noMovesConfig),
+    Game noMovesLeftGame = new Game(new TicTacToeFactory(1,2), createTestConfig(noMovesConfig),
             new ArrayList<>(), 1, 2);
-    Game player1WinGame = new Game("Tic-Tac-Toe", createTestConfig(player1Win),
+    Game player1WinGame = new Game(new TicTacToeFactory(1,2), createTestConfig(player1Win),
             new ArrayList<>(), 1, 2);
-    Game player2WinGme = new Game("Tic-Tac-Toe", createTestConfig(player2Win),
+    Game player2WinGme = new Game(new TicTacToeFactory(1,2), createTestConfig(player2Win),
             new ArrayList<>(), 1, 2);
 
     @Test
