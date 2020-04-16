@@ -30,7 +30,7 @@ public class EndPopUp extends GamePopUp{
 
     public static final int SPACING = 40;
     public static final String IMG_EXTENSION = ".png";
-    public static final String IMG_RESOURCES = DEFAULT_RESOURCES + "images/";
+    public static final String IMG_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/";
 
     public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus) {
         super(stage, width, height, fileName);
@@ -69,12 +69,11 @@ public class EndPopUp extends GamePopUp{
         endMessaging.setSpacing(SPACING/2.0);
         JSONObject labelText = popUpScreenData.getJSONObject("Labels");
         Text messageText = new Text(labelText.getString(winStatus+"Text"));
-        // TODO: add styling here
+        // TODO: add styling, potentially change background color here
         Text messageSubtext = new Text(labelText.getString(winStatus+"Subtext"));
-        System.out.println(IMG_RESOURCES + popUpScreenData.getJSONObject("Images").getString(winStatus+"Image"));
-//        Image messageImg = new Image(IMG_RESOURCES + popUpScreenData.getJSONObject("Images").getString(winStatus+"Image"));
-//        ImageView displayImg = new ImageView(messageImg);
-        endMessaging.getChildren().addAll(messageText, messageSubtext);//, displayImg);
+        Image messageImg = new Image(IMG_RESOURCES + popUpScreenData.getJSONObject("Images").getString(winStatus+"Image"), popUpWidth/3.0, 0, true, true);
+        ImageView displayImg = new ImageView(messageImg);
+        endMessaging.getChildren().addAll(messageText, messageSubtext, displayImg);
         endMessaging.setAlignment(Pos.CENTER);
 
         return endMessaging;
@@ -91,43 +90,5 @@ public class EndPopUp extends GamePopUp{
 
         return navOptions;
     }
-
-//    private HBox createContainerWithHeadingLabel(String labelName, String style) {
-//        HBox headingContainer = createHorizontalContainer();
-//        Label heading = createHeadingLabel(labelName, style);
-//        headingContainer.setAlignment(Pos.TOP_CENTER);
-//        headingContainer.getChildren().add(heading);
-//        return headingContainer;
-//    }
-
-//    private HBox createHorizontalContainer() {
-//        HBox container = new HBox();
-//        container.setPadding(new Insets(20,SPACING/2.0,0,SPACING/2.0));
-//        container.setSpacing(SPACING-10);
-//        return container;
-//    }
-//
-//    private HBox createChoiceContainerWithLabel(String labelName) {
-//        HBox choiceCustomizeContainer = createHorizontalContainer();
-//        Label playerLabel = createLabel(labelName);
-//        choiceCustomizeContainer.getChildren().add(playerLabel);
-//        return choiceCustomizeContainer;
-//    }
-//
-//    private Label createHeadingLabel(String labelName, String styleName) {
-//        Label heading = createLabel(labelName);
-//        heading.setMinWidth(popUpWidth);
-//        heading.getStyleClass().add(styleName);
-//        return heading;
-//    }
-//
-//    private Label createLabel(String labelName) {
-//        Label label = new Label();
-//        label.setText(labelName);
-//        label.setAlignment(Pos.CENTER);
-//        return label;
-//    }
-
-
 
 }
