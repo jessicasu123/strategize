@@ -5,6 +5,8 @@
 
   "EmptyState": "0",
 
+  "PiecesMove": "false",
+
   "Board": {
     "Height": "6",
     "Width": "7",
