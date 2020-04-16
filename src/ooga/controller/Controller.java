@@ -95,6 +95,7 @@ public class Controller implements ControllerFramework {
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID, userIsPlayer1);
     }
 
+    public boolean playerPass() {return myGame.didPlayerPass();}
     public boolean userTurn(){
         return userTurn;
     }

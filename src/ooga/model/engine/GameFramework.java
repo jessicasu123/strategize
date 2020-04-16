@@ -37,6 +37,8 @@ public interface GameFramework {
 
     public boolean isUserTurn();
 
+    public boolean didPlayerPass();
+
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
