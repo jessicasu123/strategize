@@ -29,15 +29,20 @@ public class Controller implements ControllerFramework {
     private String myUserImage;
     private String myAgentImage;
     private String gameFileName;
+    private boolean userIsPlayer1;
+    private boolean userTurn;
 
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName);
+        userIsPlayer1 = userID.equals("Player1");
+        userTurn = userIsPlayer1;
         isPieceSelected = false;
-        setPlayerID(userID);
+        setPlayerID();
         gameType = createGameTypeFactory();
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
+                myUserPlayerID, myAgentPlayerID, userIsPlayer1);
 
     }
 
@@ -47,19 +52,31 @@ public class Controller implements ControllerFramework {
         int specialPlayer2ID = Integer.parseInt(getStartingProperties().get("SpecialState"+2));
         boolean player1PosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
         int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
-        return new GameFactory().createGameType(gameType,myUserPlayerID, myAgentPlayerID, specialPlayer1ID,
-                specialPlayer2ID, player1PosDirection, emptyState);
+        int specialUserID;
+        int specialAgentID;
+        boolean userPosDirection;
+        if(userIsPlayer1){
+            specialUserID = specialPlayer1ID;
+            specialAgentID = specialPlayer2ID;
+            userPosDirection = player1PosDirection;
+        }else{
+            specialUserID = specialPlayer2ID;
+            specialAgentID = specialPlayer1ID;
+            userPosDirection = !player1PosDirection;
+        }
+        return new GameFactory().createGameType(gameType,myUserPlayerID, myAgentPlayerID, specialUserID,
+                specialAgentID, userPosDirection, emptyState);
 
     }
 
     //TODO: fix
-    private void setPlayerID(String userID) throws IOException, ParseException {
+    private void setPlayerID() throws IOException, ParseException {
         int player1State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
         int player2State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(2)));
         String player1Image = getStartingProperties().get("Image"+Integer.toString(1));
         String player2Image = getStartingProperties().get("Image"+Integer.toString(2));
 
-        if (userID.equals("Player1")) {
+        if (userIsPlayer1) {
             assignPlayerIDAndImages(player1State, player2State, player1Image, player2Image);
         }
         else {
@@ -75,10 +92,12 @@ public class Controller implements ControllerFramework {
     }
 
     public void restartGame() throws IOException, ParseException {
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID, userIsPlayer1);
     }
 
-
+    public boolean userTurn(){
+        return userTurn;
+    }
     //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getUserImage() {
         return myUserImage;
@@ -121,14 +140,9 @@ public class Controller implements ControllerFramework {
         if (!isPieceSelected) {
             pieceSelected(squareSelectedX, squareSelectedY);
         }
-        myGame.makeUserMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
+        myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
         isPieceSelected = false;
-    }
-
-
-    @Override
-    public void haveAgentMove() throws InvalidMoveException {
-        myGame.makeAgentMove();
+        userTurn = myGame.isUserTurn();
     }
 
     @Override

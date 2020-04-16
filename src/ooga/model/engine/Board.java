@@ -14,6 +14,7 @@ public class Board implements BoardFramework{
     private GameTypeFactory myGameTypeFactory;
     private int numRows;
     private int numCols;
+    private boolean doesTurnChange;
     private List<String> myNeighborhoods;
     private NeighborhoodFactory neighborFactory;
 
@@ -141,16 +142,21 @@ public class Board implements BoardFramework{
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
+            doesTurnChange = curr.changeTurnAfterMove();
             if(curr.getPosition() != oldPos){
                 Coordinate currPosition = curr.getPosition();
                 GamePiece switchedWith = myGamePieces.get(currPosition.getXCoord()).get(currPosition.getYCoord());
                 myGamePieces.get(oldPos.getXCoord()).set(oldPos.getYCoord(), switchedWith);
                 myGamePieces.get(currPosition.getXCoord()).set(currPosition.getYCoord(), curr);
-
             }
         } else {
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
+    }
+
+
+    public boolean changeTurns(){
+        return doesTurnChange;
     }
 
     /**

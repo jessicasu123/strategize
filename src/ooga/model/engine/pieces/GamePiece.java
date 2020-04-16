@@ -44,6 +44,10 @@ public abstract class GamePiece {
      */
     public abstract void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState);
 
+    public boolean changeTurnAfterMove(){
+        return true;
+    }
+
     /**
      * @return the state of the piece
      */

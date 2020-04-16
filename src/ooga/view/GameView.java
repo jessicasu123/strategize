@@ -1,5 +1,10 @@
 package ooga.view;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,6 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
 import org.json.JSONObject;
@@ -49,6 +55,7 @@ public class GameView {
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
+    public static final double DELAY = 0.25;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
@@ -82,6 +89,7 @@ public class GameView {
     private RulesPopUp rules;
     private int userWinCount;
     private int opponentWinCount;
+
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -101,6 +109,7 @@ public class GameView {
         initializeSubPanels();
         initializePopUps();
         displayToStage();
+        agentMove();
     }
 
     private void initializeJSONReader() throws FileNotFoundException {
@@ -122,6 +131,7 @@ public class GameView {
         rules = new RulesPopUp(myStage, WIDTH, HEIGHT, myController.getGameFileName());
     }
 
+
     /**
      * Calls on this class to present its GUI to the screen
      */
@@ -130,6 +140,8 @@ public class GameView {
         myStage.setScene(gameScene);
         myStage.show();
     }
+
+
 
     /**
      * creates the display by adding to root borderpane
@@ -291,7 +303,7 @@ public class GameView {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
 
-        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("")) {
+        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("") && myController.userTurn()) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             updateImageOnSquare(currSquare, possibleMove);
         }
@@ -342,7 +354,7 @@ public class GameView {
     }
 
     private void makeMove(){
-        if(gameInProgress) {
+        if(gameInProgress && myController.userTurn()) {
             if (didSelectPiece) {
                 myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
             }
@@ -350,16 +362,26 @@ public class GameView {
             myController.playMove();
             hasSelectedSquare = false;
             didSelectPiece = false;
-            checkGameOver();
-            if(gameInProgress){
-                myController.haveAgentMove();
-            }
             updateBoardAppearance();
             checkGameOver();
+            if(gameInProgress){
+                agentMove();
+            }
+            checkGameOver();
+        }
+    }
+    private void agentMove(){
+        if(!myController.userTurn()){
+            myController.playMove();
+            PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
+            wait.setOnFinished((e) -> {
+                updateBoardAppearance();
+                checkGameOver();
+            });
+            wait.play();
 
         }
     }
-
     private void checkGameOver() {
         if (myController.isGameOver()) {
             gameInProgress = false;
@@ -385,5 +407,4 @@ public class GameView {
         gameEnd.display();
         addActionsToButtons(gameEnd.getButtonActionsMap());
     }
-
 }

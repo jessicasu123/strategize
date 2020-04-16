@@ -42,18 +42,18 @@ public class GameTest {
     }
 
     Game inProgressGame = new Game(new TicTacToeFactory(1,2), createTestConfig(startingConfig),
-            new ArrayList<>(), 1, 2);
+            new ArrayList<>(), 1, 2, true);
     Game noMovesLeftGame = new Game(new TicTacToeFactory(1,2), createTestConfig(noMovesConfig),
-            new ArrayList<>(), 1, 2);
+            new ArrayList<>(), 1, 2, true);
     Game player1WinGame = new Game(new TicTacToeFactory(1,2), createTestConfig(player1Win),
-            new ArrayList<>(), 1, 2);
+            new ArrayList<>(), 1, 2, true);
     Game player2WinGme = new Game(new TicTacToeFactory(1,2), createTestConfig(player2Win),
-            new ArrayList<>(), 1, 2);
+            new ArrayList<>(), 1, 2, true);
 
     @Test
     void testMakeUserAndAgentMove() {
         //making the user move to (2,2) - bottom right
-        inProgressGame.makeUserMove(Arrays.asList(new Integer[]{2,2,2,2}));
+        inProgressGame.makeGameMove(Arrays.asList(new Integer[]{2,2,2,2}));
         Integer[][] userMove = {
                 {0,0,0},
                 {0,1,0},
@@ -62,7 +62,7 @@ public class GameTest {
         assertEquals(createTestConfig(userMove), inProgressGame.getVisualInfo());
 
         //making the agent move somewhere, as calculated by AI algo
-        inProgressGame.makeAgentMove();
+        inProgressGame.makeGameMove(Arrays.asList(new Integer[]{2,2,2,2}));
         int numAgents = 0;
         for (List<Integer> row: inProgressGame.getVisualInfo()) {
             numAgents += Collections.frequency(row, 2); //agentID = 2

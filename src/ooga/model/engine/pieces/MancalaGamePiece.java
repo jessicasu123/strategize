@@ -18,6 +18,7 @@ public class MancalaGamePiece extends GamePiece {
     private int myGoalState;
     private int myDirection;
     private int myOpponentsGoal;
+    private boolean myPlayerMovesAgain;
     private final int myEmptyState;
 
     /**
@@ -114,8 +115,13 @@ public class MancalaGamePiece extends GamePiece {
             for (GamePiece piece : row) {
                 if (piece.getPosition().getYCoord() == currentPos) {
                     this.changeState(-MARBLES_TO_ADD);
-                    if(isSpecialCapture(piece)){
-                        performSpecialCapture(row, otherRow, currentPos);
+                    if(isSpecialMove(piece)){
+                        if(isSpecialCapture(piece)) {
+                            performSpecialCapture(row, otherRow, currentPos);
+                        }else{
+                            myPlayerMovesAgain = true;
+                            piece.changeState(MARBLES_TO_ADD);
+                        }
                     }else{
                         piece.changeState(MARBLES_TO_ADD);
                     }
@@ -142,10 +148,18 @@ public class MancalaGamePiece extends GamePiece {
         }
     }
 
-    private boolean isSpecialCapture(GamePiece piece) {
-        return myMarbles == 0 && piece.getState() == this.getState() && piece.getVisualRepresentation() == 0;
+    private boolean isSpecialMove(GamePiece piece){
+        return myMarbles == 0 && piece.getState() == this.getState();
     }
 
+    private boolean isSpecialCapture(GamePiece piece) {
+        return piece.getVisualRepresentation() == 0;
+    }
+
+    @Override
+    public boolean changeTurnAfterMove(){
+        return !myPlayerMovesAgain;
+    }
 
     /**
      * Overrides because the visual information this game wants to display is the number of marbles in each square

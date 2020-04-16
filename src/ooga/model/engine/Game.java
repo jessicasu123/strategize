@@ -13,16 +13,38 @@ public class Game implements GameFramework{
     private AgentPlayer myAgentPlayer;
     private int myUserPlayerID;
     private int myAgentPlayerID;
+    private boolean isUserTurn;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID, int agentID) {
+    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID,
+                int agentID, boolean userIsPlayer1) {
         myBoard = new Board(gameType, startingConfiguration, neighborhoods);
         myUserPlayerID = userID;
         myAgentPlayerID = agentID;
+        isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
         myAgentPlayer = new AgentPlayer(myAgentPlayerID, myAgent, myUserPlayerID);
+    }
+
+
+    public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
+        if(isUserTurn){
+            makeUserMove(moveCoordinates);
+        }else{
+            makeAgentMove();
+        }
+
+        if(myBoard.changeTurns()){
+            isUserTurn = !isUserTurn;
+        }
+
+    }
+
+    //TODO: implement later for disabling makeMove button
+    public boolean isUserTurn(){
+        return isUserTurn;
     }
 
     /**
@@ -30,8 +52,8 @@ public class Game implements GameFramework{
      *  - makes the move of a user player on the board
      * @param moveCoordinates - list of the coordinates the controller has collected from the view for the move
      */
-    @Override
-    public void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
+
+    private void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
         myBoard.makeMove(myUserPlayerID, startCoord, endCoord);
@@ -41,8 +63,8 @@ public class Game implements GameFramework{
      * METHOD PURPOSE:
      *  - makes the agent's move on the board
      */
-    @Override
-    public void makeAgentMove() throws InvalidMoveException {
+
+    private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
         myBoard.makeMove(myAgentPlayerID, agentMove.getKey(), agentMove.getValue());
     }
