@@ -108,9 +108,9 @@ public class StartView {
         submit.setOnAction(e -> {
             try {
                 if (fileField.getText() != null && !fileField.getText().trim().isEmpty()) {
-                    new GameSetupOptions(myStage, GAME_FILE_PATH +  fileField.getText());
+                    new GameSetupOptions(myStage, fileField.getText());
                 } else if (!savedFileOptions.getSelectionModel().isEmpty()) {
-                    new GameSetupOptions(myStage, GAME_FILE_PATH + savedFileOptions.getValue());
+                    new GameSetupOptions(myStage, savedFileOptions.getValue());
                 }
             } catch (FileNotFoundException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -233,7 +233,7 @@ public class StartView {
         gameButton.setId(gameButton.getText());
         gameButton.setOnAction(e -> {
             try {
-                new GameSetupOptions(myStage, GAME_FILE_PATH + game.getString("DefaultFile"));
+                new GameSetupOptions(myStage, game.getString("DefaultFile"));
             } catch (FileNotFoundException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

@@ -35,11 +35,10 @@ public class GameSetupOptions {
     public static final int SPACING = 25;
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
-    public static final String DEFAULT_RESOURCES = "src/resources/";
-    public static final String DEFAULT_VIEW_RESOURCES = "resources/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "GameSetupOptions.json";
-    public static final String PIECE_ICON_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
-    public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
+    public static final String DEFAULT_FILE_RESOURCES = "src/resources/gameFiles/";
+    public static final String DATAFILE = "src/resources/GameSetupOptions.json";
+    public static final String PIECE_ICON_RESOURCES = "resources/images/pieces/";
+    public static final String STYLESHEET = "resources/style.css";
     public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject gameFileData;
@@ -59,7 +58,7 @@ public class GameSetupOptions {
     public GameSetupOptions(Stage displayStage, String fileName) throws FileNotFoundException {
         gameFileName = fileName;
         myStage = displayStage;
-        FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
+        FileReader br = new FileReader(DEFAULT_FILE_RESOURCES + gameFileName);
         JSONTokener token = new JSONTokener(br);
         gameFileData = new JSONObject(token);
 

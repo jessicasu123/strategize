@@ -45,12 +45,12 @@ import java.util.Map;
 public class GameView {
 
     public static final String DEFAULT_RESOURCES = "src/resources/";
-    public static final String DEFAULT_VIEW_RESOURCES = "resources/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
+    public static final String DATAFILE = DEFAULT_RESOURCES + "GameView.json";
     public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
     public static final String ENDGAME_FILE = "EndView.json";
-    public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
-    public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
+    public static final String PIECES_RESOURCES = "resources/images/pieces/";
+    public static final String FILE_PATH = "gameFiles/";
+    public static final String STYLESHEET = "resources/style.css";
     public static final Color Black = Color.BLACK;
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
@@ -128,7 +128,7 @@ public class GameView {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, CUSTOMIZATION_FILE,
                 userImage, agentImage, boardColor);
         save = new SavePopUp(myStage,WIDTH,HEIGHT, "");
-        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, myController.getGameFileName());
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, FILE_PATH + myController.getGameFileName());
     }
 
 
