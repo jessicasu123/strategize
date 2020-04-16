@@ -300,7 +300,7 @@ public class GameView {
 
     private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
         updateImageOnSquare(currSquare, playerImage);
-        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c));
+        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
     }
 
     private void updateEmptyCell(Shape currSquare, int r, int c) {
@@ -312,11 +312,21 @@ public class GameView {
         }
     }
 
-    private void handlePieceSelected(int r, int c) {
+    private void handlePieceSelected(int r, int c, Image img) {
         if(piecesMove){
-            didSelectPiece = true;
-            lastPieceSelectedX = r;
-            lastPieceSelectedY = c;
+            if(!didSelectPiece){
+                didSelectPiece = true;
+                lastPieceSelectedX = r;
+                lastPieceSelectedY = c;
+            }else{
+                updateImageOnSquare(allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
+                if(hasSelectedSquare){
+                    allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
+                }
+                lastPieceSelectedX = r;
+                lastPieceSelectedY = c;
+            }
+
         }
     }
 
