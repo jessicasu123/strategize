@@ -27,9 +27,10 @@ public class StatusPanel {
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
 
     private JSONObject gameScreenData;
-    private ImageView playerIcon;
+    private ImageView userIcon;
     private ImageView opponentIcon;
-
+    private TextField userScore;
+    private TextField opponentScore;
 
     private Map<Button,String> buttonActionsMap;
 
@@ -51,8 +52,20 @@ public class StatusPanel {
      * @param opponentImage - the new image to represent the opponent(agent)
      */
     public void updatePlayerIcons(String playerImage, String opponentImage) {
-        playerIcon.setImage(new Image(PIECES_RESOURCES + playerImage));
+        userIcon.setImage(new Image(PIECES_RESOURCES + playerImage));
         opponentIcon.setImage(new Image(PIECES_RESOURCES + opponentImage));
+    }
+
+    /**
+     * When a game ends, gameView calls this method to update the TextFields
+     * for current win counts of the user and opponent
+     * If it's a tie, both get +1 point
+     * @param userWinCount new user win count
+     * @param opponentWinCount new opponent win count
+     */
+    public void updateWinnerCounts(int userWinCount, int opponentWinCount) {
+        userScore.setText(String.valueOf(userWinCount));
+        opponentScore.setText(String.valueOf(opponentWinCount));
     }
 
     /**
@@ -61,7 +74,7 @@ public class StatusPanel {
     public VBox createStatusPanel(String userImage, String agentImage){
         VBox statusPanel = new VBox(SPACING);
         statusPanel.getChildren().addAll(createTopButtons(),
-                createStatusBar(userImage,agentImage));
+                createStatusBar(userImage, agentImage));
 
         return statusPanel;
     }
@@ -73,20 +86,24 @@ public class StatusPanel {
         HBox container = new HBox(SPACING);
         container.setAlignment(Pos.TOP_CENTER);
         JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        playerIcon = setUpGameIcon(userImage);
+        userIcon = setUpGameIcon(userImage);
         opponentIcon = setUpGameIcon(agentImage);
-        TextField playerscore = new TextField();
-        playerscore.setMaxWidth(50);
-        playerscore.setMinHeight(30);
-        TextField opponentscore = new TextField();
-        opponentscore.setMaxWidth(50);
-        opponentscore.setMinHeight(30);
+        userScore = createTextField();
+        opponentScore = createTextField();
         Label player = new Label(buttonTexts.getString("Player"));
         player.setMinHeight(30);
         Label opponent = new Label(buttonTexts.getString("Opponent"));
         opponent.setMinHeight(30);
-        container.getChildren().addAll(playerIcon,player,playerscore,opponentIcon,opponent,opponentscore);
+        container.getChildren().addAll(userIcon,player, userScore,opponentIcon,opponent,opponentScore);
         return container;
+    }
+
+    private TextField createTextField() {
+        TextField scoreField = new TextField();
+        scoreField.setDisable(true);
+        scoreField.setMaxWidth(50);
+        scoreField.setMinHeight(30);
+        return scoreField;
     }
 
 

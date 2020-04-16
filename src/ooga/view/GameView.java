@@ -79,6 +79,8 @@ public class GameView {
     private CustomizationPopUp customizePopUp;
     private SavePopUp save;
     private RulesPopUp rules;
+    private int userWinCount;
+    private int opponentWinCount;
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -92,6 +94,8 @@ public class GameView {
         boardColor = "white";
         gameInProgress = true;
         didSelectPiece = false;
+        userWinCount = 0;
+        opponentWinCount = 0;
         getGameDisplayInfo();
         initializeSubPanels();
         initializePopUps();
@@ -339,11 +343,16 @@ public class GameView {
         String endStatus;
         if (winner == myController.getUserNumber()) {
             endStatus = "Win";
+            userWinCount += 1;
         } else if(winner == 3) {
             endStatus = "Tie";
+            userWinCount += 1;
+            opponentWinCount += 1;
         } else {
             endStatus = "Loss";
+            opponentWinCount += 1;
         }
+        statusPanel.updateWinnerCounts(userWinCount, opponentWinCount);
 //        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 //        alert.setTitle("Game Over");
 //        alert.setContentText(endMessage);
