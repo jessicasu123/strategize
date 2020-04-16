@@ -17,8 +17,9 @@
   },
   "Buttons": {
     "NavigationButtons": {
-      "Back to Menu": "backToMenu",
       "Restart": "restart",
+      "Back to Setup": "backToSetup",
+      "Back to Main Menu": "backToMenu",
       "Save": "save"
     },
     "MakeMoveButton": {

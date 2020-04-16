@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class NavigationPanel {
     public static final int PADDING = 20;
-    public static final int SPACING = 50;
+    public static final int SPACING = 40;
     public static final int MIN_WIDTH = 100;
 
     private int myWidth;
@@ -40,14 +40,15 @@ public class NavigationPanel {
         movecontainer.setAlignment(Pos.CENTER);
 
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
-        Button menu = createButton(buttonTexts, "Back to Menu");
         Button restart = createButton(buttonTexts, "Restart");
+        Button setup = createButton(buttonTexts, "Back to Setup");
+        Button menu = createButton(buttonTexts, "Back to Main Menu");
         Button save = createButton(buttonTexts, "Save");
         JSONObject makeMoveText = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
         Button makeMove = createButton(makeMoveText,"MAKE MOVE");
         makeMove.setMinWidth(myWidth*(2.0/3.0));
 
-        navcontainer.getChildren().addAll(menu, restart, save);
+        navcontainer.getChildren().addAll(restart, setup, menu, save);
         movecontainer.getChildren().add(makeMove);
 
         GridContainer.getChildren().addAll(movecontainer,navcontainer);

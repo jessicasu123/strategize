@@ -29,7 +29,6 @@ public class EndPopUp extends GamePopUp{
     private String winStatus;
 
     public static final int SPACING = 40;
-    public static final String IMG_EXTENSION = ".png";
     public static final String IMG_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/";
 
     public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus) {
@@ -82,12 +81,13 @@ public class EndPopUp extends GamePopUp{
     private VBox createNavigationOptions() {
         VBox navOptions = new VBox(SPACING);
         JSONObject buttonInfo = popUpScreenData.getJSONObject("Buttons");
-//        Button playAgain = createButton(buttonInfo.getString("PlayAgain"));
+        Button playAgain = createButton("Play Again");
         Button setupScreen = createButton("Return to Setup");
         Button mainMenu = createButton("Return to Main Menu");
+        buttonActionsMap.put(playAgain, buttonInfo.getString("Play Again"));
         buttonActionsMap.put(setupScreen, buttonInfo.getString("Return to Setup"));
         buttonActionsMap.put(mainMenu, buttonInfo.getString("Return to Main Menu"));
-        navOptions.getChildren().addAll(setupScreen, mainMenu);
+        navOptions.getChildren().addAll(playAgain, setupScreen, mainMenu);
         navOptions.setAlignment(Pos.CENTER);
 
         return navOptions;

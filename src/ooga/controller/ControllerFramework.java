@@ -16,6 +16,11 @@ import java.util.Map;
  */
 public interface ControllerFramework {
 
+    /**
+     * METHOD PURPOSE:
+     *  -creates a new game and board when the "Restart" button is clicked
+     */
+    void restartGame() throws IOException, ParseException;
 
     /**
      * METHOD PURPOSE:
