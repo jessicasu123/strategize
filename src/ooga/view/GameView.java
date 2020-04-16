@@ -264,7 +264,6 @@ public class GameView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
-
         if(didSelectPiece && piecesMove){
             allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
             updateImageOnSquare(rect, img);
@@ -291,7 +290,8 @@ public class GameView {
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
-        if (myController.getPossibleMovesForView().get(r).get(c)==1 && !possibleMoveImage.equals("")) {
+
+        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("")) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             updateImageOnSquare(currSquare, possibleMove);
         }
@@ -301,10 +301,15 @@ public class GameView {
         }
         else if (myGameStates.get(r).get(c)==agentID) {
             Image player2Image = new Image(PIECES_RESOURCES + agentImage);
-            updatePlayerCell(player2Image, currSquare, r, c);
+            updateAgentCell(player2Image, currSquare, r, c);
         } else {
             updateEmptyCell(currSquare, r,c);
         }
+    }
+
+    private void updateAgentCell(Image playerImage, Shape currSquare, int r, int c){
+        updateImageOnSquare(currSquare, playerImage);
+        currSquare.setOnMouseClicked(null);
     }
 
     private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
@@ -316,25 +321,22 @@ public class GameView {
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
         currSquare.setOnMouseClicked(userClick);
-        if(!piecesMove) {
-            currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
-        }
+        currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }
 
     private void handlePieceSelected(int r, int c, Image img) {
         if(piecesMove){
             if(!didSelectPiece){
                 didSelectPiece = true;
-                lastPieceSelectedX = r;
-                lastPieceSelectedY = c;
             }else{
                 updateImageOnSquare(allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
                 if(hasSelectedSquare){
                     allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
                 }
-                lastPieceSelectedX = r;
-                lastPieceSelectedY = c;
+
             }
+            lastPieceSelectedX = r;
+            lastPieceSelectedY = c;
 
         }
     }
