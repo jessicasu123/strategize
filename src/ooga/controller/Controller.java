@@ -141,7 +141,7 @@ public class Controller implements ControllerFramework {
         return myGame.getEndGameStatus();
     }
 
-    public List<Coordinate> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
+    public List<List<Integer>> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
 
 
 }

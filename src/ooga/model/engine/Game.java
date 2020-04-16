@@ -4,7 +4,6 @@ import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.Agent.AgentFactory;
 import ooga.model.engine.Player.AgentPlayer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,13 +76,7 @@ public class Game implements GameFramework{
     }
 
     @Override
-    public List<Coordinate> possibleMovesForView() {
-        List<Coordinate> possibleMoves = new ArrayList<>();
-        for (List<Coordinate> moves: myBoard.getAllLegalMoves(myUserPlayerID).values()) {
-            for (Coordinate c: moves) {
-                possibleMoves.add(c);
-            }
-        }
-        return possibleMoves;
+    public List<List<Integer>> possibleMovesForView() {
+        return myBoard.possibleMovesVisualInfo(myUserPlayerID);
     }
 }
