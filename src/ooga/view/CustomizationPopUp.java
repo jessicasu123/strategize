@@ -11,7 +11,10 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
+import org.json.JSONTokener;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.chrono.MinguoDate;
 import java.util.*;
 import java.util.List;
@@ -35,14 +38,16 @@ public class CustomizationPopUp extends GamePopUp{
     private ImageView opponentImageChoice;
     private String boardColorChoice;
     private Map<Button, String> buttonActionsMap;
+    private JSONObject popUpScreenData;
 
-    public static final int SPACING = 40;
+    public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
     public static final int MIN_ICON_WIDTH = 30;
     public static final String IMG_EXTENSION = ".png";
 
     public CustomizationPopUp(Stage stage, int width, int height,
                               String currUserImg, String currOppImg, String currColor) {
         super(stage, width, height);
+        setUpJSONReader();
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
         userImage = currUserImg;
@@ -52,6 +57,18 @@ public class CustomizationPopUp extends GamePopUp{
         playerImages.add(opponentImage.split("\\.")[0]);
         boardColorChoice = currColor;
         buttonActionsMap = new HashMap<>();
+    }
+
+    //TODO: figure out whether to put this in super class
+    private void setUpJSONReader()  {
+        FileReader br = null;
+        try {
+            br = new FileReader(DATAFILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("MISSING CUSTOMIZATION JSON FILE");
+        }
+        JSONTokener token = new JSONTokener(br);
+        popUpScreenData = new JSONObject(token);
     }
 
     /**
@@ -177,19 +194,6 @@ public class CustomizationPopUp extends GamePopUp{
         return backgroundMode;
     }
 
-    private Button createButton(String buttonName) {
-        Button b = new Button(buttonName);
-        b.getStyleClass().add("gameButton");
-        b.setMinWidth(popUpWidth/3.0);
-        return b;
-    }
-
-    private HBox createHorizontalContainer() {
-        HBox container = new HBox();
-        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
-        container.setSpacing(SPACING-10);
-        return container;
-    }
 
     private HBox createChoiceContainerWithLabel(String labelName) {
         HBox choiceCustomizeContainer = createHorizontalContainer();

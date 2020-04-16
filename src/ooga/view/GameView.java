@@ -13,7 +13,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
-import ooga.model.engine.Coordinate;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -51,8 +50,6 @@ public class GameView {
     public static final int SPACING = 40;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
-    public static int SaveWIDTH = 300;
-    public static int SaveHEIGHT = 300;
 
     private Stage myStage;
     private JSONObject gameScreenData;
@@ -73,8 +70,6 @@ public class GameView {
     private String userImage;
     private String agentImage;
     private String boardColor;
-    private double gamePieceWidth;
-    private double gamePieceHeight;
     private boolean piecesMove;
     private String possibleMoveImage;
     private BoardView grid;
@@ -83,7 +78,6 @@ public class GameView {
     private CustomizationPopUp customizePopUp;
     private SavePopUp save;
     private RulesPopUp rules;
-    private List<String> rulelist;
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -118,8 +112,8 @@ public class GameView {
     private void initializePopUps() throws FileNotFoundException {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, userImage,
                 agentImage, boardColor);
-        save = new SavePopUp(myStage,SaveWIDTH,SaveHEIGHT);
-        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, "tic-tac-toe.json");
+        save = new SavePopUp(myStage,WIDTH,HEIGHT);
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, myController.getGameFileName());
     }
 
     /**
@@ -207,33 +201,24 @@ public class GameView {
     private void restart() throws IOException, ParseException {
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
-        System.out.println("RESTART");
     }
 
-    //TODO: popup to save current config
     private void save() {
         save.display();
         addActionsToButtons(save.getButtonActionsMap());
-        System.out.println("SAVE");
     }
 
     private void saveConfig() throws IOException, ParseException {
         save.close();
         myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
-        System.out.println("SAVE CONFIG");
     }
 
     private void backToMenu() throws FileNotFoundException {
         StartView sv = new StartView(myStage);
         sv.displayToStage(START_DIM,START_DIM);
-        System.out.println("BACK");
     }
 
-    private void showRules() {
-        rules.display();
-//        addActionsToButtons(rules.getButtonActionsMap());
-        System.out.println("SHOW RULES");
-    }
+    private void showRules() { rules.display(); }
 
     private void showSocialCenter() {System.out.println("SOCIAL CENTER");}
 

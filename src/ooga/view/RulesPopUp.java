@@ -22,21 +22,14 @@ import java.util.Map;
 
 public class RulesPopUp extends GamePopUp {
     public static final int SPACING = 40;
-    private Stage myStage;
-    private int mywidth;
-    private int myheight;
-    private Map<Button, String> buttonActionsMap;
+
     private String gameData;
     private JSONObject gameFileData;
     private List<String> myRules;
 
     public RulesPopUp(Stage stage, int width, int height, String file) throws FileNotFoundException {
         super(stage, width, height);
-        myStage = stage;
-        myheight = height;
-        mywidth = width;
         gameData = file;
-        buttonActionsMap = new HashMap<>();
         FileReader br = new FileReader(DEFAULT_RESOURCES + gameData);
         JSONTokener token = new JSONTokener(br);
         gameFileData = new JSONObject(token);
@@ -44,25 +37,7 @@ public class RulesPopUp extends GamePopUp {
 
     @Override
     public void createPopUpContents() {
-        myPopUpContents.getChildren().add(createRulesView());
-    }
-
-    public Map<Button, String> getButtonActionsMap() {return buttonActionsMap;}
-
-
-    private HBox createHorizontalContainer() {
-        HBox container = new HBox();
-        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
-        container.setSpacing(SPACING-10);
-        return container;
-    }
-
-    private HBox createRulesView(){
-
-        HBox saveView = createHorizontalContainer();
-        saveView.setAlignment(Pos.CENTER);
-        saveView.getChildren().add(createRules());
-        return saveView;
+        myPopUpContents.getChildren().add(createRules());
     }
 
     private void getList(){
@@ -81,6 +56,8 @@ public class RulesPopUp extends GamePopUp {
         RuleView.getChildren().add(Title);
         for(int i = 0;i<myRules.size();i++){
             Label Rule = new Label(myRules.get(i));
+            Rule.setMinWidth(popUpWidth);
+            Rule.setAlignment(Pos.CENTER);
             RuleView.getChildren().add(Rule);
         }
         return RuleView;

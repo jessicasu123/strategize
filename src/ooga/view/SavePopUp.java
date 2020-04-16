@@ -20,54 +20,33 @@ import java.util.Map;
 
 public class SavePopUp extends GamePopUp {
 
-    public static final int SPACING = 40;
-    private Stage myStage;
-    private int mywidth;
-    private int myheight;
-    private JSONObject buttonInfo;
     private Map<Button, String> buttonActionsMap;
     public static TextField filetext;
 
     public SavePopUp(Stage stage, int width, int height) {
         super(stage, width, height);
-        myStage = stage;
-        myheight = height;
-        mywidth = width;
+        popUpWidth = 200;
+        popUpHeight = 240;
+        xOffset = (width - popUpWidth)/2;
+        yOffset = (height - popUpHeight)/2;
+
         buttonActionsMap = new HashMap<>();
     }
 
     @Override
     public void createPopUpContents() {
-        myPopUpContents.getChildren().add(createSaveView());
+        myPopUpContents.getChildren().add(createSave());
     }
 
-    public Map<Button, String> getButtonActionsMap() {return buttonActionsMap;}
+    public Map<Button, String> getButtonActionsMap() {
+        return buttonActionsMap;}
 
-    private Button createButton(String buttonName) {
-        Button b = new Button(buttonName);
-        b.getStyleClass().add("gameButton");
-        b.setMinWidth(popUpWidth/3.0);
-        return b;
-    }
 
     public String getFileName(){
+
         return filetext.toString();
     }
 
-
-    private HBox createHorizontalContainer() {
-        HBox container = new HBox();
-        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
-        container.setSpacing(SPACING-10);
-        return container;
-    }
-    private HBox createSaveView(){
-
-        HBox saveView = createHorizontalContainer();
-        saveView.setAlignment(Pos.CENTER);
-        saveView.getChildren().add(createSave());
-        return saveView;
-    }
 
     private VBox createSave(){
         VBox saveView = new VBox(SPACING);

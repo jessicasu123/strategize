@@ -1,4 +1,7 @@
 package ooga.view;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -18,39 +21,26 @@ public abstract class GamePopUp {
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
+    public static final int SPACING = 40;
 
     protected double popUpWidth;
     protected double popUpHeight;
     protected Pane myPopUpContents;
-    protected JSONObject popUpScreenData;
+    protected double xOffset;
+    protected double yOffset;
 
     private Stage displayStage;
     private Popup popUp;
-    private double xOffset;
-    private double yOffset;
 
     public GamePopUp(Stage stage, int width, int height) {
         displayStage = stage;
 
+        //TODO: figure out way to let subclasses decide width and height
         popUpWidth = width * (2.0/3.0);
         popUpHeight = height * (4.0/5.0);
 
-        xOffset = (width - popUpWidth)/2.5;
+        xOffset = (width - popUpWidth)/3.0;
         yOffset = (height - popUpHeight)/2.0;
-
-        setUpJSONReader();
-    }
-
-    private void setUpJSONReader()  {
-        FileReader br = null;
-        try {
-            br = new FileReader(DATAFILE);
-        } catch (FileNotFoundException e) {
-            System.out.println("MISSING CUSTOMIZATION JSON FILE");
-        }
-        JSONTokener token = new JSONTokener(br);
-        popUpScreenData = new JSONObject(token);
     }
 
     /**
@@ -74,6 +64,12 @@ public abstract class GamePopUp {
         popUp.show(displayStage, displayStage.getX()+xOffset, displayStage.getY()+yOffset);
     }
 
+    /**
+     * Displays the contents of the pop up. This will be specific to
+     * each kind of pop-up, as each one has different information to display.
+     */
+    public abstract void createPopUpContents();
+
     private void setUpPopUp() {
         myPopUpContents = new Pane();
         myPopUpContents.getStylesheets().add(STYLESHEET);
@@ -83,8 +79,25 @@ public abstract class GamePopUp {
     }
 
     /**
-     * Displays the contents of the pop up. This will be specific to
-     * each kind of pop-up, as each one has different information to display.
+     * Creates a horizontal container that many types of pop-ups might have.
+     * @return - horizontal container with padding and spacing.
      */
-    public abstract void createPopUpContents();
+    protected HBox createHorizontalContainer() {
+        HBox container = new HBox();
+        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
+        container.setSpacing(SPACING-10);
+        return container;
+    }
+
+    /**
+     * Creates a button that many types of pop-ups might have.
+     * @param buttonName - the name of the button being created.
+     * @return button for a pop up
+     */
+    protected Button createButton(String buttonName) {
+        Button b = new Button(buttonName);
+        b.getStyleClass().add("gameButton");
+        b.setMinWidth(popUpWidth/3.0);
+        return b;
+    }
 }
