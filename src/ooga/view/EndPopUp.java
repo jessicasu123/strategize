@@ -36,6 +36,7 @@ public class EndPopUp extends GamePopUp{
         super(stage, width, height, fileName);
         winStatus = endStatus;
         buttonActionsMap = new HashMap<>();
+        setUpJSONReader();
     }
 
     /**
@@ -98,13 +99,6 @@ public class EndPopUp extends GamePopUp{
 //        headingContainer.getChildren().add(heading);
 //        return headingContainer;
 //    }
-
-    private Button createButton(String buttonName) {
-        Button b = new Button(buttonName);
-        b.getStyleClass().add("gameButton");
-        b.setMinWidth(popUpWidth/3.0);
-        return b;
-    }
 
 //    private HBox createHorizontalContainer() {
 //        HBox container = new HBox();

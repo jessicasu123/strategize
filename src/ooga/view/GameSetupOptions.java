@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.engine.InvalidGameTypeException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -190,7 +191,7 @@ public class GameSetupOptions {
                         Controller c = new Controller(gameFileName, userPlayerID, opponent);
 
                         new GameView(myStage, c);
-                    } catch (IOException | org.json.simple.parser.ParseException ex) {
+                    } catch (IOException | org.json.simple.parser.ParseException | InvalidGameTypeException ex) {
                         //TODO: figure out what to do with this exception
                         System.out.println(ex.getMessage());
                     }

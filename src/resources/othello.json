@@ -5,6 +5,10 @@
 
   "EmptyState": "0",
 
+  "PiecesMove": "false",
+
+  "Player1PosDirection": "false",
+
   "Board": {
     "Height": "8",
     "Width": "8",
@@ -13,18 +17,20 @@
 
   "Player1": {
     "State" : "1",
-    "SpecialState": "",
-    "Direction": "",
+    "SpecialState": "0",
     "Color": "Black",
     "Image": "blackCircle.png"
   },
 
   "Player2": {
     "State": "2",
-    "SpecialState": "",
-    "Direction": "",
+    "SpecialState": "0",
     "Color": "White",
     "Image": "blackOutlineCircle.png"
-  }
+  },
+
+  "possibleMove": "greyOutlineCircle.png",
+
+  "Rules": ["Place a new piece on an empty spot.", "There must be at least one straight line between the spot you choose", "and another one of your existing pieces.", "And there must be one or more opponent pieces IN BETWEEN.", "The line can be horizontal, vertical, or diagonal.", "You will turn all opponents in that line to your piece.", "The player with most pieces when there are no moves wins."]
 
 }

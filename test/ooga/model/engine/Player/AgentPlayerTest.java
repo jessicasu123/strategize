@@ -4,6 +4,7 @@ import ooga.model.engine.Agent.TicTacToeAgent;
 import ooga.model.engine.Board;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
 import ooga.model.engine.InvalidMoveException;
 import ooga.model.engine.Neighborhood.VerticalNeighborhood;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(0, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        BoardFramework myBoard = new Board("Tic-Tac-Toe", sampleConfig, new ArrayList<>(List.of("horizontal")));
+        BoardFramework myBoard = new Board(new TicTacToeFactory(2,1), sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(1, 1);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
         Map.Entry<Coordinate, Coordinate> myMove = myTicTacToeAgentPlayer.calculateMove(myBoard);
@@ -46,7 +47,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(1, 0, 2));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        BoardFramework myBoard = new Board("Tic-Tac-Toe", sampleConfig, new ArrayList<>(List.of("horizontal")));
+        BoardFramework myBoard = new Board(new TicTacToeFactory(2,1), sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(2,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
         Map.Entry<Coordinate, Coordinate> myMove = myTicTacToeAgentPlayer.calculateMove(myBoard);
@@ -64,7 +65,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(2, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(2, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        BoardFramework myBoard = new Board("Tic-Tac-Toe", sampleConfig, new ArrayList<>(List.of("horizontal")));
+        BoardFramework myBoard = new Board(new TicTacToeFactory(2,1), sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(0, 2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
         Map.Entry<Coordinate, Coordinate> myMove = myTicTacToeAgentPlayer.calculateMove(myBoard);
@@ -82,7 +83,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,1,1));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
-        BoardFramework myBoard = new Board("Tic-Tac-Toe", sampleConfig, new ArrayList<>(List.of("horizontal")));
+        BoardFramework myBoard = new Board(new TicTacToeFactory(2,1), sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(0,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
         Map.Entry<Coordinate, Coordinate> myMove = myTicTacToeAgentPlayer.calculateMove(myBoard);

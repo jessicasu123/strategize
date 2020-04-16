@@ -72,14 +72,6 @@ public class BoardView {
         return pane;
     }
 
-    public double getCellHeight() {
-        return cellHeight;
-    }
-
-    public double getCellWidth() {
-        return cellWidth;
-    }
-
     /**
      * creates the cells that are added to the board
      * must be overriden by subclasses to allow for flexibility in cell shape

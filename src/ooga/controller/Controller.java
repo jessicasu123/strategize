@@ -2,9 +2,9 @@ package ooga.controller;
 
 import ooga.model.data.FileHandler;
 import ooga.model.data.JSONFileReader;
-import ooga.model.engine.Game;
-import ooga.model.engine.GameFramework;
-import ooga.model.engine.InvalidMoveException;
+import ooga.model.engine.*;
+import ooga.model.engine.GameTypeFactory.GameFactory;
+import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -27,18 +27,29 @@ public class Controller implements ControllerFramework {
     private int myAgentPlayerID;
     private String myUserImage;
     private String myAgentImage;
-
     private String gameFileName;
 
 
 
-    public Controller(String fileName, String userID, String opponent) throws IOException, ParseException {
+    public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName);
         isPieceSelected = false;
         setPlayerID(userID);
-        String gameType = getStartingProperties().get("Gametype");
+        GameTypeFactory gameType = createGameTypeFactory();
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
+
+    }
+
+    private GameTypeFactory createGameTypeFactory() throws IOException, ParseException, InvalidGameTypeException {
+        String gameType = getStartingProperties().get("Gametype");
+        int specialPlayer1ID = Integer.parseInt(getStartingProperties().get("SpecialState"+1));
+        int specialPlayer2ID = Integer.parseInt(getStartingProperties().get("SpecialState"+2));
+        boolean player1PosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
+        int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
+        return new GameFactory().createGameType(gameType,myUserPlayerID, myAgentPlayerID, specialPlayer1ID,
+                specialPlayer2ID, player1PosDirection, emptyState);
+
     }
 
     //TODO: fix
@@ -63,6 +74,7 @@ public class Controller implements ControllerFramework {
         myAgentImage = agentImage;
     }
 
+
     //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
     public String getUserImage() {
         return myUserImage;
@@ -73,9 +85,13 @@ public class Controller implements ControllerFramework {
         return myAgentImage;
     }
 
+    public boolean doPiecesMove() throws IOException, ParseException {
+        return  Boolean.parseBoolean(getStartingProperties().get("PiecesMove"));
+    }
+
     @Override
-    public void saveANewFile(String fileName, Map<String, String> properties) {
-        myFileHandler.saveToFile(fileName, properties, myGame.getVisualInfo());
+    public void saveANewFile(String fileName, Map<String, String> startingProperties) throws IOException, ParseException {
+        myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
     }
 
     @Override
@@ -139,6 +155,8 @@ public class Controller implements ControllerFramework {
     public int gameWinner() {
         return myGame.getEndGameStatus();
     }
+
+    public List<List<Integer>> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
 
 
 }

@@ -15,6 +15,7 @@ import org.json.JSONObject;
  * This class is responsible for parsing JSON files and
  * retrieving initial configurations and View properties
  * as well as saving a view configuration to a JSON file
+ * @author Brian Li
  */
 
 public class JSONFileReader implements FileHandler {
@@ -74,19 +75,22 @@ public class JSONFileReader implements FileHandler {
     /**
      * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
      */
+    //TODO special state images
     private void getGamePropertyNested() throws IOException {
         gameProperties.put("State1",gameData.getJSONObject("Player1").getString("State"));
+        gameProperties.put("SpecialState1",gameData.getJSONObject("Player1").getString("SpecialState"));
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
         gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
 
-
         gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
+        gameProperties.put("SpecialState2",gameData.getJSONObject("Player2").getString("SpecialState"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
         gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
 
         gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
         gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
-
+        gameProperties.put("Player1Direction", gameData.getString("Player1PosDirection"));
+        gameProperties.put("EmptyState", gameData.getString("EmptyState"));
 
     }
 
@@ -154,6 +158,8 @@ public class JSONFileReader implements FileHandler {
         createJSONArray();
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
+        gameProperties.put("possibleMove", gameData.getString("possibleMove"));
         getGamePropertyNested();
         return gameProperties;
     }
@@ -200,7 +206,7 @@ public class JSONFileReader implements FileHandler {
         fileArray.put(player1);
         fileArray.put(player2);
 
-        try (FileWriter file = new FileWriter("src/resources")) {
+        try (FileWriter file = new FileWriter(fileName)) {
 
             file.write(fileArray.toString());
             file.flush();

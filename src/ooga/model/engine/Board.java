@@ -1,5 +1,6 @@
 package ooga.model.engine;
 
+import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.pieces.GamePiece;
@@ -10,25 +11,23 @@ import java.util.*;
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
-    private String myGameType;
+    private GameTypeFactory myGameTypeFactory;
     private int numRows;
     private int numCols;
     private List<String> myNeighborhoods;
     private NeighborhoodFactory neighborFactory;
-    private GamePieceFactory gamePieceFactory;
 
     /**
      * Constructor to create a Board object.
      * @param gameType - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
-    public Board(String gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
+    public Board(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
-        myGameType = gameType;
+        myGameTypeFactory = gameType;
         myNeighborhoods = neighborhoods;
         neighborFactory = new NeighborhoodFactory();
-        gamePieceFactory = new GamePieceFactory();
         createBoardFromStartingConfig();
     }
 
@@ -40,6 +39,7 @@ public class Board implements BoardFramework{
      * @return
      */
     public boolean checkNoMovesLeft(int userID, int agentID) {
+        //TODO: decide whether or not to change to order. game in Othello is not over until BOTH players don't have moves.
         return checkEmptyMovesForPlayer(userID) &&
                 checkEmptyMovesForPlayer(agentID);
     }
@@ -60,12 +60,8 @@ public class Board implements BoardFramework{
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
-                try {
-                    GamePiece newPiece = gamePieceFactory.createGamePiece(myGameType, state, pos);
-                    boardRow.add(newPiece);
-                } catch (InvalidGameTypeException e) {
-                    System.out.println(e.getMessage());
-                }
+                GamePiece newPiece = myGameTypeFactory.createGamePiece(state, pos);
+                boardRow.add(newPiece);
             }
             myGamePieces.add(boardRow);
         }
@@ -141,11 +137,18 @@ public class Board implements BoardFramework{
     @Override
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
         GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
+        Coordinate oldPos = curr.getPosition();
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
             curr.makeMove(endCoordinate, neighbors, player);
+            if(curr.getPosition() != oldPos){
+                Coordinate currPosition = curr.getPosition();
+                GamePiece switchedWith = myGamePieces.get(currPosition.getXCoord()).get(currPosition.getYCoord());
+                myGamePieces.get(oldPos.getXCoord()).set(oldPos.getYCoord(), switchedWith);
+                myGamePieces.get(currPosition.getXCoord()).set(currPosition.getYCoord(), curr);
+
+            }
         } else {
-            System.out.println(getStateInfo());
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
     }
@@ -169,6 +172,35 @@ public class Board implements BoardFramework{
         return Collections.unmodifiableList(currStateConfig);
     }
 
+    @Override
+    public List<List<Integer>> possibleMovesVisualInfo(int playerID) {
+        List<List<Integer>> possibleMovesConfig = new ArrayList<>();
+        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerID);
+        for (int r = 0; r< numRows;r++) {
+            List<Integer> possibleMovesRow = new ArrayList<>();
+            for (int c = 0; c < numCols;c++) {
+                if (possibleMoves.contains(new Coordinate(r,c))) {
+                    possibleMovesRow.add(1);
+                } else {
+                    possibleMovesRow.add(0);
+                }
+            }
+            possibleMovesConfig.add(possibleMovesRow);
+        }
+        return possibleMovesConfig; 
+    }
+
+    private List<Coordinate> getPossibleMovesAsList(int playerID) {
+        List<Coordinate> possibleMoves = new ArrayList<>();
+        for (List<Coordinate> moves: getAllLegalMoves(playerID).values()) {
+            for (Coordinate c: moves) {
+                possibleMoves.add(c);
+            }
+        }
+        return possibleMoves;
+    }
+
+
     /**
      * METHOD PURPOSE:
      *  - makes a copy of the board so the agent can try out moves without affecting the actual game state
@@ -176,6 +208,6 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        return new Board(this.myGameType, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
+        return new Board(myGameTypeFactory, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
     }
 }

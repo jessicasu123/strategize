@@ -23,11 +23,11 @@ public class CheckersAgent extends Agent {
      * @param maximizingPlayerPawnState - the ID of the player who the agent will try to maximize its moves for
      * @param minimizingPlayerPawnState - the ID of the player who the agent will try to minimize its moves for
      */
-    public CheckersAgent(int maximizingPlayerPawnState, int minimizingPlayerPawnState, int maxKingState, int minKingState,int emptyState, int maxDirection) {
+    public CheckersAgent(int maximizingPlayerPawnState, int minimizingPlayerPawnState, int maxKingState, int minKingState,int emptyState, int direction) {
         super(maximizingPlayerPawnState, minimizingPlayerPawnState);
         myMaxKingState = maxKingState;
-        myMaxDirection = maxDirection;
-        myMinDirection = maxDirection * -1;
+        myMaxDirection = direction;
+        myMinDirection = myMaxDirection * -1;
         myMinKingState = minKingState;
         myEmptyState = emptyState;
         myStateMapping = new HashMap<>();

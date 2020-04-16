@@ -36,7 +36,7 @@ class MancalaGamePieceTest {
     @Test
     void calculateAllPossibleMovesTop() {
         //simple test
-        List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(0,2)));
+        List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(0,6)));
         allPieces.remove(topSqaure6);
         List<Coordinate> movesCalculated = topSqaure6.calculateAllPossibleMoves(allPieces,3);
         assertEquals(moves, movesCalculated);
@@ -44,14 +44,14 @@ class MancalaGamePieceTest {
 
 
         //test ends in goal
-        moves = new ArrayList<>(List.of(new Coordinate(0,0)));
+        moves = new ArrayList<>(List.of(new Coordinate(0,4)));
         allPieces.remove(topSqaure4);
         movesCalculated = topSqaure4.calculateAllPossibleMoves(allPieces,3);
         assertEquals(moves, movesCalculated);
         allPieces.add(topSqaure4);
 
         //test wrap around
-        moves = new ArrayList<>(List.of(new Coordinate(1,3)));
+        moves = new ArrayList<>(List.of(new Coordinate(0,1)));
         allPieces.remove(topSqaure1);
         movesCalculated = topSqaure1.calculateAllPossibleMoves(allPieces,3);
         assertEquals(moves, movesCalculated);
@@ -63,7 +63,7 @@ class MancalaGamePieceTest {
     @Test
     void calculateAllPossibleMovesBottom() {
         //simple test
-        List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1,5)));
+        List<Coordinate> moves = new ArrayList<>(List.of(new Coordinate(1,1)));
         allPieces.remove(bottomSqaure1);
         List<Coordinate> movesCalculated = bottomSqaure1.calculateAllPossibleMoves(allPieces,1);
         assertEquals(moves, movesCalculated);
@@ -71,14 +71,14 @@ class MancalaGamePieceTest {
 
 
         //test ends in goal
-        moves = new ArrayList<>(List.of(new Coordinate(1,7)));
+        moves = new ArrayList<>(List.of(new Coordinate(1,3)));
         allPieces.remove(bottomSqaure3);
         movesCalculated = bottomSqaure3.calculateAllPossibleMoves(allPieces,1);
         assertEquals(moves, movesCalculated);
         allPieces.add(bottomSqaure3);
 
         //test wrap around
-        moves = new ArrayList<>(List.of(new Coordinate(0,4)));
+        moves = new ArrayList<>(List.of(new Coordinate(1,6)));
         allPieces.remove(bottomSqaure6);
         movesCalculated = bottomSqaure6.calculateAllPossibleMoves(allPieces,1);
         assertEquals(moves, movesCalculated);
@@ -114,7 +114,7 @@ class MancalaGamePieceTest {
     void makeMoveTop() {
         //test normal move
         allPieces.remove(topSqaure6);
-        topSqaure6.makeMove(new Coordinate(0,2), allPieces,3);
+        topSqaure6.makeMove(new Coordinate(0,6), allPieces,3);
         assertEquals(new Coordinate(0,6), topSqaure6.getPosition());
         assertEquals(0, topSqaure6.getVisualRepresentation());
         assertEquals(5, topSqaure5.getVisualRepresentation());
@@ -132,7 +132,7 @@ class MancalaGamePieceTest {
 
         //test move that ends in goal state
         allPieces.remove(topSqaure4);
-        topSqaure4.makeMove(new Coordinate(0,0), allPieces,3);
+        topSqaure4.makeMove(new Coordinate(0,4), allPieces,3);
         assertEquals(new Coordinate(0,4), topSqaure4.getPosition());
         assertEquals(0, topSqaure4.getVisualRepresentation());
         assertEquals(5, topSqaure3.getVisualRepresentation());
@@ -150,7 +150,7 @@ class MancalaGamePieceTest {
 
         //test wrap around
         allPieces.remove(topSqaure1);
-        topSqaure1.makeMove(new Coordinate(1,3), allPieces,3);
+        topSqaure1.makeMove(new Coordinate(0,1), allPieces,3);
         assertEquals(new Coordinate(0,1), topSqaure1.getPosition());
         assertEquals(0, topSqaure1.getVisualRepresentation());
         assertEquals(5, bottomSqaure1.getVisualRepresentation());
@@ -190,7 +190,7 @@ class MancalaGamePieceTest {
 
         //test move that ends in goal state
         allPieces.remove(bottomSqaure3);
-        bottomSqaure3.makeMove(new Coordinate(1,7), allPieces,1);
+        bottomSqaure3.makeMove(new Coordinate(1,3), allPieces,1);
         assertEquals(new Coordinate(1,3), bottomSqaure3.getPosition());
         assertEquals(0, bottomSqaure3.getVisualRepresentation());
         assertEquals(5, bottomSqaure4.getVisualRepresentation());
@@ -208,7 +208,7 @@ class MancalaGamePieceTest {
 
         //test wrap around
         allPieces.remove(bottomSqaure6);
-        bottomSqaure6.makeMove(new Coordinate(0,4), allPieces,1);
+        bottomSqaure6.makeMove(new Coordinate(1,6), allPieces,1);
         assertEquals(new Coordinate(1,6), bottomSqaure6.getPosition());
         assertEquals(0, bottomSqaure6.getVisualRepresentation());
         assertEquals(1, goalPocket2.getVisualRepresentation());
@@ -224,7 +224,23 @@ class MancalaGamePieceTest {
         allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
                 topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
 
-
+    }
+    @Test
+    void makeMoveSpecialCapture() {
+        bottomSqaure1 = new MancalaGamePiece(1,2,4,1,2, 0, new Coordinate(1,1));
+        bottomSqaure2 = new MancalaGamePiece(1,2,4,1,4, 0, new Coordinate(1,2));
+        bottomSqaure3 = new MancalaGamePiece(1,2,4,1,0, 0, new Coordinate(1,3));
+        topSqaure3 = new MancalaGamePiece(3,4,2,-1,4, 0, new Coordinate(0,3));
+        goalPocket2 = new MancalaGamePiece(2,2,4,1,0, 0, new Coordinate(1,7));
+        allPieces = new ArrayList<>(List.of(goalPocket1,goalPocket2,emptySquare1,emptySquare2,topSqaure1,topSqaure2,topSqaure3,topSqaure4,
+                topSqaure5,topSqaure6, bottomSqaure1, bottomSqaure2, bottomSqaure3,bottomSqaure4,bottomSqaure5,bottomSqaure6));
+        bottomSqaure1.makeMove(new Coordinate(1,1), allPieces,1);
+        assertEquals(new Coordinate(1,1), bottomSqaure1.getPosition());
+        assertEquals(0, bottomSqaure1.getVisualRepresentation());
+        assertEquals(5, goalPocket2.getVisualRepresentation());
+        assertEquals(5, bottomSqaure2.getVisualRepresentation());
+        assertEquals(0, bottomSqaure3.getVisualRepresentation());
+        assertEquals(0, topSqaure3.getVisualRepresentation());
 
     }
 }

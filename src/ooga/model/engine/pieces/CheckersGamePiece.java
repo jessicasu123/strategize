@@ -122,6 +122,7 @@ public class CheckersGamePiece extends GamePiece {
      */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
+
         Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
         if (isAdjacentDiagonal(endCoordinateInfo)) {
             this.move(endCoordinateInfo);
@@ -142,17 +143,19 @@ public class CheckersGamePiece extends GamePiece {
             if(neighbor.getPosition().equals(endCoordinateInfo)){
                 GamePiece switchWith = neighbor;
                 switchWith.move(posSwitchTo);
+                break;
             }
         }
     }
 
     private void makeJumpMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors) {
-        int numJumps = Math.abs((this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / JUMP_SIZE);
+        int numJumps = Math.abs(this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / JUMP_SIZE;
         for(int i = 0; i < numJumps; i++){
             for(GamePiece neighbor: neighbors){
                 if(isAdjacentDiagonal(neighbor.getPosition()) && isOnPathToEndCoord(neighbor.getPosition(), endCoordinateInfo)){
                     neighbor.changeState(myEmptyState);
                     jump(neighbor.getPosition());
+                    break;
                 }
             }
         }
@@ -176,7 +179,7 @@ public class CheckersGamePiece extends GamePiece {
     }
 
     private boolean isYDistanceShorter(Coordinate compareTo, Coordinate goingTo){
-        return Math.abs(compareTo.getXCoord() - goingTo.getXCoord()) < Math.abs(this.getXCoordinate() - goingTo.getXCoord());
+        return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) < Math.abs(this.getYCoordinate() - goingTo.getYCoord());
     }
 
     private boolean isXDistanceShorter(Coordinate compareTo, Coordinate goingTo){
