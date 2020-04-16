@@ -1,5 +1,7 @@
 package ooga.model.engine;
 
+import ooga.model.engine.GameTypeFactory.OthelloFactory;
+import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,11 +32,11 @@ public class BoardTest {
     //creating tic tac toe board with one player in center
     List<List<Integer>> config = createTestConfig(startingConfig);
     List<String> neighborhoods = new ArrayList<>();
-    Board ticTacToeBoard = new Board("Tic-Tac-Toe", config, neighborhoods);
+    Board ticTacToeBoard = new Board(new TicTacToeFactory(1,2), config, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board ("Tic-Tac-Toe", noMoves, neighborhoods);
+    Board noMovesBoard = new Board (new TicTacToeFactory(1,2), noMoves, neighborhoods);
 
     List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
     List<Integer> row2 = new ArrayList<>(List.of(0,0,1,0,0,0,0,0));
@@ -46,7 +48,7 @@ public class BoardTest {
     List<Integer> row8 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-    Board othelloBoard = new Board("Othello", othelloConfig, othelloNeighborhoods);
+    Board othelloBoard = new Board(new OthelloFactory(1,2), othelloConfig, othelloNeighborhoods);
 
     @Test
     void testOthelloBoard() {

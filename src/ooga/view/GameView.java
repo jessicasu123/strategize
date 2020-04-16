@@ -261,9 +261,11 @@ public class GameView {
 
         if(didSelectPiece && piecesMove){
             allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
+            updateImageOnSquare(rect, img);
         }
-        updateImageOnSquare(rect, img);
-
+        if(!piecesMove) {
+            updateImageOnSquare(rect, img);
+        }
     }
 
     private void updateImageOnSquare(Shape rect, Image img) {
@@ -279,8 +281,6 @@ public class GameView {
             }
         }
     }
-
-
 
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
@@ -312,8 +312,9 @@ public class GameView {
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
         currSquare.setOnMouseClicked(userClick);
-        //TODO: fix
-        currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
+        if(!piecesMove) {
+            currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
+        }
     }
 
     private void handlePieceSelected(int r, int c) {
@@ -331,15 +332,15 @@ public class GameView {
             }
             myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
             myController.playMove();
-            System.out.println("DONE");
+            hasSelectedSquare = false;
+            didSelectPiece = false;
             checkGameOver();
             if(gameInProgress){
                 myController.haveAgentMove();
             }
             updateBoardAppearance();
             checkGameOver();
-            hasSelectedSquare = false;
-            didSelectPiece = false;
+
         }
     }
 
