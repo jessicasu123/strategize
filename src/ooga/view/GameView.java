@@ -208,6 +208,15 @@ public class GameView {
         if (gameEnd != null) {
             gameEnd.close();
         }
+        gameInProgress = true;
+        myController.restartGame();
+        updateBoardAppearance();
+    }
+
+    private void backToSetup() throws IOException, ParseException {
+        if (gameEnd != null) {
+            gameEnd.close();
+        }
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
     }

@@ -17,6 +17,7 @@ import java.util.Map;
 
 public class Controller implements ControllerFramework {
     private GameFramework myGame;
+    private GameTypeFactory gameType;
     private FileHandler myFileHandler;
     private Boolean isPieceSelected;
     private int pieceSelectedX;
@@ -30,13 +31,12 @@ public class Controller implements ControllerFramework {
     private String gameFileName;
 
 
-
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName);
         isPieceSelected = false;
         setPlayerID(userID);
-        GameTypeFactory gameType = createGameTypeFactory();
+        gameType = createGameTypeFactory();
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
 
     }
@@ -72,6 +72,10 @@ public class Controller implements ControllerFramework {
         myAgentPlayerID = agentState;
         myUserImage = userImage;
         myAgentImage = agentImage;
+    }
+
+    public void restartGame() throws IOException, ParseException {
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID);
     }
 
 

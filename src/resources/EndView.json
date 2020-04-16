@@ -7,18 +7,19 @@
   "Images": {
     "WinImage": "win.png",
     "LossImage": "loss.png",
-    "TieImage": "tie.png"
+    "TieImage": "tied.png"
   },
   "Labels": {
     "WinText": "CONGRATULATIONS",
     "WinSubtext": "You won!",
     "LossText": "SAD!",
     "LossSubtext": "You lost",
-    "TieText": "YOU TIED",
+    "TieText": "IT'S A TIE",
     "TieSubtext": ""
   },
   "Buttons": {
-      "Return to Setup": "restart",
-      "Return to Main Menu": "backToMenu"
+      "Return to Setup": "backToSetup",
+      "Return to Main Menu": "backToMenu",
+      "Play Again": "restart"
   }
 }
