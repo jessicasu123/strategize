@@ -18,8 +18,7 @@
     "TieSubtext": ""
   },
   "Buttons": {
-    "PlayAgain": "Play Again",
-    "ToSetup": "Return to Setup Mode",
-    "MainMenu": "Return to Main Menu"
+      "Return to Setup": "restart",
+      "Return to Main Menu": "backToMenu"
   }
 }

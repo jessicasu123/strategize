@@ -77,6 +77,7 @@ public class GameView {
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
     private CustomizationPopUp customizePopUp;
+    private EndPopUp gameEnd;
     private SavePopUp save;
     private RulesPopUp rules;
     private int userWinCount;
@@ -204,6 +205,9 @@ public class GameView {
     }
 
     private void restart() throws IOException, ParseException {
+        if (gameEnd != null) {
+            gameEnd.close();
+        }
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
     }
@@ -219,6 +223,9 @@ public class GameView {
     }
 
     private void backToMenu() throws FileNotFoundException {
+        if (gameEnd != null) {
+            gameEnd.close();
+        }
         StartView sv = new StartView(myStage);
         sv.displayToStage(START_DIM,START_DIM);
     }
@@ -353,12 +360,9 @@ public class GameView {
             opponentWinCount += 1;
         }
         statusPanel.updateWinnerCounts(userWinCount, opponentWinCount);
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Game Over");
-//        alert.setContentText(endMessage);
-//        alert.showAndWait();
-        EndPopUp gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus);
+        gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus);
         gameEnd.display();
+        addActionsToButtons(gameEnd.getButtonActionsMap());
     }
 
 }

@@ -81,11 +81,13 @@ public class EndPopUp extends GamePopUp{
 
     private VBox createNavigationOptions() {
         VBox navOptions = new VBox(SPACING);
-        JSONObject buttonText = popUpScreenData.getJSONObject("Buttons");
-        Button playAgain = createButton(buttonText.getString("PlayAgain"));
-        Button setupScreen = createButton(buttonText.getString("ToSetup"));
-        Button mainMenu = createButton(buttonText.getString("MainMenu"));
-        navOptions.getChildren().addAll(playAgain, setupScreen, mainMenu);
+        JSONObject buttonInfo = popUpScreenData.getJSONObject("Buttons");
+//        Button playAgain = createButton(buttonInfo.getString("PlayAgain"));
+        Button setupScreen = createButton("Return to Setup");
+        Button mainMenu = createButton("Return to Main Menu");
+        buttonActionsMap.put(setupScreen, buttonInfo.getString("Return to Setup"));
+        buttonActionsMap.put(mainMenu, buttonInfo.getString("Return to Main Menu"));
+        navOptions.getChildren().addAll(setupScreen, mainMenu);
         navOptions.setAlignment(Pos.CENTER);
 
         return navOptions;
