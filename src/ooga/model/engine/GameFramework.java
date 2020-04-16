@@ -42,5 +42,11 @@ public interface GameFramework {
      */
     List<List<Integer>> getVisualInfo();
 
-    List<Coordinate> possibleMovesForView();
+    /**
+     * METHOD PURPOSE:
+     *  - passes along the visual state info for the possible moves
+     *  - represented as a list of lists of integers, where a position is marked as 1
+     *  if it is a possible move, 0 otherwise.
+     */
+    List<List<Integer>> possibleMovesForView();
 }

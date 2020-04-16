@@ -285,11 +285,9 @@ public class GameView {
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
-        if (myController.getPossibleMovesForView().contains(new Coordinate(r,c))) {
-            if (!possibleMoveImage.equals("")) {
-                Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
-                updateImageOnSquare(currSquare, possibleMove);
-            }
+        if (myController.getPossibleMovesForView().get(r).get(c)==1 && !possibleMoveImage.equals("")) {
+            Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
+            updateImageOnSquare(currSquare, possibleMove);
         }
         if (myGameStates.get(r).get(c) == userID) {
             Image player1Image = new Image(PIECES_RESOURCES + userImage);

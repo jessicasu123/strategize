@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ConnectFourAgent extends Agent{
     private final int myInARow;
+    private int ROWS = 6;
+    private int COLS = 7;
     /**
      * Creates an AI agent
      *
@@ -57,14 +59,21 @@ public class ConnectFourAgent extends Agent{
         return consecutiveUnblockedSpots >= myInARow;
     }
 
-
-    //TODO: Fix diagonal function
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        List<List<Integer>> leftDiag = new ArrayList<List<Integer>>();
-        List<List<Integer>> rightDiag = new ArrayList<List<Integer>>();
-
-        //change this later
-        return boardStateInfo;
+        List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
+        for(int row = ROWS - 4; row>=0;row--) {
+            for(int col = COLS - 4; col>=0;col--){
+                List<Integer> leftDiag = new ArrayList<Integer>();
+                List<Integer> rightDiag = new ArrayList<Integer>();
+                for(int i = 0;i<4;i++){
+                    rightDiag.add(boardStateInfo.get(row+i).get(col-i+3));
+                    leftDiag.add(boardStateInfo.get(row+i).get(col+i));
+                }
+                alldiag.add(leftDiag);
+                alldiag.add(rightDiag);
+            }
+        }
+        return alldiag;
     }
 
 

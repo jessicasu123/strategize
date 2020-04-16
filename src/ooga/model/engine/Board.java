@@ -39,6 +39,7 @@ public class Board implements BoardFramework{
      * @return
      */
     public boolean checkNoMovesLeft(int userID, int agentID) {
+        //TODO: decide whether or not to change to order. game in Othello is not over until BOTH players don't have moves.
         return checkEmptyMovesForPlayer(userID) &&
                 checkEmptyMovesForPlayer(agentID);
     }
@@ -171,14 +172,32 @@ public class Board implements BoardFramework{
         return Collections.unmodifiableList(currStateConfig);
     }
 
-    public List<List<Integer>> possibleMovesVisaulInfo() {
+    @Override
+    public List<List<Integer>> possibleMovesVisualInfo(int playerID) {
         List<List<Integer>> possibleMovesConfig = new ArrayList<>();
-        for (int i = 0; i < numRows;i++) {
+        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerID);
+        for (int r = 0; r< numRows;r++) {
+            List<Integer> possibleMovesRow = new ArrayList<>();
             for (int c = 0; c < numCols;c++) {
-
+                if (possibleMoves.contains(new Coordinate(r,c))) {
+                    possibleMovesRow.add(1);
+                } else {
+                    possibleMovesRow.add(0);
+                }
             }
+            possibleMovesConfig.add(possibleMovesRow);
         }
         return possibleMovesConfig; 
+    }
+
+    private List<Coordinate> getPossibleMovesAsList(int playerID) {
+        List<Coordinate> possibleMoves = new ArrayList<>();
+        for (List<Coordinate> moves: getAllLegalMoves(playerID).values()) {
+            for (Coordinate c: moves) {
+                possibleMoves.add(c);
+            }
+        }
+        return possibleMoves;
     }
 
 
