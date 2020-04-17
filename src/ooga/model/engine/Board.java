@@ -40,7 +40,7 @@ public class Board implements BoardFramework{
      * @return
      */
     public boolean checkNoMovesLeft(int userID, int agentID) {
-        //TODO: decide whether or not to change to order. game in Othello is not over until BOTH players don't have moves.
+        //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
         return checkEmptyMovesForPlayer(userID) &&
                 checkEmptyMovesForPlayer(agentID);
     }
