@@ -17,12 +17,12 @@ public interface GameFramework {
      *  - makes the move of a user player on the board
      * @param moveCoordinates - list of the coordinates the controller has collected from the view for the move
      */
-    void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+    //void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
      *  - makes the agent's move on the board
      */
-    void makeAgentMove() throws InvalidMoveException;
+    //void makeAgentMove() throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
@@ -35,7 +35,11 @@ public interface GameFramework {
      */
     int getEndGameStatus();
 
+    public boolean isUserTurn();
 
+    public boolean didPlayerPass();
+
+    public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
      *  - passes along the visual state info from the board so the view can access it

@@ -1,5 +1,10 @@
 package ooga.view;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,6 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ooga.controller.Controller;
 import javafx.scene.shape.Shape;
 import org.json.JSONObject;
@@ -39,16 +45,17 @@ import java.util.Map;
 public class GameView {
 
     public static final String DEFAULT_RESOURCES = "src/resources/";
-    public static final String DEFAULT_VIEW_RESOURCES = "resources/";
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "GameView.json";
+    public static final String DATAFILE = DEFAULT_RESOURCES + "GameView.json";
     public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
     public static final String ENDGAME_FILE = "EndView.json";
-    public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
-    public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
+    public static final String PIECES_RESOURCES = "resources/images/pieces/";
+    public static final String FILE_PATH = "gameFiles/";
+    public static final String STYLESHEET = "resources/style.css";
     public static final Color Black = Color.BLACK;
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
+    public static final double DELAY = 0.25;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
@@ -82,6 +89,7 @@ public class GameView {
     private RulesPopUp rules;
     private int userWinCount;
     private int opponentWinCount;
+
     /**
      * Creates the GameView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed of
@@ -101,6 +109,7 @@ public class GameView {
         initializeSubPanels();
         initializePopUps();
         displayToStage();
+        agentMove();
     }
 
     private void initializeJSONReader() throws FileNotFoundException {
@@ -119,8 +128,9 @@ public class GameView {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, CUSTOMIZATION_FILE,
                 userImage, agentImage, boardColor);
         save = new SavePopUp(myStage,WIDTH,HEIGHT, "");
-        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, myController.getGameFileName());
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, FILE_PATH + myController.getGameFileName());
     }
+
 
     /**
      * Calls on this class to present its GUI to the screen
@@ -130,6 +140,8 @@ public class GameView {
         myStage.setScene(gameScene);
         myStage.show();
     }
+
+
 
     /**
      * creates the display by adding to root borderpane
@@ -264,7 +276,6 @@ public class GameView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
-
         if(didSelectPiece && piecesMove){
             allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
             updateImageOnSquare(rect, img);
@@ -291,7 +302,8 @@ public class GameView {
     private void updateCellAppearance(Shape currSquare, int r, int c) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Black);
-        if (myController.getPossibleMovesForView().get(r).get(c)==1 && !possibleMoveImage.equals("")) {
+
+        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("") && myController.userTurn()) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             updateImageOnSquare(currSquare, possibleMove);
         }
@@ -301,36 +313,48 @@ public class GameView {
         }
         else if (myGameStates.get(r).get(c)==agentID) {
             Image player2Image = new Image(PIECES_RESOURCES + agentImage);
-            updatePlayerCell(player2Image, currSquare, r, c);
+            updateAgentCell(player2Image, currSquare, r, c);
         } else {
             updateEmptyCell(currSquare, r,c);
         }
     }
 
+    private void updateAgentCell(Image playerImage, Shape currSquare, int r, int c){
+        updateImageOnSquare(currSquare, playerImage);
+        currSquare.setOnMouseClicked(null);
+    }
+
     private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
         updateImageOnSquare(currSquare, playerImage);
-        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c));
+        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
     }
 
     private void updateEmptyCell(Shape currSquare, int r, int c) {
         Image playerImg = new Image(PIECES_RESOURCES + userImage);
         EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
         currSquare.setOnMouseClicked(userClick);
-        if(!piecesMove) {
-            currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
-        }
+        currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }
 
-    private void handlePieceSelected(int r, int c) {
+    private void handlePieceSelected(int r, int c, Image img) {
         if(piecesMove){
-            didSelectPiece = true;
+            if(!didSelectPiece){
+                didSelectPiece = true;
+            }else{
+                updateImageOnSquare(allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
+                if(hasSelectedSquare){
+                    allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
+                }
+
+            }
             lastPieceSelectedX = r;
             lastPieceSelectedY = c;
+
         }
     }
 
     private void makeMove(){
-        if(gameInProgress) {
+        if(gameInProgress && myController.userTurn()) {
             if (didSelectPiece) {
                 myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
             }
@@ -338,16 +362,35 @@ public class GameView {
             myController.playMove();
             hasSelectedSquare = false;
             didSelectPiece = false;
-            checkGameOver();
-            if(gameInProgress){
-                myController.haveAgentMove();
-            }
             updateBoardAppearance();
             checkGameOver();
-
+            checkPass();
+            if(gameInProgress){
+                agentMove();
+            }
+            checkGameOver();
+            checkPass();
         }
     }
 
+    //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
+    private void checkPass() {
+        if (gameInProgress && myController.playerPass()) {
+            System.out.println("PASS");
+        }
+    }
+    private void agentMove(){
+        if(!myController.userTurn()){
+            myController.playMove();
+            PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
+            wait.setOnFinished((e) -> {
+                updateBoardAppearance();
+                checkGameOver();
+            });
+            wait.play();
+
+        }
+    }
     private void checkGameOver() {
         if (myController.isGameOver()) {
             gameInProgress = false;
@@ -373,5 +416,4 @@ public class GameView {
         gameEnd.display();
         addActionsToButtons(gameEnd.getButtonActionsMap());
     }
-
 }

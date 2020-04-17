@@ -41,7 +41,7 @@ public class GameViewTest extends DukeApplicationTest {
     public void start(Stage stage) throws FileNotFoundException {
         GameView gameView = new GameView(stage, testController);
 
-        backToMenu = lookup("#BacktoMenu").query();
+        backToMenu = lookup("#BacktoMainMenu").query();
         restart = lookup("#Restart").query();
         save = lookup("#Save").query();
         makeMove = lookup("#MAKEMOVE").query();
@@ -49,7 +49,7 @@ public class GameViewTest extends DukeApplicationTest {
 
     @Test
     void testDisplayToStage() {
-        assertEquals("Back to Menu", backToMenu.getText());
+        assertEquals("Back to Main Menu", backToMenu.getText());
         assertEquals("Restart", restart.getText());
         assertEquals("Save", save.getText());
         assertEquals("MAKE MOVE", makeMove.getText());
@@ -100,6 +100,7 @@ public class GameViewTest extends DukeApplicationTest {
         List<Integer> agentCoords = findOpponentMove();
         int row = agentCoords.get(agentCoords.size()-2);
         int col = agentCoords.get(agentCoords.size()-1);
+        sleep(300);
         assertEquals(ImagePattern.class,
                 myBoardCells.get(row).get(col).getFill().getClass());
     }

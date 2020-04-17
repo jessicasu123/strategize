@@ -33,7 +33,7 @@ public class JSONFileReader implements FileHandler {
     private JSONObject player2_1;
     private JSONObject player1;
     private JSONObject player2;
-    public static final String DEFAULT_RESOURCES = "src/resources/";
+    public static final String DEFAULT_RESOURCES = "src/resources/gameFiles/";
     private org.json.JSONObject gameData;
     private String neighbString;
     List<String> neighborhoodlist;

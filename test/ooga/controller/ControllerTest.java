@@ -75,8 +75,11 @@ class ControllerTest {
     @Test
     void testHaveAgentMove() {
         List<List<Integer>> originalBoardConfig = testController.getGameVisualInfo();
-        testController.haveAgentMove();
-        assertNotEquals(testController.getGameVisualInfo(), originalBoardConfig);
+        testController.squareSelected(1,1);
+        testController.playMove();
+        List<List<Integer>> afterUserTurnBoardConfig = testController.getGameVisualInfo();
+        testController.playMove();
+        assertNotEquals(testController.getGameVisualInfo(), afterUserTurnBoardConfig);
     }
 
     @Test

@@ -66,7 +66,7 @@ public interface ControllerFramework {
      * METHOD PURPOSE:
      *  - tells the backend to do the logic for having an agent play its turn
      */
-    void haveAgentMove() throws InvalidMoveException;
+    //void haveAgentMove() throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:

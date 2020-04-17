@@ -64,6 +64,8 @@ public interface BoardFramework {
      */
     List<List<Integer>> possibleMovesVisualInfo(int playerID);
 
+    boolean changeTurns();
+
 
 
 }
