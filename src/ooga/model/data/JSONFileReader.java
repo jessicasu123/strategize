@@ -81,11 +81,13 @@ public class JSONFileReader implements FileHandler {
         gameProperties.put("SpecialState1",gameData.getJSONObject("Player1").getString("SpecialState"));
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
         gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
+        gameProperties.put("SpecialImage1",gameData.getJSONObject("Player1").getString("SpecialStateImage"));
 
         gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
         gameProperties.put("SpecialState2",gameData.getJSONObject("Player2").getString("SpecialState"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
         gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
+        gameProperties.put("SpecialImage2",gameData.getJSONObject("Player2").getString("SpecialStateImage"));
 
         gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
         gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));

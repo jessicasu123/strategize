@@ -39,17 +39,19 @@ public class Board implements BoardFramework{
      * @param agentID - the ID of the agent player
      * @return
      */
-    public boolean checkNoMovesLeft(int userID, int agentID) {
-        //TODO: decide whether or not to change to order. game in Othello is not over until BOTH players don't have moves.
-        return checkEmptyMovesForPlayer(userID) &&
-                checkEmptyMovesForPlayer(agentID);
+    public boolean checkNoMovesLeft(int userID, int agentID, int specialUserID, int agentSpecialID) {
+        //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
+        return checkEmptyMovesForPlayer(userID, specialUserID) &&
+                checkEmptyMovesForPlayer(agentID, agentSpecialID);
     }
 
 
-    public boolean checkEmptyMovesForPlayer(int playerID) {
+    public boolean checkEmptyMovesForPlayer(int playerID, int specialID) {
         //check that list of moves is EMPTY for every piece with playerID
-        for (List<Coordinate> coords: getAllLegalMoves(playerID).values()) {
-            if (coords.size() > 0) return false;
+        for (List<Coordinate> coords: getAllLegalMoves(playerID, specialID).values()) {
+            if (coords.size() > 0) {
+                return false;
+            }
         }
         return true;
     }
@@ -108,13 +110,13 @@ public class Board implements BoardFramework{
      * uses tree map to sort the coordinates
      */
     @Override
-    public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player) {
+    public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player, int specialPlayer) {
         Map<Coordinate, List<Coordinate>> allLegalMoves = new TreeMap<>();
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
                 //TODO: later change to use data value for empty state
-                if (currPiece.getState() == player || currPiece.getState() == 0) {
+                if (currPiece.getState() == player || currPiece.getState() == 0 || currPiece.getState() == specialPlayer) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece),player);
                     if (moves.size()>0) {
@@ -180,9 +182,9 @@ public class Board implements BoardFramework{
     }
 
     @Override
-    public List<List<Integer>> possibleMovesVisualInfo(int playerID) {
+    public List<List<Integer>> possibleMovesVisualInfo(int playerID, int specialID) {
         List<List<Integer>> possibleMovesConfig = new ArrayList<>();
-        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerID);
+        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerID, specialID);
         for (int r = 0; r< numRows;r++) {
             List<Integer> possibleMovesRow = new ArrayList<>();
             for (int c = 0; c < numCols;c++) {
@@ -197,9 +199,9 @@ public class Board implements BoardFramework{
         return possibleMovesConfig; 
     }
 
-    private List<Coordinate> getPossibleMovesAsList(int playerID) {
+    private List<Coordinate> getPossibleMovesAsList(int playerID, int specialID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        for (List<Coordinate> moves: getAllLegalMoves(playerID).values()) {
+        for (List<Coordinate> moves: getAllLegalMoves(playerID, specialID).values()) {
             for (Coordinate c: moves) {
                 possibleMoves.add(c);
             }

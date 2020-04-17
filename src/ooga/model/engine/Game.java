@@ -11,29 +11,33 @@ public class Game implements GameFramework{
     private Board myBoard;
     private Agent myAgent;
     private AgentPlayer myAgentPlayer;
-    private int myUserPlayerID;
-    private int myAgentPlayerID;
     private boolean isUserTurn;
     private boolean didPlayerPass;
+    private PlayerInformationHolder myUserPlayerInformation;
+    private PlayerInformationHolder myAgentPlayerInformation;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods, int userID,
-                int agentID, boolean userIsPlayer1) {
+    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
+                PlayerInformationHolder userInformation, PlayerInformationHolder agentInformation, boolean userIsPlayer1) {
         myBoard = new Board(gameType, startingConfiguration, neighborhoods);
-        myUserPlayerID = userID;
-        myAgentPlayerID = agentID;
+        myUserPlayerInformation = userInformation;
+        myAgentPlayerInformation = agentInformation;
+        int userPlayerID = myUserPlayerInformation.getPlayerID();
+        int agentPlayerID = myAgentPlayerInformation.getPlayerID();
+        int specialUser = myUserPlayerInformation.getSpecialPlayerID();
+        int specialAgent = myAgentPlayerInformation.getSpecialPlayerID();
         isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
-        myAgentPlayer = new AgentPlayer(myAgentPlayerID, myAgent, myUserPlayerID);
+        myAgentPlayer = new AgentPlayer(agentPlayerID, specialAgent, myAgent, userPlayerID, specialUser);
         didPlayerPass = false;
     }
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
-        boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserPlayerID);
-        boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentPlayerID);
+        boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserPlayerInformation.getPlayerID(), myUserPlayerInformation.getSpecialPlayerID());
+        boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentPlayerInformation.getPlayerID(), myAgentPlayerInformation.getSpecialPlayerID());
         didPlayerPass = noMovesForUser || noMovesForAgent;
         if(isUserTurn && ! noMovesForUser){
             makeUserMove(moveCoordinates);
@@ -62,7 +66,7 @@ public class Game implements GameFramework{
     private void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
-        myBoard.makeMove(myUserPlayerID, startCoord, endCoord);
+        myBoard.makeMove(myUserPlayerInformation.getPlayerID(), startCoord, endCoord);
     }
 
     /**
@@ -72,7 +76,7 @@ public class Game implements GameFramework{
 
     private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
-        myBoard.makeMove(myAgentPlayerID, agentMove.getKey(), agentMove.getValue());
+        myBoard.makeMove(myAgentPlayerInformation.getPlayerID(), agentMove.getKey(), agentMove.getValue());
     }
 
     /**
@@ -87,7 +91,10 @@ public class Game implements GameFramework{
     @Override
     public int getEndGameStatus() {
         int result = myAgent.findGameWinner(myBoard.getStateInfo());
-        if (result==0 && myBoard.checkNoMovesLeft(myUserPlayerID, myAgentPlayerID)) return 3;
+        if (result==0 && myBoard.checkNoMovesLeft(myUserPlayerInformation.getPlayerID(),
+                myAgentPlayerInformation.getPlayerID(), myUserPlayerInformation.getSpecialPlayerID(), myAgentPlayerInformation.getSpecialPlayerID())) {
+            return 3;
+        }
         return result;
     }
 
@@ -102,6 +109,6 @@ public class Game implements GameFramework{
 
     @Override
     public List<List<Integer>> possibleMovesForView() {
-        return myBoard.possibleMovesVisualInfo(myUserPlayerID);
+        return myBoard.possibleMovesVisualInfo(myUserPlayerInformation.getPlayerID(),myUserPlayerInformation.getSpecialPlayerID());
     }
 }

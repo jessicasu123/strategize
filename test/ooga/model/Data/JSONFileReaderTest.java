@@ -50,13 +50,15 @@ class JSONFileReaderTest {
         map.put("Player1Direction","false");
         map.put("EmptyState","0");
         map.put("State1","1");
-        map.put("SpecialState1","0");
+        map.put("SpecialState1","-1");
         map.put("State2","2");
-        map.put("SpecialState2","0");
+        map.put("SpecialState2","-1");
         map.put("possibleMove","");
         map.put("Image2","O.png");
         map.put("Gametype","Tic-Tac-Toe");
         map.put("Image1","X.png");
+        map.put("SpecialImage1","");
+        map.put("SpecialImage2","");
         map.put("Height","3");
         map.put("Color2","Black");
         map.put("Color1","Black");
