@@ -48,8 +48,8 @@ public class Controller implements ControllerFramework {
 
     private GameTypeFactory createGameTypeFactory() throws IOException, ParseException, InvalidGameTypeException {
         String gameType = getStartingProperties().get("Gametype");
-        int specialPlayer1ID = Integer.parseInt(getStartingProperties().get("SpecialState"+1));
-        int specialPlayer2ID = Integer.parseInt(getStartingProperties().get("SpecialState"+2));
+        int specialPlayer1ID = Integer.parseInt(getStartingProperties().get("SpecialState" + 1));
+        int specialPlayer2ID = Integer.parseInt(getStartingProperties().get("SpecialState" + 2));
         boolean player1PosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
         int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
         int specialUserID;
