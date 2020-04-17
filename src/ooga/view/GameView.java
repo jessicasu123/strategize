@@ -198,7 +198,7 @@ public class GameView {
         }
         gameInProgress = true;
         myController.restartGame();
-       grid.updateBoardAppearance();
+        grid.updateBoardAppearance();
     }
 
     private void backToSetup() throws IOException, ParseException {
@@ -223,7 +223,6 @@ public class GameView {
     private void backToMenu() throws FileNotFoundException {
         if (gameEnd != null) {
             gameEnd.close();
-            System.out.println("menu closing gameEnd");
         }
         StartView sv = new StartView(myStage);
         sv.displayToStage(START_DIM,START_DIM);
@@ -283,8 +282,6 @@ public class GameView {
             userWinCount += 1;
         } else if(winner == 3) {
             endStatus = "Tie";
-            userWinCount += 1;
-            opponentWinCount += 1;
         } else {
             endStatus = "Loss";
             opponentWinCount += 1;

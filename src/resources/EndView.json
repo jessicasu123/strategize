@@ -15,7 +15,7 @@
     "LossText": "SAD!",
     "LossSubtext": "You lost",
     "TieText": "IT'S A TIE",
-    "TieSubtext": ""
+    "TieSubtext": "Better luck next time!"
   },
   "Buttons": {
       "Return to Setup": "backToSetup",
