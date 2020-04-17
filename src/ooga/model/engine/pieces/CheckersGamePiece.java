@@ -22,7 +22,6 @@ public class CheckersGamePiece extends GamePiece {
     private final int myEmptyState;
     private boolean isKing;
 
-    //TODO: get empty state from data file
 
     /**
      * Creates a Checkers Game Piece
@@ -141,8 +140,7 @@ public class CheckersGamePiece extends GamePiece {
     private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
         for(GamePiece neighbor: neighbors){
             if(neighbor.getPosition().equals(endCoordinateInfo)){
-                GamePiece switchWith = neighbor;
-                switchWith.move(posSwitchTo);
+                neighbor.move(posSwitchTo);
                 break;
             }
         }
@@ -160,8 +158,8 @@ public class CheckersGamePiece extends GamePiece {
             }
         }
     }
-
-
+    
+    //TODO fix when becomes king at end of diagonal but not last row
     private int findKingPromotionRow(List<GamePiece> neighbors) {
         int endDiagonalLoc = 0;
         boolean initiated = false;

@@ -17,14 +17,14 @@
 
   "Player1": {
     "State" : "1",
-    "SpecialState": "0",
+    "SpecialState": "-1",
     "Color": "Black",
     "Image": "blackCircle.png"
   },
 
   "Player2": {
     "State": "2",
-    "SpecialState": "0",
+    "SpecialState": "-1",
     "Color": "White",
     "Image": "blackOutlineCircle.png"
   },

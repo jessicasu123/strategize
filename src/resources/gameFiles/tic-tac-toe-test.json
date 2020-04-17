@@ -17,7 +17,7 @@
 
   "Player1": {
     "State" : "1",
-    "SpecialState": "0",
+    "SpecialState": "-1",
     "Color": "Black",
     "Image": "X.png",
     "SpecialStateImage": ""
@@ -25,7 +25,7 @@
 
   "Player2": {
     "State": "2",
-    "SpecialState": "0",
+    "SpecialState": "-1",
     "Color": "Black",
     "Image": "O.png",
     "SpecialStateImage": ""
