@@ -113,6 +113,7 @@ public abstract class GamePopUp {
         Button b = new Button(buttonName);
         b.getStyleClass().add("gameButton");
         b.setMinWidth(popUpWidth/3.0);
+        b.setId(buttonName.replaceAll("\\s", ""));
         return b;
     }
 }

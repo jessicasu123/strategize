@@ -92,6 +92,8 @@ public class Controller implements ControllerFramework {
     }
 
     public void restartGame() throws IOException, ParseException {
+        userTurn = userIsPlayer1;
+        isPieceSelected = false;
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID, userIsPlayer1);
     }
 

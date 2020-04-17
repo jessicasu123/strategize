@@ -18,7 +18,7 @@
     "TieSubtext": ""
   },
   "Buttons": {
-      "Return to Setup": "backToSetup",
+      "Return to Setup": "toSetupFromEnd",
       "Return to Main Menu": "backToMenu",
       "Play Again": "restart"
   }

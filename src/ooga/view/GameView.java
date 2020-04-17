@@ -221,8 +221,11 @@ public class GameView {
             gameEnd.close();
         }
         gameInProgress = true;
+        didSelectPiece = false;
         myController.restartGame();
+        getGameDisplayInfo();
         updateBoardAppearance();
+        agentMove();
     }
 
     private void backToSetup() throws IOException, ParseException {
@@ -246,6 +249,7 @@ public class GameView {
     private void backToMenu() throws FileNotFoundException {
         if (gameEnd != null) {
             gameEnd.close();
+            System.out.println("menu closing gameEnd");
         }
         StartView sv = new StartView(myStage);
         sv.displayToStage(START_DIM,START_DIM);
