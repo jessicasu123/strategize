@@ -1,5 +1,7 @@
 package ooga.model.engine;
 
+import ooga.model.engine.GameTypeFactory.CheckersFactory;
+import ooga.model.engine.GameTypeFactory.MancalaFactory;
 import ooga.model.engine.GameTypeFactory.OthelloFactory;
 import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
 import org.junit.jupiter.api.Test;
@@ -10,20 +12,20 @@ import java.util.*;
 
 public class BoardTest {
     Integer[][] startingConfig = {
-            {0,0,0},
-            {0,1,0},
-            {0,0,0}
+            {0, 0, 0},
+            {0, 1, 0},
+            {0, 0, 0}
     };
 
     Integer[][] noMovesConfig = {
-            {1,2,1},
-            {1,2,1},
-            {2,1,2}
+            {1, 2, 1},
+            {1, 2, 1},
+            {2, 1, 2}
     };
 
     public List<List<Integer>> createTestConfig(Integer[][] testConfig) {
         List<List<Integer>> config = new ArrayList<>();
-        for (int i = 0; i < 3;i++) {
+        for (int i = 0; i < 3; i++) {
             config.add(Arrays.asList(testConfig[i]));
         }
         return config;
@@ -32,31 +34,32 @@ public class BoardTest {
     //creating tic tac toe board with one player in center
     List<List<Integer>> config = createTestConfig(startingConfig);
     List<String> neighborhoods = new ArrayList<>();
-    Board ticTacToeBoard = new Board(new TicTacToeFactory(1,2), config, neighborhoods);
+    Board ticTacToeBoard = new Board(new TicTacToeFactory(1, 2), config, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board (new TicTacToeFactory(1,2), noMoves, neighborhoods);
+    Board noMovesBoard = new Board(new TicTacToeFactory(1, 2), noMoves, neighborhoods);
 
-    List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
-    List<Integer> row2 = new ArrayList<>(List.of(0,0,1,0,0,0,0,0));
-    List<Integer> row3 = new ArrayList<>(List.of(0,1,1,0,0,0,0,0));
-    List<Integer> row4 = new ArrayList<>(List.of(2,2,2,2,1,0,0,0));
-    List<Integer> row5 = new ArrayList<>(List.of(0,0,0,1,2,0,0,0));
-    List<Integer> row6 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
-    List<Integer> row7 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
-    List<Integer> row8 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
-    List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
+    List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
+    List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
+    List<Integer> row3 = new ArrayList<>(List.of(0, 1, 1, 0, 0, 0, 0, 0));
+    List<Integer> row4 = new ArrayList<>(List.of(2, 2, 2, 2, 1, 0, 0, 0));
+    List<Integer> row5 = new ArrayList<>(List.of(0, 0, 0, 1, 2, 0, 0, 0));
+    List<Integer> row6 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
+    List<Integer> row7 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
+    List<Integer> row8 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
+    List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-    Board othelloBoard = new Board(new OthelloFactory(1,2), othelloConfig, othelloNeighborhoods);
+    Board othelloBoard = new Board(new OthelloFactory(1, 2), othelloConfig, othelloNeighborhoods);
 
     @Test
     void testOthelloBoard() {
-        Map<Coordinate,List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1);
-        for (Coordinate c: moves.keySet()) {
+        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1);
+        for (Coordinate c : moves.keySet()) {
             System.out.println(moves.get(c));
         }
     }
+
     @Test
     void testCreateBoardFromStartingConfig() {
         /**
@@ -75,7 +78,7 @@ public class BoardTest {
     void testCopyBoard() {
         BoardFramework newBoard = ticTacToeBoard.copyBoard();
         //making a move on newBoard - this should NOT affect other board, b
-        newBoard.makeMove(1, new Coordinate(0,0), new Coordinate(0,0));
+        newBoard.makeMove(1, new Coordinate(0, 0), new Coordinate(0, 0));
 
         //checking that states for newBoard are updated, but b remains same
         assertNotEquals(newBoard.getStateInfo(), ticTacToeBoard.getStateInfo());
@@ -88,36 +91,70 @@ public class BoardTest {
     void testMakeMove() {
         //test for a valid move
         BoardFramework testMoveBoard = ticTacToeBoard.copyBoard();
-        testMoveBoard.makeMove(1, new Coordinate(2,2), new Coordinate(2,2));
+        testMoveBoard.makeMove(1, new Coordinate(2, 2), new Coordinate(2, 2));
         Integer[][] desiredConfig = {
-                {0,0,0},
-                {0,1,0},
-                {0,0,1}
+                {0, 0, 0},
+                {0, 1, 0},
+                {0, 0, 1}
         };
         assertEquals(createTestConfig(desiredConfig), testMoveBoard.getStateInfo());
 
         //test for invalid move - can't try to move on a square that already has a player
         assertThrows(InvalidMoveException.class,
-                () -> testMoveBoard.makeMove(2, new Coordinate(1,1), new Coordinate(1,1)));
+                () -> testMoveBoard.makeMove(2, new Coordinate(1, 1), new Coordinate(1, 1)));
     }
 
     @Test
     void testGetAllLegalMoves() {
         Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
-        Coordinate squareWithPlayer = new Coordinate(1,1);
+        Coordinate squareWithPlayer = new Coordinate(1, 1);
 
         //checking that a coordinate with an empty square is a legal "move"
-        Coordinate emptySquare = new Coordinate(1,2);
+        Coordinate emptySquare = new Coordinate(1, 2);
         assertEquals(1, moves.get(emptySquare).size());
     }
 
     @Test
     void testNoMovesLeft() {
         //should be no moves left on a full board with no winner
-        assertEquals(true, noMovesBoard.checkNoMovesLeft(1,2));
+        assertEquals(true, noMovesBoard.checkNoMovesLeft(1, 2));
         //should be moves left on board with only one player
-        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1,2));
+        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1, 2));
     }
 
+    @Test
+    void testCheckersBoard() {
+        row1 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+        row2 =new ArrayList<>(List.of(0,0,1,0,0,0,0,0));
+        row3 =new ArrayList<>(List.of(0,1,1,0,0,0,0,0));
+        row4 =new ArrayList<>(List.of(2,2,2,2,1,0,0,0));
+        row5 =new ArrayList<>(List.of(0,0,0,1,2,0,0,0));
+        row6 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+        row7 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+        row8 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
+        List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
+        List<String> checkersNeighborhoods = List.of("horizontal", "vertical", "diagonal");
+        Board checkersBoard = new Board(new CheckersFactory(1, 2,3,4,true,0),
+                checkersConfig, checkersNeighborhoods);
+
+        Coordinate start = new Coordinate(1,2);
+        Coordinate end = new Coordinate(2,3);
+        checkersBoard.makeMove(1,start,end);
+        assertNotEquals(checkersConfig, checkersBoard.getStateInfo());
+    }
+
+    @Test
+    void testMancalaBoard() {
+        row1 =new ArrayList<>(List.of(1,2,2,2,2,2,2,0));
+        row2 =new ArrayList<>(List.of(0,4,4,4,4,4,4,3));
+        List<List<Integer>> mancalaConfig = new ArrayList<>(List.of(row1, row2));
+        List<String> mancalaNeighborhoods = List.of("horizontal", "vertical");
+        Board mancalaBoard = new Board(new MancalaFactory(2,4,1,3,false,0,4),
+                mancalaConfig, mancalaNeighborhoods);
+        Coordinate start = new Coordinate(0,2);
+        Coordinate end = new Coordinate(0,2);
+        mancalaBoard.makeMove(2,start,end);
+        assertNotEquals(mancalaConfig, mancalaBoard.getStateInfo());
+    }
 }
 

@@ -6,10 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.engine.PlayerInformationHolder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -56,6 +56,9 @@ public class GameView {
     private RulesPopUp rules;
     private int userWinCount;
     private int opponentWinCount;
+    private PlayerInformationHolder myUser;
+    private PlayerInformationHolder myAgent;
+
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -67,8 +70,10 @@ public class GameView {
         initializeJSONReader();
         myController = c;
         gameInProgress = true;
-        String userImage = myController.getUserImage();
-        String agentImage = myController.getAgentImage();
+        myUser = myController.getUserInformation();
+        myAgent = myController.getAgentInformation();
+        String userImage = myUser.getPlayerImage();
+        String agentImage = myAgent.getPlayerImage();
         initializeComponents(userImage, agentImage);
         displayToStage(userImage, agentImage);
         grid.makeAgentMove();
@@ -100,7 +105,7 @@ public class GameView {
         try {
             int boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
-            grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
+            grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController, myUser, myAgent);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -235,16 +240,18 @@ public class GameView {
     private void makeMove(){
         if(gameInProgress && myController.userTurn()) {
             grid.makeUserMove();
-            checkGameOver();
-            checkPass();
+            checkGameStatus();
             if(gameInProgress){
                 grid.makeAgentMove();
             }
-            checkGameOver();
-            checkPass();
+            checkGameStatus();
         }
     }
 
+    private void checkGameStatus(){
+        checkGameOver();
+        checkPass();
+    }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
     private void checkPass() {
         if (gameInProgress && myController.playerPass()) {
@@ -261,7 +268,7 @@ public class GameView {
 
     private void endGame(int winner){
         String endStatus;
-        if (winner == myController.getUserNumber()) {
+        if (winner == myUser.getPlayerID()) {
             endStatus = "Win";
             userWinCount += 1;
         } else if(winner == 3) {

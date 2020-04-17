@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.model.engine.PlayerInformationHolder;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.List;
@@ -33,10 +34,6 @@ public class BoardView {
     private List<List<Shape>> boardCells;
     private VBox myBoard;
     private Controller myController;
-    private int userID;
-    private int agentID;
-    private String userImage;
-    private String agentImage;
     private String boardColor;
     private String possibleMoveImage;
     private boolean piecesMove;
@@ -46,19 +43,20 @@ public class BoardView {
     private int lastPieceSelectedY;
     private boolean hasSelectPiece;
     private boolean hasSelectedSquare;
+    private PlayerInformationHolder myUser;
+    private PlayerInformationHolder myAgent;
 
-    public BoardView(int width, int height, int rows, int cols, Controller c) {
+    public BoardView(int width, int height, int rows, int cols, Controller c,
+                     PlayerInformationHolder user, PlayerInformationHolder agent) {
         boardCells = new ArrayList<>();
         myController = c;
+        myUser = user;
+        myAgent = agent;
         myBoard = makeGrid(width, height, rows, cols);
         initializeValuesBasedOnController();
     }
 
     private void initializeValuesBasedOnController(){
-        userID = myController.getUserNumber();
-        agentID = myController.getAgentNumber();
-        userImage = myController.getUserImage();
-        agentImage = myController.getAgentImage();
         boardColor = "white";
         try {
             piecesMove = myController.doPiecesMove();
@@ -66,7 +64,6 @@ public class BoardView {
         } catch (IOException | ParseException e) {
             System.out.println("error");
         }
-
     }
     /**
      * @return - the container holding the grid where
@@ -75,7 +72,6 @@ public class BoardView {
     public VBox getGridContainer() {
         return myBoard;
     }
-
 
     /**
      * creates the grid given a specific board dimension
@@ -122,8 +118,8 @@ public class BoardView {
      * @param newBoardColor - the new color of the board
      */
     protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor){
-        userImage = newUserImage;
-        agentImage = newAgentImage;
+        myUser.setPlayerImage(newUserImage);
+        myAgent.setPlayerImage(newAgentImage);
         boardColor = newBoardColor;
         updateBoardAppearance();
     }
@@ -135,19 +131,16 @@ public class BoardView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
-        if(hasSelectPiece && piecesMove){
+        if(hasSelectPiece){
             boardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
-            updateImageOnSquare(rect, img);
         }
-        if(!piecesMove) {
-            updateImageOnSquare(rect, img);
-        }
+        updateImageOnSquare(rect, img);
+
     }
 
     private void updateImageOnSquare(Shape rect, Image img) {
         rect.setFill(new ImagePattern(img));
     }
-
 
     protected void updateBoardAppearance() {
         List<List<Integer>> gameStates = myController.getGameVisualInfo();
@@ -162,19 +155,32 @@ public class BoardView {
     private void updateCellAppearance(Shape currSquare, int r, int c, List<List<Integer>> gameStates) {
         currSquare.setFill(Color.valueOf(boardColor));
         currSquare.setStroke(Color.BLACK);
+        int currGameState = gameStates.get(r).get(c);
         if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("") && myController.userTurn()) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             updateImageOnSquare(currSquare, possibleMove);
         }
-        if (gameStates.get(r).get(c) == userID) {
-            Image player1Image = new Image(PIECES_RESOURCES + userImage);
+        if (checkerPlayerID(currGameState,myUser)) {
+            Image player1Image = findPlayerImage(currGameState, myUser);
             updatePlayerCell(player1Image, currSquare, r, c);
         }
-        else if (gameStates.get(r).get(c)==agentID) {
-            Image player2Image = new Image(PIECES_RESOURCES + agentImage);
+        else if (checkerPlayerID(currGameState,myAgent)) {
+            Image player2Image = findPlayerImage(currGameState, myAgent);
             updateAgentCell(player2Image, currSquare);
+        }else{
+            updateEmptyCell(currSquare, r,c, gameStates);
+        }
+    }
+
+    private boolean checkerPlayerID(int stateToCompare, PlayerInformationHolder player){
+        return stateToCompare == player.getPlayerID() || stateToCompare == player.getSpecialPlayerID();
+    }
+
+    private Image findPlayerImage(int currGameState, PlayerInformationHolder player) {
+        if (currGameState == player.getPlayerID()) {
+            return new Image(PIECES_RESOURCES + player.getPlayerImage());
         } else {
-            updateEmptyCell(currSquare, r,c);
+            return new Image(PIECES_RESOURCES + player.getSpecialPlayerImage());
         }
     }
 
@@ -188,8 +194,13 @@ public class BoardView {
         currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
     }
 
-    private void updateEmptyCell(Shape currSquare, int r, int c) {
-        Image playerImg = new Image(PIECES_RESOURCES + userImage);
+    private void updateEmptyCell(Shape currSquare, int r, int c, List<List<Integer>> gameStates) {
+        Image playerImg;
+        if(hasSelectPiece){
+            playerImg = findPlayerImage(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY),myUser);
+        }else{
+            playerImg = new Image(PIECES_RESOURCES + myUser.getPlayerImage());
+        }
         EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,playerImg,r,c);
         currSquare.setOnMouseClicked(userClick);
         currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
@@ -197,16 +208,19 @@ public class BoardView {
 
     private void handlePieceSelected(int r, int c, Image img) {
         if(piecesMove){
-            if(!hasSelectPiece){
-                hasSelectPiece = true;
-            }else{
-                updateImageOnSquare(boardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
-                if(hasSelectedSquare){
-                    boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
-                }
+            if(hasSelectPiece){
+                movePieceBackToOriginalSpot(img);
             }
+            hasSelectPiece = true;
             lastPieceSelectedX = r;
             lastPieceSelectedY = c;
+        }
+    }
+
+    private void movePieceBackToOriginalSpot(Image img) {
+        updateImageOnSquare(boardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
+        if(hasSelectedSquare){
+            boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
         }
     }
 
@@ -235,7 +249,5 @@ public class BoardView {
             wait.play();
         }
     }
-
-
 
 }

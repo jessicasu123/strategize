@@ -7,10 +7,8 @@ import ooga.model.engine.GameTypeFactory.GameFactory;
 import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +22,12 @@ public class Controller implements ControllerFramework {
     private int pieceSelectedY;
     private int squareSelectedX;
     private int squareSelectedY;
-    private int myUserPlayerID;
-    private int myAgentPlayerID;
-    private String myUserImage;
-    private String myAgentImage;
     private String gameFileName;
     private boolean userIsPlayer1;
     private boolean userTurn;
+    private PlayerInformationHolder myUserPlayerInformation;
+    private PlayerInformationHolder myAgentPlayerInformation;
+
 
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
@@ -39,74 +36,63 @@ public class Controller implements ControllerFramework {
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
         isPieceSelected = false;
-        setPlayerID();
+        setPlayerInformation();
         gameType = createGameTypeFactory();
+        int userPlayerID = myUserPlayerInformation.getPlayerID();
+        int agentPlayerID = myAgentPlayerInformation.getPlayerID();
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
-                myUserPlayerID, myAgentPlayerID, userIsPlayer1);
+                userPlayerID, agentPlayerID, userIsPlayer1);
 
     }
 
     private GameTypeFactory createGameTypeFactory() throws IOException, ParseException, InvalidGameTypeException {
         String gameType = getStartingProperties().get("Gametype");
-        int specialPlayer1ID = Integer.parseInt(getStartingProperties().get("SpecialState" + 1));
-        int specialPlayer2ID = Integer.parseInt(getStartingProperties().get("SpecialState" + 2));
-        boolean player1PosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
         int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
-        int specialUserID;
-        int specialAgentID;
-        boolean userPosDirection;
-        if(userIsPlayer1){
-            specialUserID = specialPlayer1ID;
-            specialAgentID = specialPlayer2ID;
-            userPosDirection = player1PosDirection;
-        }else{
-            specialUserID = specialPlayer2ID;
-            specialAgentID = specialPlayer1ID;
-            userPosDirection = !player1PosDirection;
-        }
-        return new GameFactory().createGameType(gameType,myUserPlayerID, myAgentPlayerID, specialUserID,
-                specialAgentID, userPosDirection, emptyState);
 
+        return new GameFactory().createGameType(gameType,myUserPlayerInformation, myAgentPlayerInformation, emptyState);
     }
 
-    //TODO: fix
-    private void setPlayerID() throws IOException, ParseException {
-        int player1State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(1)));
-        int player2State = Integer.parseInt(getStartingProperties().get("State"+Integer.toString(2)));
-        String player1Image = getStartingProperties().get("Image"+Integer.toString(1));
-        String player2Image = getStartingProperties().get("Image"+Integer.toString(2));
-
+    private void setPlayerInformation() throws IOException, ParseException {
         if (userIsPlayer1) {
-            assignPlayerIDAndImages(player1State, player2State, player1Image, player2Image);
+            myUserPlayerInformation = createPlayerInformationHolder(1);
+            myAgentPlayerInformation = createPlayerInformationHolder(2);
         }
         else {
-            assignPlayerIDAndImages(player2State, player1State, player2Image, player1Image);
+            myUserPlayerInformation = createPlayerInformationHolder(2);
+            myAgentPlayerInformation = createPlayerInformationHolder(1);
         }
     }
 
-    private void assignPlayerIDAndImages(int userState, int agentState, String userImage, String agentImage) {
-        myUserPlayerID = userState;
-        myAgentPlayerID = agentState;
-        myUserImage = userImage;
-        myAgentImage = agentImage;
+    private PlayerInformationHolder createPlayerInformationHolder(int playerNum) throws IOException, ParseException {
+        int playerState = Integer.parseInt(getStartingProperties().get("State"+playerNum));
+        String playerImage = getStartingProperties().get("Image"+playerNum);
+        int specialPlayerID = Integer.parseInt(getStartingProperties().get("SpecialState" + playerNum));
+        String specialPlayerImage = getStartingProperties().get("SpecialImage"+playerNum);
+        boolean playerPosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
+        if(playerNum != 1){
+            playerPosDirection = !playerPosDirection;
+        }
+        return new PlayerInformationHolder(playerState,specialPlayerID,playerImage,specialPlayerImage,playerPosDirection);
+
+    }
+
+    public PlayerInformationHolder getUserInformation(){
+        return myUserPlayerInformation;
+    }
+
+    public PlayerInformationHolder getAgentInformation(){
+        return myAgentPlayerInformation;
     }
 
     public void restartGame() throws IOException, ParseException {
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerID, myAgentPlayerID, userIsPlayer1);
+        int userPlayerID = myUserPlayerInformation.getPlayerID();
+        int agentPlayerID = myAgentPlayerInformation.getPlayerID();
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), userPlayerID, agentPlayerID, userIsPlayer1);
     }
 
     public boolean playerPass() {return myGame.didPlayerPass();}
     public boolean userTurn(){
         return userTurn;
-    }
-    //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
-    public String getUserImage() {
-        return myUserImage;
-    }
-
-    //TODO: either keep this here or have JSON file reader attach each attribute (ex. image, color, etc.) to the STATE
-    public String getAgentImage() {
-        return myAgentImage;
     }
 
     public boolean doPiecesMove() throws IOException, ParseException {
@@ -156,14 +142,6 @@ public class Controller implements ControllerFramework {
         return gameFileName;
     }
 
-
-    @Override
-    public int getUserNumber() {
-        return myUserPlayerID;
-    }
-
-    @Override
-    public int getAgentNumber() {return myAgentPlayerID;}
 
     @Override
     public boolean isGameOver() {
