@@ -1,6 +1,7 @@
 package ooga.model.engine.GameTypeFactory;
 
 import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Agent.MancalaAgent;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
 import ooga.model.engine.pieces.MancalaGamePiece;
@@ -14,6 +15,8 @@ public class MancalaFactory implements GameTypeFactory{
     private final int myUserDirection;
     private final int myAgentDirection;
     private final int myMarbles;
+    private Coordinate userGoalPosition;
+    private Coordinate agentGoalPosition;
 
     public MancalaFactory(int userPlayer, int agentPlayer, int userGoal, int agentGoal, boolean userPosDirection,
                           int emptyState, int numMarbles){
@@ -40,8 +43,10 @@ public class MancalaFactory implements GameTypeFactory{
         }
 
         if(status == myUserPlayer || status == myUserGoal){
+            userGoalPosition = position;
             return new MancalaGamePiece(status,myUserGoal,myAgentGoal,myUserDirection, numMarbles, myEmptyState, position);
         }else if(status == myAgentPlayer || status == myAgentGoal){
+            agentGoalPosition = position;
             return new MancalaGamePiece(status,myAgentGoal,myUserGoal,myAgentDirection, numMarbles, myEmptyState, position);
         }else{
             return new MancalaGamePiece(status,myEmptyState,myEmptyState,myEmptyState, myEmptyState, myEmptyState, position);
@@ -51,6 +56,6 @@ public class MancalaFactory implements GameTypeFactory{
     @Override
     //TODO: create agent
     public Agent createAgent() {
-        return null;
+        return new MancalaAgent(myAgentPlayer, myUserPlayer, agentGoalPosition, userGoalPosition);
     }
 }
