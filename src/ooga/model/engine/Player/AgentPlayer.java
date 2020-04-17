@@ -27,7 +27,7 @@ public class AgentPlayer implements Player{
     private final int myOpponent;
     private final int mySearchDepth;
     private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
-    public static final int MAX_SEARCH_DEPTH = 1;
+    public static final int MAX_SEARCH_DEPTH = 3;
 
     /**
      * Creates an agent player using the default search depth
