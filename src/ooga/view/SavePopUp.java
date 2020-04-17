@@ -23,10 +23,11 @@ public class SavePopUp extends GamePopUp {
     private Map<Button, String> buttonActionsMap;
     public static TextField filetext;
 
-    public SavePopUp(Stage stage, int width, int height, String fileName) {
-        super(stage, width, height, fileName);
+    public SavePopUp(Stage stage, int width, int height, String fileName, GameButtonManager buttonManager) {
+        super(stage, width, height, fileName, buttonManager);
         popUpWidth = 200;
         popUpHeight = 240;
+
         xOffset = (width - popUpWidth)/2;
         yOffset = (height - popUpHeight)/2;
 
@@ -38,12 +39,7 @@ public class SavePopUp extends GamePopUp {
         myPopUpContents.getChildren().add(createSave());
     }
 
-    public Map<Button, String> getButtonActionsMap() {
-        return buttonActionsMap;}
-
-
     public String getFileName(){
-
         return filetext.toString();
     }
 
@@ -55,8 +51,7 @@ public class SavePopUp extends GamePopUp {
         Label EnterFile = new Label("Enter File Name");
         filetext = new TextField();
         filetext.setPromptText("File Name");
-        Button save = createButton("Save");
-        buttonActionsMap.put(save, "saveConfig");
+        Button save = popUpGameButtonManager.createButton("Save", "saveConfig", popUpWidth/3.0); //createButton("Save");
         saveView.getChildren().addAll(Title,EnterFile,filetext,save);
         return saveView;
     }

@@ -93,11 +93,6 @@ class ControllerTest {
         assertEquals(expectedConfig, testController.getGameVisualInfo());
     }
 
-    @Test
-    void testGetUserNumber() {
-        assertEquals(1, testController.getUserNumber());
-        assertEquals(2, testController2.getUserNumber());
-    }
 
     @Test
     void testIsGameOver() {

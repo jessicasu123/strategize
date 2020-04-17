@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ooga.model.engine.Game;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -33,17 +34,14 @@ public class StatusPanel {
     private TextField opponentScore;
 
     private Map<Button,String> buttonActionsMap;
+    private GameButtonManager statusButtonManager;
 
-    public StatusPanel(JSONObject gameData) {
+    public StatusPanel(GameButtonManager gameButtonManager, JSONObject gameData) {
         gameScreenData = gameData;
+        statusButtonManager = gameButtonManager;
         buttonActionsMap = new HashMap<>();
     }
 
-    //TODO: figure out better way to do this.
-    //TODO: maybe make Panel super class because both StatusPanel and NavigationPanel have this method
-    public Map<Button,String> getButtonActions() {
-        return buttonActionsMap;
-    }
 
     /**
      * if the user chooses a new preference for player/opponent images, the icons
@@ -142,14 +140,6 @@ public class StatusPanel {
         String[] buttonInfo = game.getString(key).split(",");
         String imgName = buttonInfo[0];
         String actionMethodName = buttonInfo[1];
-        Image img = new Image(ICON_RESOURCES + imgName);
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(30);
-        gameIcon.setPreserveRatio(true);
-        Button button = new Button();
-        button.getStyleClass().add("gameButton");
-        button.setGraphic(gameIcon);
-        buttonActionsMap.put(button,actionMethodName);
-        return button;
+        return statusButtonManager.createButtonWithImage("", actionMethodName, 30, ICON_RESOURCES + imgName);
     }
 }

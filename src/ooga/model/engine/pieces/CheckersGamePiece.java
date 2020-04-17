@@ -22,7 +22,6 @@ public class CheckersGamePiece extends GamePiece {
     private final int myEmptyState;
     private boolean isKing;
 
-    //TODO: get empty state from data file
 
     /**
      * Creates a Checkers Game Piece
@@ -85,6 +84,7 @@ public class CheckersGamePiece extends GamePiece {
         }
     }
 
+    //TODO: get diagonals of where land
     private void calculateIfLegalJump(List<GamePiece> neighbors, List<Coordinate> possibleMoves, GamePiece neighbor) {
         int jumpDirection = yDifference(neighbor.getPosition());
         for (GamePiece endOfPossibleJump : neighbors) {
@@ -141,8 +141,7 @@ public class CheckersGamePiece extends GamePiece {
     private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
         for(GamePiece neighbor: neighbors){
             if(neighbor.getPosition().equals(endCoordinateInfo)){
-                GamePiece switchWith = neighbor;
-                switchWith.move(posSwitchTo);
+                neighbor.move(posSwitchTo);
                 break;
             }
         }
@@ -160,8 +159,8 @@ public class CheckersGamePiece extends GamePiece {
             }
         }
     }
-
-
+    
+    //TODO fix when becomes king at end of diagonal but not last row
     private int findKingPromotionRow(List<GamePiece> neighbors) {
         int endDiagonalLoc = 0;
         boolean initiated = false;
@@ -179,7 +178,7 @@ public class CheckersGamePiece extends GamePiece {
     }
 
     private boolean isYDistanceShorter(Coordinate compareTo, Coordinate goingTo){
-        return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) < Math.abs(this.getYCoordinate() - goingTo.getYCoord());
+        return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) <= Math.abs(this.getYCoordinate() - goingTo.getYCoord());
     }
 
     private boolean isXDistanceShorter(Coordinate compareTo, Coordinate goingTo){
@@ -194,7 +193,7 @@ public class CheckersGamePiece extends GamePiece {
     }
 
     private void jump(Coordinate jumpingOver){
-        int newXCoord = findNewXCoordinateLocation();
+        int newXCoord = findNewXCoordinateLocation(jumpingOver);
         int newYCoord = findNewYCoordinateLocation(jumpingOver);
         this.move(new Coordinate(newXCoord, newYCoord));
     }
@@ -210,8 +209,18 @@ public class CheckersGamePiece extends GamePiece {
         return newYCoord;
     }
 
-    private int findNewXCoordinateLocation() {
-        return this.getXCoordinate() + (myDirection * JUMP_SIZE);
+    private int findNewXCoordinateLocation(Coordinate jumpingOver) {
+        int newXCoord = this.getXCoordinate();
+        if(!isKing) {
+            newXCoord += myDirection * JUMP_SIZE;
+        }else{
+           if(jumpingOver.getXCoord() - this.getXCoordinate() > 0){
+               newXCoord += JUMP_SIZE;
+           }else{
+               newXCoord -= JUMP_SIZE;
+           }
+        }
+        return newXCoord;
     }
 
     private int getXCoordinate(){

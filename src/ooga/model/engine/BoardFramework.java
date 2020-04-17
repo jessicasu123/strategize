@@ -19,7 +19,7 @@ public interface BoardFramework {
      * @return a map which maps the start coordinates of a piece to all of the possible end coordinates that piece
      * can legally move to
      */
-    Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player);
+    Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player, int specialID);
 
 
     /**
@@ -53,7 +53,7 @@ public interface BoardFramework {
      *  - checks if there are no possible moves by either opponent
      * @return true if there are moves left, false if there are not
      */
-    boolean checkNoMovesLeft(int userID, int agentID);
+    boolean checkNoMovesLeft(int userID, int agentID, int userSpecialID, int agentSpecialID);
 
     /**
      * METHOD PURPOSE:
@@ -62,7 +62,7 @@ public interface BoardFramework {
      *  - 1 indicates that a position is a possible move
      *  - 0 indicated that a position is NOT a possible move
      */
-    List<List<Integer>> possibleMovesVisualInfo(int playerID);
+    List<List<Integer>> possibleMovesVisualInfo(int playerID, int specialID);
 
     boolean changeTurns();
 

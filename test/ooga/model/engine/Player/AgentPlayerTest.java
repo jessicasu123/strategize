@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AgentPlayerTest {
     //doing search depth of 1 so it can easily be checked
-    private AgentPlayer myTicTacToeAgentPlayer = new AgentPlayer(1, new TicTacToeAgent(1,2,3),2, 1);
+    private AgentPlayer myTicTacToeAgentPlayer = new AgentPlayer(1, -1,new TicTacToeAgent(1,2,3),2, -1, 1);
     @Test
     void getPlayerID() {
         assertEquals(1, myTicTacToeAgentPlayer.getPlayerID());

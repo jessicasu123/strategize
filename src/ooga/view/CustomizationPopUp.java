@@ -44,8 +44,8 @@ public class CustomizationPopUp extends GamePopUp{
     public static final String IMG_EXTENSION = ".png";
 
     public CustomizationPopUp(Stage stage, int width, int height, String fileName,
-                              String currUserImg, String currOppImg, String currColor) {
-        super(stage, width, height, fileName);
+                              String currUserImg, String currOppImg, String currColor, GameButtonManager buttonManager) {
+        super(stage, width, height, fileName, buttonManager);
         setUpJSONReader();
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
@@ -90,13 +90,6 @@ public class CustomizationPopUp extends GamePopUp{
      */
     public String getBoardColorChoice() { return boardColorChoice; }
 
-    /**
-     * Provides the button and the name of the method (in a different class) that should
-     * be called when the button is clicked
-     * @return
-     */
-    //TODO: find better way to do this 
-    public Map<Button, String> getButtonActionsMap() {return buttonActionsMap;}
 
     private void getBoardAndPlayerCustomizationChoices() {
         String boardColors = popUpScreenData.getString("Colors");
@@ -114,11 +107,11 @@ public class CustomizationPopUp extends GamePopUp{
         HBox topCustomizeContainer = createContainerWithHeadingLabel(labelText.getString("PlayerCustomization"),
                 "customizeLabels");
 
-        HBox userChoiceContainer = createChoiceContainerWithComboBox(true,labelText.getString("PlayerChoice"), "Choose Image");
+        HBox userChoiceContainer = createChoiceContainerWithComboBox(true,labelText.getString("PlayerChoice"), "Player Image");
         userImageChoice = setImageView(userImage);
         userChoiceContainer.getChildren().add(userImageChoice);
 
-        HBox opponentChoiceContainer = createChoiceContainerWithComboBox(false,labelText.getString("OpponentChoice"), "Choose Image");
+        HBox opponentChoiceContainer = createChoiceContainerWithComboBox(false,labelText.getString("OpponentChoice"), "Opponent Image");
         opponentImageChoice = setImageView(opponentImage);
         opponentChoiceContainer.getChildren().add(opponentImageChoice);
 
@@ -134,7 +127,7 @@ public class CustomizationPopUp extends GamePopUp{
         buttonInfo = popUpScreenData.getJSONObject("Buttons");
         HBox customizeBackgroundContainer = createContainerWithHeadingLabel(labelText.getString("BackgroundCustomization"),
                 "customizeLabels");
-        HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "customizeLabels");
+        HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "Choose Color");
         HBox setPreferencesContainer = createSetPreferencesContainer();
 
         backgroundCustomization.getChildren().addAll(customizeBackgroundContainer,
@@ -146,7 +139,8 @@ public class CustomizationPopUp extends GamePopUp{
     private HBox createSetPreferencesContainer() {
         HBox setPref = createHorizontalContainer();
         setPref.setAlignment(Pos.CENTER);
-        Button setPreferencesButton = createButton("SET PREFERENCES");
+        Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERNECES", buttonInfo.getString("SET PREFERENCES"),
+                popUpWidth/3.0); //createButton("SET PREFERENCES");
         buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
         setPref.getChildren().add(setPreferencesButton);
         return setPref;
@@ -163,6 +157,8 @@ public class CustomizationPopUp extends GamePopUp{
     private HBox chooseBoardColorContainer(String labelName, String comboBoxName) {
         HBox boardColorContainer = createChoiceContainerWithLabel(labelName);
         ComboBox colorChoice = new ComboBox();
+        colorChoice.setPromptText(comboBoxName);
+        colorChoice.setId(comboBoxName.replaceAll("\\s", ""));
         colorChoice.getItems().addAll(boardColorOptions);
         colorChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             boardColorChoice = (String) newValue;
@@ -172,14 +168,14 @@ public class CustomizationPopUp extends GamePopUp{
     }
 
     //TODO: move to GameSetUpOptions
-    private HBox backgroundChoiceContainer() {
-        HBox backgroundMode = createHorizontalContainer();
-        backgroundMode.setAlignment(Pos.CENTER);
-        Button lightMode = createButton(buttonInfo.getString("LightMode"));
-        Button darkMode = createButton(buttonInfo.getString("DarkMode"));
-        backgroundMode.getChildren().addAll(lightMode, darkMode);
-        return backgroundMode;
-    }
+//    private HBox backgroundChoiceContainer() {
+//        HBox backgroundMode = createHorizontalContainer();
+//        backgroundMode.setAlignment(Pos.CENTER);
+//        Button lightMode = createButton(buttonInfo.getString("LightMode"));
+//        Button darkMode = createButton(buttonInfo.getString("DarkMode"));
+//        backgroundMode.getChildren().addAll(lightMode, darkMode);
+//        return backgroundMode;
+//    }
 
 
     private HBox createChoiceContainerWithLabel(String labelName) {
@@ -193,6 +189,7 @@ public class CustomizationPopUp extends GamePopUp{
         HBox choiceCustomizeContainer = createChoiceContainerWithLabel(labelName);
         ComboBox playerImageChoice = new ComboBox();
         playerImageChoice.getItems().addAll(playerImages);
+        playerImageChoice.setId(comboBoxName.replaceAll("\\s", ""));
         playerImageChoice.setPromptText(comboBoxName);
         playerImageChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             if (isUser) {

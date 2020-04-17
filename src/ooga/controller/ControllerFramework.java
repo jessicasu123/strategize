@@ -62,11 +62,6 @@ public interface ControllerFramework {
      */
     void playMove() throws InvalidMoveException;
 
-    /**
-     * METHOD PURPOSE:
-     *  - tells the backend to do the logic for having an agent play its turn
-     */
-    //void haveAgentMove() throws InvalidMoveException;
 
     /**
      * METHOD PURPOSE:
@@ -84,19 +79,7 @@ public interface ControllerFramework {
      */
     String getGameFileName();
 
-    /**
-     * METHOD PURPOSE:
-     *  - indicated which state number represents the user
-     * @return the state number that represents the user
-     */
-    int getUserNumber();
 
-    /**
-     * METHOD PURPOSE:
-     *  - indicated which state number represents the agent
-     * @return the state number that represents the agent
-     */
-    int getAgentNumber();
 
     /**
      * METHOD PURPOSE:
