@@ -21,11 +21,13 @@ public class NavigationPanel {
     private int myWidth;
     private Map<Button, String> buttonActionsMap;
     private JSONObject gameScreenData;
+    private GameButtonManager navButtonManager;
 
-    public NavigationPanel(int width, JSONObject gameData) {
+    public NavigationPanel(GameButtonManager gameButtonManager, int width, JSONObject gameData) {
         myWidth = width;
         buttonActionsMap = new HashMap<>();
         gameScreenData = gameData;
+        navButtonManager = gameButtonManager;
     }
     /**
      * creates a navigation bar of control buttons (restart, back to menu, save, make move)
@@ -40,13 +42,12 @@ public class NavigationPanel {
         movecontainer.setAlignment(Pos.CENTER);
 
         JSONObject buttonTexts = gameScreenData.getJSONObject("Buttons").getJSONObject("NavigationButtons");
-        Button restart = createButton(buttonTexts, "Restart");
-        Button setup = createButton(buttonTexts, "Back to Setup");
-        Button menu = createButton(buttonTexts, "Back to Main Menu");
-        Button save = createButton(buttonTexts, "Save");
+        Button restart = navButtonManager.createButton("Restart", buttonTexts.getString("Restart"), MIN_WIDTH); //createButton(buttonTexts, "Restart");
+        Button setup = navButtonManager.createButton("Back to Setup", buttonTexts.getString("Back to Setup"), MIN_WIDTH);//createButton(buttonTexts, "Back to Setup");
+        Button menu = navButtonManager.createButton("Back to Main Menu", buttonTexts.getString("Back to Main Menu"), MIN_WIDTH);//createButton(buttonTexts, "Back to Main Menu");
+        Button save = navButtonManager.createButton("Save", buttonTexts.getString("Save"), MIN_WIDTH);//createButton(buttonTexts, "Save");
         JSONObject makeMoveText = gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton");
-        Button makeMove = createButton(makeMoveText,"MAKE MOVE");
-        makeMove.setMinWidth(myWidth*(2.0/3.0));
+        Button makeMove =  navButtonManager.createButton("MAKE MOVE", makeMoveText.getString("MAKE MOVE"), myWidth*(2.0/3.0));//createButton(makeMoveText,"MAKE MOVE");
 
         navcontainer.getChildren().addAll(restart, setup, menu, save);
         movecontainer.getChildren().add(makeMove);
@@ -61,7 +62,7 @@ public class NavigationPanel {
      * @return Button with desired properties
      */
     private Button createButton(JSONObject buttonTexts, String key) {
-        Button button = new Button(key); //buttonTexts.getString(key)
+        Button button = new Button(key);
         buttonActionsMap.put(button, buttonTexts.getString(key));
         button.setId(key.replaceAll("\\s", ""));
         button.getStyleClass().add("gameButton");
@@ -72,15 +73,4 @@ public class NavigationPanel {
 
 
 
-    /**
-     * Gives the GameView the buttons created in this panel, as well
-     * as the method name of the actions they should be associated with.
-     * These methods are created/called in GameView.
-     * @return - Map with keys as the Buttons controlling navigation and values
-     * as the string names of the methods (in GameView) that the buttons trigger
-     */
-    //TODO: put this in super class/figure out better way to do this
-    public Map<Button,String> getButtonActionsMap() {
-        return buttonActionsMap;
-    }
 }
