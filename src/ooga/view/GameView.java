@@ -48,38 +48,18 @@ public class GameView {
     public static final String DATAFILE = DEFAULT_RESOURCES + "GameView.json";
     public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
     public static final String ENDGAME_FILE = "EndView.json";
-    public static final String PIECES_RESOURCES = "resources/images/pieces/";
     public static final String FILE_PATH = "gameFiles/";
     public static final String STYLESHEET = "resources/style.css";
-    public static final Color Black = Color.BLACK;
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
-    public static final double DELAY = 0.25;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
     private Stage myStage;
     private JSONObject gameScreenData;
     private Controller myController;
-    private int lastSquareSelectedX;
-    private int lastSquareSelectedY;
-    private int lastPieceSelectedX;
-    private int lastPieceSelectedY;
-    private boolean didSelectPiece;
-    private boolean hasSelectedSquare;
     private boolean gameInProgress;
-    List<List<Shape>> allBoardCells;
-    List<List<Integer>> myGameStates;
-    private int boardRows;
-    private int boardCols;
-    private int userID;
-    private int agentID;
-    private String userImage;
-    private String agentImage;
-    private String boardColor;
-    private boolean piecesMove;
-    private String possibleMoveImage;
     private BoardView grid;
     private NavigationPanel navPanel;
     private StatusPanel statusPanel;
@@ -99,17 +79,22 @@ public class GameView {
         myStage = displayStage;
         initializeJSONReader();
         myController = c;
-        myGameStates = myController.getGameVisualInfo();
-        boardColor = "white";
         gameInProgress = true;
-        didSelectPiece = false;
-        userWinCount = 0;
-        opponentWinCount = 0;
-        getGameDisplayInfo();
+        String userImage = myController.getUserImage();
+        String agentImage = myController.getAgentImage();
+        initializeComponents(userImage, agentImage);
+        displayToStage(userImage, agentImage);
+        grid.makeAgentMove();
+    }
+
+    private void initializeComponents(String userImage, String agentImage){
         initializeSubPanels();
-        initializePopUps();
-        displayToStage();
-        agentMove();
+        String boardColor = "white";
+        try {
+            initializePopUps(userImage, agentImage, boardColor);
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+        }
     }
 
     private void initializeJSONReader() throws FileNotFoundException {
@@ -120,11 +105,21 @@ public class GameView {
 
     private void initializeSubPanels() {
         statusPanel = new StatusPanel(gameScreenData);
-        grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols);
+        initializeBoardView();
         navPanel = new NavigationPanel(WIDTH, gameScreenData);
     }
 
-    private void initializePopUps() throws FileNotFoundException {
+    private void initializeBoardView()  {
+        try {
+            int boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
+            int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
+            grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializePopUps(String userImage, String agentImage, String boardColor) throws FileNotFoundException {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, CUSTOMIZATION_FILE,
                 userImage, agentImage, boardColor);
         save = new SavePopUp(myStage,WIDTH,HEIGHT, "");
@@ -135,12 +130,11 @@ public class GameView {
     /**
      * Calls on this class to present its GUI to the screen
      */
-    public void displayToStage(){
-        Scene gameScene = makeGameDisplay(WIDTH,HEIGHT);
+    public void displayToStage(String userImage, String agentImage){
+        Scene gameScene = makeGameDisplay(WIDTH,HEIGHT, userImage, agentImage);
         myStage.setScene(gameScene);
         myStage.show();
     }
-
 
 
     /**
@@ -149,10 +143,9 @@ public class GameView {
      * @param height - the height of the screen to display
      * @return startScene
      */
-    private Scene makeGameDisplay(int width, int height){
+    private Scene makeGameDisplay(int width, int height, String userImage,String agentImage ){
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(SPACING, 0, SPACING,0));
-
         root.setTop(statusPanel.createStatusPanel(userImage,agentImage));
         setCenter(root);
         setBottom(root);
@@ -166,8 +159,7 @@ public class GameView {
 
     private void setCenter(BorderPane root) {
         root.setCenter(grid.getGridContainer());
-        allBoardCells = grid.getBoardCells();
-        updateBoardAppearance();
+        grid.updateBoardAppearance();
     }
 
     private void setBottom(BorderPane root) {
@@ -177,22 +169,6 @@ public class GameView {
         addActionsToButtons(navAndStatusButtonActions);
     }
 
-    private void getGameDisplayInfo() {
-        userID = myController.getUserNumber();
-        agentID = myController.getAgentNumber();
-        possibleMoveImage = "";
-        try {
-            boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
-            boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
-            userImage = myController.getUserImage(); //myController.getStartingProperties().get("Image" + Integer.toString(userID));
-            agentImage = myController.getAgentImage();//myController.getStartingProperties().get("Image" + Integer.toString(agentID));
-            piecesMove = myController.doPiecesMove();
-            possibleMoveImage = myController.getStartingProperties().get("possibleMove");
-
-        } catch (IOException | ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     /**
      * Using reflection to add action handlers to the buttons created in NavigationPanel.
@@ -222,7 +198,7 @@ public class GameView {
         }
         gameInProgress = true;
         myController.restartGame();
-        updateBoardAppearance();
+        grid.updateBoardAppearance();
     }
 
     private void backToSetup() throws IOException, ParseException {
@@ -262,111 +238,20 @@ public class GameView {
 
     private void setCustomizationPreferences() {
         customizePopUp.close();
-        userImage = customizePopUp.getUserImageChoice();
-        agentImage = customizePopUp.getOpponentImageChoice();
-        boardColor = customizePopUp.getBoardColorChoice();
-        updateBoardAppearance();
+        String userImage = customizePopUp.getUserImageChoice();
+        String agentImage = customizePopUp.getOpponentImageChoice();
+        String boardColor = customizePopUp.getBoardColorChoice();
+        grid.updateVisuals(userImage, agentImage, boardColor);
         statusPanel.updatePlayerIcons(userImage, agentImage);
-    }
-
-    private void processUserClickOnSquare(Shape rect, Image img,int finalX, int finalY) {
-        if(hasSelectedSquare){
-            allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
-        }
-        hasSelectedSquare = true;
-        lastSquareSelectedX = finalX;
-        lastSquareSelectedY = finalY;
-        if(didSelectPiece && piecesMove){
-            allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
-            updateImageOnSquare(rect, img);
-        }
-        if(!piecesMove) {
-            updateImageOnSquare(rect, img);
-        }
-    }
-
-    private void updateImageOnSquare(Shape rect, Image img) {
-        rect.setFill(new ImagePattern(img));
-    }
-
-    private void updateBoardAppearance() {
-        myGameStates = myController.getGameVisualInfo();
-        for (int r = 0; r < boardRows; r++) {
-            for (int c = 0; c < boardCols; c++) {
-                Shape currSquare = allBoardCells.get(r).get(c);
-                updateCellAppearance(currSquare, r, c);
-            }
-        }
-    }
-
-    private void updateCellAppearance(Shape currSquare, int r, int c) {
-        currSquare.setFill(Color.valueOf(boardColor));
-        currSquare.setStroke(Black);
-
-        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("") && myController.userTurn()) {
-            Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
-            updateImageOnSquare(currSquare, possibleMove);
-        }
-        if (myGameStates.get(r).get(c) == userID) {
-            Image player1Image = new Image(PIECES_RESOURCES + userImage);
-            updatePlayerCell(player1Image, currSquare, r, c);
-        }
-        else if (myGameStates.get(r).get(c)==agentID) {
-            Image player2Image = new Image(PIECES_RESOURCES + agentImage);
-            updateAgentCell(player2Image, currSquare, r, c);
-        } else {
-            updateEmptyCell(currSquare, r,c);
-        }
-    }
-
-    private void updateAgentCell(Image playerImage, Shape currSquare, int r, int c){
-        updateImageOnSquare(currSquare, playerImage);
-        currSquare.setOnMouseClicked(null);
-    }
-
-    private void updatePlayerCell(Image playerImage, Shape currSquare, int r, int c) {
-        updateImageOnSquare(currSquare, playerImage);
-        currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
-    }
-
-    private void updateEmptyCell(Shape currSquare, int r, int c) {
-        Image playerImg = new Image(PIECES_RESOURCES + userImage);
-        EventHandler<MouseEvent> userClick = e -> { processUserClickOnSquare(currSquare,playerImg,r,c); };
-        currSquare.setOnMouseClicked(userClick);
-        currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
-    }
-
-    private void handlePieceSelected(int r, int c, Image img) {
-        if(piecesMove){
-            if(!didSelectPiece){
-                didSelectPiece = true;
-            }else{
-                updateImageOnSquare(allBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY), img);
-                if(hasSelectedSquare){
-                    allBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
-                }
-
-            }
-            lastPieceSelectedX = r;
-            lastPieceSelectedY = c;
-
-        }
     }
 
     private void makeMove(){
         if(gameInProgress && myController.userTurn()) {
-            if (didSelectPiece) {
-                myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
-            }
-            myController.squareSelected(lastSquareSelectedX, lastSquareSelectedY);
-            myController.playMove();
-            hasSelectedSquare = false;
-            didSelectPiece = false;
-            updateBoardAppearance();
+            grid.makeUserMove();
             checkGameOver();
             checkPass();
             if(gameInProgress){
-                agentMove();
+                grid.makeAgentMove();
             }
             checkGameOver();
             checkPass();
@@ -379,18 +264,7 @@ public class GameView {
             System.out.println("PASS");
         }
     }
-    private void agentMove(){
-        if(!myController.userTurn()){
-            myController.playMove();
-            PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
-            wait.setOnFinished((e) -> {
-                updateBoardAppearance();
-                checkGameOver();
-            });
-            wait.play();
 
-        }
-    }
     private void checkGameOver() {
         if (myController.isGameOver()) {
             gameInProgress = false;
