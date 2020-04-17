@@ -23,18 +23,21 @@ public abstract class GamePopUp {
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final int SPACING = 40;
 
+
     protected double popUpWidth;
     protected double popUpHeight;
     protected Pane myPopUpContents;
     protected JSONObject popUpScreenData;
     protected double xOffset;
     protected double yOffset;
+    protected GameButtonManager popUpGameButtonManager;
+
 
     private String popUpFile;
     private Stage displayStage;
     private Popup popUp;
 
-    public GamePopUp(Stage stage, int width, int height, String fileName) {
+    public GamePopUp(Stage stage, int width, int height, String fileName, GameButtonManager gameButtonManager) {
         displayStage = stage;
 
         //TODO: figure out way to let subclasses decide width and height
@@ -44,7 +47,9 @@ public abstract class GamePopUp {
         xOffset = (width - popUpWidth)/3.0;
         yOffset = (height - popUpHeight)/2.0;
         popUpFile = DEFAULT_RESOURCES + fileName;
-//        setUpJSONReader();
+
+        popUpGameButtonManager = gameButtonManager;
+
     }
 
     protected void setUpJSONReader()  {
@@ -104,17 +109,4 @@ public abstract class GamePopUp {
         return container;
     }
 
-    /**
-     * Creates a button that many types of pop-ups might have.
-     * @param buttonName - the name of the button being created.
-     * @return button for a pop up
-     */
-    //TODO: put this in its own class
-    protected Button createButton(String buttonName) {
-        Button b = new Button(buttonName);
-        b.getStyleClass().add("gameButton");
-        b.setId(buttonName.replaceAll("\\s", ""));
-        b.setMinWidth(popUpWidth/3.0);
-        return b;
-    }
 }

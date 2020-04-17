@@ -56,6 +56,7 @@ public class GameView {
     private RulesPopUp rules;
     private int userWinCount;
     private int opponentWinCount;
+    private GameButtonManager gameButtonManager;
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -69,6 +70,7 @@ public class GameView {
         gameInProgress = true;
         String userImage = myController.getUserImage();
         String agentImage = myController.getAgentImage();
+        gameButtonManager = new GameButtonManager();
         initializeComponents(userImage, agentImage);
         displayToStage(userImage, agentImage);
         grid.makeAgentMove();
@@ -91,9 +93,9 @@ public class GameView {
     }
 
     private void initializeSubPanels() {
-        statusPanel = new StatusPanel(gameScreenData);
+        statusPanel = new StatusPanel(gameButtonManager, gameScreenData);
         initializeBoardView();
-        navPanel = new NavigationPanel(WIDTH, gameScreenData);
+        navPanel = new NavigationPanel(gameButtonManager, WIDTH, gameScreenData);
     }
 
     private void initializeBoardView()  {
@@ -108,9 +110,9 @@ public class GameView {
 
     private void initializePopUps(String userImage, String agentImage, String boardColor) throws FileNotFoundException {
         customizePopUp = new CustomizationPopUp(myStage, WIDTH,HEIGHT, CUSTOMIZATION_FILE,
-                userImage, agentImage, boardColor);
-        save = new SavePopUp(myStage,WIDTH,HEIGHT, "");
-        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, FILE_PATH + myController.getGameFileName());
+                userImage, agentImage, boardColor, gameButtonManager);
+        save = new SavePopUp(myStage,WIDTH,HEIGHT, "", gameButtonManager);
+        rules = new RulesPopUp(myStage, WIDTH, HEIGHT, FILE_PATH + myController.getGameFileName(), gameButtonManager);
     }
 
 
@@ -151,9 +153,10 @@ public class GameView {
 
     private void setBottom(BorderPane root) {
         root.setBottom(navPanel.createNavigationBar());
-        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
-        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
-        addActionsToButtons(navAndStatusButtonActions);
+        addActionsToButtons(gameButtonManager.getButtonActionsMap());
+//        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
+//        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
+//        addActionsToButtons(navAndStatusButtonActions);
     }
 
 
@@ -164,7 +167,10 @@ public class GameView {
      */
     private void addActionsToButtons(Map<Button, String> buttonActionsMap) {
         for (Button b: buttonActionsMap.keySet()) {
-            reflectMethodOnButton(b, buttonActionsMap.get(b));
+            if (gameButtonManager.needsToAddActionToButton(b)) {
+                reflectMethodOnButton(b, buttonActionsMap.get(b));
+                gameButtonManager.hasHandledButton(b);
+            }
         }
     }
 
@@ -198,13 +204,14 @@ public class GameView {
 
     private void save() {
         save.display();
-        addActionsToButtons(save.getButtonActionsMap());
+        addActionsToButtons(gameButtonManager.getButtonActionsMap());
     }
 
     private void saveConfig() throws IOException, ParseException {
         save.close();
         myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
     }
+
 
     private void backToMenu() throws FileNotFoundException {
         if (gameEnd != null) {
@@ -220,7 +227,7 @@ public class GameView {
 
     private void customize() {
         customizePopUp.display();
-        addActionsToButtons(customizePopUp.getButtonActionsMap());
+        addActionsToButtons(gameButtonManager.getButtonActionsMap());
     }
 
     private void setCustomizationPreferences() {
@@ -273,8 +280,8 @@ public class GameView {
             opponentWinCount += 1;
         }
         statusPanel.updateWinnerCounts(userWinCount, opponentWinCount);
-        gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus);
+        gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus, gameButtonManager);
         gameEnd.display();
-        addActionsToButtons(gameEnd.getButtonActionsMap());
+        addActionsToButtons(gameButtonManager.getButtonActionsMap());
     }
 }
