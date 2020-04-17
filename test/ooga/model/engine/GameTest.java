@@ -40,15 +40,16 @@ public class GameTest {
         }
         return config;
     }
-
+    PlayerInformationHolder user = new PlayerInformationHolder(1,-1,"", "", true);
+    PlayerInformationHolder agent = new PlayerInformationHolder(2,-1,"", "", false);
     Game inProgressGame = new Game(new TicTacToeFactory(1,2), createTestConfig(startingConfig),
-            new ArrayList<>(), 1, 2, true);
+            new ArrayList<>(), user,agent, true);
     Game noMovesLeftGame = new Game(new TicTacToeFactory(1,2), createTestConfig(noMovesConfig),
-            new ArrayList<>(), 1, 2, true);
+            new ArrayList<>(), user,agent, true);
     Game player1WinGame = new Game(new TicTacToeFactory(1,2), createTestConfig(player1Win),
-            new ArrayList<>(), 1, 2, true);
+            new ArrayList<>(), user,agent,true);
     Game player2WinGme = new Game(new TicTacToeFactory(1,2), createTestConfig(player2Win),
-            new ArrayList<>(), 1, 2, true);
+            new ArrayList<>(), user,agent, true);
 
     @Test
     void testMakeUserAndAgentMove() {
