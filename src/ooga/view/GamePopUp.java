@@ -32,7 +32,6 @@ public abstract class GamePopUp {
     protected double yOffset;
     protected GameButtonManager popUpGameButtonManager;
 
-
     private String popUpFile;
     private Stage displayStage;
     private Popup popUp;

@@ -88,4 +88,18 @@ public class GameButtonManager {
     public boolean needsToAddActionToButton(Button b) {
         return ! handledButtons.contains(b);
     }
+
+    public void resetButtonText(String buttonID, String newText) {
+        Button buttonToResetText = findButton(buttonID);
+        buttonToResetText.setText(newText);
+    }
+
+    private Button findButton(String buttonID) {
+        for (Button b: buttonActionsMap.keySet()) {
+            if (b.getId().equals(buttonID)) {
+                return b;
+            }
+        }
+        return null;
+    }
 }

@@ -24,7 +24,7 @@ public class OthelloAgentTest {
         //num pieces more for 2 = 2
         //weight for 2 - weight for 1 = 8
         //2 + 2 + 8 = 12
-        assertEquals(12, othelloAgent.evaluateCurrentGameState(boardConfig));
+        assertEquals(12, othelloAgent.evaluateCurrentGameState(boardConfig, false));
     }
 
 
@@ -41,7 +41,7 @@ public class OthelloAgentTest {
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row6,row8));
         //player 2 (max player) has better positions on the board - 3 corners, as well as the entire
         //stable border rows on the top and bottom
-        assertEquals(46, othelloAgent.evaluateCurrentGameState(boardConfig));
+        assertEquals(46, othelloAgent.evaluateCurrentGameState(boardConfig, false));
     }
 
     @Test
@@ -52,8 +52,8 @@ public class OthelloAgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,2,1,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(false, othelloAgent.isWin(2, boardConfig));
-        assertEquals(false, othelloAgent.isWin(1, boardConfig));
+        assertEquals(false, othelloAgent.isWin(2, boardConfig, false));
+        assertEquals(false, othelloAgent.isWin(1, boardConfig, false));
     }
     @Test
     void testPlayer1Win() {
@@ -63,8 +63,8 @@ public class OthelloAgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(1,2,1,2));
         List<Integer> row4 = new ArrayList<>(List.of(2,2,1,1));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(false, othelloAgent.isWin(2, boardConfig));
-        assertEquals(true, othelloAgent.isWin(1, boardConfig));
+        assertEquals(false, othelloAgent.isWin(2, boardConfig, true));
+        assertEquals(true, othelloAgent.isWin(1, boardConfig, true));
     }
 
     @Test
@@ -74,8 +74,8 @@ public class OthelloAgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(1,2,1,2));
         List<Integer> row4 = new ArrayList<>(List.of(2,2,2,2));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(true, othelloAgent.isWin(2, boardConfig));
-        assertEquals(false, othelloAgent.isWin(1, boardConfig));
+        assertEquals(true, othelloAgent.isWin(2, boardConfig, true));
+        assertEquals(false, othelloAgent.isWin(1, boardConfig, true));
     }
 
 }

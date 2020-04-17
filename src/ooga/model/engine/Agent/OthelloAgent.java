@@ -33,12 +33,12 @@ public class OthelloAgent extends Agent {
      * @return
      */
     @Override
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
+    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         numRows = boardStateInfo.size();
         numCols = boardStateInfo.get(0).size();
-        if(this.isWin(this.getMaxPlayer(), boardStateInfo)){
+        if(this.isWin(this.getMaxPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MAX_VALUE;
-        }else if(this.isWin(this.getMinPlayer(), boardStateInfo)){
+        }else if(this.isWin(this.getMinPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MIN_VALUE;
         }
         return calculateDiskDifference(boardStateInfo) + calculateCornerPositions(boardStateInfo)
@@ -156,11 +156,14 @@ public class OthelloAgent extends Agent {
      * @return true if player has won, false if player has not
      */
     @Override
-    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
+    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         //TODO: change to figuring out if both players have no moves left
-        for (int row = 0; row < boardStateInfo.size();row++) {
-            if (boardStateInfo.get(row).contains(0)) return false;
+//        for (int row = 0; row < boardStateInfo.size();row++) {
+//            if (boardStateInfo.get(row).contains(0)) return false;
+//        }
+        if (noMovesLeft) {
+            return calcDiffInPieces(boardStateInfo, playerID) > 0;
         }
-        return calcDiffInPieces(boardStateInfo, playerID) > 0;
+        return false;
     }
 }

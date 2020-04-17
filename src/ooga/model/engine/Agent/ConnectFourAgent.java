@@ -20,10 +20,10 @@ public class ConnectFourAgent extends Agent{
 
 
     @Override
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
-        if(isWin(this.getMaxPlayer(), boardStateInfo)){
+    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+        if(isWin(this.getMaxPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MAX_VALUE;
-        }else if(isWin(this.getMinPlayer(), boardStateInfo)){
+        }else if(isWin(this.getMinPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MIN_VALUE;
         }
         int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
@@ -98,7 +98,7 @@ public class ConnectFourAgent extends Agent{
      * @param boardStateInfo - all of the current state information from the board
      * @return if that player has won or not
      */
-    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
+    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         List<List<Integer>> rows = boardStateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);

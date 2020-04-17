@@ -59,6 +59,7 @@ public class GameView {
     private PlayerInformationHolder myUser;
     private PlayerInformationHolder myAgent;
     private GameButtonManager gameButtonManager;
+    private boolean didPass;
 
 
     /**
@@ -71,6 +72,7 @@ public class GameView {
         initializeJSONReader();
         myController = c;
         gameInProgress = true;
+        didPass = false;
 
         myUser = myController.getUserInformation();
         myAgent = myController.getAgentInformation();
@@ -161,9 +163,6 @@ public class GameView {
     private void setBottom(BorderPane root) {
         root.setBottom(navPanel.createNavigationBar());
         addActionsToButtons(gameButtonManager.getButtonActionsMap());
-//        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
-//        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
-//        addActionsToButtons(navAndStatusButtonActions);
     }
 
 
@@ -197,8 +196,9 @@ public class GameView {
             gameEnd.close();
         }
         gameInProgress = true;
+        didPass = false;
         myController.restartGame();
-       grid.updateBoardAppearance();
+        grid.updateBoardAppearance();
     }
 
     private void backToSetup() throws IOException, ParseException {
@@ -247,6 +247,7 @@ public class GameView {
     }
 
     private void makeMove(){
+        if (didPass) gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
         if(gameInProgress && myController.userTurn()) {
             grid.makeUserMove();
             checkGameStatus();
@@ -263,8 +264,14 @@ public class GameView {
     }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
     private void checkPass() {
-        if (gameInProgress && myController.playerPass()) {
-            System.out.println("PASS");
+        if (gameInProgress && (!myController.playerPass().equals(""))) {
+            didPass = true;
+            if (myController.playerPass().equals("user")) {
+                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
+            } else {
+                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
+            }
+
         }
     }
 

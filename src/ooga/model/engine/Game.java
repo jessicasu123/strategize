@@ -12,7 +12,7 @@ public class Game implements GameFramework{
     private Agent myAgent;
     private AgentPlayer myAgentPlayer;
     private boolean isUserTurn;
-    private boolean didPlayerPass;
+    private String playerPass;
     private PlayerInformationHolder myUserPlayerInformation;
     private PlayerInformationHolder myAgentPlayerInformation;
 
@@ -31,26 +31,28 @@ public class Game implements GameFramework{
         isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
         myAgentPlayer = new AgentPlayer(agentPlayerID, specialAgent, myAgent, userPlayerID, specialUser);
-        didPlayerPass = false;
+        playerPass = "";
     }
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
         boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserPlayerInformation.getPlayerID(), myUserPlayerInformation.getSpecialPlayerID());
         boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentPlayerInformation.getPlayerID(), myAgentPlayerInformation.getSpecialPlayerID());
-        didPlayerPass = noMovesForUser || noMovesForAgent;
+        if (noMovesForUser) playerPass = "user";
+        if (noMovesForAgent) playerPass = "agent";
         if(isUserTurn && ! noMovesForUser){
             makeUserMove(moveCoordinates);
         }
         else if (!isUserTurn && !noMovesForAgent){
             makeAgentMove();
         }
-        if(myBoard.changeTurns() || didPlayerPass){
+        if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
+        //TODO: update empty moves check again 
     }
 
-    public boolean didPlayerPass() { return didPlayerPass; }
+    public String whichPlayerPassed() { return playerPass; }
 
     //TODO: implement later for disabling makeMove button
     public boolean isUserTurn(){
@@ -90,11 +92,10 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
-        int result = myAgent.findGameWinner(myBoard.getStateInfo());
-        if (result==0 && myBoard.checkNoMovesLeft(myUserPlayerInformation.getPlayerID(),
-                myAgentPlayerInformation.getPlayerID(), myUserPlayerInformation.getSpecialPlayerID(), myAgentPlayerInformation.getSpecialPlayerID())) {
-            return 3;
-        }
+        boolean noMovesLeft = myBoard.checkNoMovesLeft(myUserPlayerInformation.getPlayerID(),
+                myAgentPlayerInformation.getPlayerID(), myUserPlayerInformation.getSpecialPlayerID(), myAgentPlayerInformation.getSpecialPlayerID());
+        int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
+        if (result==0 && noMovesLeft) { return 3; }
         return result;
     }
 
