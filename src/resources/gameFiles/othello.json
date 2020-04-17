@@ -19,14 +19,16 @@
     "State" : "1",
     "SpecialState": "-1",
     "Color": "Black",
-    "Image": "blackCircle.png"
+    "Image": "blackCircle.png",
+    "SpecialStateImage": ""
   },
 
   "Player2": {
     "State": "2",
     "SpecialState": "-1",
     "Color": "White",
-    "Image": "blackOutlineCircle.png"
+    "Image": "blackOutlineCircle.png",
+    "SpecialStateImage": ""
   },
 
   "possibleMove": "greyOutlineCircle.png",

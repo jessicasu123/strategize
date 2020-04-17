@@ -27,8 +27,8 @@ public class RulesPopUp extends GamePopUp {
     private JSONObject gameFileData;
     private List<String> myRules;
 
-    public RulesPopUp(Stage stage, int width, int height, String file) throws FileNotFoundException {
-        super(stage, width, height, file);
+    public RulesPopUp(Stage stage, int width, int height, String file, GameButtonManager buttonManager) throws FileNotFoundException {
+        super(stage, width, height, file, buttonManager);
         setUpJSONReader();
         gameFileData = popUpScreenData;
     }
