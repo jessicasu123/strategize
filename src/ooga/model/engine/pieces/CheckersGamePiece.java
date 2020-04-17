@@ -192,7 +192,7 @@ public class CheckersGamePiece extends GamePiece {
     }
 
     private void jump(Coordinate jumpingOver){
-        int newXCoord = findNewXCoordinateLocation();
+        int newXCoord = findNewXCoordinateLocation(jumpingOver);
         int newYCoord = findNewYCoordinateLocation(jumpingOver);
         this.move(new Coordinate(newXCoord, newYCoord));
     }
@@ -208,8 +208,18 @@ public class CheckersGamePiece extends GamePiece {
         return newYCoord;
     }
 
-    private int findNewXCoordinateLocation() {
-        return this.getXCoordinate() + (myDirection * JUMP_SIZE);
+    private int findNewXCoordinateLocation(Coordinate jumpingOver) {
+        int newXCoord = this.getXCoordinate();
+        if(!isKing) {
+            newXCoord += myDirection * JUMP_SIZE;
+        }else{
+           if(jumpingOver.getXCoord() - this.getXCoordinate() > 0){
+               newXCoord += JUMP_SIZE;
+           }else{
+               newXCoord -= JUMP_SIZE;
+           }
+        }
+        return newXCoord;
     }
 
     private int getXCoordinate(){

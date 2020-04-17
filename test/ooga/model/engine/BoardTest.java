@@ -54,7 +54,7 @@ public class BoardTest {
 
     @Test
     void testOthelloBoard() {
-        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1);
+        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1,-1);
         for (Coordinate c : moves.keySet()) {
             System.out.println(moves.get(c));
         }
@@ -106,7 +106,7 @@ public class BoardTest {
 
     @Test
     void testGetAllLegalMoves() {
-        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1);
+        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1,-1);
         Coordinate squareWithPlayer = new Coordinate(1, 1);
 
         //checking that a coordinate with an empty square is a legal "move"
@@ -117,9 +117,9 @@ public class BoardTest {
     @Test
     void testNoMovesLeft() {
         //should be no moves left on a full board with no winner
-        assertEquals(true, noMovesBoard.checkNoMovesLeft(1, 2));
+        assertEquals(true, noMovesBoard.checkNoMovesLeft(1, 2,-1,-1));
         //should be moves left on board with only one player
-        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1, 2));
+        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1, 2,-1,-1));
     }
 
     @Test

@@ -38,10 +38,8 @@ public class Controller implements ControllerFramework {
         isPieceSelected = false;
         setPlayerInformation();
         gameType = createGameTypeFactory();
-        int userPlayerID = myUserPlayerInformation.getPlayerID();
-        int agentPlayerID = myAgentPlayerInformation.getPlayerID();
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
-                userPlayerID, agentPlayerID, userIsPlayer1);
+                myUserPlayerInformation, myAgentPlayerInformation, userIsPlayer1);
 
     }
 
@@ -85,9 +83,7 @@ public class Controller implements ControllerFramework {
     }
 
     public void restartGame() throws IOException, ParseException {
-        int userPlayerID = myUserPlayerInformation.getPlayerID();
-        int agentPlayerID = myAgentPlayerInformation.getPlayerID();
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), userPlayerID, agentPlayerID, userIsPlayer1);
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerInformation,myAgentPlayerInformation, userIsPlayer1);
     }
 
     public boolean playerPass() {return myGame.didPlayerPass();}
