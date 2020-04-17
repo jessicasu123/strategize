@@ -124,7 +124,8 @@ public class BoardView {
         updateBoardAppearance();
     }
 
-    private void processUserClickOnSquare(Shape rect, Image img, int finalX, int finalY) {
+    private void processUserClickOnSquare(Shape rect, List<List<Integer>> gameStates, int finalX, int finalY) {
+        Image img = findImageForSquare(gameStates);
         if(hasSelectedSquare){
             boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
         }
@@ -133,9 +134,22 @@ public class BoardView {
         lastSquareSelectedY = finalY;
         if(hasSelectPiece){
             boardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).setFill(Color.valueOf(boardColor));
+            updateImageOnSquare(rect, img);
         }
-        updateImageOnSquare(rect, img);
+        if(!piecesMove){
+            updateImageOnSquare(rect, img);
+        }
 
+    }
+
+    private Image findImageForSquare(List<List<Integer>> gameStates) {
+        Image img;
+        if(hasSelectPiece){
+            img = findPlayerImage(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY),myUser);
+        }else{
+            img = new Image(PIECES_RESOURCES + myUser.getPlayerImage());
+        }
+        return img;
     }
 
     private void updateImageOnSquare(Shape rect, Image img) {
@@ -195,13 +209,8 @@ public class BoardView {
     }
 
     private void updateEmptyCell(Shape currSquare, int r, int c, List<List<Integer>> gameStates) {
-        Image playerImg;
-        if(hasSelectPiece){
-            playerImg = findPlayerImage(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY),myUser);
-        }else{
-            playerImg = new Image(PIECES_RESOURCES + myUser.getPlayerImage());
-        }
-        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,playerImg,r,c);
+
+        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c);
         currSquare.setOnMouseClicked(userClick);
         currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }

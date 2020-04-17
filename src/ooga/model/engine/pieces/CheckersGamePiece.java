@@ -84,6 +84,7 @@ public class CheckersGamePiece extends GamePiece {
         }
     }
 
+    //TODO: get diagonals of where land
     private void calculateIfLegalJump(List<GamePiece> neighbors, List<Coordinate> possibleMoves, GamePiece neighbor) {
         int jumpDirection = yDifference(neighbor.getPosition());
         for (GamePiece endOfPossibleJump : neighbors) {
@@ -177,7 +178,7 @@ public class CheckersGamePiece extends GamePiece {
     }
 
     private boolean isYDistanceShorter(Coordinate compareTo, Coordinate goingTo){
-        return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) < Math.abs(this.getYCoordinate() - goingTo.getYCoord());
+        return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) <= Math.abs(this.getYCoordinate() - goingTo.getYCoord());
     }
 
     private boolean isXDistanceShorter(Coordinate compareTo, Coordinate goingTo){
