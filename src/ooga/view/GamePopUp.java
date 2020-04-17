@@ -109,9 +109,11 @@ public abstract class GamePopUp {
      * @param buttonName - the name of the button being created.
      * @return button for a pop up
      */
+    //TODO: put this in its own class
     protected Button createButton(String buttonName) {
         Button b = new Button(buttonName);
         b.getStyleClass().add("gameButton");
+        b.setId(buttonName.replaceAll("\\s", ""));
         b.setMinWidth(popUpWidth/3.0);
         return b;
     }

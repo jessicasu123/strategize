@@ -10,8 +10,8 @@
   "Player1PosDirection": "false",
 
   "Board": {
-    "Height": "100",
-    "Width": "100",
+    "Height": "3",
+    "Width": "3",
     "InitialConfig": "1,2,1;0,1,1;2,0,2"
   },
 

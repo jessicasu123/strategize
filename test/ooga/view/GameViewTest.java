@@ -89,12 +89,12 @@ public class GameViewTest extends DukeApplicationTest {
     void testBoardUpdateAfterMakeMove() {
         updateBoardCells();
         //clicking on middle cell
-        javafxRun(() -> clickOn(myBoardCells.get(1).get(1)));
+        javafxRun(() -> clickOn(myBoardCells.get(0).get(0)));
         //making a move
         javafxRun(() -> clickOn(makeMove));
         updateBoardCells();
         //there should be an image (NOT WHITE) on the cell clicked
-        assertEquals(ImagePattern.class, myBoardCells.get(1).get(1).getFill().getClass());
+        assertEquals(ImagePattern.class, myBoardCells.get(0).get(0).getFill().getClass());
 
         //there should also be an image (NOT WHITE) on the cell where the agent moved
         List<Integer> agentCoords = findOpponentMove();
