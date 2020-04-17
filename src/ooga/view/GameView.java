@@ -1,23 +1,11 @@
 package ooga.view;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import ooga.controller.Controller;
-import javafx.scene.shape.Shape;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -27,7 +15,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -198,7 +185,7 @@ public class GameView {
         }
         gameInProgress = true;
         myController.restartGame();
-        grid.updateBoardAppearance();
+       grid.updateBoardAppearance();
     }
 
     private void backToSetup() throws IOException, ParseException {

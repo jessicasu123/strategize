@@ -15,9 +15,9 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import ooga.controller.Controller;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Responsible for creating the container that holds the visual
@@ -115,6 +115,12 @@ public class BoardView {
         }
     }
 
+    /**
+     * updates the visual information of the board based on what it is told to look like
+     * @param newUserImage - the new image used to represent the user
+     * @param newAgentImage - the new image used to represent the agent
+     * @param newBoardColor - the new color of the board
+     */
     protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor){
         userImage = newUserImage;
         agentImage = newAgentImage;
@@ -141,6 +147,7 @@ public class BoardView {
     private void updateImageOnSquare(Shape rect, Image img) {
         rect.setFill(new ImagePattern(img));
     }
+
 
     protected void updateBoardAppearance() {
         List<List<Integer>> gameStates = myController.getGameVisualInfo();
@@ -202,6 +209,10 @@ public class BoardView {
             lastPieceSelectedY = c;
         }
     }
+
+    /**
+     * makes a move indicated by the user on the board
+     */
     protected void makeUserMove(){
         if (hasSelectPiece) {
             myController.pieceSelected(lastPieceSelectedX, lastPieceSelectedY);
@@ -212,13 +223,16 @@ public class BoardView {
         hasSelectPiece = false;
         updateBoardAppearance();
     }
+
+    /**
+     * makes a move for the agent on the board
+     */
     protected void makeAgentMove(){
         if(!myController.userTurn()){
             myController.playMove();
             PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
             wait.setOnFinished(e -> updateBoardAppearance());
             wait.play();
-
         }
     }
 
