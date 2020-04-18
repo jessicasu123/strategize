@@ -38,12 +38,8 @@ class ControllerTest {
         Map<String, String> gameProperties = testController.getStartingProperties();
         assertEquals("Tic-Tac-Toe", gameProperties.get("Gametype"));
         assertEquals("", gameProperties.get("Neighborhood"));
-        assertEquals("1", gameProperties.get("State1"));
-        assertEquals("2", gameProperties.get("State2"));
         assertEquals("Black", gameProperties.get("Color1"));
         assertEquals("Black", gameProperties.get("Color2"));
-        assertEquals("X.png", gameProperties.get("Image1"));
-        assertEquals("O.png", gameProperties.get("Image2"));
     }
 
     @Test

@@ -16,19 +16,15 @@
   },
 
   "Player1": {
-    "State" : "1",
-    "SpecialState": "-1",
-    "Color": "Red",
-    "Image": "redCircle.png",
-    "SpecialStateImage": ""
+    "States": [1],
+    "Images": ["redCircle.png"],
+    "Color": "Red"
   },
 
   "Player2": {
-    "State": "2",
-    "SpecialState": "-1",
-    "Color": "Yellow",
-    "Image": "yellowCircle.png",
-    "SpecialStateImage": ""
+    "States": [2],
+    "Images": ["yellowCircle.png"],
+    "Color": "Yellow"
   },
 
   "possibleMove": "",

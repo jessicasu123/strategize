@@ -6,7 +6,11 @@ import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
 import ooga.model.engine.pieces.MancalaGamePiece;
 
+import java.util.List;
+
 public class MancalaFactory implements GameTypeFactory{
+    public static final int SPECIAL_STATE_INDEX = 1;
+    public static final int REGULAR_STATE_INDEX = 0;
     private final int myUserPlayer;
     private final int myAgentPlayer;
     private final int myUserGoal;
@@ -18,12 +22,12 @@ public class MancalaFactory implements GameTypeFactory{
     private Coordinate userGoalPosition;
     private Coordinate agentGoalPosition;
 
-    public MancalaFactory(int userPlayer, int agentPlayer, int userGoal, int agentGoal, boolean userPosDirection,
-                          int emptyState, int numMarbles){
-        myUserPlayer = userPlayer;
-        myAgentPlayer = agentPlayer;
-        myUserGoal = userGoal;
-        myAgentGoal = agentGoal;
+    public MancalaFactory(List<Integer> userStates, List<Integer> agentStates, boolean userPosDirection, int emptyState,
+                          int numMarbles){
+        myUserPlayer = userStates.get(REGULAR_STATE_INDEX);
+        myAgentPlayer = agentStates.get(REGULAR_STATE_INDEX);
+        myUserGoal = userStates.get(SPECIAL_STATE_INDEX);
+        myAgentGoal = agentStates.get(SPECIAL_STATE_INDEX);
         if(userPosDirection){
             myUserDirection = 1;
         }else{

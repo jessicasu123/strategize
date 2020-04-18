@@ -161,7 +161,8 @@ public class GameSetupOptions {
 
     private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
-        Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player).getString("Image"), iconSize, iconSize, true, true);
+        String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0);
+        Image playerImage = new Image(PIECE_ICON_RESOURCES + imageName, iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player);
         playerButton.setGraphic(new ImageView(playerImage));
         playerButton.setToggleGroup(group);

@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.PlayerInformationHolder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -15,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +30,7 @@ import java.util.Map;
  */
 
 public class GameView {
-
+    public static final int STATE_ID_POS = 0;
     public static final String DEFAULT_RESOURCES = "src/resources/";
     public static final String DATAFILE = DEFAULT_RESOURCES + "GameView.json";
     public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
@@ -56,10 +56,9 @@ public class GameView {
     private RulesPopUp rules;
     private int userWinCount;
     private int opponentWinCount;
-    private PlayerInformationHolder myUser;
-    private PlayerInformationHolder myAgent;
+    private int myUserID;
+    private int myAgentID;
     private GameButtonManager gameButtonManager;
-
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -71,12 +70,10 @@ public class GameView {
         initializeJSONReader();
         myController = c;
         gameInProgress = true;
-
-        myUser = myController.getUserInformation();
-        myAgent = myController.getAgentInformation();
-        String userImage = myUser.getPlayerImage();
-        String agentImage = myAgent.getPlayerImage();
-
+        myUserID = myController.getUserStateInfo().get(STATE_ID_POS);
+        myAgentID = myController.getAgentStateInfo().get(STATE_ID_POS);
+        String userImage = myController.getStateImageMapping().get(myUserID);
+        String agentImage = myController.getStateImageMapping().get(myAgentID);
         gameButtonManager = new GameButtonManager();
         initializeComponents(userImage, agentImage);
         displayToStage(userImage, agentImage);
@@ -109,7 +106,7 @@ public class GameView {
         try {
             int boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
-            grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController, myUser, myAgent);
+            grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -277,7 +274,7 @@ public class GameView {
 
     private void endGame(int winner){
         String endStatus;
-        if (winner == myUser.getPlayerID()) {
+        if (winner == myUserID) {
             endStatus = "Win";
             userWinCount += 1;
         } else if(winner == 3) {

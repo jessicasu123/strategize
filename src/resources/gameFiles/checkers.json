@@ -1,7 +1,7 @@
 {
   "Gametype": "Checkers",
 
-  "Neighborhood": "diagonal,vertical",
+  "Neighborhood": "diagonal",
 
   "EmptyState": "0",
 
@@ -16,20 +16,15 @@
   },
 
   "Player1": {
-    "State": "3",
-    "SpecialState": "4",
-    "Color": "Red",
-    "Image": "redCircle.png",
-    "SpecialStateImage": "redCrown.png"
+    "States" : [3, 4],
+    "Images": ["redCircle.png", "redCrown.png"],
+    "Color": "Red"
   },
 
-
   "Player2": {
-    "State" : "1",
-    "SpecialState": "2",
-    "Color": "Black",
-    "Image": "blackCircle.png",
-    "SpecialStateImage": "blackCrown.png"
+    "States": [1, 2],
+    "Images": ["blackCircle.png", "blackCrown.png"],
+    "Color": "Black"
   },
 
   "possibleMove": "greyOutlineCircle.png",

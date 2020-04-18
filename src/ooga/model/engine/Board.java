@@ -35,20 +35,20 @@ public class Board implements BoardFramework{
     /**
      * Checks that there are no moves left for either the user player
      * or the agent player.
-     * @param userID - the ID of the user player
-     * @param agentID - the ID of the agent player
+     * @param userStates - the ID of the user player
+     * @param agentStates - the ID of the agent player
      * @return
      */
-    public boolean checkNoMovesLeft(int userID, int agentID, int specialUserID, int agentSpecialID) {
+    public boolean checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
         //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
-        return checkEmptyMovesForPlayer(userID, specialUserID) &&
-                checkEmptyMovesForPlayer(agentID, agentSpecialID);
+        return checkEmptyMovesForPlayer(userStates) &&
+                checkEmptyMovesForPlayer(agentStates);
     }
 
 
-    public boolean checkEmptyMovesForPlayer(int playerID, int specialID) {
+    public boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
         //check that list of moves is EMPTY for every piece with playerID
-        for (List<Coordinate> coords: getAllLegalMoves(playerID, specialID).values()) {
+        for (List<Coordinate> coords: getAllLegalMoves(playerStates).values()) {
             if (coords.size() > 0) {
                 return false;
             }
@@ -104,21 +104,21 @@ public class Board implements BoardFramework{
      * METHOD PURPOSE:
      *  - gets all the legal moves of each of the pieces of the player indicated by the parameter
      *  - this will be used by the Agent to determine the best move
-     * @param player - the player whose moves you are looking for
+     * @param playerStates - the player whose moves you are looking for
      * @return a map which maps the start coordinates of a piece to all of the possible end coordinates that piece
      * can legally move to
      * uses tree map to sort the coordinates
      */
     @Override
-    public Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player, int specialPlayer) {
+    public Map<Coordinate, List<Coordinate>> getAllLegalMoves(List<Integer> playerStates) {
         Map<Coordinate, List<Coordinate>> allLegalMoves = new TreeMap<>();
         for (List<GamePiece> row: myGamePieces) {
             for (int col = 0; col < row.size();col++) {
                 GamePiece currPiece = row.get(col);
                 //TODO: later change to use data value for empty state
-                if (currPiece.getState() == player || currPiece.getState() == 0 || currPiece.getState() == specialPlayer) {
+                if (playerStates.contains(currPiece.getState()) || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
-                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece),player);
+                    List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece), playerStates.get(0));
                     if (moves.size()>0) {
                         allLegalMoves.put(currCoord, moves);
                     }
@@ -182,9 +182,9 @@ public class Board implements BoardFramework{
     }
 
     @Override
-    public List<List<Integer>> possibleMovesVisualInfo(int playerID, int specialID) {
+    public List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates) {
         List<List<Integer>> possibleMovesConfig = new ArrayList<>();
-        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerID, specialID);
+        List<Coordinate> possibleMoves = getPossibleMovesAsList(playerStates);
         for (int r = 0; r< numRows;r++) {
             List<Integer> possibleMovesRow = new ArrayList<>();
             for (int c = 0; c < numCols;c++) {
@@ -199,9 +199,9 @@ public class Board implements BoardFramework{
         return possibleMovesConfig; 
     }
 
-    private List<Coordinate> getPossibleMovesAsList(int playerID, int specialID) {
+    private List<Coordinate> getPossibleMovesAsList(List<Integer> playerStates) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        for (List<Coordinate> moves: getAllLegalMoves(playerID, specialID).values()) {
+        for (List<Coordinate> moves: getAllLegalMoves(playerStates).values()) {
             for (Coordinate c: moves) {
                 possibleMoves.add(c);
             }

@@ -14,7 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JSONFileReaderTest {
     private String fileNameGame = "tic-tac-toe.json";
-    JSONFileReader fr = new JSONFileReader(fileNameGame);
+    JSONFileReader fr;
+
+    {
+        try {
+            fr = new JSONFileReader(fileNameGame);
+        } catch (IOException e) {
+            System.out.println("file not found");
+        }
+    }
 
     JSONFileReaderTest() throws FileNotFoundException {
     }
@@ -49,16 +57,8 @@ class JSONFileReaderTest {
         map.put("PiecesMove","false");
         map.put("Player1Direction","false");
         map.put("EmptyState","0");
-        map.put("State1","1");
-        map.put("SpecialState1","-1");
-        map.put("State2","2");
-        map.put("SpecialState2","-1");
         map.put("possibleMove","");
-        map.put("Image2","O.png");
         map.put("Gametype","Tic-Tac-Toe");
-        map.put("Image1","X.png");
-        map.put("SpecialImage1","");
-        map.put("SpecialImage2","");
         map.put("Height","3");
         map.put("Color2","Black");
         map.put("Color1","Black");
