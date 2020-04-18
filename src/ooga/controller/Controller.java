@@ -104,7 +104,7 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public void saveANewFile(String fileName, Map<String, String> startingProperties) throws IOException, ParseException {
+    public void saveANewFile(String fileName, Map<String, String> startingProperties){
         myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
     }
 

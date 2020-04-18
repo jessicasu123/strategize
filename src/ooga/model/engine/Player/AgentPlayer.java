@@ -32,9 +32,9 @@ public class AgentPlayer implements Player{
 
     /**
      * Creates an agent player using the default search depth
-     * @param states - the id of this player (the state of the game piece's that belong to this player)
+     * @param states -  the states of the agent
      * @param gameAgent - the AI agent for this type of game
-     * @param opponentStates - the id of the opponent player (the state of the game piece's that belong to the opponent)
+     * @param opponentStates - the states of the pieces that belong to the opponent
      */
     public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates){
         this(states, gameAgent, opponentStates, MAX_SEARCH_DEPTH);
@@ -42,9 +42,9 @@ public class AgentPlayer implements Player{
 
     /**
      * Creates an agent player using specified search depth
-     * @param states - the id of this player (the state of the game piece's that belong to this player)
+     * @param states - the states of the agent
      * @param gameAgent - the AI agent for this type of game
-     * @param opponentStates - the id of the opponent player (the state of the game piece's that belong to the opponent)
+     * @param opponentStates - the states of the pieces that belong to the opponent
      */
     //TODO: take in search depth from data
     public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates, int searchDepth){
@@ -63,7 +63,7 @@ public class AgentPlayer implements Player{
     //TODO: do we need this?
     @Override
     public int getPlayerID() {
-        return myStates.get(0);
+        return myStates.get(ID_STATE);
     }
 
     /**

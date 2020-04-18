@@ -72,6 +72,10 @@ public class JSONFileReader implements FileHandler {
         gameData = new org.json.JSONObject(token);
     }
 
+    /**
+     * @param i - the player whose info are looking for
+     * @return the states of that player
+     */
     public List<Integer> getPlayerStateInfo(int i){
         JSONObject player = gameData.getJSONObject("Player" + i);
         JSONArray stateInfo = player.getJSONArray("States");
@@ -82,6 +86,11 @@ public class JSONFileReader implements FileHandler {
         return Collections.unmodifiableList(playerStateInfo);
     }
 
+    /**
+     *
+     * @param i - the player whose info are looking for
+     * @return a map for the player where each state is mapped to the file name for the image
+     */
     public Map<Integer, String> getStateImageMapping(int i){
         List<Integer> states = getPlayerStateInfo(i);
         Map<Integer, String> stateImageMapping = new HashMap<>();

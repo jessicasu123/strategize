@@ -35,9 +35,9 @@ public class Board implements BoardFramework{
     /**
      * Checks that there are no moves left for either the user player
      * or the agent player.
-     * @param userStates - the ID of the user player
-     * @param agentStates - the ID of the agent player
-     * @return
+     * @param userStates - all the states that belong to the user
+     * @param agentStates - all the states that belong to the agent
+     * @return boolean
      */
     public boolean checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
         //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
@@ -104,7 +104,7 @@ public class Board implements BoardFramework{
      * METHOD PURPOSE:
      *  - gets all the legal moves of each of the pieces of the player indicated by the parameter
      *  - this will be used by the Agent to determine the best move
-     * @param playerStates - the player whose moves you are looking for
+     * @param playerStates - the list of states for the player checking to find moves for
      * @return a map which maps the start coordinates of a piece to all of the possible end coordinates that piece
      * can legally move to
      * uses tree map to sort the coordinates
@@ -133,7 +133,7 @@ public class Board implements BoardFramework{
      *  - moves a piece on the board and updates the state accordingly
      *  - calls on the Game pieces to do this
      *  - verifies the move
-     * @param player - the player to be moved (1 or 2)
+     * @param player - the player to be moved
      * @param startCoordinate - the coordinate you are moving from
      * @param endCoordinate - the coordinate you are moving to (may be the same as start coordinate if no movement
      *                      is happening)
