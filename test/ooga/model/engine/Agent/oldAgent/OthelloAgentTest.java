@@ -1,5 +1,6 @@
-package ooga.model.engine.Agent;
+package ooga.model.engine.Agent.oldAgent;
 
+import ooga.model.engine.Agent.oldAgent.OthelloAgent;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

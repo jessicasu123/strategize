@@ -1,4 +1,4 @@
-package ooga.model.engine;
+package ooga.model.engine.exceptions;
 
 /**
  * This exception is for when the specified neighborhood type does NOT

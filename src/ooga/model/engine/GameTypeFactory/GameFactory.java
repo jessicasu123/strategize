@@ -1,6 +1,6 @@
 package ooga.model.engine.GameTypeFactory;
 
-import ooga.model.engine.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
 
 import java.util.List;
 

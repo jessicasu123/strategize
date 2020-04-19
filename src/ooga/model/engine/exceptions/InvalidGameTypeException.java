@@ -1,4 +1,4 @@
-package ooga.model.engine;
+package ooga.model.engine.exceptions;
 
 /**
  * Exception for when the game type specified does not correspond to a supported game.

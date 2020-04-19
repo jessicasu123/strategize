@@ -1,8 +1,9 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Agent.oldAgent.Agent;
 import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import ooga.model.engine.Player.AgentPlayer;
+import ooga.model.engine.exceptions.InvalidMoveException;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class Game implements GameFramework{
     }
 
 
-    public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
+    public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         if(isUserTurn && !noMovesForUser){
             makeUserMove(moveCoordinates);
         }
