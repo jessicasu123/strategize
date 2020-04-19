@@ -2,7 +2,6 @@ package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
-import ooga.model.engine.pieces.newPieces.MoveTypes.MoveType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +35,20 @@ public class GamePiece {
 
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState){
         for(MoveType move: myMoveTypes){
-            move.completeMoveType(endCoordinateInfo, neighbors, newState);
+            move.completeMoveType(this, endCoordinateInfo, neighbors, newState);
         }
     }
 
     public int getState(){
         return myState;
+    }
+
+    public boolean changeTurnAfterMove(){
+        boolean turnChange = false;
+        for(MoveType move: myMoveTypes){
+            turnChange = turnChange || move.doesTurnChange();
+        }
+        return turnChange;
     }
 
     public int getVisualRepresentation(){
