@@ -3,6 +3,15 @@
 
   "Neighborhood": "",
 
+  "WinType": "",
+
+  "EvaluationFunctions": [""],
+
+  "BoardWeights": "0,0,0;0,0,0;0,0,0",
+
+  "SpecialPieceIndex": 0,
+
+
   "EmptyState": "0",
 
   "PiecesMove": "false",

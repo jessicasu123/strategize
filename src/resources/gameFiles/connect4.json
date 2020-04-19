@@ -3,6 +3,14 @@
 
   "Neighborhood": "vertical",
 
+  "WinType": "",
+
+  "EvaluationFunctions": [""],
+
+  "BoardWeights": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;",
+
+  "SpecialPieceIndex": 0,
+
   "EmptyState": "0",
 
   "Player1PosDirection": "false",

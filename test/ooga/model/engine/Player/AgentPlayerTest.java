@@ -5,7 +5,7 @@ import ooga.model.engine.Board;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
-import ooga.model.engine.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

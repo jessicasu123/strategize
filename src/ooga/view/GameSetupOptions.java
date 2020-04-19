@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;

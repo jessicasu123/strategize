@@ -8,15 +8,13 @@ public class SumOfDistancesForSpecialPieceEval implements EvaluationFunction{
     private final int myOpponentStateEvalFor;
     private final List<Integer> myStates;
     private final List<Integer> myOpponentsStates;
-    private final int myWeight;
 
     public SumOfDistancesForSpecialPieceEval(int maxStateEvaluateFor, int minStateEvaluateFor,
-                                             List<Integer> maxStates, List<Integer> minStates, int weight){
+                                             List<Integer> maxStates, List<Integer> minStates){
         myStateEvalFor = maxStateEvaluateFor;
         myOpponentStateEvalFor = minStateEvaluateFor;
         myStates = maxStates;
         myOpponentsStates = minStates;
-        myWeight = weight;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class SumOfDistancesForSpecialPieceEval implements EvaluationFunction{
             rowNum++;
         }
 
-        return (MINIMIZE_FACTOR * (maxDistanceEval - minDistanceEval)) * myWeight;
+        return (MINIMIZE_FACTOR * (maxDistanceEval - minDistanceEval));
     }
     private int sumDistanceToOpponent(List<List<Integer>> boardStateInfo, List<Integer> opponent, int startX, int startY){
         int rowNum = 0;

@@ -3,14 +3,14 @@ package ooga.view;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomizationViewTest extends DukeApplicationTest {

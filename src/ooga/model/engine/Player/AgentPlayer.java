@@ -3,7 +3,7 @@ package ooga.model.engine.Player;
 import ooga.model.engine.Agent.oldAgent.Agent;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidMoveException;
 
 import java.util.AbstractMap;
 import java.util.HashMap;

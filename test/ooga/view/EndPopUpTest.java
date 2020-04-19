@@ -1,11 +1,10 @@
 package ooga.view;
 
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
