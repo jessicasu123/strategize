@@ -33,6 +33,7 @@ public class GameSetupOptions {
     public static final int SPACING = 25;
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+    public static final int START_DIM = 500;
     public static final String DEFAULT_FILE_RESOURCES = "src/resources/gameFiles/";
     public static final String DATAFILE = "src/resources/GameSetupOptions.json";
     public static final String PIECE_ICON_RESOURCES = "resources/images/pieces/";
@@ -72,21 +73,22 @@ public class GameSetupOptions {
     }
 
     private Scene makeSetupDisplay(){
-        VBox gameSetUp = createGameSetupHolder(WIDTH, HEIGHT);
+        VBox gameSetUp = createGameSetupHolder();
         String title = setupData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
         return new GameScene().createScene(SPACING,WIDTH,HEIGHT,gameSetUp,title);
     }
 
-    private VBox createGameSetupHolder(int width, int height) {
+    private VBox createGameSetupHolder() {
         VBox gameOptions = new VBox(PADDING);
         JSONObject labelText = setupData.getJSONObject("Text").getJSONObject("LabelText");
+        JSONObject buttonText = setupData.getJSONObject("Text").getJSONObject("ButtonText");
         HBox opponentOptions = createOpponentOptions(labelText);
         HBox playerOptions = createPlayerOptions(opponentOptions.getAlignment(), labelText);
         HBox boardOptions = createBoardOptions(playerOptions.getAlignment(), labelText);
-        Button start = creatStartButton();
-        gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions, start);
+        Button start = createStartButton(buttonText);
+        Button mainMenu = createMenuButton(buttonText);
+        gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions, start, mainMenu);
         gameOptions.setAlignment(Pos.CENTER);
-        // TODO for future feature: potentially add winStatus choices here (Eg: connect5?)
         return gameOptions;
     }
 
@@ -105,15 +107,15 @@ public class GameSetupOptions {
                 opponent = rb.getText();
             }
         });
-        RadioButton vsComputer = getOpponentButton(labelText, group, "VsComputer");
-        RadioButton vsPlayer = getOpponentButton(labelText, group, "VsPlayer");
+        RadioButton vsComputer = createOpponentButton(labelText, group, "VsComputer");
+        RadioButton vsPlayer = createOpponentButton(labelText, group, "VsPlayer");
         vsComputer.setSelected(true);
         HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
         opponentOptions.setAlignment(Pos.CENTER);
         return opponentOptions;
     }
 
-    private RadioButton getOpponentButton(JSONObject labelText, ToggleGroup group, String vs) {
+    private RadioButton createOpponentButton(JSONObject labelText, ToggleGroup group, String vs) {
         RadioButton vsSelection = new RadioButton(labelText.getString(vs));
         vsSelection.setToggleGroup(group);
         vsSelection.setId(vs);
@@ -157,8 +159,8 @@ public class GameSetupOptions {
         return new GameDropDown().createDropDownContainer(position,new ArrayList<>(), prompt, label);
     }
 
-    private Button creatStartButton() {
-        Button start = new GameButton().createGameButton(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
+    private Button createStartButton(JSONObject buttonText) {
+        Button start = new GameButton().createGameButton(buttonText.getString("Start"));
         start.setOnAction(e -> {
             try {
                 Controller c = new Controller(gameFileName, userPlayerID, opponent);
@@ -172,6 +174,15 @@ public class GameSetupOptions {
             }
         });
         return start;
+    }
+
+    private Button createMenuButton(JSONObject buttonText) {
+        Button backToMenu = new GameButton().createGameButton(buttonText.getString("Menu"));
+        backToMenu.setOnAction(event -> {
+            StartView sv = new StartView(myStage);
+            sv.displayToStage(START_DIM,START_DIM);
+        });
+        return backToMenu;
     }
 
 }

@@ -23,6 +23,7 @@ class GameSetupOptionsTest extends DukeApplicationTest {
     private Text boardText;
     private ComboBox<String> boardDropdown;
     private Button start;
+    private Button menu;
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
@@ -36,6 +37,7 @@ class GameSetupOptionsTest extends DukeApplicationTest {
         player2 = lookup("#Player2").query();
         boardDropdown = lookup("#Makeselection").query();
         start = lookup("#Start").query();
+        menu = lookup("#BacktoMenu").query();
     }
 
     @Test
@@ -48,5 +50,6 @@ class GameSetupOptionsTest extends DukeApplicationTest {
         assertEquals("Player2", player2.getText());
         assertEquals("Make selection", boardDropdown.getPromptText());
         assertEquals("Start", start.getText());
+        assertEquals("Back to Menu", menu.getText());
     }
 }
