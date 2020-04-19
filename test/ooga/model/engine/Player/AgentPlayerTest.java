@@ -1,12 +1,11 @@
 package ooga.model.engine.Player;
 
-import ooga.model.engine.Agent.TicTacToeAgent;
+import ooga.model.engine.Agent.oldAgent.TicTacToeAgent;
 import ooga.model.engine.Board;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
 import ooga.model.engine.InvalidMoveException;
-import ooga.model.engine.Neighborhood.VerticalNeighborhood;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package ooga.model.engine.GameTypeFactory;
 
-import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Agent.OthelloAgent;
+import ooga.model.engine.Agent.oldAgent.Agent;
+import ooga.model.engine.Agent.oldAgent.OthelloAgent;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
 import ooga.model.engine.pieces.OthelloGamePiece;

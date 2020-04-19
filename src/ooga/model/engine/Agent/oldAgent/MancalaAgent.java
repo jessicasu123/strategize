@@ -1,8 +1,7 @@
-package ooga.model.engine.Agent;
+package ooga.model.engine.Agent.oldAgent;
 
 import ooga.model.engine.Coordinate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MancalaAgent extends Agent {
