@@ -4,18 +4,22 @@
     "LossColor": "red",
     "TieColor": "blue"
   },
-  "Images": {
-    "WinImage": "win.png",
-    "LossImage": "loss.png",
-    "TieImage": "tied.png"
-  },
-  "Labels": {
-    "WinText": "CONGRATULATIONS",
-    "WinSubtext": "You won!",
-    "LossText": "SAD!",
-    "LossSubtext": "You lost",
-    "TieText": "IT'S A TIE",
-    "TieSubtext": "Better luck next time!"
+  "EndStatuses": {
+    "Win": {
+      "Text": "CONGRATULATIONS",
+      "Subtext": "You won!",
+      "Image": "win.png"
+    },
+    "Loss": {
+      "Text": "SAD!",
+      "Subtext": "You lost",
+      "Image": "loss.png",
+    },
+    "Tie": {
+      "Text": "IT'S A TIE",
+      "Subtext": "Better luck next time!",
+      "Image": "tied.png"
+    }
   },
   "Buttons": {
       "Return to Setup": "backToSetup",

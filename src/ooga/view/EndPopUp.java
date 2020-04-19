@@ -2,7 +2,6 @@ package ooga.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +31,7 @@ public class EndPopUp extends GamePopUp{
     public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) throws FileNotFoundException {
         super(stage, width, height, fileName, buttonManager);
 
-        popUpWidth = width/2;
+        popUpWidth = width/2.0;
         xOffset = (width - popUpWidth)/2;
         winStatus = endStatus;
         buttonActionsMap = new HashMap<>();
@@ -60,10 +59,10 @@ public class EndPopUp extends GamePopUp{
     private VBox createEndMessaging() {
         VBox endMessaging = new VBox();
         endMessaging.setSpacing(SPACING/2.0);
-        JSONObject labelText = popUpScreenData.getJSONObject("Labels");
-        Text messageText = new Text(labelText.getString(winStatus+"Text"));
-        Text messageSubtext = new Text(labelText.getString(winStatus+"Subtext"));
-        Image messageImg = new Image(IMG_RESOURCES + popUpScreenData.getJSONObject("Images").getString(winStatus+"Image"), popUpWidth/3.0, 0, true, true);
+        JSONObject statusContents = popUpScreenData.getJSONObject("EndStatuses").getJSONObject(winStatus);
+        Text messageText = new Text(statusContents.getString("Text"));
+        Text messageSubtext = new Text(statusContents.getString("Subtext"));
+        Image messageImg = new Image(IMG_RESOURCES + statusContents.getString("Image"), popUpWidth/3.0, 0, true, true);
         ImageView displayImg = new ImageView(messageImg);
 
         messageText.setId(winStatus+"Text");
