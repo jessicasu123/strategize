@@ -16,7 +16,7 @@ public class PositionWeights implements EvaluationFunction {
         myOpponentStates = minStates;
         myDirection = maxDirection;
         myOpponentDirection = minDirection;
-        considersDirection = myDirection!=myOpponentDirection; 
+        considersDirection = myDirection!=myOpponentDirection;
     }
 
     @Override
