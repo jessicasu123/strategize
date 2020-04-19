@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.engine.InvalidMoveException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameScene;
 import org.json.JSONObject;
@@ -232,17 +233,21 @@ public class GameView {
     }
 
     private void makeMove(){
-        if (didPass) {
-            gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
-            didPass = false;
-        }
-        if(gameInProgress && myController.userTurn()) {
-            grid.makeUserMove();
-            checkGameStatus();
-            if(gameInProgress){
-                grid.makeAgentMove();
+        try {
+            if (didPass) {
+                gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
+                didPass = false;
             }
-            checkGameStatus();
+            if (gameInProgress && myController.userTurn()) {
+                grid.makeUserMove();
+                checkGameStatus();
+                if (gameInProgress) {
+                    grid.makeAgentMove();
+                }
+                checkGameStatus();
+            }
+        }catch(InvalidMoveException ex){
+            new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
         }
     }
 
