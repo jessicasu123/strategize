@@ -4,18 +4,18 @@ import java.util.List;
 
 public class PositionWeights implements EvaluationFunction {
     private List<List<Integer>> myBoardPositionWeights;
-    private List<Integer> myUserStates;
-    private List<Integer> myAgentStates;
+    private List<Integer> myStates;
+    private List<Integer> myOpponentStates;
 
-    public PositionWeights(List<List<Integer>> boardPositionWeights, List<Integer> userStates, List<Integer> agentStates) {
+    public PositionWeights(List<List<Integer>> boardPositionWeights, List<Integer> maxStates, List<Integer> minStates) {
         myBoardPositionWeights = boardPositionWeights;
-        myUserStates = userStates;
-        myAgentStates = agentStates;
+        myStates = maxStates;
+        myOpponentStates = minStates;
     }
     @Override
     public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        return calculateWeightsPerPlayer(boardStateInfo, myAgentStates) -
-                calculateWeightsPerPlayer(boardStateInfo, myUserStates);
+        return calculateWeightsPerPlayer(boardStateInfo, myStates) -
+                calculateWeightsPerPlayer(boardStateInfo, myOpponentStates);
     }
 
     private int calculateWeightsPerPlayer(List<List<Integer>> boardStateInfo, List<Integer> playerStates) {
