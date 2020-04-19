@@ -238,31 +238,31 @@ public class GameView {
             }
             if (gameInProgress && myController.userTurn()) {
                 grid.makeUserMove();
-                checkGameStatus();
+                checkGameStatus(false);
                 if (gameInProgress) {
                     grid.makeAgentMove();
                 }
-                checkGameStatus();
+                checkGameStatus(true);
             }
         }catch(InvalidMoveException ex){
             new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
         }
     }
 
-    private void checkGameStatus(){
+    private void checkGameStatus(boolean beforeUserTurn){
         checkGameOver();
-        checkPass();
+        checkPass(beforeUserTurn);
     }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
-    private void checkPass() {
-//        if (gameInProgress && (!myController.playerPass().equals(""))) {
-//            didPass = true;
-//            if (myController.playerPass().equals("user")) {
-//                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
-//            } else {
-//                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
-//            }
-//        }
+    private void checkPass(boolean isBeforeUserTurn) {
+        if (gameInProgress && (!myController.playerPass().equals(""))) {
+            if (myController.playerPass().equals("user") && isBeforeUserTurn) {
+                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
+            } else if (myController.playerPass().equals("agent") && !isBeforeUserTurn){
+                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
+            }
+            didPass = true;
+        }
     }
 
     private void checkGameOver() {
