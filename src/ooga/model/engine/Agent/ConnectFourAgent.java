@@ -3,21 +3,40 @@ package ooga.model.engine.Agent;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This an AI agent for the Connect4 game
+ * It uses the rules about winning the game (getting a certain number of pieces in a row) to determine if the game
+ * has been won and if so by whom
+ * This agent also has an evaluation function for evaluating the current game state for how "good" or "bad" it is
+ * @author Brian Li
+ */
+
 public class ConnectFourAgent extends Agent{
     private final int myInARow;
     private int ROWS = 6;
     private int COLS = 7;
+
     /**
-     * Creates an AI agent
+     * Creates a Connect4 AI agent
      *
      * @param maximizingPlayerID - the ID of the player who the agent will try to maximize its moves for
      * @param minimizingPlayerID - the ID of the player who the agent will try to minimize its moves for
+     * @param inARow - the number of pieces needed in a row to win
      */
     public ConnectFourAgent(int maximizingPlayerID, int minimizingPlayerID, int inARow) {
         super(maximizingPlayerID, minimizingPlayerID);
         myInARow = inARow;
     }
 
+
+    /**
+     * Returns 0 when no moves are possible
+     *  EVALUATION FUNCTION:
+     *      (number of rows, columns, and diagonals open for max) - (number of rows, columns, and diagonals open for min)
+     * @param boardStateInfo - all of the current state information from the board
+     * @return an integer representing the evaluation function's evaluation of the current game state
+     */
 
     @Override
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
@@ -76,8 +95,6 @@ public class ConnectFourAgent extends Agent{
         return alldiag;
     }
 
-
-
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
         List<List<Integer>> allCols = new ArrayList<>();
         for(int i = 0; i < boardStateInfo.get(0).size(); i++) {
@@ -90,10 +107,9 @@ public class ConnectFourAgent extends Agent{
         return allCols;
     }
 
-
     /**
      * WIN BY:
-     *      - getting three of your game pieces consecutively in a row, column, or diagonal
+     *      - getting 4 of your game pieces consecutively in a row, column, or diagonal
      * @param playerID - the ID of the player checking to see if they won
      * @param boardStateInfo - all of the current state information from the board
      * @return if that player has won or not

@@ -32,6 +32,11 @@ public class JSONFileReader implements FileHandler {
     private JSONObject player2_1;
     private JSONObject player1;
     private JSONObject player2;
+    private JSONObject emptystate;
+    private JSONObject pieceMove;
+    private JSONObject player1PosDirection;
+    private JSONObject possibleMove;
+    private JSONObject Rules;
     public static final String DEFAULT_RESOURCES = "src/resources/gameFiles/";
     private org.json.JSONObject gameData;
     private String neighbString;
@@ -175,6 +180,9 @@ public class JSONFileReader implements FileHandler {
         createJSONArray();
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        gameProperties.put("EmptyState",gameData.getString("EmptyState"));
+        gameProperties.put("PiecesMove",gameData.getString("PiecesMove"));
+        gameProperties.put("Player1PosDirection",gameData.getString("Player1PosDirection"));
         gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
         gameProperties.put("possibleMove", gameData.getString("possibleMove"));
         getGamePropertyNested();
@@ -186,21 +194,33 @@ public class JSONFileReader implements FileHandler {
      * @param fileName - the name of the JSON File
      * @param configurationInfo - a 2-D list of the current game view configuration
      */
+
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
         fileArray = new JSONArray();
         GameType = new JSONObject();
         neighborhood = new JSONObject();
+        emptystate = new JSONObject();
+        pieceMove = new JSONObject();
+        player1PosDirection = new JSONObject();
         board2 = new JSONObject();
         board = new JSONObject();
         player1_1 = new JSONObject();
         player2_1 = new JSONObject();
         player1 = new JSONObject();
         player2 = new JSONObject();
+        possibleMove = new JSONObject();
+        Rules = new JSONObject();
 
         GameType.put("GameType", properties.get("GameType"));
 
         neighborhood.put("Neighborhood",properties.get("Neighborhood"));
+
+        emptystate.put("EmptyState",properties.get("EmptyState"));
+
+        pieceMove.put("PiecesMove",properties.get("PiecesMove"));
+
+        player1PosDirection.put("Player1PosDirection",properties.get("Player1PosDirection"));
 
         board2.put("Width", properties.get("Width"));
         board2.put("Height", properties.get("Height"));
@@ -208,20 +228,28 @@ public class JSONFileReader implements FileHandler {
         board.put("Board", board2);
 
         player1_1.put("State", properties.get("State"));
-        player1_1.put("Color", properties.get("Color"));
         player1_1.put("Image", properties.get("Image"));
+        player1_1.put("StartingPieces",properties.get("StartingPieces"));
+        player1_1.put("Color", properties.get("Color"));
         player1.put("Player1", player1_1);
 
         player2_1.put("State", properties.get("State"));
-        player2_1.put("Color", properties.get("Color"));
         player2_1.put("Image", properties.get("Image"));
+        player2_1.put("StartingPieces",properties.get("StartingPieces"));
+        player2_1.put("Color", properties.get("Color"));
         player2.put("Player2", player2_1);
+
+        possibleMove.put("possibleMove", properties.get("possibleMove"));
 
         fileArray.put(GameType);
         fileArray.put(neighborhood);
         fileArray.put(board);
         fileArray.put(player1);
         fileArray.put(player2);
+        fileArray.put(emptystate);
+        fileArray.put(pieceMove);
+        fileArray.put(player1PosDirection);
+        fileArray.put(possibleMove);
 
         try (FileWriter file = new FileWriter(fileName)) {
 

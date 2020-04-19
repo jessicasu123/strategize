@@ -5,6 +5,13 @@ import ooga.model.engine.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This implements the game pieces for Connect4, allowing the board to make moves and calculate all possible moves.
+ * The board is initialized to have all coordinates "filled" with game pieces with empty states.
+ * When a piece is "placed" in Connect4, it will take the state of the player who played it.
+ * @author Brian Li
+ */
+
 public class ConnectFourGamePiece extends GamePiece {
 
     private int ROWS = 5;
@@ -14,6 +21,13 @@ public class ConnectFourGamePiece extends GamePiece {
         super(state, position);
     }
 
+    /**
+     *
+     * @param neighbors - the neighbors of the Game Piece as determined by the Board, will be horizontal
+     *                  vertical, and diagonal neighbors
+     * @param playerID - ID of the player
+     * @return - a list of the coordinates that can be moved to
+     */
 
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
@@ -25,6 +39,12 @@ public class ConnectFourGamePiece extends GamePiece {
         return possibleMoves;
     }
 
+    /**
+     *
+     * @param neighbors - the neighbors of the Game Piece as determined by the Board, will be horizontal
+     *            vertical, and diagonal neighbors
+     * @return - a boolean of whether of not a piece exists below or if the piece is placed on the bottom row
+     */
     //TODO: replace number with DIM-1
     private boolean checkBelow(List<GamePiece> neighbors){
         if(!(this.getPosition().getXCoord()==ROWS)) {
