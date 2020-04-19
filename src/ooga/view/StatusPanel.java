@@ -20,7 +20,6 @@ import java.util.Map;
  * as the status of the user player, the agent player, and the
  * overall scores for both.
  */
-//TODO: hook up buttons in status panel to popup views
 public class StatusPanel {
     public static final int SPACING = 30;
     public static final String DEFAULT_VIEW_RESOURCES = "resources/";

@@ -237,11 +237,9 @@ public class GameView {
             didPass = false;
         }
         if(gameInProgress && myController.userTurn()) {
-            checkPass();
             grid.makeUserMove();
             checkGameStatus();
             if(gameInProgress){
-                checkPass();
                 grid.makeAgentMove();
             }
             checkGameStatus();
@@ -250,7 +248,7 @@ public class GameView {
 
     private void checkGameStatus(){
         checkGameOver();
-        //checkPass();
+        checkPass();
     }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
     private void checkPass() {

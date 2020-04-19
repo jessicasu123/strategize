@@ -10,6 +10,7 @@ public class OthelloAgent extends Agent {
     private static final int RISK_REGION_PENALTY = -1;
     private int numRows;
     private int numCols;
+    private int[][] boardWeights;
 
     /**
      * Creates an AI agent for Othello
@@ -19,6 +20,7 @@ public class OthelloAgent extends Agent {
      */
     public OthelloAgent(int maximizingPlayerID, int minimizingPlayerID) {
         super(maximizingPlayerID, minimizingPlayerID);
+        boardWeights = createBoardWeights();
     }
     /**
      * The evaluation function for Othello will be based on
@@ -54,7 +56,6 @@ public class OthelloAgent extends Agent {
                 countNumCornersPerPlayer(boardStateInfo, this.getMinPlayer());
     }
     private int calculateBoardPosWeights(List<List<Integer>> boardStateInfo) {
-        int[][] boardWeights = createBoardWeights();
         return calculateWeightsPerPlayer(boardWeights, boardStateInfo, this.getMaxPlayer()) -
                 calculateWeightsPerPlayer(boardWeights, boardStateInfo, this.getMinPlayer());
     }

@@ -20,7 +20,6 @@ public class Game implements GameFramework{
     private boolean noMovesForAgent;
 
 
-
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
     public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
@@ -38,10 +37,10 @@ public class Game implements GameFramework{
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
-        if(isUserTurn && ! noMovesForUser){
+        if(isUserTurn && !noMovesForUser){
             makeUserMove(moveCoordinates);
         }
-        else if (!isUserTurn && !noMovesForAgent){
+        else if (!isUserTurn && !noMovesForAgent) {
             makeAgentMove();
         }
         if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
@@ -109,6 +108,12 @@ public class Game implements GameFramework{
         return myBoard.getStateInfo();
     }
 
+    /**
+     * METHOD PURPOSE:
+     *  - provides visual info for the possible moves - a row, col position in the list of lists
+     *  with the value 1 represents a possible move position. a value of 0 indicates that the
+     *  position is NOT a possible move.
+     */
     @Override
     public List<List<Integer>> possibleMovesForView() {
         return myBoard.possibleMovesVisualInfo(myUserStates);
