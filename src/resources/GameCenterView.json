@@ -62,6 +62,7 @@
     "ButtonText": {
       "Submit": "Submit"
     }
-  }
+  },
+  "AlertInfo": ["Error", "Could not find game file!", "Please select another game or enter JSON file name below."]
 
 }

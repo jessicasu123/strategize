@@ -1,31 +1,26 @@
 package ooga.view;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ooga.view.components.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONTokener;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class creates the GUI for the start up screen
@@ -40,25 +35,26 @@ public class StartView {
     public static final int SPACING = 10;
     public static final String DATAFILE = "src/resources/GameCenterView.json";
     public static final String GAME_ICON_RESOURCES = "resources/images/games/";
-    public static final String STYLESHEET = "resources/style.css";
-    public static final String GAME_FILE_PATH = "gameFiles/";
     public static final String GAME_FILES = "src/resources/gameFiles/";
     public static final double BUTTON_FONT_FACTOR = 0.125;
     public static final String FILE_TYPE = ".json";
     private Stage myStage;
     private JSONObject startScreenData;
 
-
     /**
      * Creates the StartView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed on
      * @throws FileNotFoundException - if the JSON file can't be found
      */
-    public StartView(Stage displayStage) throws FileNotFoundException {
-        myStage = displayStage;
-        FileReader br = new FileReader(DATAFILE);
-        JSONTokener token = new JSONTokener(br);
-        startScreenData = new JSONObject(token);
+    public StartView(Stage displayStage){
+        try {
+            myStage = displayStage;
+            FileReader br = new FileReader(DATAFILE);
+            JSONTokener token = new JSONTokener(br);
+            startScreenData = new JSONObject(token);
+        } catch (FileNotFoundException e) {
+            new ErrorAlerts(startScreenData.getJSONArray("AlertInfo"));
+        }
     }
 
     /**
@@ -73,91 +69,60 @@ public class StartView {
     }
 
     private Scene makeStartDisplay(int width, int height){
-        BorderPane root = new BorderPane();
-        root.setPadding(new Insets(SPACING, 0, SPACING,0));
-        Scene startScene = new Scene(root, width, height);
-        startScene.getStylesheets().add(STYLESHEET);
-        root.getStyleClass().add("root");
-
-        root.setTop(addTitle());
-        root.setCenter(createGameOptionHolder(width, height));
-        root.setMaxWidth(width);
-        return startScene;
-    }
-
-    private Text addTitle(){
-        String titleText = startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
-        Text title = new Text(titleText.toUpperCase());
-        title.getStyleClass().add("title");
-        BorderPane.setAlignment(title, Pos.CENTER);
-        return title;
+        VBox gameOptions = createGameOptionHolder(width, height);
+        String title = startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
+        return new GameScene().createScene(SPACING,width,height,gameOptions,title);
     }
 
     private VBox createLoadFileOptions(){
         VBox fileSelections = new VBox(SPACING);
+        GameTextFieldContainer fileField = new GameTextFieldContainer();
+        GameDropDown savedFileOptions = new GameDropDown();
 
-        TextField fileField = new TextField();
-        HBox loadFile = initializeTextField(fileField);
-
-        ComboBox<String> savedFileOptions = new ComboBox<>();
-        HBox loadSavedFile = initializeDropDown(loadFile.getAlignment(), savedFileOptions);
-
-        fileSelections.getChildren().addAll(loadFile,loadSavedFile);
-
-        Button submit = new Button(startScreenData.getJSONObject("Text").getJSONObject("ButtonText").getString("Submit"));
-        submit.setOnAction(e -> {
-            try {
-                if (fileField.getText() != null && !fileField.getText().trim().isEmpty()) {
-                    new GameSetupOptions(myStage, fileField.getText());
-                } else if (!savedFileOptions.getSelectionModel().isEmpty()) {
-                    new GameSetupOptions(myStage, savedFileOptions.getValue());
-                }
-            } catch (FileNotFoundException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Could not find selected file!");
-                alert.setContentText("Please enter or select another JSON file.");
-                alert.showAndWait();
-            }
-        });
-        submit.getStyleClass().add("gameButton");
-        submit.setId(submit.getText());
-        fileSelections.getChildren().add(submit);
+        addFileFieldAndDropDown(fileSelections, fileField, savedFileOptions);
+        addSubmitButton(fileSelections, fileField, savedFileOptions);
         return fileSelections;
     }
 
-    private HBox initializeDropDown(Pos position, ComboBox<String> fileOptions) {
-        HBox loadSavedFile = new HBox(SPACING);
-        Text loadSavedFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadSavedGame"));
-        ObservableList<String> obList = FXCollections.observableList(getFileNamesForDropDown());
-        fileOptions.setItems(obList);
-        fileOptions.setId("fileOptions");
-        fileOptions.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame"));
-        loadSavedFile.getChildren().addAll(loadSavedFileLabel, fileOptions);
-        loadSavedFile.setAlignment(position);
-        return loadSavedFile;
+    private void addSubmitButton(VBox fileSelections, GameTextFieldContainer fileField, GameDropDown savedFileOptions) {
+        String buttonName = startScreenData.getJSONObject("Text").getJSONObject("ButtonText").getString("Submit");
+        Button submit = new GameButton().createGameButton(buttonName);
+        submit.setOnAction(e -> {
+            try {
+                if (fileField.isNotEmpty()) {
+                    new GameSetupOptions(myStage, fileField.getText());
+                } else if (savedFileOptions.isNotEmpty()) {
+                    new GameSetupOptions(myStage, savedFileOptions.getValue());
+                }
+            } catch (FileNotFoundException ex) {
+                new ErrorAlerts(startScreenData.getJSONArray("AlertInfo"));
+            }
+        });
+        fileSelections.getChildren().add(submit);
+    }
+
+    private void addFileFieldAndDropDown(VBox fileSelections, GameTextFieldContainer fileField, GameDropDown savedFileOptions) {
+        String label = startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadGame");
+        String prompt = startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadGame");
+        HBox loadFile = fileField.createTextFieldContainer(label, prompt);
+
+        String dropDownLabel = startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadSavedGame");
+        String dropDownPrompt = startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadSavedGame");
+        HBox loadSavedFile = savedFileOptions.createDropDownContainer(loadFile.getAlignment(), getFileNamesForDropDown(),dropDownPrompt, dropDownLabel);
+
+        fileSelections.getChildren().addAll(loadFile,loadSavedFile);
     }
 
     private List<String> getFileNamesForDropDown(){
         List<String> fileNames = new ArrayList<>();
         File folder = new File(GAME_FILES);
-        for (File f : folder.listFiles()) {
+        for (File f : Objects.requireNonNull(folder.listFiles())) {
             String name = f.getName();
             if(name.substring(name.length() - FILE_TYPE.length()).equals(FILE_TYPE)){
                 fileNames.add(name);
             }
         }
         return fileNames;
-    }
-
-    private HBox initializeTextField(TextField fileField) {
-        HBox loadFile = new HBox(SPACING);
-        Text loadFileLabel = new Text(startScreenData.getJSONObject("Text").getJSONObject("LabelText").getString("LoadGame"));
-        fileField.setPromptText(startScreenData.getJSONObject("Text").getJSONObject("FieldText").getString("LoadGame"));
-        fileField.setId("fileField");
-        loadFile.getChildren().addAll(loadFileLabel, fileField);
-        loadFile.setAlignment(Pos.CENTER);
-        return loadFile;
     }
 
     private VBox createGameOptionHolder(int width, int height){
@@ -167,7 +132,6 @@ public class StartView {
         fileOptions.setAlignment(Pos.CENTER);
         container.getChildren().addAll(defaultOptions, fileOptions);
         return container;
-
     }
 
     private GridPane defaultGameOptionHolder(int width, int height){
@@ -226,20 +190,13 @@ public class StartView {
     }
 
     private Button createGameNameButton(JSONObject game, double sizeConstraint) {
-        Button gameButton = new Button(game.getString("GameLabel"));
-        gameButton.setId(gameButton.getText());
-        gameButton.getStyleClass().add("gameButton");
+        Button gameButton = new GameButton().createGameButton(game.getString("GameLabel"), sizeConstraint);
         gameButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(BUTTON_FONT_FACTOR * sizeConstraint)));
-        gameButton.setId(gameButton.getText());
         gameButton.setOnAction(e -> {
             try {
                 new GameSetupOptions(myStage, game.getString("DefaultFile"));
             } catch (FileNotFoundException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Could not find default file for selected game!");
-                alert.setContentText("Please select another game or enter JSON file name below.");
-                alert.showAndWait();
+                new ErrorAlerts(startScreenData.getJSONArray("AlertInfo"));
             }
         });
         return gameButton;
@@ -252,4 +209,5 @@ public class StartView {
         gameIcon.setPreserveRatio(true);
         return gameIcon;
     }
+
 }

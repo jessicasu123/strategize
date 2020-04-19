@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -28,7 +29,7 @@ public class EndPopUp extends GamePopUp{
     public static final int SPACING = 40;
     public static final String IMG_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/";
 
-    public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) {
+    public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) throws FileNotFoundException {
         super(stage, width, height, fileName, buttonManager);
 
         popUpWidth = 300;

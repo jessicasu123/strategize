@@ -4,8 +4,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.view.components.ErrorAlerts;
+import ooga.view.components.GameScene;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.ParseException;
@@ -56,7 +59,6 @@ public class GameView {
     private int userWinCount;
     private int opponentWinCount;
     private int myUserID;
-    private int myAgentID;
     private GameButtonManager gameButtonManager;
 
     /**
@@ -70,7 +72,7 @@ public class GameView {
         myController = c;
         gameInProgress = true;
         myUserID = myController.getUserStateInfo().get(STATE_ID_POS);
-        myAgentID = myController.getAgentStateInfo().get(STATE_ID_POS);
+        int myAgentID = myController.getAgentStateInfo().get(STATE_ID_POS);
         String userImage = myController.getStateImageMapping().get(myUserID);
         String agentImage = myController.getStateImageMapping().get(myAgentID);
         gameButtonManager = new GameButtonManager();
@@ -85,7 +87,7 @@ public class GameView {
         try {
             initializePopUps(userImage, agentImage, boardColor);
         } catch (FileNotFoundException e) {
-            System.out.println("file not found");
+            new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }
 
@@ -107,7 +109,7 @@ public class GameView {
             int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }
 
@@ -118,7 +120,6 @@ public class GameView {
         rules = new RulesPopUp(myStage, WIDTH, HEIGHT, FILE_PATH + myController.getGameFileName(), gameButtonManager);
     }
 
-
     /**
      * Calls on this class to present its GUI to the screen
      */
@@ -128,40 +129,25 @@ public class GameView {
         myStage.show();
     }
 
-
     /**
      * creates the display by adding to root borderpane
      * @param width - the width of the screen to display
      * @param height - the height of the screen to display
      * @return startScene
      */
-    private Scene makeGameDisplay(int width, int height, String userImage,String agentImage ){
-        BorderPane root = new BorderPane();
-        root.setPadding(new Insets(SPACING, 0, SPACING,0));
-        root.setTop(statusPanel.createStatusPanel(userImage,agentImage));
-        setCenter(root);
-        setBottom(root);
-
-        Scene startScene = new Scene(root, width, height);
-        startScene.getStylesheets().add(STYLESHEET);
-        root.getStyleClass().add("root");
-        root.setMaxWidth(width);
-        return startScene;
-    }
-
-    private void setCenter(BorderPane root) {
-        root.setCenter(grid.getGridContainer());
+    private Scene makeGameDisplay(int width, int height, String userImage,String agentImage){
+        VBox gameDisplayElements = viewElements(userImage,agentImage);
         grid.updateBoardAppearance();
-    }
-
-    private void setBottom(BorderPane root) {
-        root.setBottom(navPanel.createNavigationBar());
         addActionsToButtons(gameButtonManager.getButtonActionsMap());
-//        Map<Button,String> navAndStatusButtonActions = navPanel.getButtonActionsMap();
-//        navAndStatusButtonActions.putAll(statusPanel.getButtonActions());
-//        addActionsToButtons(navAndStatusButtonActions);
+        return new GameScene().createScene(SPACING,width,height,gameDisplayElements);
     }
 
+    private VBox viewElements(String userImage,String agentImage ){
+        VBox elements = new VBox(SPACING);
+        elements.getChildren().addAll(statusPanel.createStatusPanel(userImage,agentImage),
+                grid.getGridContainer(),navPanel.createNavigationBar());
+        return elements;
+    }
 
     /**
      * Using reflection to add action handlers to the buttons created in NavigationPanel.
@@ -283,8 +269,12 @@ public class GameView {
             opponentWinCount += 1;
         }
         statusPanel.updateWinnerCounts(userWinCount, opponentWinCount);
-        gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus, gameButtonManager);
-        gameEnd.display();
-        addActionsToButtons(gameButtonManager.getButtonActionsMap());
+        try {
+            gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus, gameButtonManager);
+            gameEnd.display();
+            addActionsToButtons(gameButtonManager.getButtonActionsMap());
+        } catch (FileNotFoundException e) {
+            new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
+        }
     }
 }

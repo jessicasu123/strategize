@@ -121,7 +121,7 @@ public class StatusPanel {
 
     /**
      * @param key - key object to get icon value
-     * @return Button with desired properties
+     * @return GameButton with desired properties
      */
     private ImageView setUpGameIcon(String key) {
         Image img = new Image(PIECES_RESOURCES + (key));
@@ -134,7 +134,7 @@ public class StatusPanel {
     /**
      * @param game - JSON object containing icons
      * @param key - key object to get icon value
-     * @return Button with desired properties
+     * @return GameButton with desired properties
      */
         private Button setUpGameIconButton(JSONObject game, String key) {
         String[] buttonInfo = game.getString(key).split(",");
