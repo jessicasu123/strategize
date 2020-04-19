@@ -49,12 +49,7 @@ public class Board implements BoardFramework{
     public boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
         //check that list of moves is EMPTY for every piece with playerID
         Map<Coordinate, List<Coordinate>> allMoves = getAllLegalMoves(playerStates);
-        for (List<Coordinate> coords: allMoves.values()) {
-            if (coords.size() > 0) {
-                return false;
-            }
-        }
-        return true;
+        return allMoves.size()==0;
     }
 
     private void createBoardFromStartingConfig() {

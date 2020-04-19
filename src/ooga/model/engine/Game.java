@@ -16,6 +16,8 @@ public class Game implements GameFramework{
     private String playerPass;
     private List<Integer> myUserStates;
     private List<Integer> myAgentStates;
+    private boolean noMovesForUser;
+    private boolean noMovesForAgent;
 
 
 
@@ -30,16 +32,12 @@ public class Game implements GameFramework{
         myAgent = gameType.createAgent();
         playerPass = "";
         myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
-
+        noMovesForUser = false;
+        noMovesForAgent = false;
     }
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
-        boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserStates);
-        boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentStates);
-        if (noMovesForUser) playerPass = "user";
-        if (noMovesForAgent) playerPass = "agent";
-
         if(isUserTurn && ! noMovesForUser){
             makeUserMove(moveCoordinates);
         }
@@ -49,7 +47,11 @@ public class Game implements GameFramework{
         if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
-        //TODO: update empty moves check again 
+        //TODO: update empty moves check again
+        noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserStates);
+        noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentStates);
+        if (noMovesForUser) playerPass = "user";
+        if (noMovesForAgent) playerPass = "agent";
     }
 
     public String whichPlayerPassed() { return playerPass; }
