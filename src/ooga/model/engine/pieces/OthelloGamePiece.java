@@ -87,13 +87,11 @@ public class OthelloGamePiece extends GamePiece {
     }
 
     private boolean checkHorizontalAdjOpponentPieces() {
-        //TODO: sort horizRight
         Collections.sort(horizLeftNeighbors, (n1, n2)->n2.getPosition().getYCoord() - n1.getPosition().getYCoord());
         return checkSubNeighborhood(horizLeftNeighbors, horizRightNeighbors);
     }
 
     private boolean checkVerticalAdjOpponentPieces() {
-        //TODO: sort vertBottom
         Collections.sort(vertTopNeighbors, (n1,n2)->n2.getPosition().getXCoord() - n1.getPosition().getXCoord());
         return checkSubNeighborhood(vertTopNeighbors, vertBottomNeighbors);
     }
@@ -124,7 +122,6 @@ public class OthelloGamePiece extends GamePiece {
 
 
     private boolean checkDiagonalAdjOpponentPieces() {
-        //TODO: sort rightDiagNext & leftDiagNext
         Collections.sort(rightDiagPrevNeighbors, (n1, n2) -> n2.getPosition().getXCoord() - n1.getPosition().getXCoord()); //biggest x coord first
         Collections.sort(leftDiagPrevNeighbors, (n1,n2) -> n1.getPosition().getYCoord() - n2.getPosition().getYCoord()); //smallest y coord first
         boolean rightDiagHasValid = checkSubNeighborhood(rightDiagPrevNeighbors, rightDiagNextNeighbors);

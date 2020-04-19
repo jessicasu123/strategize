@@ -1,27 +1,25 @@
 package ooga.view;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.engine.InvalidGameTypeException;
+import ooga.view.components.ErrorAlerts;
+import ooga.view.components.GameButton;
+import ooga.view.components.GameDropDown;
+import ooga.view.components.GameScene;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -38,8 +36,6 @@ public class GameSetupOptions {
     public static final String DEFAULT_FILE_RESOURCES = "src/resources/gameFiles/";
     public static final String DATAFILE = "src/resources/GameSetupOptions.json";
     public static final String PIECE_ICON_RESOURCES = "resources/images/pieces/";
-    public static final String STYLESHEET = "resources/style.css";
-    public static final double BUTTON_FONT_FACTOR = 0.125;
     private Stage myStage;
     private JSONObject gameFileData;
     private String gameFileName;
@@ -76,24 +72,9 @@ public class GameSetupOptions {
     }
 
     private Scene makeSetupDisplay(){
-        BorderPane root = new BorderPane();
-        root.setPadding(new Insets(SPACING, 0, SPACING,0));
-        Scene setupScene = new Scene(root, WIDTH, HEIGHT);
-        setupScene.getStylesheets().add(STYLESHEET);
-        root.getStyleClass().add("root");
-
-        root.setTop(addTitle());
-        root.setCenter(createGameSetupHolder(WIDTH, HEIGHT));
-        root.setMaxWidth(GameSetupOptions.WIDTH);
-        return setupScene;
-    }
-
-    private Text addTitle(){
-        String titleText = setupData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
-        Text title = new Text(titleText.toUpperCase());
-        title.getStyleClass().add("title");
-        BorderPane.setAlignment(title, Pos.CENTER);
-        return title;
+        VBox gameSetUp = createGameSetupHolder(WIDTH, HEIGHT);
+        String title = setupData.getJSONObject("Text").getJSONObject("LabelText").getString("Title");
+        return new GameScene().createScene(SPACING,WIDTH,HEIGHT,gameSetUp,title);
     }
 
     private VBox createGameSetupHolder(int width, int height) {
@@ -158,10 +139,10 @@ public class GameSetupOptions {
         return playerOptions;
     }
 
-
     private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
-        Image playerImage = new Image(PIECE_ICON_RESOURCES + gameFileData.getJSONObject(player).getString("Image"), iconSize, iconSize, true, true);
+        String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0);
+        Image playerImage = new Image(PIECE_ICON_RESOURCES + imageName, iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player);
         playerButton.setGraphic(new ImageView(playerImage));
         playerButton.setToggleGroup(group);
@@ -171,33 +152,25 @@ public class GameSetupOptions {
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
         // TODO for future feature: add defaults permissible values for board dimensions from JSON
-        HBox boardOptions = new HBox(SPACING);
-        Text loadDimensionsLabel = new Text(labelText.getString("BoardSizeText"));
-        loadDimensionsLabel.setId("SelectBoardText");
-        ObservableList<String> dimensionList = FXCollections.observableList(new ArrayList<>());
-        ComboBox<String> boardDropdown = new ComboBox(dimensionList);
-        boardDropdown.setPromptText(labelText.getString("BoardDropdown"));
-        boardDropdown.setId("boardDropdown");
-        boardOptions.getChildren().addAll(loadDimensionsLabel, boardDropdown);
-        boardOptions.setAlignment(position);
-        return boardOptions;
+        String prompt = labelText.getString("BoardDropdown");
+        String label = labelText.getString("BoardSizeText");
+        return new GameDropDown().createDropDownContainer(position,new ArrayList<>(), prompt, label);
     }
 
     private Button creatStartButton() {
-        Button start = new Button(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
+        Button start = new GameButton().createGameButton(setupData.getJSONObject("Text").getJSONObject("ButtonText").getString("Start"));
         start.setOnAction(e -> {
-                    try {
-                        Controller c = new Controller(gameFileName, userPlayerID, opponent);
-                        new GameView(myStage, c);
-
-                    } catch (IOException | org.json.simple.parser.ParseException | InvalidGameTypeException ex) {
-                        //TODO: figure out what to do with this exception
-                        System.out.println(ex.getMessage());
-                    }
-                }
-        );
-        start.getStyleClass().add("gameButton");
-        start.setId("Start");
+            try {
+                Controller c = new Controller(gameFileName, userPlayerID, opponent);
+                new GameView(myStage, c);
+            } catch (IOException | org.json.simple.parser.ParseException ex) {
+                new ErrorAlerts(setupData.getJSONArray("AlertInfo"));
+                new StartView(myStage).displayToStage(WIDTH,HEIGHT);
+            }catch(InvalidGameTypeException ex){
+                new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
+                new StartView(myStage).displayToStage(WIDTH,HEIGHT);
+            }
+        });
         return start;
     }
 

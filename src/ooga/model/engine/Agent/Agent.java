@@ -1,6 +1,5 @@
 package ooga.model.engine.Agent;
 
-
 import java.util.List;
 
 /**

@@ -16,19 +16,15 @@
   },
 
   "Player1": {
-    "State" : "1",
-    "SpecialState": "-1",
-    "Color": "Black",
-    "Image": "X.png",
-    "SpecialStateImage": ""
+    "States": [1],
+    "Images": ["X.png"],
+    "Color": "Black"
   },
 
   "Player2": {
-    "State": "2",
-    "SpecialState": "-1",
-    "Color": "Black",
-    "Image": "O.png",
-    "SpecialStateImage": ""
+    "States": [2],
+    "Images": ["O.png"],
+    "Color": "Black"
   },
 
   "possibleMove": "",

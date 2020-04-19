@@ -8,7 +8,7 @@ public class CheckersAgent extends Agent {
     public static final int PAWN_VALUE = 3;
     public static final int KING_VALUE = 5;
     public static final int PAWN_POS_BONUS = 2;
-    public static final int PIECE_WEIGHT = 20;
+    public static final int PIECE_WEIGHT = 30;
     public static final int POSITION_WEIGHT = 7;
     public static final int DISTANCE_WEIGHT = 4;
     private int myMaxKingState;

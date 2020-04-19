@@ -32,8 +32,8 @@ class StartViewTest extends DukeApplicationTest {
         startScreen.displayToStage(500,500);
 
         submit = lookup("#Submit").query();
-        textBox = lookup("#fileField").query();
-        fileOptions = lookup("#fileOptions").query();
+        textBox = lookup("#EnterJSONfilename").query();
+        fileOptions = lookup("#Selectasavedfile").query();
         ticTacToe = lookup("#Tic-Tac-Toe").query();
         mancala = lookup("#Mancala").query();
         othello = lookup("#Othello").query();

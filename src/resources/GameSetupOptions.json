@@ -25,6 +25,7 @@
     "ButtonText": {
       "Start": "Start"
     }
-  }
+  },
+  "AlertInfo": ["Error", "File Not Formatted Correctly", "Please Select Another From the Game Center Screen"]
 
 }

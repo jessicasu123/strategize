@@ -25,6 +25,7 @@
     "MakeMoveButton": {
       "MAKE MOVE": "makeMove"
     }
-  }
+  },
+  "AlertInfo": ["Error", "File Not Formatted Correctly", "Please Fix and Try Again"]
 
 }

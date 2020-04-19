@@ -6,7 +6,11 @@ import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.CheckersGamePiece;
 import ooga.model.engine.pieces.GamePiece;
 
+import java.util.List;
+
 public class CheckersFactory implements GameTypeFactory {
+    public static final int SPECIAL_STATE_INDEX = 1;
+    public static final int REGULAR_STATE_INDEX = 0;
     private final int myUserPawnState;
     private final int myUserKingState;
     private final int myAgentPawnState;
@@ -16,11 +20,12 @@ public class CheckersFactory implements GameTypeFactory {
     private final int myAgentDirection;
 
 
-    public CheckersFactory(int userPawn, int agentPawn, int userKing, int agentKing, boolean userPosDirection, int emptyState){
-        myUserPawnState = userPawn;
-        myAgentPawnState = agentPawn;
-        myUserKingState = userKing;
-        myAgentKingState = agentKing;
+    public CheckersFactory(List<Integer> userStates, List<Integer> agentStates, boolean userPosDirection, int emptyState){
+
+        myUserPawnState = userStates.get(REGULAR_STATE_INDEX);
+        myAgentPawnState = agentStates.get(REGULAR_STATE_INDEX);
+        myUserKingState = userStates.get(SPECIAL_STATE_INDEX);
+        myAgentKingState = agentStates.get(SPECIAL_STATE_INDEX);
         if(userPosDirection){
             myUserDirection = 1;
         }else{

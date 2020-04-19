@@ -37,4 +37,18 @@ public interface FileHandler {
     public String getGameType() throws IOException;
     public List<String> getNeighborhood() throws IOException;
 
+    /**
+     *
+     * @param i - the player whose info are looking for
+     * @return list of all of the states for that player
+     */
+    public List<Integer> getPlayerStateInfo(int i);
+
+    /**
+     *
+     * @param i - the player whose info are looking for
+     * @return a map that maps each state to the image to represent it
+     */
+    public Map<Integer, String> getStateImageMapping(int i);
+
 }

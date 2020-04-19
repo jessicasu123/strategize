@@ -48,16 +48,15 @@ public abstract class GamePopUp {
         popUpFile = DEFAULT_RESOURCES + fileName;
 
         popUpGameButtonManager = gameButtonManager;
-
     }
 
-    protected void setUpJSONReader()  {
-        FileReader br = null;
-        try {
-            br = new FileReader(popUpFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("MISSING CUSTOMIZATION JSON FILE:" + popUpFile);
-        }
+    /**
+     * Sets up a JSONObject to be able to read data relevant
+     * to the pop-up screen (ex. names of buttons, labels, etc.)
+     * @throws FileNotFoundException
+     */
+    protected void setUpJSONReader() throws FileNotFoundException {
+        FileReader br = new FileReader(popUpFile);
         JSONTokener token = new JSONTokener(br);
         popUpScreenData = new JSONObject(token);
     }

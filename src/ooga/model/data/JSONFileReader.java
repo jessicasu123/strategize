@@ -1,6 +1,5 @@
 package ooga.model.data;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,14 +32,20 @@ public class JSONFileReader implements FileHandler {
     private JSONObject player2_1;
     private JSONObject player1;
     private JSONObject player2;
+    private JSONObject emptystate;
+    private JSONObject pieceMove;
+    private JSONObject player1PosDirection;
+    private JSONObject possibleMove;
+    private JSONObject Rules;
     public static final String DEFAULT_RESOURCES = "src/resources/gameFiles/";
     private org.json.JSONObject gameData;
     private String neighbString;
     List<String> neighborhoodlist;
 
-    public JSONFileReader(String file) throws FileNotFoundException {
+    public JSONFileReader(String file) throws IOException {
         gameFileName = file;
         gameProperties = new HashMap<>();
+        createJSONArray();
     }
 
     /**
@@ -73,27 +78,43 @@ public class JSONFileReader implements FileHandler {
     }
 
     /**
+     * @param i - the player whose info are looking for
+     * @return the states of that player
+     */
+    public List<Integer> getPlayerStateInfo(int i){
+        JSONObject player = gameData.getJSONObject("Player" + i);
+        JSONArray stateInfo = player.getJSONArray("States");
+        List<Integer> playerStateInfo = new ArrayList<>();
+        for(int j = 0; j < stateInfo.length(); j++){
+            playerStateInfo.add(stateInfo.getInt(j));
+        }
+        return Collections.unmodifiableList(playerStateInfo);
+    }
+
+    /**
+     *
+     * @param i - the player whose info are looking for
+     * @return a map for the player where each state is mapped to the file name for the image
+     */
+    public Map<Integer, String> getStateImageMapping(int i){
+        List<Integer> states = getPlayerStateInfo(i);
+        Map<Integer, String> stateImageMapping = new HashMap<>();
+        JSONArray imageInfo = gameData.getJSONObject("Player" + i).getJSONArray("Images");
+        for(int j = 0; j < imageInfo.length(); j++){
+            stateImageMapping.put(states.get(j), imageInfo.getString(j));
+        }
+        return stateImageMapping;
+    }
+    /**
      * adds mapped pairs of properties from the JSON File to the gameproperties hashmap
      */
-    //TODO special state images
-    private void getGamePropertyNested() throws IOException {
-        gameProperties.put("State1",gameData.getJSONObject("Player1").getString("State"));
-        gameProperties.put("SpecialState1",gameData.getJSONObject("Player1").getString("SpecialState"));
+    private void getGamePropertyNested() {
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
-        gameProperties.put("Image1",gameData.getJSONObject("Player1").getString("Image"));
-        gameProperties.put("SpecialImage1",gameData.getJSONObject("Player1").getString("SpecialStateImage"));
-
-        gameProperties.put("State2",gameData.getJSONObject("Player2").getString("State"));
-        gameProperties.put("SpecialState2",gameData.getJSONObject("Player2").getString("SpecialState"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
-        gameProperties.put("Image2",gameData.getJSONObject("Player2").getString("Image"));
-        gameProperties.put("SpecialImage2",gameData.getJSONObject("Player2").getString("SpecialStateImage"));
-
         gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
         gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
         gameProperties.put("Player1Direction", gameData.getString("Player1PosDirection"));
         gameProperties.put("EmptyState", gameData.getString("EmptyState"));
-
     }
 
     /**
@@ -125,8 +146,7 @@ public class JSONFileReader implements FileHandler {
      * @return neighborhood in string form
      */
 
-    public List<String> getNeighborhood() throws IOException {
-        createJSONArray();
+    public List<String> getNeighborhood(){
         neighborhoodlist = new ArrayList<>();
         neighbString = gameData.getString("Neighborhood");
         if (neighbString.length()==0) return neighborhoodlist;
@@ -160,6 +180,9 @@ public class JSONFileReader implements FileHandler {
         createJSONArray();
         gameProperties.put("Gametype", gameData.getString("Gametype"));
         gameProperties.put("Neighborhood", gameData.getString("Neighborhood"));
+        gameProperties.put("EmptyState",gameData.getString("EmptyState"));
+        gameProperties.put("PiecesMove",gameData.getString("PiecesMove"));
+        gameProperties.put("Player1PosDirection",gameData.getString("Player1PosDirection"));
         gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
         gameProperties.put("possibleMove", gameData.getString("possibleMove"));
         getGamePropertyNested();
@@ -171,21 +194,33 @@ public class JSONFileReader implements FileHandler {
      * @param fileName - the name of the JSON File
      * @param configurationInfo - a 2-D list of the current game view configuration
      */
+
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
         fileArray = new JSONArray();
         GameType = new JSONObject();
         neighborhood = new JSONObject();
+        emptystate = new JSONObject();
+        pieceMove = new JSONObject();
+        player1PosDirection = new JSONObject();
         board2 = new JSONObject();
         board = new JSONObject();
         player1_1 = new JSONObject();
         player2_1 = new JSONObject();
         player1 = new JSONObject();
         player2 = new JSONObject();
+        possibleMove = new JSONObject();
+        Rules = new JSONObject();
 
         GameType.put("GameType", properties.get("GameType"));
 
         neighborhood.put("Neighborhood",properties.get("Neighborhood"));
+
+        emptystate.put("EmptyState",properties.get("EmptyState"));
+
+        pieceMove.put("PiecesMove",properties.get("PiecesMove"));
+
+        player1PosDirection.put("Player1PosDirection",properties.get("Player1PosDirection"));
 
         board2.put("Width", properties.get("Width"));
         board2.put("Height", properties.get("Height"));
@@ -193,20 +228,28 @@ public class JSONFileReader implements FileHandler {
         board.put("Board", board2);
 
         player1_1.put("State", properties.get("State"));
-        player1_1.put("Color", properties.get("Color"));
         player1_1.put("Image", properties.get("Image"));
+        player1_1.put("StartingPieces",properties.get("StartingPieces"));
+        player1_1.put("Color", properties.get("Color"));
         player1.put("Player1", player1_1);
 
         player2_1.put("State", properties.get("State"));
-        player2_1.put("Color", properties.get("Color"));
         player2_1.put("Image", properties.get("Image"));
+        player2_1.put("StartingPieces",properties.get("StartingPieces"));
+        player2_1.put("Color", properties.get("Color"));
         player2.put("Player2", player2_1);
+
+        possibleMove.put("possibleMove", properties.get("possibleMove"));
 
         fileArray.put(GameType);
         fileArray.put(neighborhood);
         fileArray.put(board);
         fileArray.put(player1);
         fileArray.put(player2);
+        fileArray.put(emptystate);
+        fileArray.put(pieceMove);
+        fileArray.put(player1PosDirection);
+        fileArray.put(possibleMove);
 
         try (FileWriter file = new FileWriter(fileName)) {
 

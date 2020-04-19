@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TicTacToeAgentTest {
-    private TicTacToeAgent myTicTacToeAgent = new TicTacToeAgent(1,2,3);
+    private TicTacToeAgent myTicTacToeAgent = new TicTacToeAgent(1,2,3, 0);
     private boolean noMovesLeft = false;
     @Test
     void testEvaluateCurrentGameState() {

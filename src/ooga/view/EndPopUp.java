@@ -4,16 +4,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -31,7 +29,7 @@ public class EndPopUp extends GamePopUp{
     public static final int SPACING = 40;
     public static final String IMG_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/";
 
-    public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) {
+    public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) throws FileNotFoundException {
         super(stage, width, height, fileName, buttonManager);
 
         popUpWidth = width/2;
@@ -64,10 +62,14 @@ public class EndPopUp extends GamePopUp{
         endMessaging.setSpacing(SPACING/2.0);
         JSONObject labelText = popUpScreenData.getJSONObject("Labels");
         Text messageText = new Text(labelText.getString(winStatus+"Text"));
-        // TODO: add styling, potentially change background color here
         Text messageSubtext = new Text(labelText.getString(winStatus+"Subtext"));
         Image messageImg = new Image(IMG_RESOURCES + popUpScreenData.getJSONObject("Images").getString(winStatus+"Image"), popUpWidth/3.0, 0, true, true);
         ImageView displayImg = new ImageView(messageImg);
+
+        messageText.setId(winStatus+"Text");
+        messageSubtext.setId(winStatus+"Subtext");
+        displayImg.setId(winStatus+"Image");
+
         endMessaging.getChildren().addAll(messageText, messageSubtext, displayImg);
         endMessaging.setAlignment(Pos.CENTER);
 

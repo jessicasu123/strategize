@@ -1,11 +1,16 @@
 package ooga.model.engine.GameTypeFactory;
 
 import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Agent.MancalaAgent;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
 import ooga.model.engine.pieces.MancalaGamePiece;
 
+import java.util.List;
+
 public class MancalaFactory implements GameTypeFactory{
+    public static final int SPECIAL_STATE_INDEX = 1;
+    public static final int REGULAR_STATE_INDEX = 0;
     private final int myUserPlayer;
     private final int myAgentPlayer;
     private final int myUserGoal;
@@ -14,13 +19,15 @@ public class MancalaFactory implements GameTypeFactory{
     private final int myUserDirection;
     private final int myAgentDirection;
     private final int myMarbles;
+    private Coordinate userGoalPosition;
+    private Coordinate agentGoalPosition;
 
-    public MancalaFactory(int userPlayer, int agentPlayer, int userGoal, int agentGoal, boolean userPosDirection,
-                          int emptyState, int numMarbles){
-        myUserPlayer = userPlayer;
-        myAgentPlayer = agentPlayer;
-        myUserGoal = userGoal;
-        myAgentGoal = agentGoal;
+    public MancalaFactory(List<Integer> userStates, List<Integer> agentStates, boolean userPosDirection, int emptyState,
+                          int numMarbles){
+        myUserPlayer = userStates.get(REGULAR_STATE_INDEX);
+        myAgentPlayer = agentStates.get(REGULAR_STATE_INDEX);
+        myUserGoal = userStates.get(SPECIAL_STATE_INDEX);
+        myAgentGoal = agentStates.get(SPECIAL_STATE_INDEX);
         if(userPosDirection){
             myUserDirection = 1;
         }else{
@@ -40,8 +47,10 @@ public class MancalaFactory implements GameTypeFactory{
         }
 
         if(status == myUserPlayer || status == myUserGoal){
+            userGoalPosition = position;
             return new MancalaGamePiece(status,myUserGoal,myAgentGoal,myUserDirection, numMarbles, myEmptyState, position);
         }else if(status == myAgentPlayer || status == myAgentGoal){
+            agentGoalPosition = position;
             return new MancalaGamePiece(status,myAgentGoal,myUserGoal,myAgentDirection, numMarbles, myEmptyState, position);
         }else{
             return new MancalaGamePiece(status,myEmptyState,myEmptyState,myEmptyState, myEmptyState, myEmptyState, position);
@@ -51,6 +60,6 @@ public class MancalaFactory implements GameTypeFactory{
     @Override
     //TODO: create agent
     public Agent createAgent() {
-        return null;
+        return new MancalaAgent(myAgentPlayer, myUserPlayer, agentGoalPosition, userGoalPosition);
     }
 }

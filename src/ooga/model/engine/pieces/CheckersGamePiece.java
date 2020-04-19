@@ -1,7 +1,5 @@
 package ooga.model.engine.pieces;
-
 import ooga.model.engine.Coordinate;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +13,13 @@ import java.util.List;
 public class CheckersGamePiece extends GamePiece {
 
     public static final int JUMP_SIZE = 2;
-    // direction -> positive = moving towards bottom of board, negative = moving towards top of board
+    public static final int OPP_DIRECTION = -1;
+    //positive direction moves towards bottom of board
     private int myDirection;
     private final int myPawnState;
     private final int myKingState;
     private final int myEmptyState;
     private boolean isKing;
-
 
     /**
      * Creates a Checkers Game Piece
@@ -44,11 +42,9 @@ public class CheckersGamePiece extends GamePiece {
      * METHOD PURPOSE:
      *  - based on the Checkers rules it gets all of the possible moves
      *      - Can only move to empty squares on adjacent diagonal in forward direction
-     *      (unless king and can move in forward and backwards direction)
      *      -if there is an opponents piece in adjacent diagonal and an empty space in the following adjacent diagonal
      *      can jump over and capture opponents piece, can have as many jumps as the board position allows
-     *  - this acts to validate the move made by a user
-     *  - and it helps the AI agent know what its options are
+     *      -kings can move in both directions
      * @param neighbors - the neighbors of the Game Piece as determined by the Board, for checkers it will be
      *                  diagonal neighbors
      * @return a list of end coordinates that this piece can move to, this includes either a step to an adjacent diagonal
@@ -86,29 +82,40 @@ public class CheckersGamePiece extends GamePiece {
 
     //TODO: get diagonals of where land
     private void calculateIfLegalJump(List<GamePiece> neighbors, List<Coordinate> possibleMoves, GamePiece neighbor) {
-        int jumpDirection = yDifference(neighbor.getPosition());
+        int jumpDirection = calculatePosOrNegJumpDirection(neighbor.getPosition());
         for (GamePiece endOfPossibleJump : neighbors) {
-            if(checkJumpConditions(endOfPossibleJump, neighbor, jumpDirection) && !possibleMoves.contains(endOfPossibleJump.getPosition())){
-                possibleMoves.add(endOfPossibleJump.getPosition());
-                CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState, myEmptyState, myDirection, endOfPossibleJump.getPosition());
+            Coordinate endCoord = endOfPossibleJump.getPosition();
+            if(checkJumpConditions(endOfPossibleJump, neighbor, jumpDirection) && !possibleMoves.contains(endCoord)){
+                possibleMoves.add(endCoord);
+                CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState,
+                        myEmptyState, myDirection, endCoord);
                 jumpResult.calculateAllPossibleJumps(neighbors, possibleMoves);
             }
         }
     }
 
     private boolean checkJumpConditions(GamePiece endOfPossibleJump, GamePiece neighbor, int jumpDirection){
-        return checkYJumpConditions(endOfPossibleJump, neighbor, jumpDirection) &&
-                checkXJumpConditions(endOfPossibleJump, neighbor) &&
-                endOfPossibleJump.getState() == 0;
+        Coordinate endPos = endOfPossibleJump.getPosition();
+        Coordinate neighborPos = neighbor.getPosition();
+        return checkYJumpConditions(endPos, neighborPos, jumpDirection) && checkXJumpConditions(endPos, neighborPos) &&
+                endOfPossibleJump.getState() == myEmptyState;
 
     }
-    private boolean checkXJumpConditions(GamePiece endOfPossibleJump, GamePiece neighbor){
-        return  endOfPossibleJump.getPosition().getXCoord() == neighbor.getPosition().getXCoord() + myDirection ||
-                isKing && endOfPossibleJump.getPosition().getXCoord() == neighbor.getPosition().getXCoord() + (myDirection * -1);
+    private boolean checkXJumpConditions(Coordinate endOfPossibleJump, Coordinate neighbor){
+        int endXCoord = endOfPossibleJump.getXCoord();
+        int neighborXCoord = neighbor.getXCoord();
+        return calculateIfValidJump(endXCoord, neighborXCoord, myDirection) || (isKing &&
+                calculateIfValidJump(endXCoord, neighborXCoord, myDirection * OPP_DIRECTION));
     }
-    private boolean checkYJumpConditions(GamePiece endOfPossibleJump, GamePiece neighbor, int jumpDirection){
-       return endOfPossibleJump.getPosition().getYCoord() == neighbor.getPosition().getYCoord() + jumpDirection ;
+    private boolean checkYJumpConditions(Coordinate endOfPossibleJump, Coordinate neighbor, int jumpDirection){
+        int endYCoord = endOfPossibleJump.getYCoord();
+        int neighborYCoord = neighbor.getYCoord();
+        return calculateIfValidJump(endYCoord, neighborYCoord, jumpDirection);
     }
+    private boolean calculateIfValidJump(int endCoord, int neighborCoord, int direction){
+        return endCoord == neighborCoord + direction;
+    }
+
     private boolean checkIfOpponentPiece(GamePiece neighbor) {
         return neighbor.getState() != myPawnState && neighbor.getState() != myEmptyState && neighbor.getState() != myKingState;
     }
@@ -116,51 +123,30 @@ public class CheckersGamePiece extends GamePiece {
     /**
      * This method makes a "move": it changes the state and/or position of this game piece and potentially
      *  its neighbors state if they are captured and will switch positions with the cell it is moving to
-     * @param endCoordinateInfo - the coordinate of where this piece will move to
+     *  The moves are validated by the board, so it assumes that the move it is making is a legal move (jump or step to
+     *  appropriate spot)
+     * @param endCoordInfo - the coordinate of where this piece will move to
      * @param neighbors - the neighbors of this game piece which may be affected by the movement of this piece (ex:
      *                  a piece being captured)
      */
     @Override
-    public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
+    public void makeMove(Coordinate endCoordInfo, List<GamePiece> neighbors, int playerState) {
 
         Coordinate oldPosition = new Coordinate(this.getXCoordinate(), this.getYCoordinate());
-        if (isAdjacentDiagonal(endCoordinateInfo)) {
-            this.move(endCoordinateInfo);
+        if (isAdjacentDiagonal(endCoordInfo)) {
+            this.move(endCoordInfo);
         } else {
-            makeJumpMove(endCoordinateInfo, neighbors);
+            makeJumpMove(endCoordInfo, neighbors);
         }
         int endDiagonalLoc = findKingPromotionRow(neighbors);
-        if (endCoordinateInfo.getXCoord() == endDiagonalLoc) {
+        if (endCoordInfo.getXCoord() == endDiagonalLoc) {
             isKing = true;
             this.changeState(myKingState);
         }
-        switchMoveToLocationToCurrLocation(endCoordinateInfo, neighbors, oldPosition);
+        switchLocationOfSquareMoveTo(endCoordInfo, neighbors, oldPosition);
 
     }
 
-    private void switchMoveToLocationToCurrLocation(Coordinate endCoordinateInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
-        for(GamePiece neighbor: neighbors){
-            if(neighbor.getPosition().equals(endCoordinateInfo)){
-                neighbor.move(posSwitchTo);
-                break;
-            }
-        }
-    }
-
-    private void makeJumpMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors) {
-        int numJumps = Math.abs(this.getPosition().getXCoord() - endCoordinateInfo.getXCoord()) / JUMP_SIZE;
-        for(int i = 0; i < numJumps; i++){
-            for(GamePiece neighbor: neighbors){
-                if(isAdjacentDiagonal(neighbor.getPosition()) && isOnPathToEndCoord(neighbor.getPosition(), endCoordinateInfo)){
-                    neighbor.changeState(myEmptyState);
-                    jump(neighbor.getPosition());
-                    break;
-                }
-            }
-        }
-    }
-    
-    //TODO fix when becomes king at end of diagonal but not last row
     private int findKingPromotionRow(List<GamePiece> neighbors) {
         int endDiagonalLoc = 0;
         boolean initiated = false;
@@ -173,14 +159,37 @@ public class CheckersGamePiece extends GamePiece {
         return endDiagonalLoc;
     }
 
+    private void switchLocationOfSquareMoveTo(Coordinate endCoordInfo, List<GamePiece> neighbors, Coordinate posSwitchTo) {
+        for(GamePiece neighbor: neighbors){
+            if(neighbor.getPosition().equals(endCoordInfo)){
+                neighbor.move(posSwitchTo);
+                break;
+            }
+        }
+    }
+
+    private void makeJumpMove(Coordinate endCoordInfo, List<GamePiece> neighbors) {
+        int numJumps = Math.abs(this.getPosition().getXCoord() - endCoordInfo.getXCoord()) / JUMP_SIZE;
+        for(int i = 0; i < numJumps; i++){
+            for(GamePiece neighbor: neighbors){
+                Coordinate neighborPos = neighbor.getPosition();
+                if(isAdjacentDiagonal(neighborPos) && isOnPathToEndCoord(neighborPos, endCoordInfo)){
+                    neighbor.changeState(myEmptyState);
+                    jump(neighborPos);
+                    break;
+                }
+            }
+        }
+    }
+
     private boolean isOnPathToEndCoord(Coordinate compareTo, Coordinate goingTo){
         return isYDistanceShorter(compareTo, goingTo) && isXDistanceShorter(compareTo, goingTo);
     }
-
+    // y distance is independent of direction
     private boolean isYDistanceShorter(Coordinate compareTo, Coordinate goingTo){
         return Math.abs(compareTo.getYCoord() - goingTo.getYCoord()) <= Math.abs(this.getYCoordinate() - goingTo.getYCoord());
     }
-
+    // x distance depends on players direction
     private boolean isXDistanceShorter(Coordinate compareTo, Coordinate goingTo){
         if(isKing){
             return Math.abs(goingTo.getXCoord() - compareTo.getXCoord()) < Math.abs(goingTo.getXCoord() - this.getXCoordinate());
@@ -188,7 +197,7 @@ public class CheckersGamePiece extends GamePiece {
         return myDirection * (goingTo.getXCoord() - compareTo.getXCoord()) < myDirection * (goingTo.getXCoord() - this.getXCoordinate());
     }
 
-    private int yDifference(Coordinate compareTo){
+    private int calculatePosOrNegJumpDirection(Coordinate compareTo){
         return compareTo.getYCoord() - this.getYCoordinate();
     }
 
@@ -201,7 +210,7 @@ public class CheckersGamePiece extends GamePiece {
     //see if going over left or right
     private int findNewYCoordinateLocation(Coordinate jumpingOver) {
         int newYCoord = this.getYCoordinate();
-        if (yDifference(jumpingOver) > 0){
+        if (calculatePosOrNegJumpDirection(jumpingOver) > 0){
             newYCoord += JUMP_SIZE;
         }else{
             newYCoord -= JUMP_SIZE;
@@ -223,6 +232,20 @@ public class CheckersGamePiece extends GamePiece {
         return newXCoord;
     }
 
+    private boolean isAdjacentDiagonal(Coordinate neighbor){
+        int neighborXPos = neighbor.getXCoord();
+        int neighborYPos = neighbor.getYCoord();
+        return isYCoordinateNeighbor(neighborYPos) && (isXCoordinateNeighbor(neighborXPos, myDirection)
+                || isKing && isXCoordinateNeighbor (neighborXPos, myDirection * OPP_DIRECTION));
+    }
+
+    private boolean isXCoordinateNeighbor(int neighborXPos, int direction){
+        return neighborXPos == this.getXCoordinate() + direction;
+    }
+    private boolean isYCoordinateNeighbor(int neighborYPos) {
+        return neighborYPos + 1 == this.getYCoordinate() || neighborYPos - 1 == this.getYCoordinate();
+    }
+
     private int getXCoordinate(){
         return this.getPosition().getXCoord();
     }
@@ -230,18 +253,5 @@ public class CheckersGamePiece extends GamePiece {
     private int getYCoordinate(){
         return this.getPosition().getYCoord();
     }
-
-    private boolean isAdjacentDiagonal(Coordinate neighbor){
-        int neighborXPos = neighbor.getXCoord();
-        int neighborYPos = neighbor.getYCoord();
-
-        return isYCoordinateNeighbor(neighborYPos) && (neighborXPos == this.getXCoordinate() + (myDirection)
-                || isKing && neighborXPos == this.getXCoordinate() + (myDirection * -1));
-    }
-
-    private boolean isYCoordinateNeighbor(int neighborYPos) {
-        return neighborYPos + 1 == this.getYCoordinate() || neighborYPos - 1 == this.getYCoordinate();
-    }
-
 
 }

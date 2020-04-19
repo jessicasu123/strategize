@@ -8,16 +8,14 @@ import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Controller implements ControllerFramework {
     private GameFramework myGame;
     private GameTypeFactory gameType;
     private FileHandler myFileHandler;
-    private Boolean isPieceSelected;
+    private boolean isPieceSelected;
     private int pieceSelectedX;
     private int pieceSelectedY;
     private int squareSelectedX;
@@ -25,68 +23,76 @@ public class Controller implements ControllerFramework {
     private String gameFileName;
     private boolean userIsPlayer1;
     private boolean userTurn;
-    private PlayerInformationHolder myUserPlayerInformation;
-    private PlayerInformationHolder myAgentPlayerInformation;
-
-
+    private List<Integer> myUserPlayerInformation;
+    private List<Integer> myAgentPlayerInformation;
+    private Map<Integer, String> myStateToImageMapping;
 
     public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName);
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
+        myStateToImageMapping = new HashMap<>();
         isPieceSelected = false;
         setPlayerInformation();
         gameType = createGameTypeFactory();
         myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
                 myUserPlayerInformation, myAgentPlayerInformation, userIsPlayer1);
-
     }
 
     private GameTypeFactory createGameTypeFactory() throws IOException, ParseException, InvalidGameTypeException {
         String gameType = getStartingProperties().get("Gametype");
         int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
-
-        return new GameFactory().createGameType(gameType,myUserPlayerInformation, myAgentPlayerInformation, emptyState);
+        boolean playerPosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
+        return new GameFactory().createGameType(gameType,myUserPlayerInformation, myAgentPlayerInformation,
+                playerPosDirection, emptyState);
     }
 
-    private void setPlayerInformation() throws IOException, ParseException {
+    private void setPlayerInformation(){
         if (userIsPlayer1) {
-            myUserPlayerInformation = createPlayerInformationHolder(1);
-            myAgentPlayerInformation = createPlayerInformationHolder(2);
+            myUserPlayerInformation = createPlayerStateInformation(1);
+            myAgentPlayerInformation = createPlayerStateInformation(2);
         }
         else {
-            myUserPlayerInformation = createPlayerInformationHolder(2);
-            myAgentPlayerInformation = createPlayerInformationHolder(1);
+            myUserPlayerInformation = createPlayerStateInformation(2);
+            myAgentPlayerInformation = createPlayerStateInformation(1);
         }
     }
 
-    private PlayerInformationHolder createPlayerInformationHolder(int playerNum) throws IOException, ParseException {
-        int playerState = Integer.parseInt(getStartingProperties().get("State"+playerNum));
-        String playerImage = getStartingProperties().get("Image"+playerNum);
-        int specialPlayerID = Integer.parseInt(getStartingProperties().get("SpecialState" + playerNum));
-        String specialPlayerImage = getStartingProperties().get("SpecialImage"+playerNum);
-        boolean playerPosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
-        if(playerNum != 1){
-            playerPosDirection = !playerPosDirection;
+    private List<Integer> createPlayerStateInformation(int playerNum){
+        List<Integer> stateInfo = myFileHandler.getPlayerStateInfo(playerNum);
+        addPlayerStateImageInfoToMap(playerNum);
+        return Collections.unmodifiableList(stateInfo);
+    }
+
+    private void addPlayerStateImageInfoToMap(int playerNum){
+        Map<Integer, String> playerMapping = myFileHandler.getStateImageMapping(playerNum);
+        for(Map.Entry<Integer, String> entry: playerMapping.entrySet()){
+            myStateToImageMapping.put(entry.getKey(), entry.getValue());
         }
-        return new PlayerInformationHolder(playerState,specialPlayerID,playerImage,specialPlayerImage,playerPosDirection);
-
     }
 
-    public PlayerInformationHolder getUserInformation(){
-        return myUserPlayerInformation;
+    public Map<Integer, String> getStateImageMapping(){
+        return myStateToImageMapping;
     }
 
-    public PlayerInformationHolder getAgentInformation(){
-        return myAgentPlayerInformation;
+    public List<Integer> getUserStateInfo(){
+        return Collections.unmodifiableList(myUserPlayerInformation);
+    }
+
+    public List<Integer> getAgentStateInfo(){
+        return Collections.unmodifiableList(myAgentPlayerInformation);
     }
 
     public void restartGame() throws IOException, ParseException {
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(), myUserPlayerInformation,myAgentPlayerInformation, userIsPlayer1);
+        userTurn = userIsPlayer1;
+        isPieceSelected = false;
+        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
+                myUserPlayerInformation,myAgentPlayerInformation, userIsPlayer1);
     }
 
     public String playerPass() {return myGame.whichPlayerPassed();}
+
     public boolean userTurn(){
         return userTurn;
     }
@@ -96,7 +102,7 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
-    public void saveANewFile(String fileName, Map<String, String> startingProperties) throws IOException, ParseException {
+    public void saveANewFile(String fileName, Map<String, String> startingProperties){
         myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
     }
 

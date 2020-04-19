@@ -59,7 +59,7 @@ public class NavigationPanel {
     /**
      * @param buttonTexts - JSON object containing button text mappings
      * @param key - key object to get button text value
-     * @return Button with desired properties
+     * @return GameButton with desired properties
      */
     private Button createButton(JSONObject buttonTexts, String key) {
         Button button = new Button(key);

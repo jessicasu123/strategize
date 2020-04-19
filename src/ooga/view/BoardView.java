@@ -14,11 +14,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import ooga.model.engine.PlayerInformationHolder;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Responsible for creating the container that holds the visual
@@ -43,17 +44,27 @@ public class BoardView {
     private int lastPieceSelectedY;
     private boolean hasSelectPiece;
     private boolean hasSelectedSquare;
-    private PlayerInformationHolder myUser;
-    private PlayerInformationHolder myAgent;
+    public static final int STATE_ID_POS = 0;
+    private Map<Integer, Image> myStateToImageMapping;
+    private List<Integer> myUser;
+    private List<Integer> myAgent;
 
-    public BoardView(int width, int height, int rows, int cols, Controller c,
-                     PlayerInformationHolder user, PlayerInformationHolder agent) {
+    public BoardView(int width, int height, int rows, int cols, Controller c) {
         boardCells = new ArrayList<>();
         myController = c;
-        myUser = user;
-        myAgent = agent;
+        myStateToImageMapping = new HashMap<>();
+        initializeStateImageMapping();
+        myUser = myController.getUserStateInfo();
+        myAgent = myController.getAgentStateInfo();
         myBoard = makeGrid(width, height, rows, cols);
         initializeValuesBasedOnController();
+    }
+    private void initializeStateImageMapping(){
+        Map<Integer, String> stateToFileMapping = myController.getStateImageMapping();
+        for(Map.Entry<Integer, String> entry: stateToFileMapping.entrySet()){
+            Image img = new Image(PIECES_RESOURCES +  entry.getValue());
+            myStateToImageMapping.put(entry.getKey(), img);
+        }
     }
 
     private void initializeValuesBasedOnController(){
@@ -118,8 +129,10 @@ public class BoardView {
      * @param newBoardColor - the new color of the board
      */
     protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor){
-        myUser.setPlayerImage(newUserImage);
-        myAgent.setPlayerImage(newAgentImage);
+        Image userImg = new Image(PIECES_RESOURCES + newUserImage);
+        Image agentImg = new Image(PIECES_RESOURCES + newAgentImage);
+        myStateToImageMapping.replace(myUser.get(STATE_ID_POS), userImg);
+        myStateToImageMapping.replace(myAgent.get(STATE_ID_POS), agentImg);
         boardColor = newBoardColor;
         updateBoardAppearance();
     }
@@ -145,9 +158,9 @@ public class BoardView {
     private Image findImageForSquare(List<List<Integer>> gameStates) {
         Image img;
         if(hasSelectPiece){
-            img = findPlayerImage(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY),myUser);
+            img = myStateToImageMapping.get(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY));
         }else{
-            img = new Image(PIECES_RESOURCES + myUser.getPlayerImage());
+            img = myStateToImageMapping.get(myUser.get(STATE_ID_POS));
         }
         return img;
     }
@@ -174,27 +187,15 @@ public class BoardView {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             updateImageOnSquare(currSquare, possibleMove);
         }
-        if (checkerPlayerID(currGameState,myUser)) {
-            Image player1Image = findPlayerImage(currGameState, myUser);
+        if (myUser.contains(currGameState)) {
+            Image player1Image = myStateToImageMapping.get(currGameState);
             updatePlayerCell(player1Image, currSquare, r, c);
         }
-        else if (checkerPlayerID(currGameState,myAgent)) {
-            Image player2Image = findPlayerImage(currGameState, myAgent);
+        else if(myAgent.contains(currGameState)) {
+            Image player2Image = myStateToImageMapping.get(currGameState);
             updateAgentCell(player2Image, currSquare);
         }else{
             updateEmptyCell(currSquare, r,c, gameStates);
-        }
-    }
-
-    private boolean checkerPlayerID(int stateToCompare, PlayerInformationHolder player){
-        return stateToCompare == player.getPlayerID() || stateToCompare == player.getSpecialPlayerID();
-    }
-
-    private Image findPlayerImage(int currGameState, PlayerInformationHolder player) {
-        if (currGameState == player.getPlayerID()) {
-            return new Image(PIECES_RESOURCES + player.getPlayerImage());
-        } else {
-            return new Image(PIECES_RESOURCES + player.getSpecialPlayerImage());
         }
     }
 

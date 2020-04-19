@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import ooga.view.components.GameButton;
 
 /**
  * This class is responsible for managing buttons that are displayed
@@ -33,10 +32,7 @@ public class GameButtonManager {
      * @return - new button
      */
     public Button createButton(String buttonName, String methodName, double width) {
-        Button b = new Button(buttonName);
-        b.getStyleClass().add("gameButton");
-        b.setId(buttonName.replaceAll("\\s", ""));
-        b.setMinWidth(width);
+        Button b = new GameButton().createGameButton(buttonName,width);
         buttonActionsMap.put(b, methodName);
         return b;
     }
@@ -50,12 +46,8 @@ public class GameButtonManager {
      * @return
      */
     public Button createButtonWithImage(String buttonName, String methodName, int width, String imageName) {
-        Button buttonWithImage = createButton(buttonName, methodName, width);
-        Image img = new Image(imageName);
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(30);
-        gameIcon.setPreserveRatio(true);
-        buttonWithImage.setGraphic(gameIcon);
+        Button buttonWithImage = new GameButton().createGameButtonWithImage(buttonName,width,imageName);
+        buttonActionsMap.put(buttonWithImage, methodName);
         return buttonWithImage;
     }
 
@@ -89,6 +81,13 @@ public class GameButtonManager {
         return ! handledButtons.contains(b);
     }
 
+    /**
+     * Allows a button's button to be set to a new text.
+     * Used in the GameView class when a turn requires something
+     * else to be displayed on the "Make Move" button.
+     * @param buttonID - the button whose text needs to be changed
+     * @param newText - the new text
+     */
     public void resetButtonText(String buttonID, String newText) {
         Button buttonToResetText = findButton(buttonID);
         buttonToResetText.setText(newText);

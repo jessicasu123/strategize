@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.view.components.GameDropDown;
 import org.json.JSONObject;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
@@ -44,7 +45,7 @@ public class CustomizationPopUp extends GamePopUp{
     public static final String IMG_EXTENSION = ".png";
 
     public CustomizationPopUp(Stage stage, int width, int height, String fileName,
-                              String currUserImg, String currOppImg, String currColor, GameButtonManager buttonManager) {
+                              String currUserImg, String currOppImg, String currColor, GameButtonManager buttonManager) throws FileNotFoundException {
         super(stage, width, height, fileName, buttonManager);
         setUpJSONReader();
         boardColorOptions = new ArrayList<>();
@@ -139,7 +140,7 @@ public class CustomizationPopUp extends GamePopUp{
     private HBox createSetPreferencesContainer() {
         HBox setPref = createHorizontalContainer();
         setPref.setAlignment(Pos.CENTER);
-        Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERNECES", buttonInfo.getString("SET PREFERENCES"),
+        Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERENCES", buttonInfo.getString("SET PREFERENCES"),
                 popUpWidth/3.0); //createButton("SET PREFERENCES");
         buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
         setPref.getChildren().add(setPreferencesButton);
@@ -155,15 +156,10 @@ public class CustomizationPopUp extends GamePopUp{
     }
 
     private HBox chooseBoardColorContainer(String labelName, String comboBoxName) {
-        HBox boardColorContainer = createChoiceContainerWithLabel(labelName);
-        ComboBox colorChoice = new ComboBox();
-        colorChoice.setPromptText(comboBoxName);
-        colorChoice.setId(comboBoxName.replaceAll("\\s", ""));
-        colorChoice.getItems().addAll(boardColorOptions);
-        colorChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            boardColorChoice = (String) newValue;
-        }));
-        boardColorContainer.getChildren().add(colorChoice);
+        GameDropDown colorDropDown = new GameDropDown();
+        HBox boardColorContainer = colorDropDown.createDropDownContainer(Pos.CENTER,boardColorOptions,comboBoxName,labelName);
+        ComboBox<String> colorChoice = colorDropDown.getComboBox();
+        colorChoice.valueProperty().addListener(((observable, oldValue, newValue) -> boardColorChoice = newValue));
         return boardColorContainer;
     }
 
@@ -171,37 +167,27 @@ public class CustomizationPopUp extends GamePopUp{
 //    private HBox backgroundChoiceContainer() {
 //        HBox backgroundMode = createHorizontalContainer();
 //        backgroundMode.setAlignment(Pos.CENTER);
-//        Button lightMode = createButton(buttonInfo.getString("LightMode"));
-//        Button darkMode = createButton(buttonInfo.getString("DarkMode"));
+//        GameButton lightMode = createButton(buttonInfo.getString("LightMode"));
+//        GameButton darkMode = createButton(buttonInfo.getString("DarkMode"));
 //        backgroundMode.getChildren().addAll(lightMode, darkMode);
 //        return backgroundMode;
 //    }
 
-
-    private HBox createChoiceContainerWithLabel(String labelName) {
-        HBox choiceCustomizeContainer = createHorizontalContainer();
-        Label playerLabel = createLabel(labelName);
-        choiceCustomizeContainer.getChildren().add(playerLabel);
-        return choiceCustomizeContainer;
-    }
-
     private HBox createChoiceContainerWithComboBox(boolean isUser, String labelName, String comboBoxName) {
-        HBox choiceCustomizeContainer = createChoiceContainerWithLabel(labelName);
-        ComboBox playerImageChoice = new ComboBox();
-        playerImageChoice.getItems().addAll(playerImages);
-        playerImageChoice.setId(comboBoxName.replaceAll("\\s", ""));
-        playerImageChoice.setPromptText(comboBoxName);
+        GameDropDown playerImageDropDown = new GameDropDown();
+        HBox choiceCustomizeContainer = playerImageDropDown.createDropDownContainer(Pos.CENTER,playerImages,comboBoxName,labelName);
+        ComboBox<String> playerImageChoice = playerImageDropDown.getComboBox();
         playerImageChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             if (isUser) {
-                userImage = (String) newValue + IMG_EXTENSION;
+                userImage = newValue + IMG_EXTENSION;
                 updateImageView(userImageChoice, userImage);
             }
             else {
-                opponentImage = (String) newValue + IMG_EXTENSION;
+                opponentImage = newValue + IMG_EXTENSION;
                 updateImageView(opponentImageChoice, opponentImage);
             }
         }));
-        choiceCustomizeContainer.getChildren().add(playerImageChoice);
+
         return choiceCustomizeContainer;
     }
 

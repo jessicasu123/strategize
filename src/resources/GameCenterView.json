@@ -15,7 +15,7 @@
           "GameLabel": "Tic-Tac-Toe",
           "GameIcon": "tic-tac-toe.png",
           "GameDescription": "Classic game to get 3 of your player in a row.",
-        "DefaultFile": "tic-tac-toe.json"
+          "DefaultFile": "tic-tac-toe.json"
       },
       {
         "GameLabel": "Mancala",
@@ -62,6 +62,7 @@
     "ButtonText": {
       "Submit": "Submit"
     }
-  }
+  },
+  "AlertInfo": ["Error", "Could not find game file!", "Please select another game or enter JSON file name below."]
 
 }

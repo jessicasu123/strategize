@@ -34,11 +34,13 @@ public class BoardTest {
     //creating tic tac toe board with one player in center
     List<List<Integer>> config = createTestConfig(startingConfig);
     List<String> neighborhoods = new ArrayList<>();
-    Board ticTacToeBoard = new Board(new TicTacToeFactory(1, 2), config, neighborhoods);
+    List<Integer> user = new ArrayList<>(List.of(1));
+    List<Integer> agent = new ArrayList<>(List.of(2));
+    Board ticTacToeBoard = new Board(new TicTacToeFactory(user, agent,0), config, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(new TicTacToeFactory(1, 2), noMoves, neighborhoods);
+    Board noMovesBoard = new Board(new TicTacToeFactory(user, agent,0), noMoves, neighborhoods);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -50,11 +52,11 @@ public class BoardTest {
     List<Integer> row8 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-    Board othelloBoard = new Board(new OthelloFactory(1, 2), othelloConfig, othelloNeighborhoods);
+    Board othelloBoard = new Board(new OthelloFactory(user, agent), othelloConfig, othelloNeighborhoods);
 
     @Test
     void testOthelloBoard() {
-        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(1,-1);
+        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(user);
         for (Coordinate c : moves.keySet()) {
             System.out.println(moves.get(c));
         }
@@ -106,7 +108,7 @@ public class BoardTest {
 
     @Test
     void testGetAllLegalMoves() {
-        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(1,-1);
+        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(user);
         Coordinate squareWithPlayer = new Coordinate(1, 1);
 
         //checking that a coordinate with an empty square is a legal "move"
@@ -117,9 +119,9 @@ public class BoardTest {
     @Test
     void testNoMovesLeft() {
         //should be no moves left on a full board with no winner
-        assertEquals(true, noMovesBoard.checkNoMovesLeft(1, 2,-1,-1));
+        assertEquals(true, noMovesBoard.checkNoMovesLeft(user,agent));
         //should be moves left on board with only one player
-        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(1, 2,-1,-1));
+        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(user,agent));
     }
 
     @Test
@@ -134,7 +136,9 @@ public class BoardTest {
         row8 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
         List<String> checkersNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-        Board checkersBoard = new Board(new CheckersFactory(1, 2,3,4,true,0),
+        List<Integer> user2 = new ArrayList<>(List.of(1,3));
+        List<Integer> agent2 = new ArrayList<>(List.of(2,4));
+        Board checkersBoard = new Board(new CheckersFactory(user2, agent2,true,0),
                 checkersConfig, checkersNeighborhoods);
 
         Coordinate start = new Coordinate(1,2);
@@ -149,7 +153,9 @@ public class BoardTest {
         row2 =new ArrayList<>(List.of(0,4,4,4,4,4,4,3));
         List<List<Integer>> mancalaConfig = new ArrayList<>(List.of(row1, row2));
         List<String> mancalaNeighborhoods = List.of("horizontal", "vertical");
-        Board mancalaBoard = new Board(new MancalaFactory(2,4,1,3,false,0,4),
+        List<Integer> user2 = new ArrayList<>(List.of(2,1));
+        List<Integer> agent2 = new ArrayList<>(List.of(4,3));
+        Board mancalaBoard = new Board(new MancalaFactory(user2,agent2,false,0,4),
                 mancalaConfig, mancalaNeighborhoods);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);

@@ -74,7 +74,6 @@ public class OthelloAgent extends Agent {
     private int[][] createBoardWeights() {
         int[][] boardWeights = new int[numRows][numCols];
         initializeBoardWeights(boardWeights);
-        //update weights for specific positions
         rowWithCornerAndStableZone(0, boardWeights);
         rowWithCornerAndStableZone(numRows-1, boardWeights);
         rowWithMainRiskRegion(1, boardWeights);
@@ -157,10 +156,6 @@ public class OthelloAgent extends Agent {
      */
     @Override
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        //TODO: change to figuring out if both players have no moves left
-//        for (int row = 0; row < boardStateInfo.size();row++) {
-//            if (boardStateInfo.get(row).contains(0)) return false;
-//        }
         if (noMovesLeft) {
             return calcDiffInPieces(boardStateInfo, playerID) > 0;
         }

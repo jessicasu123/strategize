@@ -1,29 +1,25 @@
 package ooga.model.engine.GameTypeFactory;
 
 import ooga.model.engine.InvalidGameTypeException;
-import ooga.model.engine.PlayerInformationHolder;
+
+import java.util.List;
 
 public class GameFactory {
     //TODO special number? for 3 in a row for tictactoe, 4 in a row for checkers, starting marbles number in mancala
-    public GameTypeFactory createGameType(String gameType, PlayerInformationHolder userPlayer, PlayerInformationHolder agentPlayer,
-                                          int emptyState) throws InvalidGameTypeException {
-        int userPlayerID = userPlayer.getPlayerID();
-        int agentPlayerID = agentPlayer.getPlayerID();
-        int userSpecialID = userPlayer.getSpecialPlayerID();
-        int agentSpecialID = agentPlayer.getSpecialPlayerID();
-        boolean userPosDirection = userPlayer.movesInPosDirection();
+    public GameTypeFactory createGameType(String gameType, List<Integer> userStates, List<Integer> agentStates,
+                                          boolean userMovesPosDirection, int emptyState) throws InvalidGameTypeException {
         switch (gameType) {
             case "Connect4":
-                return new ConnectFourFactory(userPlayerID,agentPlayerID);
+                return new ConnectFourFactory(userStates, agentStates);
             case "Tic-Tac-Toe":
-                return new TicTacToeFactory(userPlayerID, agentPlayerID);
+                return new TicTacToeFactory(userStates, agentStates, emptyState);
             case "Othello":
-                return new OthelloFactory(userPlayerID,agentPlayerID);
+                return new OthelloFactory(userStates, agentStates);
             case "Checkers":
-                return new CheckersFactory(userPlayerID,agentPlayerID,userSpecialID,agentSpecialID, userPosDirection, emptyState);
+                return new CheckersFactory(userStates, agentStates, userMovesPosDirection, emptyState);
             case "Mancala":
                 //TODO: what to do about num marbles start with?
-                return new MancalaFactory(userPlayerID,agentPlayerID,userSpecialID,agentSpecialID,userPosDirection,emptyState,4);
+                return new MancalaFactory(userStates, agentStates, userMovesPosDirection,emptyState,4);
             default:
                 throw new InvalidGameTypeException(gameType + " is not a supported game type.");
         }
