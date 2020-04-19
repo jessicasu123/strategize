@@ -9,10 +9,9 @@ public class SumOfDistancesForSpecialPieceEval implements EvaluationFunction{
     private final List<Integer> myStates;
     private final List<Integer> myOpponentsStates;
 
-    public SumOfDistancesForSpecialPieceEval(int maxStateEvaluateFor, int minStateEvaluateFor,
-                                             List<Integer> maxStates, List<Integer> minStates){
-        myStateEvalFor = maxStateEvaluateFor;
-        myOpponentStateEvalFor = minStateEvaluateFor;
+    public SumOfDistancesForSpecialPieceEval(int stateIndex, List<Integer> maxStates, List<Integer> minStates){
+        myStateEvalFor = maxStates.get(stateIndex);
+        myOpponentStateEvalFor = minStates.get(stateIndex);
         myStates = maxStates;
         myOpponentsStates = minStates;
     }
