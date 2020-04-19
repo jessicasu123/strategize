@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface EvaluationFunction {
 
-    int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft);
+    int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft, int weight);
 }
