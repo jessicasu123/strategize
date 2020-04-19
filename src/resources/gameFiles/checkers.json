@@ -3,6 +3,14 @@
 
   "Neighborhood": "diagonal",
 
+  "WinType": "NoPiecesForOpponent",
+
+  "EvaluationFunctions": ["PieceDifferences","PositionWeights","SumOfDistancesForSpecialPiece"],
+
+  "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
+
+  "SpecialPieceIndex": 1,
+
   "EmptyState": "0",
 
   "PiecesMove": "true",

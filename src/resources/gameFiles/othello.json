@@ -3,6 +3,14 @@
 
   "Neighborhood": "horizontal,vertical,diagonal",
 
+  "WinType": "",
+
+  "EvaluationFunctions": ["PieceDifferences","PositionWeights"],
+
+  "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
+
+  "SpecialPieceIndex": 0,
+
   "EmptyState": "0",
 
   "PiecesMove": "false",
