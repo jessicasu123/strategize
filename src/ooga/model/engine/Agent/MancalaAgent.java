@@ -25,10 +25,10 @@ public class MancalaAgent extends Agent {
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
     @Override
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
-        if (this.isWin(this.getMaxPlayer(), boardStateInfo)) {
+    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+        if (this.isWin(this.getMaxPlayer(), boardStateInfo, noMovesLeft)) {
             return Integer.MAX_VALUE;
-        } else if(this.isWin(this.getMinPlayer(), boardStateInfo)) {
+        } else if(this.isWin(this.getMinPlayer(), boardStateInfo, noMovesLeft)) {
             return Integer.MIN_VALUE;
         }
         int maxPlayerNumMarbles = 0;
@@ -55,7 +55,7 @@ public class MancalaAgent extends Agent {
      * @return if that player has won or not
      */
     @Override
-    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
+    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         List<Integer> maxPlayerRow = boardStateInfo.get(maximizingPlayerGoalPos.getYCoord());
         List<Integer> minPlayerRow = boardStateInfo.get(minimizingPlayerGoalPos.getYCoord());
         int maxPlayerMarbles = boardStateInfo.get(maximizingPlayerGoalPos.getYCoord()).get(maximizingPlayerGoalPos.getXCoord());

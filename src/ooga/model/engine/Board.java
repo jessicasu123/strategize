@@ -45,15 +45,9 @@ public class Board implements BoardFramework{
                 checkEmptyMovesForPlayer(agentStates);
     }
 
-
     public boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
-        //check that list of moves is EMPTY for every piece with playerID
-        for (List<Coordinate> coords: getAllLegalMoves(playerStates).values()) {
-            if (coords.size() > 0) {
-                return false;
-            }
-        }
-        return true;
+        Map<Coordinate, List<Coordinate>> allMoves = getAllLegalMoves(playerStates);
+        return allMoves.size()==0;
     }
 
     private void createBoardFromStartingConfig() {
@@ -72,8 +66,6 @@ public class Board implements BoardFramework{
     }
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
-        //call on neighborhood to get neighbor positions
-        //instantiate with actual GamePieces
         int pieceRow = currPiece.getPosition().getXCoord();
         int pieceCol = currPiece.getPosition().getYCoord();
         List<Coordinate> coordinates = getNeighborCoordinates(pieceRow,pieceCol);
@@ -181,6 +173,13 @@ public class Board implements BoardFramework{
         return Collections.unmodifiableList(currStateConfig);
     }
 
+    /**
+     * METHOD PURPOSE:
+     *  - returns a visual representation of the possible moves.
+     * @return list of list of integers with the same row/col dimensions of a board.
+     *  - 1 indicates that a position is a possible move
+     *  - 0 indicated that a position is NOT a possible move
+     */
     @Override
     public List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates) {
         List<List<Integer>> possibleMovesConfig = new ArrayList<>();

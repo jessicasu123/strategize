@@ -32,7 +32,6 @@ public abstract class GamePopUp {
     protected double yOffset;
     protected GameButtonManager popUpGameButtonManager;
 
-
     private String popUpFile;
     private Stage displayStage;
     private Popup popUp;
@@ -49,9 +48,13 @@ public abstract class GamePopUp {
         popUpFile = DEFAULT_RESOURCES + fileName;
 
         popUpGameButtonManager = gameButtonManager;
-
     }
 
+    /**
+     * Sets up a JSONObject to be able to read data relevant
+     * to the pop-up screen (ex. names of buttons, labels, etc.)
+     * @throws FileNotFoundException
+     */
     protected void setUpJSONReader() throws FileNotFoundException {
         FileReader br = new FileReader(popUpFile);
         JSONTokener token = new JSONTokener(br);

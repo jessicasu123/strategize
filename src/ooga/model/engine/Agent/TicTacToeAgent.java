@@ -32,10 +32,10 @@ public class TicTacToeAgent extends Agent {
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
     @Override
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo) {
-        if(isWin(this.getMaxPlayer(), boardStateInfo)){
+    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+        if(isWin(this.getMaxPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MAX_VALUE;
-        }else if(isWin(this.getMinPlayer(), boardStateInfo)){
+        }else if(isWin(this.getMinPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MIN_VALUE;
         }
 
@@ -99,7 +99,8 @@ public class TicTacToeAgent extends Agent {
      * @param boardStateInfo - all of the current state information from the board organized by row
      * @return if that player has won or not
      */
-    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
+
+    protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);
 

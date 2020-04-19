@@ -13,9 +13,11 @@ public class Game implements GameFramework{
     private Agent myAgent;
     private AgentPlayer myAgentPlayer;
     private boolean isUserTurn;
-    private boolean didPlayerPass;
+    private String playerPass;
     private List<Integer> myUserStates;
     private List<Integer> myAgentStates;
+    private boolean noMovesForUser;
+    private boolean noMovesForAgent;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
@@ -27,27 +29,31 @@ public class Game implements GameFramework{
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
+        playerPass = "";
         myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
-        didPlayerPass = false;
+        noMovesForUser = false;
+        noMovesForAgent = false;
     }
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException{
-        boolean noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserStates);
-        boolean noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentStates);
-        didPlayerPass = noMovesForUser || noMovesForAgent;
-        if(isUserTurn && ! noMovesForUser){
+        if(isUserTurn && !noMovesForUser){
             makeUserMove(moveCoordinates);
         }
-        else if (!isUserTurn && !noMovesForAgent){
+        else if (!isUserTurn && !noMovesForAgent) {
             makeAgentMove();
         }
-        if(myBoard.changeTurns() || didPlayerPass){
+        if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
+        //TODO: update empty moves check again
+        noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserStates);
+        noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentStates);
+        if (noMovesForUser) playerPass = "user";
+        if (noMovesForAgent) playerPass = "agent";
     }
 
-    public boolean didPlayerPass() { return didPlayerPass; }
+    public String whichPlayerPassed() { return playerPass; }
 
     //TODO: implement later for disabling makeMove button
     public boolean isUserTurn(){
@@ -87,10 +93,9 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
-        int result = myAgent.findGameWinner(myBoard.getStateInfo());
-        if (result == 0 && myBoard.checkNoMovesLeft(myUserStates, myAgentStates)) {
-            return 3;
-        }
+        boolean noMovesLeft = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
+        if (result==0 && noMovesLeft) { return 3; }
         return result;
     }
 
@@ -103,6 +108,12 @@ public class Game implements GameFramework{
         return myBoard.getStateInfo();
     }
 
+    /**
+     * METHOD PURPOSE:
+     *  - provides visual info for the possible moves - a row, col position in the list of lists
+     *  with the value 1 represents a possible move position. a value of 0 indicates that the
+     *  position is NOT a possible move.
+     */
     @Override
     public List<List<Integer>> possibleMovesForView() {
         return myBoard.possibleMovesVisualInfo(myUserStates);

@@ -140,7 +140,7 @@ public class CustomizationPopUp extends GamePopUp{
     private HBox createSetPreferencesContainer() {
         HBox setPref = createHorizontalContainer();
         setPref.setAlignment(Pos.CENTER);
-        Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERNECES", buttonInfo.getString("SET PREFERENCES"),
+        Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERENCES", buttonInfo.getString("SET PREFERENCES"),
                 popUpWidth/3.0); //createButton("SET PREFERENCES");
         buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
         setPref.getChildren().add(setPreferencesButton);

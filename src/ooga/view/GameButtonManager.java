@@ -80,4 +80,25 @@ public class GameButtonManager {
     public boolean needsToAddActionToButton(Button b) {
         return ! handledButtons.contains(b);
     }
+
+    /**
+     * Allows a button's button to be set to a new text.
+     * Used in the GameView class when a turn requires something
+     * else to be displayed on the "Make Move" button.
+     * @param buttonID - the button whose text needs to be changed
+     * @param newText - the new text
+     */
+    public void resetButtonText(String buttonID, String newText) {
+        Button buttonToResetText = findButton(buttonID);
+        buttonToResetText.setText(newText);
+    }
+
+    private Button findButton(String buttonID) {
+        for (Button b: buttonActionsMap.keySet()) {
+            if (b.getId().equals(buttonID)) {
+                return b;
+            }
+        }
+        return null;
+    }
 }

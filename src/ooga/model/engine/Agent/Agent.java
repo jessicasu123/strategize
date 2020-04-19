@@ -27,7 +27,7 @@ public abstract class Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
-    public abstract int evaluateCurrentGameState(List<List<Integer>> boardStateInfo);
+    public abstract int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft);
 
 
     /**
@@ -36,7 +36,7 @@ public abstract class Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return if that player has won or not
      */
-    protected abstract boolean isWin(int playerID, List<List<Integer>> boardStateInfo);
+    protected abstract boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft);
 
     /**
      * @return the ID of the maximizing player
@@ -58,9 +58,9 @@ public abstract class Agent {
      *          - if the game is won this is the player ID of the winner
      *          - if this method was called and the game isn't over it returns 0
      */
-    public int findGameWinner(List<List<Integer>> boardStateInfo){
-        if(isGameWon(boardStateInfo)){
-            if(isWin(myMaxPlayer, boardStateInfo)){
+    public int findGameWinner(List<List<Integer>> boardStateInfo, boolean noMovesLeft){
+        if(isGameWon(boardStateInfo, noMovesLeft)){
+            if(isWin(myMaxPlayer, boardStateInfo, noMovesLeft)){
                 return myMaxPlayer;
             }
             else {
@@ -75,7 +75,7 @@ public abstract class Agent {
      * @param boardStateInfo - all of the current state information from the board
      * @return a boolean for if the game is over has been won
      */
-    public boolean isGameWon(List<List<Integer>> boardStateInfo){
-        return isWin(myMaxPlayer, boardStateInfo) || isWin(myMinPlayer, boardStateInfo);
+    public boolean isGameWon(List<List<Integer>> boardStateInfo, boolean noMovesLeft){
+        return isWin(myMaxPlayer, boardStateInfo, noMovesLeft) || isWin(myMinPlayer, boardStateInfo, noMovesLeft);
     }
 }

@@ -60,6 +60,7 @@ public class GameView {
     private int opponentWinCount;
     private int myUserID;
     private GameButtonManager gameButtonManager;
+    private boolean didPass;
 
     /**
      * Creates the GameView object and finds the JSON datafile
@@ -71,6 +72,7 @@ public class GameView {
         initializeJSONReader();
         myController = c;
         gameInProgress = true;
+        didPass = false;
         myUserID = myController.getUserStateInfo().get(STATE_ID_POS);
         int myAgentID = myController.getAgentStateInfo().get(STATE_ID_POS);
         String userImage = myController.getStateImageMapping().get(myUserID);
@@ -179,6 +181,7 @@ public class GameView {
             gameEnd.close();
         }
         gameInProgress = true;
+        didPass = false;
         myController.restartGame();
         grid.updateBoardAppearance();
     }
@@ -229,6 +232,10 @@ public class GameView {
     }
 
     private void makeMove(){
+        if (didPass) {
+            gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
+            didPass = false;
+        }
         if(gameInProgress && myController.userTurn()) {
             grid.makeUserMove();
             checkGameStatus();
@@ -245,9 +252,14 @@ public class GameView {
     }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
     private void checkPass() {
-        if (gameInProgress && myController.playerPass()) {
-            System.out.println("PASS");
-        }
+//        if (gameInProgress && (!myController.playerPass().equals(""))) {
+//            didPass = true;
+//            if (myController.playerPass().equals("user")) {
+//                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
+//            } else {
+//                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
+//            }
+//        }
     }
 
     private void checkGameOver() {

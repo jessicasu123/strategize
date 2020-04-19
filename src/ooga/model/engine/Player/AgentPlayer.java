@@ -74,6 +74,7 @@ public class AgentPlayer implements Player{
      * @throws InvalidMoveException - throws an exception if the move is not legal or no legal moves are available
      */
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
+
         int bestMove = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         if(moveMappings.isEmpty()){
             throw new InvalidMoveException("No legal moves for agent to play");
@@ -83,8 +84,10 @@ public class AgentPlayer implements Player{
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo()) || boardCopy.checkNoMovesLeft(myStates, myOpponentStates)){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
+
+        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft) || noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
         }
         int currMaxVal = Integer.MIN_VALUE;
 
@@ -109,8 +112,10 @@ public class AgentPlayer implements Player{
 
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo())|| boardCopy.checkNoMovesLeft(myStates, myOpponentStates)){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo());
+
+        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft)|| noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
         }
         int currMinVal = Integer.MAX_VALUE;
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponentStates).entrySet()) {

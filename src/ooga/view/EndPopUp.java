@@ -32,7 +32,7 @@ public class EndPopUp extends GamePopUp{
     public EndPopUp(Stage stage, int width, int height, String fileName, String endStatus, GameButtonManager buttonManager) throws FileNotFoundException {
         super(stage, width, height, fileName, buttonManager);
 
-        popUpWidth = 300;
+        popUpWidth = width/2;
         xOffset = (width - popUpWidth)/2;
         winStatus = endStatus;
         buttonActionsMap = new HashMap<>();
