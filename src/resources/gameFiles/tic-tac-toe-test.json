@@ -10,9 +10,15 @@
   "Player1PosDirection": "false",
 
   "Board": {
-    "Height": "3",
-    "Width": "3",
-    "InitialConfig": "1,2,1;0,1,1;2,0,2"
+    "Default": "3 x 3",
+    "DimensionOptions": [ "3 x 3" ],
+    "DimensionDetails": {
+      "3 x 3": {
+        "Height": "3",
+        "Width": "3",
+        "InitialConfig": "1,2,1;0,1,1;2,0,2"
+      }
+    }
   },
 
   "Player1": {

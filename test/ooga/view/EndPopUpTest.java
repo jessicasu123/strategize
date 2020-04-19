@@ -27,7 +27,7 @@ class EndPopUpTest extends DukeApplicationTest {
     private Button backToMenu;
 
     public EndPopUpTest() throws IOException, ParseException, InvalidGameTypeException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3 (default)");
+        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
         gameButtonManager = new GameButtonManager();
     }
 

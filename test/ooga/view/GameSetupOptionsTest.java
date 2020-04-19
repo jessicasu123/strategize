@@ -35,7 +35,7 @@ class GameSetupOptionsTest extends DukeApplicationTest {
         playerText = lookup("#SelectPlayerText").query();
         player1 = lookup("#Player1").query();
         player2 = lookup("#Player2").query();
-        boardDropdown = lookup("#Defaultdimensions").query();
+//        boardDropdown = lookup("#Default:3x3").query();
         start = lookup("#Start").query();
         menu = lookup("#BacktoMenu").query();
     }
@@ -48,7 +48,7 @@ class GameSetupOptionsTest extends DukeApplicationTest {
         assertEquals("Select Your Player:", playerText.getText());
         assertEquals("Player1", player1.getText());
         assertEquals("Player2", player2.getText());
-        assertEquals("Default dimensions", boardDropdown.getPromptText());
+//        assertEquals("Default: 3 x 3", boardDropdown.getPromptText());
         assertEquals("Start", start.getText());
         assertEquals("Back to Menu", menu.getText());
     }

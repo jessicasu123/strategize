@@ -16,8 +16,8 @@ class ControllerTest {
     Controller testController2;
 
     ControllerTest() throws IOException, ParseException, InvalidGameTypeException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3 (default)");
-        testController2 = new Controller("tic-tac-toe-test.json", "Player2", "Computer", "3 x 3 (default)");
+        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
+        testController2 = new Controller("tic-tac-toe-test.json", "Player2", "Computer", "3 x 3");
     }
 
     public List<List<Integer>> createTestConfig(Integer[][] testConfig) {

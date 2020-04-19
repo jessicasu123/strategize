@@ -155,7 +155,6 @@ public class GameSetupOptions {
     }
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
-        // TODO for future feature: add defaults permissible values for board dimensions from JSON
         JSONObject board = gameFileData.getJSONObject("Board");
         JSONArray boardArray = board.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
