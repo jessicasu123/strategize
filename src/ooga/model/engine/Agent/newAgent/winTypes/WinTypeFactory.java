@@ -6,7 +6,7 @@ import ooga.model.engine.exceptions.InvalidWinTypeException;
 
 public class WinTypeFactory {
 
-    public WinType createNeighborhood(String winType, int emptyState) {
+    public WinType createWinType(String winType, int emptyState) {
         switch (winType) {
             case "NoPiecesForOpponent":
                 return new NoPiecesForOpponent(emptyState);
