@@ -23,7 +23,7 @@ public class CustomizationViewTest extends DukeApplicationTest {
     private GameButtonManager gameButtonManager;
 
     public CustomizationViewTest() throws IOException, ParseException, InvalidGameTypeException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer");
+        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3 (default)");
         gameButtonManager = new GameButtonManager();
     }
     @Override

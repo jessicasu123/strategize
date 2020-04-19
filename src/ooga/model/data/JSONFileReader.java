@@ -41,9 +41,11 @@ public class JSONFileReader implements FileHandler {
     private org.json.JSONObject gameData;
     private String neighbString;
     List<String> neighborhoodlist;
+    String boardDimensions;
 
-    public JSONFileReader(String file) throws IOException {
+    public JSONFileReader(String file, String dimensions) throws IOException {
         gameFileName = file;
+        boardDimensions = dimensions;
         gameProperties = new HashMap<>();
         createJSONArray();
     }
@@ -111,8 +113,9 @@ public class JSONFileReader implements FileHandler {
     private void getGamePropertyNested() {
         gameProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
         gameProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
-        gameProperties.put("Width", gameData.getJSONObject("Board").getString("Width"));
-        gameProperties.put("Height", gameData.getJSONObject("Board").getString("Height"));
+        JSONObject boardDetails = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
+        gameProperties.put("Width", boardDetails.getString("Width"));
+        gameProperties.put("Height", boardDetails.getString("Height"));
         gameProperties.put("Player1Direction", gameData.getString("Player1PosDirection"));
         gameProperties.put("EmptyState", gameData.getString("EmptyState"));
     }
@@ -167,7 +170,7 @@ public class JSONFileReader implements FileHandler {
     @Override
     public List<List<Integer>> loadFileConfiguration() throws IOException {
         createJSONArray();
-        JSONObject config = gameData.getJSONObject("Board");
+        JSONObject config = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
         parseJSONConfiguration(config.getString("InitialConfig"));
         return configuration;
     }

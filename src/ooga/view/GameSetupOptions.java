@@ -15,6 +15,7 @@ import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;
 import ooga.view.components.GameScene;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.FileNotFoundException;
@@ -43,6 +44,7 @@ public class GameSetupOptions {
     private JSONObject setupData;
     private String userPlayerID;
     private String opponent;
+    private GameDropDown dimensionDropdown;
 
 
     /**
@@ -154,16 +156,26 @@ public class GameSetupOptions {
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
         // TODO for future feature: add defaults permissible values for board dimensions from JSON
+        JSONObject board = gameFileData.getJSONObject("Board");
+        JSONArray boardArray = board.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
         String label = labelText.getString("BoardSizeText");
-        return new GameDropDown().createDropDownContainer(position,new ArrayList<>(), prompt, label);
+        ArrayList<String> options = new ArrayList<>();
+        for(int i = 0; i < boardArray.length(); i++ ){
+            options.add(boardArray.getString(i));
+        }
+        dimensionDropdown = new GameDropDown();
+        return dimensionDropdown.createDropDownContainer(position, options, prompt + board.getString("Default"), label);
     }
+
+
 
     private Button createStartButton(JSONObject buttonText) {
         Button start = new GameButton().createGameButton(buttonText.getString("Start"));
         start.setOnAction(e -> {
             try {
-                Controller c = new Controller(gameFileName, userPlayerID, opponent);
+                String chosenDimension = getChosenDimension();
+                Controller c = new Controller(gameFileName, userPlayerID, opponent, chosenDimension);
                 new GameView(myStage, c);
             } catch (IOException | org.json.simple.parser.ParseException ex) {
                 new ErrorAlerts(setupData.getJSONArray("AlertInfo"));
@@ -183,6 +195,13 @@ public class GameSetupOptions {
             sv.displayToStage(START_DIM,START_DIM);
         });
         return backToMenu;
+    }
+
+    private String getChosenDimension() {
+        if (dimensionDropdown.getValue() == null) {
+            return gameFileData.getJSONObject("Board").getString("Default");
+        }
+        return dimensionDropdown.getValue();
     }
 
 }

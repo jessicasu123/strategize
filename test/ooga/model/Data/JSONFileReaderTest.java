@@ -18,7 +18,7 @@ class JSONFileReaderTest {
 
     {
         try {
-            fr = new JSONFileReader(fileNameGame);
+            fr = new JSONFileReader(fileNameGame, "3 x 3 (default)");
         } catch (IOException e) {
             System.out.println("file not found");
         }

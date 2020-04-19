@@ -27,9 +27,9 @@ public class Controller implements ControllerFramework {
     private List<Integer> myAgentPlayerInformation;
     private Map<Integer, String> myStateToImageMapping;
 
-    public Controller(String fileName, String userID, String opponent) throws IOException, ParseException, InvalidGameTypeException {
+    public Controller(String fileName, String userID, String opponent, String dimensions) throws IOException, ParseException, InvalidGameTypeException {
         gameFileName = fileName;
-        myFileHandler = new JSONFileReader(gameFileName);
+        myFileHandler = new JSONFileReader(gameFileName, dimensions);
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
         myStateToImageMapping = new HashMap<>();

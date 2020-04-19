@@ -10,11 +10,26 @@
   "Player1PosDirection": "false",
 
   "Board": {
-    "Height": "3",
-    "Width": "3",
-    "InitialConfig": "0,0,0;0,0,0;0,0,0"
+    "Default": "3 x 3",
+    "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],
+    "DimensionDetails": {
+      "3 x 3": {
+        "Height": "3",
+        "Width": "3",
+        "InitialConfig": "0,0,0;0,0,0;0,0,0"
+      },
+      "4 x 4": {
+        "Height": "4",
+        "Width": "4",
+        "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0"
+      },
+      "5 x 5": {
+        "Height": "5",
+        "Width": "5",
+        "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0"
+      }
+    }
   },
-
   "Player1": {
     "States": [1],
     "Images": ["X.png"],
