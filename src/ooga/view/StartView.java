@@ -38,13 +38,13 @@ public class StartView {
     public static final String GAME_FILES = "src/resources/gameFiles/";
     public static final double BUTTON_FONT_FACTOR = 0.125;
     public static final String FILE_TYPE = ".json";
+    public static final int NUM_SIDES = 2;
     private Stage myStage;
     private JSONObject startScreenData;
 
     /**
      * Creates the StartView object and finds the JSON datafile
      * @param displayStage - the stage that the screen will be displayed on
-     * @throws FileNotFoundException - if the JSON file can't be found
      */
     public StartView(Stage displayStage){
         try {
@@ -53,7 +53,7 @@ public class StartView {
             JSONTokener token = new JSONTokener(br);
             startScreenData = new JSONObject(token);
         } catch (FileNotFoundException e) {
-            new ErrorAlerts(startScreenData.getJSONArray("AlertInfo"));
+            new ErrorAlerts(e.getClass().getCanonicalName(), e.getMessage());
         }
     }
 
@@ -161,8 +161,8 @@ public class StartView {
     }
 
     private double calculateCellSize(int width, int height, int numCols, int numCells){
-        int widthMinusPadding = width - (numCols * PADDING) - (PADDING * 2);
-        int heightMinusPadding = height - (numCells/numCols * PADDING) - (PADDING * 2);
+        int widthMinusPadding = width - (numCols * PADDING) - (PADDING * NUM_SIDES);
+        int heightMinusPadding = height - (numCells/numCols * PADDING) - (PADDING * NUM_SIDES);
         return Math.min(widthMinusPadding, heightMinusPadding);
     }
     private HBox createGameContainer(JSONObject game, int cols, double containerSize){
@@ -176,7 +176,7 @@ public class StartView {
 
     private VBox setUpGameText(JSONObject game, int cols, double size) {
         VBox gameText = new VBox(SPACING);
-        double sizeConstraint = size / (cols * 2);
+        double sizeConstraint = size / (cols * NUM_SIDES);
         Button gameButton = createGameNameButton(game, sizeConstraint);
         createGameDescription(game, gameText, sizeConstraint, gameButton);
         return gameText;
@@ -205,7 +205,7 @@ public class StartView {
     private ImageView setUpGameIcon(JSONObject game, int cols, double size) {
         Image img = new Image(GAME_ICON_RESOURCES + game.getString("GameIcon"));
         ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(size / (cols * 2));
+        gameIcon.setFitWidth(size / (cols * NUM_SIDES));
         gameIcon.setPreserveRatio(true);
         return gameIcon;
     }

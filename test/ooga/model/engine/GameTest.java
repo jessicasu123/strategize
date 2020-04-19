@@ -42,13 +42,13 @@ public class GameTest {
     }
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
-    Game inProgressGame = new Game(new TicTacToeFactory(user,agent), createTestConfig(startingConfig),
+    Game inProgressGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(startingConfig),
             new ArrayList<>(), user,agent, true);
-    Game noMovesLeftGame = new Game(new TicTacToeFactory(user,agent), createTestConfig(noMovesConfig),
+    Game noMovesLeftGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(noMovesConfig),
             new ArrayList<>(), user,agent, true);
-    Game player1WinGame = new Game(new TicTacToeFactory(user,agent), createTestConfig(player1Win),
+    Game player1WinGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(player1Win),
             new ArrayList<>(), user,agent,true);
-    Game player2WinGme = new Game(new TicTacToeFactory(user,agent), createTestConfig(player2Win),
+    Game player2WinGme = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(player2Win),
             new ArrayList<>(), user,agent, true);
 
     @Test

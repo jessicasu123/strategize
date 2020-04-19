@@ -19,7 +19,7 @@ public class TicTacToeAgent extends Agent {
      * @param minimizingPlayerID - the ID of the player who the agent will try to minimize its moves for
      * @param inARow - the number of pieces needed in a row to win
      */
-    public TicTacToeAgent(int maximizingPlayerID, int minimizingPlayerID, int inARow){
+    public TicTacToeAgent(int maximizingPlayerID, int minimizingPlayerID, int inARow, int emptyState){
         super(maximizingPlayerID, minimizingPlayerID);
         myInARow = inARow;
     }
@@ -96,15 +96,14 @@ public class TicTacToeAgent extends Agent {
      * WIN BY:
      *      - getting three of your game pieces consecutively in a row, column, or diagonal
      * @param playerID - the ID of the player checking to see if they won
-     * @param boardStateInfo - all of the current state information from the board
+     * @param boardStateInfo - all of the current state information from the board organized by row
      * @return if that player has won or not
      */
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo) {
-        List<List<Integer>> rows = boardStateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);
 
-        return checkWinInGroup(rows, playerID) || checkWinInGroup(cols, playerID) || checkWinInGroup(diags, playerID);
+        return checkWinInGroup(boardStateInfo, playerID) || checkWinInGroup(cols, playerID) || checkWinInGroup(diags, playerID);
     }
 
     private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){

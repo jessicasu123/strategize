@@ -36,11 +36,11 @@ public class BoardTest {
     List<String> neighborhoods = new ArrayList<>();
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
-    Board ticTacToeBoard = new Board(new TicTacToeFactory(user, agent), config, neighborhoods);
+    Board ticTacToeBoard = new Board(new TicTacToeFactory(user, agent,0), config, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(new TicTacToeFactory(user, agent), noMoves, neighborhoods);
+    Board noMovesBoard = new Board(new TicTacToeFactory(user, agent,0), noMoves, neighborhoods);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
