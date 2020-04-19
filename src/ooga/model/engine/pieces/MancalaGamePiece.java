@@ -46,7 +46,7 @@ public class MancalaGamePiece extends GamePiece {
      * @param neighbors - the neighbors of the Game Piece as determined by the Board, will be horizontal
      *                  vertical, and diagonal neighbors
      * @param playerID - the id of the player trying to find their possible moves
-     * @return
+     * @return list that contains this piece's coordinate if valid move, empty list otherwise
      */
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
@@ -100,13 +100,13 @@ public class MancalaGamePiece extends GamePiece {
      */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
+        int yPos = this.getPosition().getYCoord();
         List<GamePiece> myRow = myRowOfPieces(neighbors);
         List<GamePiece> myOpponentsRow = myOpponentRowOfPieces(neighbors);
         int numMarblesBefore = myMarbles;
-        addMarblesToNeighborsBasedOnMove(myRow, myOpponentsRow, this.getPosition().getYCoord() + myDirection, myDirection);
-        int newStartingPos = this.getPosition().getYCoord() + (myDirection * (numMarblesBefore - myMarbles)) + (myDirection * -MARBLES_TO_ADD);
-        addMarblesToNeighborsBasedOnMove(myOpponentsRow, myRow, newStartingPos, myDirection * -MARBLES_TO_ADD);
-
+        addMarblesToNeighborsBasedOnMove(myRow, myOpponentsRow, yPos + myDirection, myDirection);
+        int newStartingPos = yPos + (myDirection * (numMarblesBefore - myMarbles)) + (-myDirection);
+        addMarblesToNeighborsBasedOnMove(myOpponentsRow, myRow, newStartingPos, -myDirection);
     }
 
     private void addMarblesToNeighborsBasedOnMove(List<GamePiece> row, List<GamePiece> otherRow, int startingPos, int direction) {
@@ -114,22 +114,25 @@ public class MancalaGamePiece extends GamePiece {
         while (myMarbles > 0 && currentPos >= 0 && currentPos <= maxYCoord(row)) {
             for (GamePiece piece : row) {
                 if (piece.getPosition().getYCoord() == currentPos) {
-                    this.changeState(-MARBLES_TO_ADD);
-                    if(isSpecialMove(piece)){
-                        if(isSpecialCapture(piece)) {
-                            performSpecialCapture(row, otherRow, currentPos);
-                        }else{
-                            myPlayerMovesAgain = true;
-                            piece.changeState(MARBLES_TO_ADD);
-                        }
-                    }else{
-                        piece.changeState(MARBLES_TO_ADD);
-                    }
-
+                    performOneMove(row, otherRow, currentPos, piece);
                     break;
                 }
             }
             currentPos += direction;
+        }
+    }
+
+    private void performOneMove(List<GamePiece> row, List<GamePiece> otherRow, int currentPos, GamePiece piece) {
+        this.changeState(-MARBLES_TO_ADD);
+        if(isSpecialMove(piece)){
+            if(isSpecialCapture(piece)) {
+                performSpecialCapture(row, otherRow, currentPos);
+            }else{
+                myPlayerMovesAgain = true;
+                piece.changeState(MARBLES_TO_ADD);
+            }
+        }else{
+            piece.changeState(MARBLES_TO_ADD);
         }
     }
 
@@ -149,11 +152,11 @@ public class MancalaGamePiece extends GamePiece {
     }
 
     private boolean isSpecialMove(GamePiece piece){
-        return myMarbles == 0 && piece.getState() == this.getState();
+        return myMarbles == 0 && (piece.getState() == this.getState() || piece.getState() == myGoalState);
     }
 
     private boolean isSpecialCapture(GamePiece piece) {
-        return piece.getVisualRepresentation() == 0;
+        return piece.getVisualRepresentation() == 0 && piece.getState() != myGoalState;
     }
 
     @Override

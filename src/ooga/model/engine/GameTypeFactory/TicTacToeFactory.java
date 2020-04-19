@@ -12,10 +12,12 @@ public class TicTacToeFactory implements GameTypeFactory{
     public static final int REGULAR_STATE_INDEX = 0;
     private final int myMaxPlayer;
     private final int myMinPlayer;
+    private final int myEmptyState;
 
-    public TicTacToeFactory(List<Integer> userStates, List<Integer> agentStates){
+    public TicTacToeFactory(List<Integer> userStates, List<Integer> agentStates, int emptyState){
         myMaxPlayer = agentStates.get(REGULAR_STATE_INDEX);
         myMinPlayer = userStates.get(REGULAR_STATE_INDEX);
+        myEmptyState = emptyState;
 
     }
     @Override
@@ -24,6 +26,6 @@ public class TicTacToeFactory implements GameTypeFactory{
     }
     @Override
     public Agent createAgent(){
-        return new TicTacToeAgent(myMaxPlayer, myMinPlayer, 3);
+        return new TicTacToeAgent(myMaxPlayer, myMinPlayer, 3, myEmptyState);
     }
 }

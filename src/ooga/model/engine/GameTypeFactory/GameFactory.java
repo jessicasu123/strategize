@@ -12,7 +12,7 @@ public class GameFactory {
             case "Connect4":
                 return new ConnectFourFactory(userStates, agentStates);
             case "Tic-Tac-Toe":
-                return new TicTacToeFactory(userStates, agentStates);
+                return new TicTacToeFactory(userStates, agentStates, emptyState);
             case "Othello":
                 return new OthelloFactory(userStates, agentStates);
             case "Checkers":
