@@ -5,6 +5,8 @@ import ooga.model.data.JSONFileReader;
 import ooga.model.engine.*;
 import ooga.model.engine.GameTypeFactory.GameFactory;
 import ooga.model.engine.GameTypeFactory.GameTypeFactory;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidMoveException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

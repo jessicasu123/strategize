@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.engine.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidMoveException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

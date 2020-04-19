@@ -4,6 +4,7 @@ import ooga.model.engine.GameTypeFactory.CheckersFactory;
 import ooga.model.engine.GameTypeFactory.MancalaFactory;
 import ooga.model.engine.GameTypeFactory.OthelloFactory;
 import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
+import ooga.model.engine.exceptions.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

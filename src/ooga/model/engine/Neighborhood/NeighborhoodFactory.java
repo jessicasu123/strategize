@@ -1,10 +1,6 @@
 package ooga.model.engine.Neighborhood;
 
-import ooga.model.engine.InvalidNeighborhoodException;
-import ooga.model.engine.Neighborhood.DiagonalNeighborhood;
-import ooga.model.engine.Neighborhood.HorizontalNeighborhood;
-import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.Neighborhood.VerticalNeighborhood;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
 
 /**
  * This class is responsible for creating different types of

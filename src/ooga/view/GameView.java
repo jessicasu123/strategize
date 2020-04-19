@@ -1,13 +1,11 @@
 package ooga.view;
 
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameScene;
 import org.json.JSONObject;

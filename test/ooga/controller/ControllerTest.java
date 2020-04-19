@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.engine.InvalidGameTypeException;
+import ooga.model.engine.exceptions.InvalidGameTypeException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 

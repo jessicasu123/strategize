@@ -3,6 +3,8 @@ package ooga.model.engine;
 import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Neighborhood.NeighborhoodFactory;
+import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
 import ooga.model.engine.pieces.GamePiece;
 
 import java.util.*;
