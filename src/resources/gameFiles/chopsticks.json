@@ -1,0 +1,50 @@
+{
+  "Gametype": "Chopsticks",
+
+  "Neighborhood": "",
+
+  "WinType": "NoPiecesForOpponent",
+
+  "EvaluationFunctions": ["PositionWeights"],
+
+  "BoardWeights": "1,1;1,1",
+
+  "WinValue": 0,
+
+  "SpecialPieceIndex": 0,
+
+  "EmptyState": "",
+
+  "Player1PosDirection": "false",
+
+  "PiecesMove": "false",
+
+  "Board": {
+    "Default": "2 x 2",
+    "DimensionOptions": [ "2 x 2"],
+    "DimensionDetails": {
+      "2 x 2": {
+        "Height": "2",
+        "Width": "2",
+        "InitialConfig": "1,1;1,1"
+      }
+    }
+  },
+
+  "Player1": {
+    "States": [1,2,3,4],
+    "Images": ["Chopstick1.png","Chopstick2.png","Chopstick3.png","Chopstick4.png"],
+    "Color": "White"
+  },
+
+  "Player2": {
+    "States": [1,2,3,4],
+    "Images": ["Chopstick1.png","Chopstick2.png","Chopstick3.png","Chopstick4.png"],
+    "Color": "White"
+  },
+
+  "possibleMove": "",
+
+  "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.", "Next, click on an opponents square to add your chopstick count to their hand. Press play move", "When a hand reaches or exceeds 5 chopsticks, their hand is empty", "The player who has two empty hands loses."]
+
+}
