@@ -5,11 +5,13 @@ import java.util.List;
 
 public class ConsecutivePieces implements WinType{
     private int myInARow;
+    private int myPlayer;
     private int ROWS = 6;
     private int COLS = 7;
 
-    public ConsecutivePieces(int InARow){
+    public ConsecutivePieces(int InARow, int player){
         myInARow = InARow;
+        myPlayer = player;
     }
 
     @Override
@@ -17,7 +19,7 @@ public class ConsecutivePieces implements WinType{
         List<List<Integer>> rows = boardStateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);
-        return checkWinInGroup(rows, playerStates.get(1)) || checkWinInGroup(cols,playerStates.get(1)) || checkWinInGroup(diags, playerStates.get(1));
+        return checkWinInGroup(rows, playerStates.get(myPlayer)) || checkWinInGroup(cols,playerStates.get(myPlayer)) || checkWinInGroup(diags, playerStates.get(myPlayer));
     }
 
     private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){
