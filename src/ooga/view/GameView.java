@@ -37,7 +37,9 @@ public class GameView {
     public static final String CUSTOMIZATION_FILE = "CustomizationView.json";
     public static final String ENDGAME_FILE = "EndView.json";
     public static final String FILE_PATH = "gameFiles/";
-    public static final String STYLESHEET = "resources/style.css";
+    public static final String DARK_MODE_STYLE = "darkMode";
+    public static final String DARK_MODE_TEXT_COLOR = "white";
+    public static final String LIGHT_MODE_TEXT_COLOR = "black";
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
@@ -167,14 +169,16 @@ public class GameView {
     }
 
     private void reflectMethodOnButton(Button b, String methodName) {
-        b.setOnAction(handler -> {
-            try {
-                Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
-                buttonAction.invoke(GameView.this, new Object[0]);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        });
+        if (b != null) {
+            b.setOnAction(handler -> {
+                try {
+                    Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
+                    buttonAction.invoke(GameView.this, new Object[0]);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     private void restart() throws IOException, ParseException {
@@ -228,14 +232,20 @@ public class GameView {
         String userImage = customizePopUp.getUserImageChoice();
         String agentImage = customizePopUp.getOpponentImageChoice();
         String boardColor = customizePopUp.getBoardColorChoice();
-        grid.updateVisuals(userImage, agentImage, boardColor);
+        handleMode(customizePopUp.isLightMode());
+        String boardOutlineColor = customizePopUp.getBoardOutlineColor();
+        grid.updateVisuals(userImage, agentImage, boardColor, boardOutlineColor);
         statusPanel.updatePlayerIcons(userImage, agentImage);
     }
 
-    private void switchToLightMode() { myGameViewScene.removeStyle("darkMode"); }
-
-    private void switchToDarkMode() {
-        myGameViewScene.updateStyle("darkMode");
+    private void handleMode(boolean isLightMode) {
+        if (isLightMode) {
+            myGameViewScene.removeStyle(DARK_MODE_STYLE);
+            statusPanel.setLabelTextColor(LIGHT_MODE_TEXT_COLOR);
+        } else {
+            myGameViewScene.updateStyle(DARK_MODE_STYLE);
+            statusPanel.setLabelTextColor(DARK_MODE_TEXT_COLOR);
+        }
     }
 
     private void makeMove(){
@@ -261,7 +271,7 @@ public class GameView {
         checkGameOver();
         checkPass(beforeUserTurn);
     }
-    //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
+
     private void checkPass(boolean isBeforeUserTurn) {
         String playerPassed = myController.playerPass();
         if (gameInProgress && (!playerPassed.equals(""))) {

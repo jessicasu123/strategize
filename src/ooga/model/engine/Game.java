@@ -48,7 +48,6 @@ public class Game implements GameFramework{
         if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
-        //TODO: update empty moves check again
         numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         noMovesForUser = numMovesStatus==1;
         noMovesForAgent = numMovesStatus==2;
@@ -56,9 +55,7 @@ public class Game implements GameFramework{
         if (noMovesForAgent) playerPass = "agent";
     }
 
-    public String whichPlayerPassed() {
-        System.out.println(playerPass);
-        return playerPass; }
+    public String whichPlayerPassed() { return playerPass; }
 
     //TODO: implement later for disabling makeMove button
     public boolean isUserTurn(){
@@ -84,7 +81,6 @@ public class Game implements GameFramework{
 
     private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
-        System.out.println(agentMove.getValue());
         myBoard.makeMove(myAgentStates.get(ID_STATE_POS), agentMove.getKey(), agentMove.getValue());
     }
 
@@ -99,6 +95,7 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
+        //NOTE: assumption that makeMove is called FIRST; otherwise numMovesStatus will just be 0
         boolean noMovesLeft = numMovesStatus==0; //myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
         if (result==0 && noMovesLeft) { return 3; }

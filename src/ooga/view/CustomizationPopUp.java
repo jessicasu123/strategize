@@ -1,6 +1,5 @@
 package ooga.view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -8,19 +7,16 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;
+import ooga.view.components.GameIcon;
 import org.json.JSONObject;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import org.json.JSONTokener;
 
+import javax.swing.event.ChangeListener;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.time.chrono.MinguoDate;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Responsible for allowing the user to customize the piece images
@@ -30,6 +26,14 @@ import java.util.regex.Pattern;
  * in the view.
  */
 public class CustomizationPopUp extends GamePopUp{
+
+    public static final String LIGHT_MODE_BOARD_OUTLINE = "black";
+    public static final String DARK_MODE_BOARD_OUTLINE = "white";
+    public static final String LIGHT_MODE_BOARD_FILL = "white";
+    public static final String DARK_MODE_BOARD_FILL = "black";
+    public static final String LIGHT_MODE = "light mode";
+    public static final String DARK_MODE = "dark mode";
+
     private JSONObject labelText;
     private JSONObject buttonInfo;
     private List<String> boardColorOptions;
@@ -39,9 +43,12 @@ public class CustomizationPopUp extends GamePopUp{
     private ImageView userImageChoice;
     private ImageView opponentImageChoice;
     private String boardColorChoice;
-    private Map<Button, String> buttonActionsMap;
+    private List<String> modeOptions;
+    private String userModeChoice;
+    private ComboBox<String> colorChoice;
 
-    public static final int MIN_ICON_WIDTH = 30;
+
+
     public static final String IMG_EXTENSION = ".png";
 
     public CustomizationPopUp(Stage stage, int width, int height, String fileName,
@@ -50,13 +57,14 @@ public class CustomizationPopUp extends GamePopUp{
         setUpJSONReader();
         boardColorOptions = new ArrayList<>();
         playerImages = new ArrayList<>();
+        modeOptions = new ArrayList<>(List.of("light mode", "dark mode"));
+        userModeChoice = "light mode";
         userImage = currUserImg;
         opponentImage = currOppImg;
         getBoardAndPlayerCustomizationChoices();
         playerImages.add(userImage.split("\\.")[0]);
         playerImages.add(opponentImage.split("\\.")[0]);
         boardColorChoice = currColor;
-        buttonActionsMap = new HashMap<>();
     }
 
     /**
@@ -69,7 +77,7 @@ public class CustomizationPopUp extends GamePopUp{
         VBox customizationContents = new VBox();
         customizationContents.setSpacing(SPACING);
         customizationContents.getChildren().addAll(createPlayerCustomization(),
-                createBackgroundCustomization(), backgroundChoiceContainer(),
+                createBackgroundCustomization(),
                 createSetPreferencesContainer());
         myPopUpContents.getChildren().add(customizationContents);
     }
@@ -90,8 +98,22 @@ public class CustomizationPopUp extends GamePopUp{
      * Tells the view in which this pop-up is created what the board color should be.
      * @return - the desired board color
      */
-    public String getBoardColorChoice() { return boardColorChoice; }
+    public String getBoardColorChoice() {
+        if (colorChoice.getValue()==null) {
+            if (userModeChoice.equals(DARK_MODE)) {
+                return DARK_MODE_BOARD_FILL;
+            }else {
+                return LIGHT_MODE_BOARD_FILL;
+            }
+        }
+        return boardColorChoice; }
 
+    public boolean isLightMode() {return userModeChoice.equals(LIGHT_MODE);}
+
+    public String getBoardOutlineColor() {
+        if (userModeChoice.equals(LIGHT_MODE)) return LIGHT_MODE_BOARD_OUTLINE;
+        else return DARK_MODE_BOARD_OUTLINE;
+    }
 
     private void getBoardAndPlayerCustomizationChoices() {
         String boardColors = popUpScreenData.getString("Colors");
@@ -129,11 +151,12 @@ public class CustomizationPopUp extends GamePopUp{
         buttonInfo = popUpScreenData.getJSONObject("Buttons");
         HBox customizeBackgroundContainer = createContainerWithHeadingLabel(labelText.getString("BackgroundCustomization"),
                 "customizeLabels");
-        HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "Choose Color");
+        HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "Color");
 
+        HBox modeContainer = chooseModeContainer(labelText.getString("ModeChoice"), "Mode");
 
         backgroundCustomization.getChildren().addAll(customizeBackgroundContainer,
-                boardColorContainer);
+                boardColorContainer, modeContainer);
 
         return backgroundCustomization;
     }
@@ -143,7 +166,6 @@ public class CustomizationPopUp extends GamePopUp{
         setPref.setAlignment(Pos.CENTER);
         Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERENCES", buttonInfo.getString("SET PREFERENCES"),
                 popUpWidth/3.0);
-        //buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
         setPref.getChildren().add(setPreferencesButton);
         return setPref;
     }
@@ -159,20 +181,19 @@ public class CustomizationPopUp extends GamePopUp{
     private HBox chooseBoardColorContainer(String labelName, String comboBoxName) {
         GameDropDown colorDropDown = new GameDropDown();
         HBox boardColorContainer = colorDropDown.createDropDownContainer(Pos.CENTER,boardColorOptions,comboBoxName,labelName);
-        ComboBox<String> colorChoice = colorDropDown.getComboBox();
+        colorChoice = colorDropDown.getComboBox();
         colorChoice.valueProperty().addListener(((observable, oldValue, newValue) -> boardColorChoice = newValue));
         return boardColorContainer;
     }
 
-    //TODO: move to GameSetUpOptions
-    private HBox backgroundChoiceContainer() {
-        HBox backgroundMode = createHorizontalContainer();
-        backgroundMode.setAlignment(Pos.CENTER);
-        Button lightMode = popUpGameButtonManager.createButton("Light Mode", buttonInfo.getString("LightMode"), MIN_ICON_WIDTH);
-        Button darkMode = popUpGameButtonManager.createButton("Dark Mode", buttonInfo.getString("DarkMode"), MIN_ICON_WIDTH);
-        backgroundMode.getChildren().addAll(lightMode, darkMode);
-        return backgroundMode;
-    }
+    //TODO: refactor to remove duplicate code
+   private HBox chooseModeContainer(String labelName, String comboBoxName) {
+        GameDropDown modeDropDown = new GameDropDown();
+        HBox modeContainer = modeDropDown.createDropDownContainer(Pos.CENTER, modeOptions, comboBoxName, labelName);
+        ComboBox<String> modeChoice = modeDropDown.getComboBox();
+        modeChoice.valueProperty().addListener((observable, oldValue, newValue) -> userModeChoice = newValue);
+        return modeContainer;
+   }
 
     private HBox createChoiceContainerWithComboBox(boolean isUser, String labelName, String comboBoxName) {
         GameDropDown playerImageDropDown = new GameDropDown();
@@ -197,11 +218,7 @@ public class CustomizationPopUp extends GamePopUp{
     }
 
     private ImageView setImageView(String imageName) {
-        Image img = new Image(PIECES_RESOURCES + imageName);
-        ImageView playerIconChoice = new ImageView(img);
-        playerIconChoice.setFitWidth(MIN_ICON_WIDTH);
-        playerIconChoice.setPreserveRatio(true);
-        return playerIconChoice;
+        return new GameIcon().createGameIcon(PIECES_RESOURCES+imageName);
     }
 
     private Label createHeadingLabel(String labelName, String styleName) {

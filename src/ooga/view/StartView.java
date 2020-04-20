@@ -203,11 +203,8 @@ public class StartView {
     }
 
     private ImageView setUpGameIcon(JSONObject game, int cols, double size) {
-        Image img = new Image(GAME_ICON_RESOURCES + game.getString("GameIcon"));
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(size / (cols * NUM_SIDES));
-        gameIcon.setPreserveRatio(true);
-        return gameIcon;
+        return new GameIcon().createGameIcon(GAME_ICON_RESOURCES+game.getString("GameIcon"),
+                size / (cols * NUM_SIDES));
     }
 
 }
