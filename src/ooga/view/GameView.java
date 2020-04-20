@@ -45,6 +45,7 @@ public class GameView {
     public static int HEIGHT = 700;
 
     private Stage myStage;
+    private GameScene myGameViewScene;
     private JSONObject gameScreenData;
     private Controller myController;
     private boolean gameInProgress;
@@ -140,7 +141,8 @@ public class GameView {
         VBox gameDisplayElements = viewElements(userImage,agentImage);
         grid.updateBoardAppearance();
         addActionsToButtons(gameButtonManager.getButtonActionsMap());
-        return new GameScene().createScene(SPACING,width,height,gameDisplayElements);
+        myGameViewScene = new GameScene();
+        return myGameViewScene.createScene(SPACING,width,height,gameDisplayElements);
     }
 
     private VBox viewElements(String userImage,String agentImage ){
@@ -230,6 +232,12 @@ public class GameView {
         statusPanel.updatePlayerIcons(userImage, agentImage);
     }
 
+    private void switchToLightMode() { myGameViewScene.removeStyle("darkMode"); }
+
+    private void switchToDarkMode() {
+        myGameViewScene.updateStyle("darkMode");
+    }
+
     private void makeMove(){
         try {
             if (didPass) {
@@ -255,10 +263,11 @@ public class GameView {
     }
     //TODO: figure out what to do with a pass. also figure out if we want to determine which player passed.
     private void checkPass(boolean isBeforeUserTurn) {
-        if (gameInProgress && (!myController.playerPass().equals(""))) {
-            if (myController.playerPass().equals("user") && isBeforeUserTurn) {
+        String playerPassed = myController.playerPass();
+        if (gameInProgress && (!playerPassed.equals(""))) {
+            if (playerPassed.equals("user") && isBeforeUserTurn) {
                 gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
-            } else if (myController.playerPass().equals("agent") && !isBeforeUserTurn){
+            } else if (playerPassed.equals("agent") && !isBeforeUserTurn){
                 gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
             }
             didPass = true;
@@ -268,6 +277,7 @@ public class GameView {
     private void checkGameOver() {
         if (myController.isGameOver()) {
             gameInProgress = false;
+            didPass = false;
             endGame(myController.gameWinner());
         }
     }

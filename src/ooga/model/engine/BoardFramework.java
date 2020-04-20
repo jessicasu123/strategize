@@ -55,7 +55,7 @@ public interface BoardFramework {
      *  - checks if there are no possible moves by either opponent
      * @return true if there are moves left, false if there are not
      */
-    boolean checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates);
+    int checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates);
     /**
      * METHOD PURPOSE:
      *  - returns a visual representation of the possible moves.

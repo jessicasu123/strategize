@@ -19,6 +19,7 @@ public class Game implements GameFramework{
     private List<Integer> myAgentStates;
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
+    private int numMovesStatus;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
@@ -38,6 +39,7 @@ public class Game implements GameFramework{
 
 
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException {
+        playerPass = "";
         if(isUserTurn && !noMovesForUser){
             makeUserMove(moveCoordinates);
         }
@@ -48,13 +50,16 @@ public class Game implements GameFramework{
             isUserTurn = !isUserTurn;
         }
         //TODO: update empty moves check again
-        noMovesForUser = myBoard.checkEmptyMovesForPlayer(myUserStates);
-        noMovesForAgent = myBoard.checkEmptyMovesForPlayer(myAgentStates);
+        numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        noMovesForUser = numMovesStatus==1;
+        noMovesForAgent = numMovesStatus==2;
         if (noMovesForUser) playerPass = "user";
         if (noMovesForAgent) playerPass = "agent";
     }
 
-    public String whichPlayerPassed() { return playerPass; }
+    public String whichPlayerPassed() {
+        System.out.println(playerPass);
+        return playerPass; }
 
     //TODO: implement later for disabling makeMove button
     public boolean isUserTurn(){
@@ -80,6 +85,7 @@ public class Game implements GameFramework{
 
     private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
+        System.out.println(agentMove.getValue());
         myBoard.makeMove(myAgentStates.get(ID_STATE_POS), agentMove.getKey(), agentMove.getValue());
     }
 
@@ -94,7 +100,7 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
-        boolean noMovesLeft = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        boolean noMovesLeft = numMovesStatus==0; //myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
         if (result==0 && noMovesLeft) { return 3; }
         return result;

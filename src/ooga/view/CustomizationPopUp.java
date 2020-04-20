@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;
 import org.json.JSONObject;
 import javafx.scene.image.ImageView;
@@ -40,7 +41,6 @@ public class CustomizationPopUp extends GamePopUp{
     private String boardColorChoice;
     private Map<Button, String> buttonActionsMap;
 
-    public static final String DATAFILE = DEFAULT_RESOURCES+ "CustomizationView.json";
     public static final int MIN_ICON_WIDTH = 30;
     public static final String IMG_EXTENSION = ".png";
 
@@ -69,7 +69,8 @@ public class CustomizationPopUp extends GamePopUp{
         VBox customizationContents = new VBox();
         customizationContents.setSpacing(SPACING);
         customizationContents.getChildren().addAll(createPlayerCustomization(),
-                createBackgroundCustomization());
+                createBackgroundCustomization(), backgroundChoiceContainer(),
+                createSetPreferencesContainer());
         myPopUpContents.getChildren().add(customizationContents);
     }
 
@@ -129,10 +130,10 @@ public class CustomizationPopUp extends GamePopUp{
         HBox customizeBackgroundContainer = createContainerWithHeadingLabel(labelText.getString("BackgroundCustomization"),
                 "customizeLabels");
         HBox boardColorContainer = chooseBoardColorContainer(labelText.getString("BackgroundColor"), "Choose Color");
-        HBox setPreferencesContainer = createSetPreferencesContainer();
+
 
         backgroundCustomization.getChildren().addAll(customizeBackgroundContainer,
-                boardColorContainer, setPreferencesContainer);
+                boardColorContainer);
 
         return backgroundCustomization;
     }
@@ -141,8 +142,8 @@ public class CustomizationPopUp extends GamePopUp{
         HBox setPref = createHorizontalContainer();
         setPref.setAlignment(Pos.CENTER);
         Button setPreferencesButton = popUpGameButtonManager.createButton("SET PREFERENCES", buttonInfo.getString("SET PREFERENCES"),
-                popUpWidth/3.0); //createButton("SET PREFERENCES");
-        buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
+                popUpWidth/3.0);
+        //buttonActionsMap.put(setPreferencesButton, buttonInfo.getString("SET PREFERENCES"));
         setPref.getChildren().add(setPreferencesButton);
         return setPref;
     }
@@ -164,14 +165,14 @@ public class CustomizationPopUp extends GamePopUp{
     }
 
     //TODO: move to GameSetUpOptions
-//    private HBox backgroundChoiceContainer() {
-//        HBox backgroundMode = createHorizontalContainer();
-//        backgroundMode.setAlignment(Pos.CENTER);
-//        GameButton lightMode = createButton(buttonInfo.getString("LightMode"));
-//        GameButton darkMode = createButton(buttonInfo.getString("DarkMode"));
-//        backgroundMode.getChildren().addAll(lightMode, darkMode);
-//        return backgroundMode;
-//    }
+    private HBox backgroundChoiceContainer() {
+        HBox backgroundMode = createHorizontalContainer();
+        backgroundMode.setAlignment(Pos.CENTER);
+        Button lightMode = popUpGameButtonManager.createButton("Light Mode", buttonInfo.getString("LightMode"), MIN_ICON_WIDTH);
+        Button darkMode = popUpGameButtonManager.createButton("Dark Mode", buttonInfo.getString("DarkMode"), MIN_ICON_WIDTH);
+        backgroundMode.getChildren().addAll(lightMode, darkMode);
+        return backgroundMode;
+    }
 
     private HBox createChoiceContainerWithComboBox(boolean isUser, String labelName, String comboBoxName) {
         GameDropDown playerImageDropDown = new GameDropDown();

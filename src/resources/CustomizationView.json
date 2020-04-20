@@ -9,8 +9,8 @@
     "BackgroundColor": "Choose Color"
   },
   "Buttons": {
-    "LightMode": "Light Mode",
-    "DarkMode": "Dark Mode",
+    "LightMode": "switchToLightMode",
+    "DarkMode": "switchToDarkMode",
     "SET PREFERENCES": "setCustomizationPreferences"
   }
 }
