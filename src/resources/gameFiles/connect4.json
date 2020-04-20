@@ -20,13 +20,15 @@
   "PiecesMove": "false",
 
   "Board": {
-    "Default": "7 x 6",
-    "DimensionOptions": [ "7 x 6"],
+    "Default": "6 x 7",
+    "DimensionOptions": [ "6 x 7"],
     "DimensionDetails": {
-      "7 x 6": {
+      "6 x 7": {
         "Height": "6",
         "Width": "7",
-        "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;"
+        "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;",
+        "WinValue": "4",
+        "BoardWeights": ""
       }
     }
   },
