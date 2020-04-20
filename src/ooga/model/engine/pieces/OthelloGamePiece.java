@@ -3,7 +3,6 @@ package ooga.model.engine.pieces;
 import ooga.model.engine.Coordinate;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OthelloGamePiece extends GamePiece {
@@ -18,8 +17,8 @@ public class OthelloGamePiece extends GamePiece {
     public OthelloGamePiece(int status, Coordinate position) {
         super(status, position);
         neighborsToConvert = new ArrayList<>();
-        currRowPos = this.getPosition().getXCoord();
-        currColPos = this.getPosition().getYCoord();
+        currRowPos = this.getPosition().getRow();
+        currColPos = this.getPosition().getCol();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
         lastCheckedDirection = 0;
     }

@@ -1,29 +1,29 @@
 package ooga.model.engine;
 /**
  * PURPOSE OF INTERFACE:
- *  - to ensure continuity amongst all parts of the program that require a x,y coordinate
+ *  - to ensure continuity amongst all parts of the program that require a row, col coordinate
  */
 public interface CoordinateFramework {
     /**
      * METHOD PURPOSE:
-     *  - get the X coordinate to know the position
-     * @return - x coordinate
+     *  - get the row coordinate to know the position
+     * @return - row coordinate
      */
-    int getXCoord();
+    int getRow();
 
     /**
      * METHOD PURPOSE:
-     *  - get the Y coordinate to know the position
-     * @return - y coordinate
+     *  - get the column coordinate to know the position
+     * @return - column coordinate
      */
-    int getYCoord();
+    int getCol();
 
 
     /**
      * METHOD PURPOSE:
      *  - to see if two coordinates are equal
      * @param o - the object comparing to
-     * @return if they have the same x-coordinate and the same y-coordinate
+     * @return if they have the same row-coordinate and the same col-coordinate
      */
     @Override
     boolean equals(Object o);

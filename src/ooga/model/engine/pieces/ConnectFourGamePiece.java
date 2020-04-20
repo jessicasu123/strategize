@@ -47,9 +47,9 @@ public class ConnectFourGamePiece extends GamePiece {
      */
     //TODO: replace number with DIM-1
     private boolean checkBelow(List<GamePiece> neighbors){
-        if(!(this.getPosition().getXCoord()==ROWS)) {
+        if(!(this.getPosition().getRow()==ROWS)) {
             for (GamePiece neighbor : neighbors) {
-                if (neighbor.getPosition().getXCoord()-1 == this.getPosition().getXCoord()  && neighbor.getPosition().getYCoord() == this.getPosition().getYCoord()) {
+                if (neighbor.getPosition().getRow()-1 == this.getPosition().getRow()  && neighbor.getPosition().getCol() == this.getPosition().getCol()) {
                     if (neighbor.getState()!=0) return true;
                 }
             }

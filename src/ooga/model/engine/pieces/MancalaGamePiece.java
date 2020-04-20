@@ -60,8 +60,8 @@ public class MancalaGamePiece extends GamePiece {
     private int maxYCoord(List<GamePiece> row){
         int max = 0;
         for(GamePiece piece: row){
-            if(piece.getPosition().getYCoord() > max){
-                max = piece.getPosition().getYCoord();
+            if(piece.getPosition().getCol() > max){
+                max = piece.getPosition().getCol();
             }
         }
         return max;
@@ -100,7 +100,7 @@ public class MancalaGamePiece extends GamePiece {
      */
     @Override
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
-        int yPos = this.getPosition().getYCoord();
+        int yPos = this.getPosition().getCol();
         List<GamePiece> myRow = myRowOfPieces(neighbors);
         List<GamePiece> myOpponentsRow = myOpponentRowOfPieces(neighbors);
         int numMarblesBefore = myMarbles;
@@ -113,7 +113,7 @@ public class MancalaGamePiece extends GamePiece {
         int currentPos = startingPos;
         while (myMarbles > 0 && currentPos >= 0 && currentPos <= maxYCoord(row)) {
             for (GamePiece piece : row) {
-                if (piece.getPosition().getYCoord() == currentPos) {
+                if (piece.getPosition().getCol() == currentPos) {
                     performOneMove(row, otherRow, currentPos, piece);
                     break;
                 }
@@ -138,7 +138,7 @@ public class MancalaGamePiece extends GamePiece {
 
     private void performSpecialCapture(List<GamePiece> row, List<GamePiece> otherRow, int currYPos) {
         for(GamePiece otherPiece: otherRow){
-            if(otherPiece.getPosition().getYCoord() == currYPos){
+            if(otherPiece.getPosition().getCol() == currYPos){
                 for(GamePiece myPiece: row){
                     if(myPiece.getState() == myGoalState){
                         myPiece.changeState(MARBLES_TO_ADD + otherPiece.getVisualRepresentation());

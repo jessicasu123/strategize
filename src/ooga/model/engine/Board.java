@@ -79,13 +79,13 @@ public class Board implements BoardFramework{
     }
 
     private List<GamePiece> getNeighbors(GamePiece currPiece) {
-        int pieceRow = currPiece.getPosition().getXCoord();
-        int pieceCol = currPiece.getPosition().getYCoord();
+        int pieceRow = currPiece.getPosition().getRow();
+        int pieceCol = currPiece.getPosition().getCol();
         List<Coordinate> coordinates = getNeighborCoordinates(pieceRow,pieceCol);
         List<GamePiece> allNeighbors = new ArrayList<GamePiece>();
         for (Coordinate coord: coordinates) {
-            int row = coord.getXCoord();
-            int col = coord.getYCoord();
+            int row = coord.getRow();
+            int col = coord.getCol();
             allNeighbors.add(myGamePieces.get(row).get(col));
         }
         return allNeighbors;
@@ -145,7 +145,7 @@ public class Board implements BoardFramework{
      */
     @Override
     public void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException {
-        GamePiece curr = myGamePieces.get(startCoordinate.getXCoord()).get(startCoordinate.getYCoord());
+        GamePiece curr = myGamePieces.get(startCoordinate.getRow()).get(startCoordinate.getCol());
         Coordinate oldPos = curr.getPosition();
         List<GamePiece> neighbors = getNeighbors(curr);
         if (curr.calculateAllPossibleMoves(neighbors,player).contains(endCoordinate)) {
@@ -153,9 +153,9 @@ public class Board implements BoardFramework{
             doesTurnChange = curr.changeTurnAfterMove();
             if(curr.getPosition() != oldPos){
                 Coordinate currPosition = curr.getPosition();
-                GamePiece switchedWith = myGamePieces.get(currPosition.getXCoord()).get(currPosition.getYCoord());
-                myGamePieces.get(oldPos.getXCoord()).set(oldPos.getYCoord(), switchedWith);
-                myGamePieces.get(currPosition.getXCoord()).set(currPosition.getYCoord(), curr);
+                GamePiece switchedWith = myGamePieces.get(currPosition.getRow()).get(currPosition.getCol());
+                myGamePieces.get(oldPos.getRow()).set(oldPos.getCol(), switchedWith);
+                myGamePieces.get(currPosition.getRow()).set(currPosition.getCol(), curr);
             }
         } else {
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");

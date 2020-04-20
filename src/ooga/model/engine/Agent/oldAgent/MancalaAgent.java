@@ -35,10 +35,10 @@ public class MancalaAgent extends Agent {
         int numCols = boardStateInfo.get(0).size();
         for (int row = 0; row < boardStateInfo.size(); row++) {
             for (int col = 0; col < numCols; col ++) {
-                if (row == maximizingPlayerGoalPos.getYCoord() && col == maximizingPlayerGoalPos.getXCoord()) {
+                if (row == maximizingPlayerGoalPos.getCol() && col == maximizingPlayerGoalPos.getRow()) {
                     maxPlayerNumMarbles = boardStateInfo.get(row).get(col);
                 }
-                else if (row == minimizingPlayerGoalPos.getYCoord() && col == minimizingPlayerGoalPos.getXCoord()) {
+                else if (row == minimizingPlayerGoalPos.getCol() && col == minimizingPlayerGoalPos.getRow()) {
                     minPlayerNumMarbles = boardStateInfo.get(row).get(col);
                 }
             }
@@ -55,10 +55,10 @@ public class MancalaAgent extends Agent {
      */
     @Override
     protected boolean isWin(int playerID, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        List<Integer> maxPlayerRow = boardStateInfo.get(maximizingPlayerGoalPos.getYCoord());
-        List<Integer> minPlayerRow = boardStateInfo.get(minimizingPlayerGoalPos.getYCoord());
-        int maxPlayerMarbles = boardStateInfo.get(maximizingPlayerGoalPos.getYCoord()).get(maximizingPlayerGoalPos.getXCoord());
-        int minPlayerMarbles = boardStateInfo.get(minimizingPlayerGoalPos.getYCoord()).get(minimizingPlayerGoalPos.getXCoord());
+        List<Integer> maxPlayerRow = boardStateInfo.get(maximizingPlayerGoalPos.getCol());
+        List<Integer> minPlayerRow = boardStateInfo.get(minimizingPlayerGoalPos.getCol());
+        int maxPlayerMarbles = boardStateInfo.get(maximizingPlayerGoalPos.getCol()).get(maximizingPlayerGoalPos.getRow());
+        int minPlayerMarbles = boardStateInfo.get(minimizingPlayerGoalPos.getCol()).get(minimizingPlayerGoalPos.getRow());
         boolean moreMarbles;
         if (getMaxPlayer() == playerID) {
             moreMarbles = maxPlayerMarbles > minPlayerMarbles;
