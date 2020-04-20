@@ -3,11 +3,13 @@
 
   "Neighborhood": "horizontal,vertical",
 
-  "WinType": "",
+  "WinType": "NoMovesMorePieces",
 
-  "EvaluationFunctions": [""],
+  "EvaluationFunctions": ["MorePieces"],
 
   "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
+
+  "WinValue": "",
 
   "SpecialPieceIndex": 0,
 

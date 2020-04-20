@@ -3,11 +3,13 @@
 
   "Neighborhood": "",
 
-  "WinType": "",
+  "WinType": "ConsecutivePieces",
 
-  "EvaluationFunctions": [""],
+  "EvaluationFunctions": ["NumOpenLines"],
 
   "BoardWeights": "0,0,0;0,0,0;0,0,0",
+
+  "WinValue": 3,
 
   "SpecialPieceIndex": 0,
 
