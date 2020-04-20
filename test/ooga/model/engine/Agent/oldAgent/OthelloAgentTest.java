@@ -20,7 +20,7 @@ public class OthelloAgentTest {
         List<Integer> row6 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         List<Integer> row7 = new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         List<Integer> row8 = new ArrayList<>(List.of(1,0,0,0,0,0,0,2));
-        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row6,row8));
+        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
         //numCornerPieces more for 2 = 2
         //num pieces more for 2 = 2
         //weight for 2 - weight for 1 = 8

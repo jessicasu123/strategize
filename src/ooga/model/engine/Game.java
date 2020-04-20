@@ -31,7 +31,6 @@ public class Game implements GameFramework{
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
         myAgent = gameType.createAgent();
-        playerPass = "";
         myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;

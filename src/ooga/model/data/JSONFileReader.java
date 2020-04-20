@@ -251,8 +251,7 @@ public class JSONFileReader implements FileHandler {
         fileArray.put(player1PosDirection);
         fileArray.put(possibleMove);
 
-        try (FileWriter file = new FileWriter(fileName)) {
-
+        try (FileWriter file = new FileWriter("src/resources/gameFiles/" + fileName)) {
             file.write(fileArray.toString());
             file.flush();
 

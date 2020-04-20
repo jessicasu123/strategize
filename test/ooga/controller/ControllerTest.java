@@ -92,14 +92,16 @@ class ControllerTest {
 
     @Test
     void testIsGameOver() {
+        testController.squareSelected(0,0);
+        testController.playMove();
         assertFalse(testController.isGameOver());
-
-
         // TODO: add testcases for when the game has been won/has tied
     }
 
     @Test
     void testGameWinner() {
+        testController.squareSelected(0,1);
+        testController.playMove();
         assertEquals(0, testController.gameWinner());
         // TODO: add testcases for when the game has been won/has tied
     }

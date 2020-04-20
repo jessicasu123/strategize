@@ -11,14 +11,9 @@ public class ChangeOpponentPieces implements MoveType {
 
     }
 
-
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState) {
 
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return false;
-    }
 }
