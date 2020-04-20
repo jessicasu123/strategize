@@ -2,40 +2,56 @@ package ooga.model.engine.Agent.newAgent.evaluationFunctions;
 
 import ooga.model.engine.Coordinate;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MorePieces implements EvaluationFunction{
-    public static final int MINIMIZE_FACTOR = -1;
-    private final int myStateEvalFor;
-    private final int myOpponentStateEvalFor;
-    private final Coordinate myEvalCoords;
-    private final Coordinate myOpponentEvalCoords;
+    private int myStateEvalFor;
+    private int opponentStateEvalFor;
+    private final Boolean checkCurrConfig;
+    private final List<List<Integer>> myInitialConfig;
 
-    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, List<List<Integer>> initialConfig){
+    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, List<List<Integer>> initialConfig, Boolean checkCurrConfig){
         myStateEvalFor = maxStates.get(stateIndex);
-        myOpponentStateEvalFor = minStates.get(stateIndex);
-        myEvalCoords = getEvalStateCoords(myStateEvalFor, initialConfig);
-        myOpponentEvalCoords = getEvalStateCoords(myOpponentStateEvalFor, initialConfig);
+        opponentStateEvalFor = minStates.get(stateIndex);
+        myInitialConfig = initialConfig;
+        this.checkCurrConfig = checkCurrConfig;
     }
 
     @Override
     public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        int myGoalState = boardStateInfo.get(myEvalCoords.getXCoord()).get(myEvalCoords.getYCoord());
-        int opponentGoalState = boardStateInfo.get(myOpponentEvalCoords.getXCoord()).get(myOpponentEvalCoords.getYCoord());
-        return myGoalState - opponentGoalState;
+        List<List<Integer>> boardStates;
+        if (checkCurrConfig) {
+            boardStates = boardStateInfo;
+        } else {
+            boardStates = myInitialConfig;
+        }
+        ArrayList<Coordinate> myEvalCoords = getEvalStateCoords(myStateEvalFor, boardStates);
+        ArrayList<Coordinate> opponentEvalCoords = getEvalStateCoords(opponentStateEvalFor, boardStates);
+        if (checkCurrConfig) {
+            return myEvalCoords.size() - opponentEvalCoords.size();
+        }
+        return countEvalStates(myEvalCoords, boardStateInfo) - countEvalStates(opponentEvalCoords, boardStateInfo);
     }
 
-    private Coordinate getEvalStateCoords(int stateToFind, List<List<Integer>> initialConfig) {
-        for (int r = 0; r < initialConfig.size(); r++) {
-            for (int c = 0; c < initialConfig.get(0).size(); c++) {
-                if (initialConfig.get(r).get(c) == stateToFind) {
-                    return new Coordinate(r, c);
+    private ArrayList<Coordinate> getEvalStateCoords(int stateToFind, List<List<Integer>> config) {
+        ArrayList<Coordinate> stateCoords = new ArrayList<>();
+        for (int r = 0; r < config.size(); r++) {
+            for (int c = 0; c < config.get(0).size(); c++) {
+                if (config.get(r).get(c) == stateToFind) {
+                    stateCoords.add(new Coordinate(r, c));
                 }
             }
         }
-//        initialConfig.indexOf(stateToFind); // TODO: check what this would do instead
-        return null; // TODO: check is not null
+        return stateCoords;
+    }
+
+    private int countEvalStates(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
+        int total = 0;
+        for (Coordinate coord : stateCoords) {
+            total += boardStateInfo.get(coord.getXCoord()).get(coord.getYCoord());
+        }
+        return total;
     }
 
 }
