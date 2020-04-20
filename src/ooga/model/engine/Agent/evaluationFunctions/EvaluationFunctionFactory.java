@@ -1,15 +1,13 @@
 package ooga.model.engine.Agent.evaluationFunctions;
-
-
 import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 
 import java.util.List;
 
 public class EvaluationFunctionFactory {
-    //TODO: do we want to have weights for each of the evaluation functions
     public EvaluationFunction createEvaluationFunction(String evaluationType, int stateIndex, List<Integer> maxStates,
                                                        List<Integer> minStates, List<List<Integer>> boardWeights,
-                                                       boolean userPosDirection, int winValue) {
+                                                       boolean userPosDirection, int winValue, boolean checkCurrConfig,
+                                                       List<List<Integer>> initialConfig) {
         int maxDirection;
         int minDirection;
         if(userPosDirection){
@@ -19,6 +17,8 @@ public class EvaluationFunctionFactory {
         }
         maxDirection = minDirection * -1;
         switch (evaluationType) {
+            case "MorePieces":
+                return new MorePieces(stateIndex, maxStates, minStates, initialConfig, checkCurrConfig);
             case "NumOpenLines":
                 return new NumOpenLines(stateIndex, maxStates,minStates, winValue);
             case "SumOfDistances":

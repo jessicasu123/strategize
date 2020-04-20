@@ -1,6 +1,5 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Coordinate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 class CoordinateTest {
@@ -10,12 +9,12 @@ class CoordinateTest {
 
     @Test
     void testGetXCoord() {
-        assertEquals(0, c.getXCoord());
+        assertEquals(0, c.getRow());
     }
 
     @Test
     void testGetYCoord() {
-        assertEquals(1, c.getYCoord());
+        assertEquals(1, c.getCol());
     }
 
     @Test
