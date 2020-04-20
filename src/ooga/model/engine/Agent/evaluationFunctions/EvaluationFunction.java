@@ -1,4 +1,4 @@
-package ooga.model.engine.Agent.newAgent.evaluationFunctions;
+package ooga.model.engine.Agent.evaluationFunctions;
 
 import java.util.List;
 

@@ -54,19 +54,20 @@ public class JSONFileReader implements FileHandler {
      * parses the configuration string and adds to the configuration 2-D List
      * @param config - the String configuration from the JSON File
      */
-    private void parseJSONConfiguration(String config){
-        configuration = new ArrayList<>();
+    private List<List<Integer>> parseJSONConfiguration(String config){
+        List<List<Integer>> configuration = new ArrayList<>();
         List<Integer> row = new ArrayList<>();
-        for(int i = 0;i<config.length();i++){
-            if(!config.substring(i,i+1).equals(",") && !config.substring(i,i+1).equals(";")){
-                row.add(Integer.parseInt(config.substring(i,i+1)));
-
+        String[] rows = config.split(";");
+        for(String rowConfig: rows){
+            int[] rowTemp = Arrays.stream(rowConfig.split(",")).mapToInt(Integer::parseInt).toArray();
+            for(int i : rowTemp){
+                row.add(i);
             }
-            if(config.substring(i,i+1).equals(";") || i == config.length()-1){
-                configuration.add(row);
-                row = new ArrayList<>();
-            }
+            configuration.add(row);
+            row = new ArrayList<>();
         }
+
+        return configuration;
     }
 
 
@@ -78,6 +79,8 @@ public class JSONFileReader implements FileHandler {
         JSONTokener token = new JSONTokener(br);
         gameData = new org.json.JSONObject(token);
     }
+
+
 
     /**
      * @param i - the player whose info are looking for
@@ -91,6 +94,34 @@ public class JSONFileReader implements FileHandler {
             playerStateInfo.add(stateInfo.getInt(j));
         }
         return Collections.unmodifiableList(playerStateInfo);
+    }
+
+    public List<List<Integer>> getBoardWeights(){
+        JSONObject boardDetails = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
+        String boardWeightStr = boardDetails.getString("BoardWeights");
+        return parseJSONConfiguration(boardWeightStr);
+    }
+
+    public int getWinValue(){
+        JSONObject boardDetails = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
+        return boardDetails.getInt("WinValue");
+    }
+
+    public String getWinType(){
+        return gameData.getString("WinType");
+    }
+
+    public List<String> getEvaluationFunctions(){
+        List<String> evalFunctions = new ArrayList<>();
+        JSONArray allEvals = gameData.getJSONArray("EvaluationFunctions");
+        for(int i = 0; i < allEvals.length(); i++){
+            evalFunctions.add(allEvals.getString(i));
+        }
+        return evalFunctions;
+    }
+
+    public int getSpecialPieceIndex(){
+        return gameData.getInt("SpecialPieceIndex");
     }
 
     /**
@@ -171,7 +202,7 @@ public class JSONFileReader implements FileHandler {
     public List<List<Integer>> loadFileConfiguration() throws IOException {
         createJSONArray();
         JSONObject config = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
-        parseJSONConfiguration(config.getString("InitialConfig"));
+        configuration = parseJSONConfiguration(config.getString("InitialConfig"));
         return configuration;
     }
 

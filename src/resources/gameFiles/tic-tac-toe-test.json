@@ -7,11 +7,7 @@
 
   "EvaluationFunctions": ["NumOpenLines"],
 
-  "BoardWeights": "0,0,0;0,0,0;0,0,0",
-
   "SpecialPieceIndex": 0,
-
-  "WinValue": 3,
 
   "EmptyState": "0",
 
@@ -26,7 +22,9 @@
       "3 x 3": {
         "Height": "3",
         "Width": "3",
-        "InitialConfig": "1,2,1;0,1,1;2,0,2"
+        "InitialConfig": "1,2,1;0,1,1;2,0,2",
+        "BoardWeights": "0,0,0;0,0,0;0,0,0",
+        "WinValue": 3
       }
     }
   },

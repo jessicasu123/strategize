@@ -1,6 +1,6 @@
 package ooga.model.engine.Player;
 
-import ooga.model.engine.Agent.oldAgent.Agent;
+import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.exceptions.InvalidMoveException;

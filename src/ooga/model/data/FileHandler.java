@@ -51,4 +51,10 @@ public interface FileHandler {
      */
     public Map<Integer, String> getStateImageMapping(int i);
 
+    int getSpecialPieceIndex();
+    List<String> getEvaluationFunctions();
+    String getWinType();
+    int getWinValue();
+    List<List<Integer>> getBoardWeights();
+
 }

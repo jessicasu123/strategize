@@ -7,10 +7,6 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
-
-  "WinValue": "",
-
   "SpecialPieceIndex": 0,
 
   "EmptyState": "0",
@@ -19,6 +15,7 @@
 
   "Player1PosDirection": "true",
 
+  "NumPiecesPerSquare": 1,
 
   "Board": {
     "Default": "8 x 2",
@@ -27,7 +24,9 @@
       "8 x 2": {
         "Height": "2",
         "Width": "8",
-        "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2"
+        "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
+        "WinValue": 0,
+        "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
       }
     }
   },

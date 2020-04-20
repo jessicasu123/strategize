@@ -5,11 +5,7 @@
 
   "WinType": "NoPiecesForOpponent",
 
-  "EvaluationFunctions": ["PieceDifferences","PositionWeights","SumOfDistancesForSpecialPiece"],
-
-  "BoardWeights": "0,-4,0,-4,0,-4,0,-4;-3,0,-3,0,-3,0,-3,0;0,-2,0,-2,0,-2,0,-2;-1,0,-1,0,-1,0,-1,0;0,1,0,1,0,1,0,1;2,0,2,0,2,0,2,0;0,3,0,3,0,3,0,3;4,0,4,0,4,0,4,0",
-
-  "WinValue": 0,
+  "EvaluationFunctions": ["PieceDifferences","PositionWeights","SumOfDistances"],
 
   "SpecialPieceIndex": 1,
 
@@ -18,15 +14,26 @@
   "PiecesMove": "true",
 
   "Player1PosDirection": "false",
-  
+
+  "NumPiecesPerSquare": 1,
+
   "Board": {
     "Default": "8 x 8",
-    "DimensionOptions": [ "8 x 8" ],
+    "DimensionOptions": [ "8 x 8" , "6 x 6"],
     "DimensionDetails": {
       "8 x 8": {
         "Height": "8",
         "Width": "8",
-        "InitialConfig": "0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;3,0,3,0,3,0,3,0;0,3,0,3,0,3,0,3;3,0,3,0,3,0,3,0"
+        "InitialConfig": "0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;3,0,3,0,3,0,3,0;0,3,0,3,0,3,0,3;3,0,3,0,3,0,3,0",
+        "WinValue": 0,
+        "BoardWeights": "0,-4,0,-4,0,-4,0,-4;-3,0,-3,0,-3,0,-3,0;0,-2,0,-2,0,-2,0,-2;-1,0,-1,0,-1,0,-1,0;0,1,0,1,0,1,0,1;2,0,2,0,2,0,2,0;0,3,0,3,0,3,0,3;4,0,4,0,4,0,4,0"
+      },
+      "6 x 6": {
+        "Height": "6",
+        "Width": "6",
+        "InitialConfig": "0,1,0,1,0,1;1,0,1,0,1,0;0,0,0,0,0,0;0,0,0,0,0,0;0,3,0,3,0,3;3,0,3,0,3,0",
+        "WinValue": 0,
+        "BoardWeights": "0,-3,0,-3,0,-3;-2,0,-2,0,-2,0;0,-1,0,-1,0,-1;1,0,1,0,1,0;0,2,0,2,0,2;3,0,3,0,3,0"
       }
     }
   },

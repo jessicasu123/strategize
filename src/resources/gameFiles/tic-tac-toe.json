@@ -7,10 +7,6 @@
 
   "EvaluationFunctions": ["NumOpenLines"],
 
-  "BoardWeights": "0,0,0;0,0,0;0,0,0",
-
-  "WinValue": 3,
-
   "SpecialPieceIndex": 0,
 
   "EmptyState": "0",
@@ -26,17 +22,23 @@
       "3 x 3": {
         "Height": "3",
         "Width": "3",
-        "InitialConfig": "0,0,0;0,0,0;0,0,0"
+        "InitialConfig": "0,0,0;0,0,0;0,0,0",
+        "BoardWeights": "0,0,0;0,0,0;0,0,0",
+        "WinValue": 3
       },
       "4 x 4": {
         "Height": "4",
         "Width": "4",
-        "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0"
+        "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
+        "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
+        "WinValue": 4
       },
       "5 x 5": {
         "Height": "5",
         "Width": "5",
-        "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0"
+        "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+        "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+        "WinValue": 5
       }
     }
   },

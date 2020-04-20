@@ -3,10 +3,14 @@ package ooga.controller;
 import ooga.model.data.FileHandler;
 import ooga.model.data.JSONFileReader;
 import ooga.model.engine.*;
-import ooga.model.engine.GameTypeFactory.GameFactory;
-import ooga.model.engine.GameTypeFactory.GameTypeFactory;
+import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
+import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
+import ooga.model.engine.Agent.winTypes.WinType;
+import ooga.model.engine.Agent.winTypes.WinTypeFactory;
 import ooga.model.engine.exceptions.InvalidGameTypeException;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePieceFactory;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -15,7 +19,7 @@ import java.util.*;
 
 public class Controller implements ControllerFramework {
     private GameFramework myGame;
-    private GameTypeFactory gameType;
+    private GamePieceFactory myGamePieces;
     private FileHandler myFileHandler;
     private boolean isPieceSelected;
     private int pieceSelectedX;
@@ -25,8 +29,8 @@ public class Controller implements ControllerFramework {
     private String gameFileName;
     private boolean userIsPlayer1;
     private boolean userTurn;
-    private List<Integer> myUserPlayerInformation;
-    private List<Integer> myAgentPlayerInformation;
+    private List<Integer> myUserPlayerInfo;
+    private List<Integer> myAgentPlayerInfo;
     private Map<Integer, String> myStateToImageMapping;
 
     public Controller(String fileName, String userID, String opponent, String dimensions) throws IOException, ParseException, InvalidGameTypeException {
@@ -35,29 +39,59 @@ public class Controller implements ControllerFramework {
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
         myStateToImageMapping = new HashMap<>();
-        isPieceSelected = false;
         setPlayerInformation();
-        gameType = createGameTypeFactory();
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
-                myUserPlayerInformation, myAgentPlayerInformation, userIsPlayer1);
+        List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
+        myGamePieces = createGamePieceFactory();
+        Agent gameAgent = createAgent();
+        myGame = new Game(myGamePieces, startingConfiguration, myFileHandler.getNeighborhood(), myUserPlayerInfo,
+                myAgentPlayerInfo, userIsPlayer1, gameAgent);
     }
 
-    private GameTypeFactory createGameTypeFactory() throws IOException, ParseException, InvalidGameTypeException {
+    private Agent createAgent() throws IOException, ParseException {
+        int winValue = myFileHandler.getWinValue();
+        WinType winType = createWinType(winValue);
+        List<EvaluationFunction> allEvals = createEvaluationFunctions(winValue);
+        return new Agent(winType, allEvals, myAgentPlayerInfo, myUserPlayerInfo);
+
+    }
+
+    private List<EvaluationFunction> createEvaluationFunctions(int winValue) throws IOException, ParseException {
+        boolean playerPosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
+        int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
+        List<List<Integer>> boardWeights = myFileHandler.getBoardWeights();
+        List<String> evalFunctions = myFileHandler.getEvaluationFunctions();
+        List<EvaluationFunction> allEvals = new ArrayList<>();
+        for(String eval: evalFunctions){
+            EvaluationFunction evalFunc = new EvaluationFunctionFactory().createEvaluationFunction(eval,
+                    specialPieceIndex, myAgentPlayerInfo, myUserPlayerInfo, boardWeights, playerPosDirection,
+                    winValue);
+            allEvals.add(evalFunc);
+        }
+        return allEvals;
+    }
+
+    private WinType createWinType(int winValue) throws IOException, ParseException {
+        String winTypeStr = myFileHandler.getWinType();
+        int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
+        //TODO: change player row
+        return new WinTypeFactory().createWinType(winTypeStr, emptyState, winValue, 0);
+    }
+
+    private GamePieceFactory createGamePieceFactory() throws IOException, ParseException {
         String gameType = getStartingProperties().get("Gametype");
         int emptyState = Integer.parseInt(getStartingProperties().get("EmptyState"));
         boolean playerPosDirection = Boolean.parseBoolean(getStartingProperties().get("Player1Direction"));
-        return new GameFactory().createGameType(gameType,myUserPlayerInformation, myAgentPlayerInformation,
-                playerPosDirection, emptyState);
+        return new GamePieceFactory(gameType, myUserPlayerInfo, myAgentPlayerInfo, emptyState, playerPosDirection);
     }
 
     private void setPlayerInformation(){
         if (userIsPlayer1) {
-            myUserPlayerInformation = createPlayerStateInformation(1);
-            myAgentPlayerInformation = createPlayerStateInformation(2);
+            myUserPlayerInfo = createPlayerStateInformation(1);
+            myAgentPlayerInfo = createPlayerStateInformation(2);
         }
         else {
-            myUserPlayerInformation = createPlayerStateInformation(2);
-            myAgentPlayerInformation = createPlayerStateInformation(1);
+            myUserPlayerInfo = createPlayerStateInformation(2);
+            myAgentPlayerInfo = createPlayerStateInformation(1);
         }
     }
 
@@ -79,18 +113,18 @@ public class Controller implements ControllerFramework {
     }
 
     public List<Integer> getUserStateInfo(){
-        return Collections.unmodifiableList(myUserPlayerInformation);
+        return Collections.unmodifiableList(myUserPlayerInfo);
     }
 
     public List<Integer> getAgentStateInfo(){
-        return Collections.unmodifiableList(myAgentPlayerInformation);
+        return Collections.unmodifiableList(myAgentPlayerInfo);
     }
 
     public void restartGame() throws IOException, ParseException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
-        myGame = new Game(gameType, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
-                myUserPlayerInformation,myAgentPlayerInformation, userIsPlayer1);
+        myGame = new Game(myGamePieces, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
+                myUserPlayerInfo, myAgentPlayerInfo, userIsPlayer1, createAgent());
     }
 
     public String playerPass() {return myGame.whichPlayerPassed();}

@@ -1,11 +1,11 @@
 package ooga.model.engine;
 
-import ooga.model.engine.GameTypeFactory.GameTypeFactory;
 import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.model.engine.exceptions.InvalidNeighborhoodException;
 import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.GamePieceFactory;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ import java.util.*;
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
-    private GameTypeFactory myGameTypeFactory;
+    private GamePieceFactory myGamePieceFactory;
     private int numRows;
     private int numCols;
     private boolean doesTurnChange;
@@ -22,13 +22,13 @@ public class Board implements BoardFramework{
 
     /**
      * Constructor to create a Board object.
-     * @param gameType - type of game (ex. tic-tac-toe, mancala, etc.)
+     * @param gamePieces - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
-    public Board(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
+    public Board(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
-        myGameTypeFactory = gameType;
+        myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
         neighborFactory = new NeighborhoodFactory();
         createBoardFromStartingConfig();
@@ -71,7 +71,8 @@ public class Board implements BoardFramework{
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
-                GamePiece newPiece = myGameTypeFactory.createGamePiece(state, pos);
+                //TODO: get num objects
+                GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, 0);
                 boardRow.add(newPiece);
             }
             myGamePieces.add(boardRow);
@@ -229,6 +230,6 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        return new Board(myGameTypeFactory, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
+        return new Board(myGamePieceFactory, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
     }
 }
