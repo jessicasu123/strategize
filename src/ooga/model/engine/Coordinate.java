@@ -2,31 +2,31 @@ package ooga.model.engine;
 
 /**
  * This class is responsible for representing a coordinate,
- * which consists of an x position and a y position.
+ * which consists of an row position and a column position.
  */
 public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
-    private int xPos;
-    private int yPos;
+    private int row;
+    private int col;
 
-    public Coordinate (int startX, int startY) {
-        xPos = startX;
-        yPos = startY;
+    public Coordinate (int startRow, int startCol) {
+        row = startRow;
+        col = startCol;
     }
 
     /**
-     * @return the x position of the coordinate
+     * @return the row position of the coordinate
      */
     @Override
-    public int getXCoord() {
-        return xPos;
+    public int getRow() {
+        return row;
     }
 
     /**
-     * @return the y position of the coordinate
+     * @return the column position of the coordinate
      */
     @Override
-    public int getYCoord() {
-        return yPos;
+    public int getCol() {
+        return col;
     }
 
     /**
@@ -36,8 +36,8 @@ public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
     @Override
     public boolean equals(Object o) {
         Coordinate otherCoord = (Coordinate) o;
-        return this.getXCoord() == otherCoord.getXCoord() &&
-                this.getYCoord() == otherCoord.getYCoord();
+        return this.getRow() == otherCoord.getRow() &&
+                this.getCol() == otherCoord.getCol();
     }
 
     /**
@@ -45,7 +45,7 @@ public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
      */
     @Override
     public String toString() {
-        return "(" + Integer.toString(xPos) + ", " + Integer.toString(yPos) + ")";
+        return "(" + Integer.toString(row) + ", " + Integer.toString(col) + ")";
     }
 
     /**
@@ -56,14 +56,12 @@ public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
      */
     @Override
     public int compareTo(Coordinate o) {
-        if(this.getXCoord() != o.getXCoord()){
-            return this.getXCoord() - o.getXCoord();
-        }else if(this.getYCoord() != o.getYCoord()){
-            return this.getYCoord() - o.getYCoord();
+        if(this.getRow() != o.getRow()){
+            return this.getRow() - o.getRow();
+        }else if(this.getCol() != o.getCol()){
+            return this.getCol() - o.getCol();
         }
         return 0;
     }
-
-
 
 }

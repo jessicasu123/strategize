@@ -59,7 +59,7 @@ public class NoMovesMorePieces implements WinType {
     private int countStateOccurrences(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
         int total = 0;
         for (Coordinate pos : stateCoords) {
-            total += boardStateInfo.get(pos.getXCoord()).get(pos.getYCoord());
+            total += boardStateInfo.get(pos.getRow()).get(pos.getCol());
         }
         return total;
     }

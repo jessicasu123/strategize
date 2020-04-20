@@ -49,7 +49,7 @@ public class MorePieces implements EvaluationFunction{
     private int countEvalStates(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
         int total = 0;
         for (Coordinate coord : stateCoords) {
-            total += boardStateInfo.get(coord.getXCoord()).get(coord.getYCoord());
+            total += boardStateInfo.get(coord.getRow()).get(coord.getCol());
         }
         return total;
     }
