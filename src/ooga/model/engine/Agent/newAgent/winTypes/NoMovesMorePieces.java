@@ -2,29 +2,25 @@ package ooga.model.engine.Agent.newAgent.winTypes;
 
 import java.util.List;
 
-public class NoMovesMorePieces implements WinType {
-    private final int myOpponentGoal;
+/**
+ * Given a winValue and index for the player's row of pieces,
+ * returns whether that player has sufficient pieces in its row
+ * meet the win condition
+ */
 
-    public NoMovesMorePieces(int opponentGoalState){
-        myOpponentGoal = opponentGoalState;
+public class NoMovesMorePieces implements WinType {
+    private final int myWinValue;
+    private final int myPlayerRow;
+
+    public NoMovesMorePieces(int winValue, int playerRow){
+        myWinValue = winValue;
+        myPlayerRow = playerRow;
     }
 
     @Override
     public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        int numPlayerPieces = countNumPieces(boardStateInfo, playerStates);
-        int numOpponentsPieces = countNumPieces(boardStateInfo, opponentStates);
-        return noMovesLeft && numPlayerPieces > numOpponentsPieces;
+        int numPlayerPieces = boardStateInfo.get(myPlayerRow).stream().mapToInt(n -> n).sum();
+        return noMovesLeft && numPlayerPieces > myWinValue;
     }
 
-    private int countNumPieces(List<List<Integer>> boardStateInfo, List<Integer> playerGoalStates) {
-        int count = 0;
-        for (List<Integer> row: boardStateInfo) {
-            for (int state : row) {
-                if (!playerGoalStates.contains(state)) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
 }
