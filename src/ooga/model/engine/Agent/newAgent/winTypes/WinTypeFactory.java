@@ -6,8 +6,10 @@ import ooga.model.engine.exceptions.InvalidWinTypeException;
 
 public class WinTypeFactory {
 
-    public WinType createWinType(String winType, int emptyState) {
+    public WinType createWinType(String winType, int emptyState, int inARow) {
         switch (winType) {
+            case "ConsecutivePieces":
+                return new ConsecutivePieces(inARow);
             case "NoPiecesForOpponent":
                 return new NoPiecesForOpponent(emptyState);
             default:

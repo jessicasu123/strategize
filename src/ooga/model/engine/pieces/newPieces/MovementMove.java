@@ -16,8 +16,4 @@ public class MovementMove implements MoveType {
        moving.move(endCoordinateInfo);
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return true;
-    }
 }

@@ -13,6 +13,7 @@ public class GamePiece {
     private int myDirection;
     private List<MoveCheck> myMoveChecks;
     private List<MoveType> myMoveTypes;
+    private boolean turnChange;
 
     public GamePiece(int state, Coordinate position, boolean posDirection, List<MoveCheck> checks, List<MoveType> moveTypes){
         myState = state;
@@ -44,10 +45,6 @@ public class GamePiece {
     }
 
     public boolean changeTurnAfterMove(){
-        boolean turnChange = false;
-        for(MoveType move: myMoveTypes){
-            turnChange = turnChange || move.doesTurnChange();
-        }
         return turnChange;
     }
 
@@ -60,6 +57,10 @@ public class GamePiece {
         return myPosition;
     }
 
+    protected void changeTurn(boolean changeTurns){
+        turnChange = changeTurns;
+    }
+    
     protected void changeState(int newState){
         myState = newState;
     }
