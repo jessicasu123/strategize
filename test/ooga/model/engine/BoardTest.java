@@ -120,9 +120,9 @@ public class BoardTest {
     @Test
     void testNoMovesLeft() {
         //should be no moves left on a full board with no winner
-        assertEquals(true, noMovesBoard.checkNoMovesLeft(user,agent));
+        assertEquals(0, noMovesBoard.checkNoMovesLeft(user,agent));
         //should be moves left on board with only one player
-        assertEquals(false, ticTacToeBoard.checkNoMovesLeft(user,agent));
+        assertTrue(ticTacToeBoard.checkNoMovesLeft(user,agent)!=0);
     }
 
     @Test

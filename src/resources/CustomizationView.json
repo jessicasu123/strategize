@@ -1,16 +1,17 @@
 {
-  "Colors": "red,pink,orange,yellow,green,blue,purple,black",
+  "Colors": "red,pink,orange,green,blue,purple,black,white",
   "Images": "cat,dog,fire,hedgehog,nurse,panda,virus,water",
   "Labels": {
     "PlayerCustomization": "CUSTOMIZE YOUR PLAYERS",
     "BackgroundCustomization": "CUSTOMIZE BOARD BACKGROUND",
     "PlayerChoice": "Player",
     "OpponentChoice": "Opponent",
-    "BackgroundColor": "Choose Color"
+    "BackgroundColor": "Choose Color",
+    "ModeChoice": "Choose Mode"
   },
   "Buttons": {
-    "LightMode": "Light Mode",
-    "DarkMode": "Dark Mode",
+    "LightMode": "switchToLightMode",
+    "DarkMode": "switchToDarkMode",
     "SET PREFERENCES": "setCustomizationPreferences"
   }
 }

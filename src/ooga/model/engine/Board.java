@@ -37,17 +37,28 @@ public class Board implements BoardFramework{
     /**
      * Checks that there are no moves left for either the user player
      * or the agent player.
+     *  returns 0 if there are no more moves for either player
+     *  returns 1 if there are no moves for player 1
+     *  returns 2 if there are no moves for player 2
+     *  returns 3 if there are still moves for both players
      * @param userStates - all the states that belong to the user
      * @param agentStates - all the states that belong to the agent
      * @return boolean
      */
-    public boolean checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
+    public int checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
         //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
-        return checkEmptyMovesForPlayer(userStates) &&
-                checkEmptyMovesForPlayer(agentStates);
+        boolean noMovesForPlayer1 = checkEmptyMovesForPlayer(userStates);
+        boolean noMovesForPlayer2 = checkEmptyMovesForPlayer(agentStates);
+        if (noMovesForPlayer1 && noMovesForPlayer2) return 0;
+        else if (noMovesForPlayer1) return 1;
+        else if (noMovesForPlayer2) return 2;
+        else return 3;
+
+//        return checkEmptyMovesForPlayer(userStates) &&
+//                checkEmptyMovesForPlayer(agentStates);
     }
 
-    public boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
+    private boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
         Map<Coordinate, List<Coordinate>> allMoves = getAllLegalMoves(playerStates);
         return allMoves.size()==0;
     }

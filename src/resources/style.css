@@ -7,6 +7,15 @@
     -fx-stroke-width: 1;
 }
 
+.darkMode{
+    -fx-stroke: White;
+    -fx-background-color: Black;
+}
+
+.darkModeText {
+    -fx-color: White;
+}
+
 .title{
     -fx-font-size: 20;
 
@@ -30,13 +39,9 @@
 }
 
 .popUp {
-    -fx-font-family: "AppleGothic";
     -fx-font-size: 14;
-    -fx-stroke: Black;
-    -fx-stroke-width: 1;
     -fx-background-color: white;
     -fx-border-color: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
 .customizeLabels {

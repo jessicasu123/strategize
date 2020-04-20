@@ -8,7 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import ooga.model.engine.Game;
+import ooga.view.components.GameIcon;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public class StatusPanel {
     private ImageView opponentIcon;
     private TextField userScore;
     private TextField opponentScore;
+    private Label player;
+    private Label opponent;
 
     private Map<Button,String> buttonActionsMap;
     private GameButtonManager statusButtonManager;
@@ -83,13 +87,13 @@ public class StatusPanel {
         HBox container = new HBox(SPACING);
         container.setAlignment(Pos.TOP_CENTER);
         JSONObject buttonTexts = gameScreenData.getJSONObject("StatusBar");
-        userIcon = setUpGameIcon(userImage);
-        opponentIcon = setUpGameIcon(agentImage);
+        userIcon = new GameIcon().createGameIcon(PIECES_RESOURCES+ userImage);
+        opponentIcon = new GameIcon().createGameIcon(PIECES_RESOURCES+agentImage);
         userScore = createTextField();
         opponentScore = createTextField();
-        Label player = new Label(buttonTexts.getString("Player"));
+        player = new Label(buttonTexts.getString("Player"));
         player.setMinHeight(30);
-        Label opponent = new Label(buttonTexts.getString("Opponent"));
+        opponent = new Label(buttonTexts.getString("Opponent"));
         opponent.setMinHeight(30);
         container.getChildren().addAll(userIcon,player, userScore,opponentIcon,opponent,opponentScore);
         return container;
@@ -103,6 +107,15 @@ public class StatusPanel {
         return scoreField;
     }
 
+    /**
+     * Allows another view class to change the text color of the labels.
+     * Useful when changing to a different mode (light or dark mode).
+     * @param color
+     */
+    public void setLabelTextColor(String color) {
+        player.setTextFill(Color.valueOf(color));
+        opponent.setTextFill(Color.valueOf(color));
+    }
 
     /**
      * @return HBox object containing top buttons
@@ -116,18 +129,6 @@ public class StatusPanel {
         Button help = setUpGameIconButton(buttonIcons,"help");
         topButtons.getChildren().addAll(help, chat, settings);
         return topButtons;
-    }
-
-    /**
-     * @param key - key object to get icon value
-     * @return GameButton with desired properties
-     */
-    private ImageView setUpGameIcon(String key) {
-        Image img = new Image(PIECES_RESOURCES + (key));
-        ImageView gameIcon = new ImageView(img);
-        gameIcon.setFitWidth(30);
-        gameIcon.setPreserveRatio(true);
-        return gameIcon;
     }
 
     /**

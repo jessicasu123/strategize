@@ -75,6 +75,7 @@ public class GameTest {
     @Test
     void testGetEndGameStatus() {
         //for game that is in progress
+        inProgressGame.makeGameMove(Arrays.asList(new Integer[]{0,0,0,0}));
         assertEquals(0, inProgressGame.getEndGameStatus());
         //for game that player1 wins
         assertEquals(1, player1WinGame.getEndGameStatus());

@@ -20,7 +20,6 @@ public class OthelloAgent extends Agent {
      */
     public OthelloAgent(int maximizingPlayerID, int minimizingPlayerID) {
         super(maximizingPlayerID, minimizingPlayerID);
-        boardWeights = createBoardWeights();
     }
     /**
      * The evaluation function for Othello will be based on
@@ -38,6 +37,7 @@ public class OthelloAgent extends Agent {
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         numRows = boardStateInfo.size();
         numCols = boardStateInfo.get(0).size();
+        boardWeights = createBoardWeights();
         if(this.isWin(this.getMaxPlayer(), boardStateInfo, noMovesLeft)){
             return Integer.MAX_VALUE;
         }else if(this.isWin(this.getMinPlayer(), boardStateInfo, noMovesLeft)){

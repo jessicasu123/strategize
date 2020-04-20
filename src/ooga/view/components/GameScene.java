@@ -28,6 +28,18 @@ public class GameScene {
         return scene;
     }
 
+    public void updateStyle(String stylesheet) {
+        myRoot.getStyleClass().add(stylesheet);
+    }
+
+    public void removeStyle(String stylesheet) {
+        if (myRoot.getStyleClass().contains(stylesheet)) {
+            myRoot.getStyleClass().remove(stylesheet);
+        }
+    }
+
+
+
     private Text addTitle(String titleText){
         Text title = new Text(titleText.toUpperCase());
         title.getStyleClass().add("title");

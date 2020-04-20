@@ -48,6 +48,7 @@ public class BoardView {
     private Map<Integer, Image> myStateToImageMapping;
     private List<Integer> myUser;
     private List<Integer> myAgent;
+    private Color boardOutlineColor;
 
     public BoardView(int width, int height, int rows, int cols, Controller c) {
         boardCells = new ArrayList<>();
@@ -69,6 +70,7 @@ public class BoardView {
 
     private void initializeValuesBasedOnController(){
         boardColor = "white";
+        boardOutlineColor = Color.BLACK;
         try {
             piecesMove = myController.doPiecesMove();
             possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
@@ -128,19 +130,21 @@ public class BoardView {
      * @param newAgentImage - the new image used to represent the agent
      * @param newBoardColor - the new color of the board
      */
-    protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor){
+    protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor, String mode){
         Image userImg = new Image(PIECES_RESOURCES + newUserImage);
         Image agentImg = new Image(PIECES_RESOURCES + newAgentImage);
         myStateToImageMapping.replace(myUser.get(STATE_ID_POS), userImg);
         myStateToImageMapping.replace(myAgent.get(STATE_ID_POS), agentImg);
         boardColor = newBoardColor;
+        boardOutlineColor = Color.valueOf(mode);
         updateBoardAppearance();
     }
 
-    private void processUserClickOnSquare(Shape rect, List<List<Integer>> gameStates, int finalX, int finalY) {
+    private void processUserClickOnSquare(Shape rect, List<List<Integer>> gameStates, int finalX, int finalY, boolean possibleMove) {
         Image img = findImageForSquare(gameStates);
         if(hasSelectedSquare){
             boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
+            updatePossibleMoveImageOnSquare(boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY), possibleMove);
         }
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
@@ -171,22 +175,21 @@ public class BoardView {
 
     protected void updateBoardAppearance() {
         List<List<Integer>> gameStates = myController.getGameVisualInfo();
+        List<List<Integer>> possibleMoves = myController.getPossibleMovesForView();
         for (int r = 0; r < boardCells.size(); r++) {
             for (int c = 0; c < boardCells.get(0).size(); c++) {
                 Shape currSquare = boardCells.get(r).get(c);
-                updateCellAppearance(currSquare, r, c, gameStates);
+                updateCellAppearance(currSquare, r, c, gameStates, possibleMoves);
             }
         }
     }
 
-    private void updateCellAppearance(Shape currSquare, int r, int c, List<List<Integer>> gameStates) {
+    private void updateCellAppearance(Shape currSquare, int r, int c, List<List<Integer>> gameStates, List<List<Integer>> possibleMoves) {
         currSquare.setFill(Color.valueOf(boardColor));
-        currSquare.setStroke(Color.BLACK);
+        currSquare.setStroke(boardOutlineColor);
         int currGameState = gameStates.get(r).get(c);
-        if (myController.getPossibleMovesForView().get(r).get(c) == 1 && !possibleMoveImage.equals("") && myController.userTurn()) {
-            Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
-            updateImageOnSquare(currSquare, possibleMove);
-        }
+        boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
+        updatePossibleMoveImageOnSquare(currSquare, isPossibleMove);
         if (myUser.contains(currGameState)) {
             Image player1Image = myStateToImageMapping.get(currGameState);
             updatePlayerCell(player1Image, currSquare, r, c);
@@ -195,8 +198,16 @@ public class BoardView {
             Image player2Image = myStateToImageMapping.get(currGameState);
             updateAgentCell(player2Image, currSquare);
         }else{
-            updateEmptyCell(currSquare, r,c, gameStates);
+            updateEmptyCell(currSquare, r,c, gameStates, isPossibleMove);
         }
+    }
+
+    private void updatePossibleMoveImageOnSquare(Shape currSquare, boolean isPossibleMove) {
+        if (isPossibleMove && !possibleMoveImage.equals("") && myController.userTurn()) {
+            Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
+            updateImageOnSquare(currSquare, possibleMove);
+        }
+
     }
 
     private void updateAgentCell(Image playerImage, Shape currSquare){
@@ -209,9 +220,8 @@ public class BoardView {
         currSquare.setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
     }
 
-    private void updateEmptyCell(Shape currSquare, int r, int c, List<List<Integer>> gameStates) {
-
-        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c);
+    private void updateEmptyCell(Shape currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
+        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c, possibleMove);
         currSquare.setOnMouseClicked(userClick);
         currSquare.removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
     }
@@ -232,6 +242,14 @@ public class BoardView {
         if(hasSelectedSquare){
             boardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).setFill(Color.valueOf(boardColor));
         }
+    }
+
+    /**
+     * Allows a different view to set the outline of the board squares
+     * when switching to a different mode (dark or light mode)
+     */
+    protected void setBoardStroke(String color) {
+        boardOutlineColor = Color.valueOf(color);
     }
 
     /**

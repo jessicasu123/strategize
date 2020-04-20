@@ -21,7 +21,6 @@ import java.util.*;
  * in the view.
  */
 public class EndPopUp extends GamePopUp{
-    private Map<Button, String> buttonActionsMap;
 
     private String winStatus;
 
@@ -34,7 +33,6 @@ public class EndPopUp extends GamePopUp{
         popUpWidth = width/2.0;
         xOffset = (width - popUpWidth)/2;
         winStatus = endStatus;
-        buttonActionsMap = new HashMap<>();
         setUpJSONReader();
     }
 
