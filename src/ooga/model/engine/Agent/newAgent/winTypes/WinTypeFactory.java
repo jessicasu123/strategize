@@ -1,15 +1,13 @@
 package ooga.model.engine.Agent.newAgent.winTypes;
 
-
 import ooga.model.engine.exceptions.InvalidWinTypeException;
-
 
 public class WinTypeFactory {
 
-    public WinType createWinType(String winType, int emptyState, int winValue, int playerRow) {
+    public WinType createWinType(String winType, int emptyState, int winValue, int playerRow, int myPlayer) {
         switch (winType) {
             case "ConsecutivePieces":
-                return new ConsecutivePieces(winValue);
+                return new ConsecutivePieces(winValue, myPlayer);
             case "NoPiecesForOpponent":
                 return new NoPiecesForOpponent(emptyState);
             case "NoMovesMorePieces":

@@ -5,11 +5,13 @@ import java.util.List;
 
 public class ConsecutivePieces implements WinType{
     private int myInARow;
+    private int myPlayer;
     private int ROWS = 6;
     private int COLS = 7;
 
-    public ConsecutivePieces(int InARow){
+    public ConsecutivePieces(int InARow, int player){
         myInARow = InARow;
+        myPlayer = player;
     }
 
     @Override
@@ -17,7 +19,7 @@ public class ConsecutivePieces implements WinType{
         List<List<Integer>> rows = boardStateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);
-        return checkWinInGroup(rows, playerStates.get(1)) || checkWinInGroup(cols,playerStates.get(1)) || checkWinInGroup(diags, playerStates.get(1));
+        return checkWinInGroup(rows, playerStates.get(myPlayer)) || checkWinInGroup(cols,playerStates.get(myPlayer)) || checkWinInGroup(diags, playerStates.get(myPlayer));
     }
 
     private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){
@@ -39,30 +41,38 @@ public class ConsecutivePieces implements WinType{
 
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
         if(myInARow==4) {
-            List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
-            for (int row = ROWS - 4; row >= 0; row--) {
-                for (int col = COLS - 4; col >= 0; col--) {
-                    List<Integer> leftDiag = new ArrayList<Integer>();
-                    List<Integer> rightDiag = new ArrayList<Integer>();
-                    for (int i = 0; i < 4; i++) {
-                        rightDiag.add(boardStateInfo.get(row + i).get(col - i + 3));
-                        leftDiag.add(boardStateInfo.get(row + i).get(col + i));
-                    }
-                    alldiag.add(leftDiag);
-                    alldiag.add(rightDiag);
-                }
-            }
-            return alldiag;
+            return getDiagFor4(boardStateInfo);
         }
         else{
-            List<Integer> leftDiag = new ArrayList<>();
-            List<Integer> rightDiag = new ArrayList<>();
-            for(int i = 0; i < Math.min(boardStateInfo.size(), boardStateInfo.get(0).size()); i++){
-                leftDiag.add(boardStateInfo.get(i).get(i));
-                rightDiag.add(boardStateInfo.get(i).get(boardStateInfo.size() - 1 - i));
-            }
-            return new ArrayList<>(List.of(leftDiag, rightDiag));
+            return getDiagFor3(boardStateInfo);
         }
+    }
+
+    private List<List<Integer>> getDiagFor3(List<List<Integer>> boardStateInfo) {
+        List<Integer> leftDiag = new ArrayList<>();
+        List<Integer> rightDiag = new ArrayList<>();
+        for(int i = 0; i < Math.min(boardStateInfo.size(), boardStateInfo.get(0).size()); i++){
+            leftDiag.add(boardStateInfo.get(i).get(i));
+            rightDiag.add(boardStateInfo.get(i).get(boardStateInfo.size() - 1 - i));
+        }
+        return new ArrayList<>(List.of(leftDiag, rightDiag));
+    }
+
+    private List<List<Integer>> getDiagFor4(List<List<Integer>> boardStateInfo) {
+        List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
+        for (int row = ROWS - 4; row >= 0; row--) {
+            for (int col = COLS - 4; col >= 0; col--) {
+                List<Integer> leftDiag = new ArrayList<Integer>();
+                List<Integer> rightDiag = new ArrayList<Integer>();
+                for (int i = 0; i < 4; i++) {
+                    rightDiag.add(boardStateInfo.get(row + i).get(col - i + 3));
+                    leftDiag.add(boardStateInfo.get(row + i).get(col + i));
+                }
+                alldiag.add(leftDiag);
+                alldiag.add(rightDiag);
+            }
+        }
+        return alldiag;
     }
 
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
