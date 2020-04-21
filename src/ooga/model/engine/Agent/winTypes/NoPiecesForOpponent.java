@@ -1,7 +1,5 @@
 package ooga.model.engine.Agent.winTypes;
 
-import ooga.model.engine.Agent.winTypes.WinType;
-
 import java.util.List;
 
 public class NoPiecesForOpponent implements WinType {

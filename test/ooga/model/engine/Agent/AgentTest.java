@@ -35,7 +35,7 @@ class AgentTest {
     private boolean noMovesLeft = false;
 
     @Test
-    void evaluateCurrentGameStateTied() {
+    void testEvaluateCurrentGameStateTied() {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -45,7 +45,7 @@ class AgentTest {
     }
 
     @Test
-    void evaluateCurrentGameStatePieceDifferences() {
+    void testEvaluateCurrentGameStatePieceDifferences() {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -64,7 +64,7 @@ class AgentTest {
 
     }
     @Test
-    void evaluateCurrentGameStatePositionDifferences(){
+    void testEvaluateCurrentGameStatePositionDifferences(){
         List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(1,0,1,0));
@@ -82,7 +82,7 @@ class AgentTest {
     }
 
     @Test
-    void evaluateCurrentGameStateSumOfDistances(){
+    void testEvaluateCurrentGameStateSumOfDistances(){
         //test max king has lower distance
         List<Integer> row1 = new ArrayList<>(List.of(0,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0,0));
@@ -101,7 +101,7 @@ class AgentTest {
 
     }
     @Test
-    void isGameWonNoWinner() {
+    void testIsGameWonNoWinner() {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -112,7 +112,7 @@ class AgentTest {
     }
 
     @Test
-    void isGameWonPlayer1Wins(){
+    void testIsGameWonPlayer1Wins(){
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -122,7 +122,7 @@ class AgentTest {
     }
 
     @Test
-    void isGameWonPlayer2Wins(){
+    void testIsGameWonPlayer2Wins(){
         List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -132,7 +132,7 @@ class AgentTest {
     }
 
     @Test
-    void findGameWinnerNoWinner() {
+    void testFindGameWinnerNoWinner() {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -142,7 +142,7 @@ class AgentTest {
     }
 
     @Test
-    void findGameWinnerPlayer1Wins() {
+    void testFindGameWinnerPlayer1Wins() {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
@@ -152,7 +152,7 @@ class AgentTest {
     }
 
     @Test
-    void findGameWinnerPlayer2Wins() {
+    void testFindGameWinnerPlayer2Wins() {
         List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
