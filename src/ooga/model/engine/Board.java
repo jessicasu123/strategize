@@ -60,7 +60,7 @@ public class Board implements BoardFramework{
 
     private boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
         Map<Coordinate, List<Coordinate>> allMoves = getAllLegalMoves(playerStates);
-        return allMoves.size()==0;
+        return allMoves.size() == 0;
     }
 
     private void createBoardFromStartingConfig() {
@@ -72,7 +72,7 @@ public class Board implements BoardFramework{
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
                 //TODO: get num objects
-                GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, 0);
+                GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, 1);
                 boardRow.add(newPiece);
             }
             myGamePieces.add(boardRow);
@@ -125,7 +125,7 @@ public class Board implements BoardFramework{
                 if (playerStates.contains(currPiece.getState()) || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece), playerStates.get(0));
-                    if (moves.size()>0) {
+                    if (moves.size() > 0) {
                         allLegalMoves.put(currCoord, moves);
                     }
                 }

@@ -5,15 +5,15 @@
 
   "WinType": "NoPiecesForOpponent",
 
-  "EvaluationFunctions": ["PieceDifferences","PositionWeights","SumOfDistances"],
+  "EvaluationFunctions": ["MorePieces","PositionWeights","SumOfDistances"],
 
   "SpecialPieceIndex": 1,
 
-  "EmptyState": "0",
+  "EmptyState": 0,
 
-  "PiecesMove": "true",
+  "PiecesMove": true,
 
-  "Player1PosDirection": "false",
+  "Player1PosDirection": false,
 
   "NumPiecesPerSquare": 1,
 

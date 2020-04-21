@@ -74,7 +74,7 @@ public class BoardView {
         try {
             piecesMove = myController.doPiecesMove();
             possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             System.out.println("error");
         }
     }

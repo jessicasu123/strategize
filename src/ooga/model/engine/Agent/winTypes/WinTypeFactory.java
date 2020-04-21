@@ -6,8 +6,8 @@ import java.util.List;
 
 public class WinTypeFactory {
 
-    public WinType createWinType(String winType, int emptyState, int stateIndex, int winValue, int playerRow,
-                                 boolean checkCurrConfig, List<List<Integer>> initialConfig) {
+    public WinType createWinType(String winType, int emptyState, int stateIndex, int winValue, boolean checkCurrConfig,
+                                 List<List<Integer>> initialConfig) {
         switch (winType) {
             case "ConsecutivePieces":
                 return new ConsecutivePieces(winValue);

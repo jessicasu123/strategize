@@ -112,7 +112,7 @@ public class GameView {
             int boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }

@@ -6,16 +6,8 @@ import java.util.List;
 public class EvaluationFunctionFactory {
     public EvaluationFunction createEvaluationFunction(String evaluationType, int stateIndex, List<Integer> maxStates,
                                                        List<Integer> minStates, List<List<Integer>> boardWeights,
-                                                       boolean userPosDirection, int winValue, boolean checkCurrConfig,
+                                                       int maxDirection, int minDirection, int winValue, boolean checkCurrConfig,
                                                        List<List<Integer>> initialConfig) {
-        int maxDirection;
-        int minDirection;
-        if(userPosDirection){
-            minDirection = 1;
-        }else{
-           minDirection = -1;
-        }
-        maxDirection = minDirection * -1;
         switch (evaluationType) {
             case "MorePieces":
                 return new MorePieces(stateIndex, maxStates, minStates, initialConfig, checkCurrConfig);

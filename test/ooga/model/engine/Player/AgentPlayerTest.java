@@ -38,7 +38,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(0, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
         BoardFramework myBoard = new Board(ticTacToeFactory, sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(1, 1);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -57,7 +57,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(1, 0, 2));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
         BoardFramework myBoard = new Board(ticTacToeFactory, sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(2,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -76,7 +76,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(2, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(2, 0, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
-        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
         BoardFramework myBoard = new Board(ticTacToeFactory, sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(0, 2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -95,7 +95,7 @@ class AgentPlayerTest {
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,1,1));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
-        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+        GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
         BoardFramework myBoard = new Board(ticTacToeFactory, sampleConfig, new ArrayList<>(List.of("horizontal")));
         Coordinate coord = new Coordinate(0,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);

@@ -35,7 +35,7 @@ public class CustomizationViewTest extends DukeApplicationTest {
 
         userChoice = lookup("#PlayerImage").queryComboBox();
         opponentChoice = lookup("#OpponentImage").queryComboBox();
-        colorChoice = lookup("#ChooseColor").queryComboBox();
+        colorChoice = lookup("#Color").queryComboBox();
 
     }
 

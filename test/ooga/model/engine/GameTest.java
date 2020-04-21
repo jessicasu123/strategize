@@ -50,7 +50,7 @@ public class GameTest {
     EvaluationFunction eval = new NumOpenLines(0, agent, user, 3);
     WinType win = new ConsecutivePieces(3);
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
-    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
     Game inProgressGame = new Game(ticTacToeFactory, createTestConfig(startingConfig),
             new ArrayList<>(), user,agent, true, myAgent);
     Game noMovesLeftGame = new Game(ticTacToeFactory, createTestConfig(noMovesConfig),

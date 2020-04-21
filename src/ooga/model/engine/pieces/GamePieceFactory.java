@@ -15,17 +15,14 @@ public class GamePieceFactory {
     private int myUserDirection;
     private int myAgentDirection;
 
-    public GamePieceFactory(String gameType, List<Integer> userStates, List<Integer> agentStates, int emptyState, boolean userPosDirection){
+    public GamePieceFactory(String gameType, List<Integer> userStates, List<Integer> agentStates, int emptyState, int userDirection,
+                            int agentDirection){
         myGameType = gameType;
         myUserStates = userStates;
         myAgentStates = agentStates;
         myEmptyState = emptyState;
-        if(userPosDirection){
-            myUserDirection = 1;
-        }else{
-            myUserDirection = -1;
-        }
-        myAgentDirection = myUserDirection * -1;
+        myUserDirection = userDirection;
+        myAgentDirection = agentDirection;
     }
 
     public GamePiece createGamePiece(int state, Coordinate position, int numPieces){
@@ -34,6 +31,7 @@ public class GamePieceFactory {
         if(myUserStates.contains(state)){
             regularState = myUserStates.get(REGULAR_STATE_INDEX);
             direction = myUserDirection;
+
         }else if(myAgentStates.contains(state)){
             regularState = myAgentStates.get(REGULAR_STATE_INDEX);
             direction = myAgentDirection;

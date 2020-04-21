@@ -34,7 +34,7 @@ public class BoardTest {
     List<String> neighborhoods = new ArrayList<>();
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
-    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, false);
+    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
     Board ticTacToeBoard = new Board(ticTacToeFactory, config, neighborhoods);
 
     //board that has no more moves
@@ -51,7 +51,7 @@ public class BoardTest {
     List<Integer> row8 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-    GamePieceFactory othelloFactory = new GamePieceFactory("Othello", user,agent,0, false);
+    GamePieceFactory othelloFactory = new GamePieceFactory("Othello", user,agent,0, 0,0);
     Board othelloBoard = new Board(othelloFactory, othelloConfig, othelloNeighborhoods);
 
     @Test
@@ -138,7 +138,7 @@ public class BoardTest {
         List<String> checkersNeighborhoods = List.of("horizontal", "vertical", "diagonal");
         List<Integer> user2 = new ArrayList<>(List.of(1,3));
         List<Integer> agent2 = new ArrayList<>(List.of(2,4));
-        GamePieceFactory checkersFactory = new GamePieceFactory("Checkers", user,agent,0, true);
+        GamePieceFactory checkersFactory = new GamePieceFactory("Checkers", user2,agent2,0, 1,-1);
         Board checkersBoard = new Board(checkersFactory, checkersConfig, checkersNeighborhoods);
 
         Coordinate start = new Coordinate(1,2);
@@ -155,7 +155,7 @@ public class BoardTest {
         List<String> mancalaNeighborhoods = List.of("horizontal", "vertical");
         List<Integer> user2 = new ArrayList<>(List.of(2,1));
         List<Integer> agent2 = new ArrayList<>(List.of(4,3));
-        GamePieceFactory mancalaFactory = new GamePieceFactory("Mancala", user,agent,0, false);
+        GamePieceFactory mancalaFactory = new GamePieceFactory("Mancala", user2,agent2,0, -1,1);
         Board mancalaBoard = new Board(mancalaFactory, mancalaConfig, mancalaNeighborhoods);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);

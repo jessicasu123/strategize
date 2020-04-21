@@ -1,9 +1,6 @@
 package ooga.model.data;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import ooga.model.engine.exceptions.InvalidFileFormatException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +13,16 @@ public interface FileHandler {
      *      - will be passed to the view from the controller (getting the information from the game and board)
      * @return list of list of integers to represent the state configuration specified in the file
      */
-    List<List<Integer>> loadFileConfiguration() throws IOException, ParseException;
+    List<List<Integer>> loadFileConfiguration();
 
     /**
      * METHOD PURPOSE:
      *  -loads all of the properties from the file for the specifications of the game
      * @return a map to represent the key,value pairings from the file
      */
-    Map<String, String> loadFileProperties() throws IOException, ParseException;
+    Map<String, String> loadFileProperties();
 
+    void parseFile() throws InvalidFileFormatException;
 
     /**
      * METHOD PURPOSE:
@@ -34,8 +32,7 @@ public interface FileHandler {
      */
     void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
 
-    public String getGameType() throws IOException;
-    public List<String> getNeighborhood() throws IOException;
+    public List<String> getNeighborhood();
 
     /**
      *
@@ -56,5 +53,10 @@ public interface FileHandler {
     String getWinType();
     int getWinValue();
     List<List<Integer>> getBoardWeights();
+    int getEmptyState();
+    int player1Direction();
+    int player2Direction();
+    boolean doPiecesMove();
+    String getGameType();
 
 }

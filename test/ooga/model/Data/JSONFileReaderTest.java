@@ -19,7 +19,8 @@ class JSONFileReaderTest {
     {
         try {
             fr = new JSONFileReader(fileNameGame, "3 x 3");
-        } catch (IOException e) {
+            fr.parseFile();
+        } catch (Exception e) {
             System.out.println("file not found");
         }
     }
@@ -52,12 +53,9 @@ class JSONFileReaderTest {
     }
 
     @org.junit.jupiter.api.Test
-    void loadFilePropertiesTest() throws IOException {
+    void loadFilePropertiesTest(){
         Map<String, String> map = new HashMap<String, String>();
-        map.put("PiecesMove","false");
-        map.put("EmptyState","0");
-        map.put("Player1Direction","false");
-        map.put("Player1PosDirection", "false");
+        map.put("WinType","ConsecutivePieces");
         map.put("possibleMove","");
         map.put("Gametype","Tic-Tac-Toe");
         map.put("Height","3");
@@ -65,6 +63,8 @@ class JSONFileReaderTest {
         map.put("Color1","Black");
         map.put("Width","3");
         map.put("Neighborhood","");
+        map.put("InitialConfig", "0,0,0;0,0,0;0,0,0");
+        map.put("BoardWeights", "0,0,0;0,0,0;0,0,0");
         assertEquals(map, fr.loadFileProperties());
     }
 

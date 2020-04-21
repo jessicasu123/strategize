@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.engine.exceptions.InvalidFileFormatException;
 import ooga.model.engine.exceptions.InvalidGameTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
@@ -176,10 +177,7 @@ public class GameSetupOptions {
                 String chosenDimension = getChosenDimension();
                 Controller c = new Controller(gameFileName, userPlayerID, opponent, chosenDimension);
                 new GameView(myStage, c);
-            } catch (IOException | org.json.simple.parser.ParseException ex) {
-                new ErrorAlerts(setupData.getJSONArray("AlertInfo"));
-                new StartView(myStage).displayToStage(WIDTH,HEIGHT);
-            }catch(InvalidGameTypeException ex){
+            } catch(InvalidGameTypeException | FileNotFoundException | InvalidFileFormatException ex){
                 new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
                 new StartView(myStage).displayToStage(WIDTH,HEIGHT);
             }

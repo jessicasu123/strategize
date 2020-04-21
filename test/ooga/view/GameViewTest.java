@@ -69,9 +69,7 @@ public class GameViewTest extends DukeApplicationTest {
         try {
             numRows = Integer.parseInt(testController.getStartingProperties().get("Height"));
             numCols = Integer.parseInt(testController.getStartingProperties().get("Width"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         for (int r = 0; r < numRows; r++) {

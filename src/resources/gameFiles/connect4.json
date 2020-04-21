@@ -9,11 +9,11 @@
 
   "SpecialPieceIndex": 0,
 
-  "EmptyState": "0",
+  "EmptyState": 0,
 
-  "Player1PosDirection": "false",
+  "Player1PosDirection": false,
 
-  "PiecesMove": "false",
+  "PiecesMove": false,
 
   "Board": {
     "Default": "7 x 6",
