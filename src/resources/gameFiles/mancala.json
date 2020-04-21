@@ -17,6 +17,8 @@
 
   "MultiplePiecesPerSquare": "true",
 
+  "SquareClickType": "player",
+
   "Board": {
     "Default": "8 x 2",
     "DimensionOptions": [ "8 x 2" ],
@@ -33,14 +35,14 @@
 
   "Player1": {
     "States": [1, 2],
-    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "bank.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
     "Color": "White"
   },
 
   "Player2": {
     "States": [3, 4],
-    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "bank.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
     "Color": "White"
   },

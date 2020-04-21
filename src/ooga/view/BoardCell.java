@@ -32,6 +32,8 @@ public abstract class BoardCell {
 
     public abstract void updateCellFill(String color);
 
+    public abstract void clearFill(String color);
+
     public abstract void setStyle(String boardColor, String boardOutline);
 
 

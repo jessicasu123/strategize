@@ -36,6 +36,11 @@ public class SinglePieceBoardCell extends BoardCell {
     }
 
     @Override
+    public void clearFill(String color) {
+        updateCellFill(color);
+    }
+
+    @Override
     public void setStyle(String boardColor, String boardOutline) {
         updateCellFill(boardColor);
         myShape.setStroke(Color.valueOf(boardOutline));

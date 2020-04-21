@@ -17,6 +17,8 @@
 
   "PiecesMove": false,
 
+  "SquareClickType": "empty",
+
   "Board": {
     "Default": "6 x 7",
     "DimensionOptions": [ "6 x 7"],

@@ -17,6 +17,8 @@
 
   "MultiplePiecesPerSquare": "false",
 
+  "SquareClickType": "empty",
+
   "Board": {
     "Default": "8 x 8",
     "DimensionOptions": [ "8 x 8" , "6 x 6"],

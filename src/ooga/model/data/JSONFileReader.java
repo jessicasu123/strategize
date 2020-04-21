@@ -271,6 +271,7 @@ public class JSONFileReader implements FileHandler {
         gameStringProperties.put("WinType",  gameData.getString("WinType"));
         gameStringProperties.put("BoardWeights",  boardDetails.getString("BoardWeights"));
         gameStringProperties.put("MultiplePiecesPerSquare", gameData.getString("MultiplePiecesPerSquare"));
+        gameStringProperties.put("SquareClickType", gameData.getString("SquareClickType"));
     }
 
     /**

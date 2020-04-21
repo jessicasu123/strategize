@@ -17,6 +17,8 @@
 
   "MultiplePiecesPerSquare": "false",
 
+  "SquareClickType": "empty",
+
   "Board": {
     "Default": "3 x 3",
     "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],

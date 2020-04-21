@@ -56,6 +56,7 @@ public class BoardView {
     private String boardOutlineColor;
     private boolean multiplePiecesPerSquare;
     private GridPane pane;
+    private String squareClickType;
 
     public BoardView(int width, int height, int rows, int cols, Controller c) {
         myBoardCells = new ArrayList<>();
@@ -85,6 +86,7 @@ public class BoardView {
             piecesMove = myController.doPiecesMove();
             possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
             multiplePiecesPerSquare = Boolean.parseBoolean(myController.getStartingProperties().get("MultiplePiecesPerSquare"));
+            squareClickType = myController.getStartingProperties().get("SquareClickType");
         } catch (Exception e) {
             System.out.println("error");
         }
@@ -123,32 +125,21 @@ public class BoardView {
      * @param cellWidth - width of cell
      */
     private void createCells(double cellWidth, double cellHeight, GridPane pane, int boardRows, int boardCols) {
-
         for (int x = 0; x < boardRows; x++) {
-            //List<Shape> boardRow = new ArrayList<>();
             List<BoardCell> row = new ArrayList<>();
             for (int y = 0; y < boardCols; y++) {
                 BoardCell boardCell;
-
-                //Rectangle rect = boardCell.getShape();
                 if (multiplePiecesPerSquare) {
                     boardCell = new MultiPieceBoardCell(x, y, cellWidth, cellHeight);
                 } else {
                     boardCell = new SinglePieceBoardCell(x,y, cellWidth, cellHeight);
                 }
-                //Rectangle rect = new Rectangle(cellWidth, cellHeight);
-                //rect.setId("cell" + x + y);
-                //boardRow.add(rect);
                 row.add(boardCell);
                 pane.add(boardCell.getShape(), y, x);
 
             }
-            //boardCells.add(boardRow);
             myBoardCells.add(row);
         }
-
-
-
     }
 
     /**
@@ -169,16 +160,15 @@ public class BoardView {
 
     private void processUserClickOnSquare(BoardCell rect, List<List<Integer>> gameStates, int finalX, int finalY, boolean possibleMove) {
         Image img = findImageForSquare(gameStates);
-        if(hasSelectedSquare){
-            //TODO: account for mancala where the num of pieces stays same even if you click different things
-            myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).updateCellFill(boardColor);
+        if(hasSelectedSquare && squareClickType.equals("empty")){
+            myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).clearFill(boardColor);
             updatePossibleMoveImageOnSquare(myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY), possibleMove);
         }
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
         if(hasSelectPiece){
-            myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).updateCellFill(boardColor);
+            myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
             rect.updateImageOnSquare(img);
         }
         if(!piecesMove){
@@ -213,6 +203,7 @@ public class BoardView {
     private void updateCellAppearance(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates,
                                       List<List<Integer>> possibleMoves, List<List<Integer>> numPiecesInfo) {
         currSquare.setStyle(boardColor, boardOutlineColor);
+        currSquare.clearFill(boardColor);
         int currGameState = gameStates.get(r).get(c);
         Image currImage = myStateToImageMapping.get(currGameState);
 
@@ -239,7 +230,7 @@ public class BoardView {
             boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
             updatePossibleMoveImageOnSquare(currSquare, isPossibleMove);
             if (myUser.contains(currGameState)) {
-                updatePlayerCell(currImage, currSquare, r, c);
+                updatePlayerCell(currImage, currSquare, r, c, gameStates,isPossibleMove);
             }
             else if(myAgent.contains(currGameState)) {
                 updateAgentCell(currImage, currSquare);
@@ -254,7 +245,7 @@ public class BoardView {
 
     private void handleBanks(BoardCell currSquare, boolean isUser) {
         if (isUser) currSquare.updateCellFill("blue");
-        else currSquare.updateCellFill("pink");
+        else currSquare.updateCellFill("grey");
     }
 
     private List<Image> findPieceImage(int currState) {
@@ -280,15 +271,21 @@ public class BoardView {
         currSquare.getShape().setOnMouseClicked(null);
     }
 
-    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c) {
+    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         currSquare.updateImageOnSquare(playerImage);
         //TODO: make sure that user can select their own pieces and count as piece selected
-        currSquare.getShape().setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
+        if (squareClickType.equals("player")) {
+            clickableCell(currSquare, r, c, gameStates, possibleMove);
+        } else {
+            currSquare.getShape().setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
+        }
     }
 
     private void updateEmptyCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         //TODO: make sure Mancala user cannot click empty cell
-        clickableCell(currSquare, r,c,gameStates, possibleMove);
+        if (squareClickType.equals("empty")) {
+            clickableCell(currSquare, r,c,gameStates, possibleMove);
+        }
     }
 
     //TODO: allow player cell to become clickable cell for Mancala - read in playerCellClickable from config?
@@ -312,7 +309,7 @@ public class BoardView {
     private void movePieceBackToOriginalSpot(Image img) {
         myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).updateImageOnSquare(img);
         if(hasSelectedSquare){
-            myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).updateCellFill(boardColor);
+            myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).clearFill(boardColor);
         }
     }
 

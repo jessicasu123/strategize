@@ -248,6 +248,7 @@ public class GameView {
         }
     }
 
+    //TODO: allow agent to keep going if it's still their turn
     private void makeMove(){
         try {
             if (didPass) {

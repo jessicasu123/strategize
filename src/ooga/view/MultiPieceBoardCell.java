@@ -69,6 +69,13 @@ public class MultiPieceBoardCell extends BoardCell{
     }
 
     @Override
+    public void clearFill(String color) {
+        if (myCellPane.getChildren().size()!=0) {
+            myCellPane.getChildren().clear();
+        }
+    }
+
+    @Override
     public void setStyle(String boardColor, String boardOutline) {
         updateCellFill(boardColor);
         myCellPane.setStyle("-fx-border-color: " + boardOutline);
