@@ -7,7 +7,7 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "SpecialPieceIndex": 1,
+  "SpecialPieceIndex": 0,
 
   "EmptyState": 0,
 

@@ -217,7 +217,6 @@ public class BoardView {
         Image currImage = myStateToImageMapping.get(currGameState);
 
         int numPieces = numPiecesInfo.get(r).get(c);
-        System.out.println(numPieces);
 
         int imageIndex = 0;
         List<Image> possiblePieceImages = new ArrayList<>();
@@ -234,7 +233,7 @@ public class BoardView {
         }
 
         for (int i = 0; i < numPieces;i++) {
-            if (multiplePiecesPerSquare && currGameState !=0) {
+            if (multiplePiecesPerSquare) {
                 currImage = possiblePieceImages.get(imageIndex);
             }
             boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
@@ -288,6 +287,11 @@ public class BoardView {
 
     private void updateEmptyCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         //TODO: make sure Mancala user cannot click empty cell
+        clickableCell(currSquare, r,c,gameStates, possibleMove);
+    }
+
+    //TODO: allow player cell to become clickable cell for Mancala - read in playerCellClickable from config?
+    private void clickableCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c, possibleMove);
         currSquare.getShape().setOnMouseClicked(userClick);
         currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already

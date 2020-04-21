@@ -73,6 +73,10 @@ public class GamePieceFactory {
             goalState = myAgentStates.get(SPECIAL_STATE_INDEX);
             opponentGoalState = myUserStates.get(SPECIAL_STATE_INDEX);
         }
+        //TODO: added this from previous commit so that goal state/opponent state have no marbles
+        if (state==goalState || state==opponentGoalState) {
+            numPieces = 0;
+        }
         return new MancalaGamePiece(state, goalState, opponentGoalState, direction, numPieces, myEmptyState, position);
     }
 }
