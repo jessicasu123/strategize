@@ -39,7 +39,7 @@ public class OthelloAgentTest {
         List<Integer> row6 = new ArrayList<>(List.of(0,0,1,0,2,0,0,0));
         List<Integer> row7 = new ArrayList<>(List.of(0,0,1,1,1,1,0,0));
         List<Integer> row8 = new ArrayList<>(List.of(1,2,2,2,2,2,2,2));
-        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row6,row8));
+        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
         //player 2 (max player) has better positions on the board - 3 corners, as well as the entire
         //stable border rows on the top and bottom
         assertEquals(46, othelloAgent.evaluateCurrentGameState(boardConfig, false));
