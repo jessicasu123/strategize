@@ -15,9 +15,11 @@
 
   "EmptyState": "",
 
+  "PiecesMove": "false",
+
   "Player1PosDirection": "false",
 
-  "PiecesMove": "false",
+  "MultiplePiecesPerSquare": "false",
 
   "Board": {
     "Default": "2 x 2",

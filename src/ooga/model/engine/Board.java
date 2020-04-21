@@ -178,12 +178,28 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowStates = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getVisualRepresentation();
+                int currState = row.get(col).getState();
                 rowStates.add(currState);
             }
             currStateConfig.add(rowStates);
         }
         return Collections.unmodifiableList(currStateConfig);
+    }
+
+    //TODO: refactor
+    @Override
+    public List<List<Integer>> getObjectInfo() {
+        List<List<Integer>> currObjectConfig = new ArrayList<>();
+        for (List<GamePiece> row: myGamePieces) {
+            List<Integer> rowObjects = new ArrayList<>();
+            for (int col = 0; col < row.size(); col++) {
+                int currState = row.get(col).getVisualRepresentation();
+                rowObjects.add(currState);
+            }
+            currObjectConfig.add(rowObjects);
+        }
+        return Collections.unmodifiableList(currObjectConfig);
+
     }
 
     /**

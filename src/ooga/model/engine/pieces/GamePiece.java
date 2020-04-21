@@ -61,7 +61,7 @@ public abstract class GamePiece {
      * @return the visual representation of this piece
      */
     public int getVisualRepresentation(){
-        return myState;
+        return 1;
     }
     /**
      *

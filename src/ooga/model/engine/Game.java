@@ -111,6 +111,9 @@ public class Game implements GameFramework{
         return myBoard.getStateInfo();
     }
 
+    @Override
+    public List<List<Integer>> getObjectInfo() {return myBoard.getObjectInfo();}
+
     /**
      * METHOD PURPOSE:
      *  - provides visual info for the possible moves - a row, col position in the list of lists

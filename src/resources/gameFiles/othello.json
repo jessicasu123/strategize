@@ -15,7 +15,7 @@
 
   "Player1PosDirection": "false",
 
-  "NumPiecesPerSquare": 1, 
+  "MultiplePiecesPerSquare": "false",
 
   "Board": {
     "Default": "8 x 8",

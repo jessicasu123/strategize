@@ -62,8 +62,8 @@ public class CustomizationPopUp extends GamePopUp{
         userImage = currUserImg;
         opponentImage = currOppImg;
         getBoardAndPlayerCustomizationChoices();
-        playerImages.add(userImage.split("\\.")[0]);
-        playerImages.add(opponentImage.split("\\.")[0]);
+//        playerImages.add(userImage.split("\\.")[0]);
+//        playerImages.add(opponentImage.split("\\.")[0]);
         boardColorChoice = currColor;
     }
 

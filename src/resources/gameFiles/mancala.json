@@ -19,6 +19,7 @@
 
   "Player1PosDirection": "true",
 
+  "MultiplePiecesPerSquare": "true",
 
   "Board": {
     "Default": "8 x 2",
@@ -34,14 +35,14 @@
 
   "Player1": {
     "States": [1, 2],
-    "Images": ["orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "bank.png"],
     "StartingPieces": "4",
     "Color": "White"
   },
 
   "Player2": {
     "States": [3, 4],
-    "Images": ["orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "bank.png"],
     "StartingPieces": "4",
     "Color": "White"
   },

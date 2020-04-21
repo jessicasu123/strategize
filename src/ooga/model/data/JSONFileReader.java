@@ -188,6 +188,7 @@ public class JSONFileReader implements FileHandler {
         gameProperties.put("Player1PosDirection",gameData.getString("Player1PosDirection"));
         gameProperties.put("PiecesMove", gameData.getString("PiecesMove"));
         gameProperties.put("possibleMove", gameData.getString("possibleMove"));
+        gameProperties.put("MultiplePiecesPerSquare", gameData.getString("MultiplePiecesPerSquare"));
         getGamePropertyNested();
         return gameProperties;
     }

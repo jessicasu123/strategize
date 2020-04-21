@@ -142,6 +142,9 @@ public class Controller implements ControllerFramework {
     }
 
     @Override
+    public List<List<Integer>> getNumPiecesVisualInfo() { return myGame.getObjectInfo();}
+
+    @Override
     public String getGameFileName() {
         return gameFileName;
     }

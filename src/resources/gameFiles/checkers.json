@@ -18,7 +18,9 @@
   "PiecesMove": "true",
 
   "Player1PosDirection": "false",
-  
+
+  "MultiplePiecesPerSquare": "false",
+
   "Board": {
     "Default": "8 x 8",
     "DimensionOptions": [ "8 x 8" ],
