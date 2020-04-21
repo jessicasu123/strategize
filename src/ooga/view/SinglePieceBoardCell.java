@@ -9,18 +9,16 @@ import javafx.scene.shape.Rectangle;
 public class SinglePieceBoardCell extends BoardCell {
 
     private Rectangle myShape;
-    private int row;
-    private int col;
+
     public SinglePieceBoardCell(int x, int y, double cellWidth, double cellHeight) {
         super(x, y, cellWidth, cellHeight);
-        row = x;
-        col = y;
+        myShape.setId("cell" + x + y);
+
     }
 
     @Override
     public Node createCell() {
         myShape = new Rectangle(getCellWidth(), getCellHeight());
-        myShape.setId("cell" + row + col);
         return myShape;
     }
 

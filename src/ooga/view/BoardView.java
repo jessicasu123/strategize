@@ -128,6 +128,8 @@ public class BoardView {
         for (int x = 0; x < boardRows; x++) {
             List<BoardCell> row = new ArrayList<>();
             for (int y = 0; y < boardCols; y++) {
+                System.out.println(x);
+                System.out.println(y);
                 BoardCell boardCell;
                 if (multiplePiecesPerSquare) {
                     boardCell = new MultiPieceBoardCell(x, y, cellWidth, cellHeight);

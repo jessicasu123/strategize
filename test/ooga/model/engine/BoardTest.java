@@ -160,7 +160,7 @@ public class BoardTest {
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);
-        assertNotEquals(mancalaConfig, mancalaBoard.getStateInfo());
+        assertNotEquals(mancalaConfig, mancalaBoard.getObjectInfo());
     }
 }
 
