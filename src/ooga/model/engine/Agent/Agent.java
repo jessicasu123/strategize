@@ -11,6 +11,7 @@ public class Agent {
     private List<Integer> myAgentStates;
     private List<Integer> myUserStates;
 
+    //TODO give weights to evals?
     public Agent(WinType winType, List<EvaluationFunction> evals, List<Integer> agentStates, List<Integer> userStates){
         myWinType = winType;
         myEvals = evals;

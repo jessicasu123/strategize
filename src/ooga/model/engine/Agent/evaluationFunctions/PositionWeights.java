@@ -2,6 +2,7 @@ package ooga.model.engine.Agent.evaluationFunctions;
 
 import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PositionWeights implements EvaluationFunction {
@@ -18,7 +19,7 @@ public class PositionWeights implements EvaluationFunction {
         myOpponentStates = minStates;
         myDirection = maxDirection;
         myOpponentDirection = minDirection;
-        considersDirection = myDirection!=myOpponentDirection;
+        considersDirection = myDirection != myOpponentDirection;
     }
 
     @Override
@@ -32,19 +33,27 @@ public class PositionWeights implements EvaluationFunction {
         for (int r = 0; r < myBoardPositionWeights.size();r++) {
             for (int c = 0; c < myBoardPositionWeights.get(0).size();c++) {
                 if (playerStates.contains(boardStateInfo.get(r).get(c))) {
+                    List<List<Integer>> weightsToEvaluate = myBoardPositionWeights;
                     if (considersDirection) {
-                        if (playerDirection > 0 && r  * playerDirection > playerDirection * (boardStateInfo.size() - 1)/2) {
-                            playerPositionsWeight += myBoardPositionWeights.get(r).get(c);
-                        } else if (playerDirection < 0 && r  * playerDirection >= playerDirection * (boardStateInfo.size() - 1)/2){
-                            playerPositionsWeight += myBoardPositionWeights.get(r).get(c);
-                        }
-                    } else {
-                        playerPositionsWeight += myBoardPositionWeights.get(r).get(c);
+                        weightsToEvaluate = adjustWeightsForDirection(playerDirection);
                     }
+                    playerPositionsWeight += weightsToEvaluate.get(r).get(c);
                 }
             }
         }
         return playerPositionsWeight;
+    }
+
+    private List<List<Integer>> adjustWeightsForDirection(int playerDirection){
+        List<List<Integer>> adjusted = new ArrayList<>();
+        for(List<Integer> row: myBoardPositionWeights){
+            List<Integer> adjustedRow = new ArrayList<>();
+            for(int state : row){
+                adjustedRow.add(state * playerDirection);
+            }
+            adjusted.add(adjustedRow);
+        }
+        return adjusted;
     }
 
 
