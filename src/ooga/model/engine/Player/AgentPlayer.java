@@ -84,7 +84,7 @@ public class AgentPlayer implements Player{
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
 
-        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates)==0;
+        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
         if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft) || noMovesLeft){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
         }
@@ -112,7 +112,7 @@ public class AgentPlayer implements Player{
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
 
-        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates)==0;
+        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
         if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft)|| noMovesLeft){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
         }

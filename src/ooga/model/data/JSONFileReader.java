@@ -92,6 +92,10 @@ public class JSONFileReader implements FileHandler {
         return parseJSONConfiguration(boardWeightStr);
     }
 
+    public List<List<Integer>> getObjectConfig(){
+        String boardObjectStr = gameStringProperties.get("ObjectConfig");
+        return parseJSONConfiguration(boardObjectStr);
+    }
     public int getWinValue(){
         return gameIntProperties.get("WinValue");
     }
@@ -212,11 +216,15 @@ public class JSONFileReader implements FileHandler {
 
     private void validateData(){
         if(checkBoardDimensions() || checkBoardWeightDimensions() || checkImageLengths() ||
-                checkPlayerAndImageStatesSameLength() || checkPlayerStatesSameLength()){
+                checkPlayerAndImageStatesSameLength() || checkPlayerStatesSameLength() || checkerBoardObjectDimensions()){
             throw new InvalidFileFormatException(ERROR_MESSAGE);
         }
     }
 
+    private boolean checkerBoardObjectDimensions(){
+        return Integer.parseInt(gameStringProperties.get("Width")) != getObjectConfig().get(0).size() ||
+                Integer.parseInt(gameStringProperties.get("Height")) != getObjectConfig().size();
+    }
     private boolean checkPlayerStatesSameLength() {
         return gameArrayProperties.get("Player1States").length() != gameArrayProperties.get("Player2States").length();
     }
@@ -268,6 +276,7 @@ public class JSONFileReader implements FileHandler {
         gameStringProperties.put("Width", boardDetails.getString("Width"));
         gameStringProperties.put("Height", boardDetails.getString("Height"));
         gameStringProperties.put("InitialConfig", boardDetails.getString("InitialConfig"));
+        gameStringProperties.put("ObjectConfig", boardDetails.getString("ObjectConfig"));
         gameStringProperties.put("WinType",  gameData.getString("WinType"));
         gameStringProperties.put("BoardWeights",  boardDetails.getString("BoardWeights"));
         gameStringProperties.put("MultiplePiecesPerSquare", gameData.getString("MultiplePiecesPerSquare"));

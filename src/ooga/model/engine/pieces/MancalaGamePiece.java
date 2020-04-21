@@ -126,12 +126,14 @@ public class MancalaGamePiece extends GamePiece {
         this.changeState(-MARBLES_TO_ADD);
         if(isSpecialMove(piece)){
             if(isSpecialCapture(piece)) {
+                myPlayerMovesAgain = false;
                 performSpecialCapture(row, otherRow, currentPos);
             }else{
                 myPlayerMovesAgain = true;
                 piece.changeState(MARBLES_TO_ADD);
             }
         }else{
+            myPlayerMovesAgain = false;
             piece.changeState(MARBLES_TO_ADD);
         }
     }

@@ -24,9 +24,10 @@ public class Game implements GameFramework{
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
+    public Game(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration,
+                List<List<Integer>> objectConfiguration, List<String> neighborhoods,
                 List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1, Agent agent) {
-        myBoard = new Board(gamePieces, startingConfiguration, neighborhoods);
+        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
         myUserStates = userInfo;
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
@@ -81,7 +82,6 @@ public class Game implements GameFramework{
 
     private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
-        System.out.println(agentMove.getValue());
         myBoard.makeMove(myAgentStates.get(ID_STATE_POS), agentMove.getKey(), agentMove.getValue());
     }
 

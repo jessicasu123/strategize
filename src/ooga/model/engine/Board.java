@@ -13,6 +13,7 @@ import java.util.*;
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
+    private List<List<Integer>> myObjectConfiguration;
     private GamePieceFactory myGamePieceFactory;
     private int numRows;
     private int numCols;
@@ -25,11 +26,13 @@ public class Board implements BoardFramework{
      * @param gamePieces - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
-    public Board(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration, List<String> neighborhoods) {
+    public Board(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration,
+                 List<List<Integer>> objectConfiguration, List<String> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
         myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
+        myObjectConfiguration = objectConfiguration;
         neighborFactory = new NeighborhoodFactory();
         createBoardFromStartingConfig();
     }
@@ -71,8 +74,8 @@ public class Board implements BoardFramework{
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
                 int state = myStartingConfiguration.get(r).get(c);
-                //TODO: get num objects
-                GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, 4);
+                int object = myObjectConfiguration.get(r).get(c);
+                GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, object);
                 boardRow.add(newPiece);
             }
             myGamePieces.add(boardRow);
@@ -246,6 +249,7 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        return new Board(myGamePieceFactory, new ArrayList<>(this.getStateInfo()), new ArrayList<>(this.myNeighborhoods));
+        return new Board(myGamePieceFactory, new ArrayList<>(this.getStateInfo()),new ArrayList<>(this.getObjectInfo()),
+                new ArrayList<>(this.myNeighborhoods));
     }
 }

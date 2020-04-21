@@ -4,21 +4,12 @@ import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import org.json.simple.parser.ParseException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -30,12 +21,11 @@ import java.util.Map;
  */
 public class BoardView {
     public static final String PIECES_RESOURCES = "resources/images/pieces/";
-    public static final double DELAY = 0.25;
+    public static final double DELAY = 1;
     public static final int PANE_PADDING = 20;
     public static final int GRID_PADDING = 2;
     public static final int CELL_SPACING = 1;
 
-    //private List<List<Shape>> boardCells;
     private List<List<BoardCell>> myBoardCells;
     private VBox myBoard;
     private Controller myController;
@@ -55,7 +45,6 @@ public class BoardView {
     private List<Integer> myAgent;
     private String boardOutlineColor;
     private boolean multiplePiecesPerSquare;
-    private GridPane pane;
     private String squareClickType;
 
     public BoardView(int width, int height, int rows, int cols, Controller c) {
@@ -82,14 +71,11 @@ public class BoardView {
     private void initializeValuesBasedOnController(){
         boardColor = "white";
         boardOutlineColor = "black";
-        try {
-            piecesMove = myController.doPiecesMove();
-            possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
-            multiplePiecesPerSquare = Boolean.parseBoolean(myController.getStartingProperties().get("MultiplePiecesPerSquare"));
-            squareClickType = myController.getStartingProperties().get("SquareClickType");
-        } catch (Exception e) {
-            System.out.println("error");
-        }
+        piecesMove = myController.doPiecesMove();
+        possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
+        multiplePiecesPerSquare = Boolean.parseBoolean(myController.getStartingProperties().get("MultiplePiecesPerSquare"));
+        squareClickType = myController.getStartingProperties().get("SquareClickType");
+
     }
     /**
      * @return - the container holding the grid where
@@ -105,7 +91,7 @@ public class BoardView {
      */
     private VBox makeGrid(int paneWidth, int paneHeight, int boardRows, int boardCols) {
         VBox panecontainer = new VBox(PANE_PADDING);
-        pane = new GridPane();
+        GridPane pane = new GridPane();
         pane.setPadding(new Insets(GRID_PADDING, GRID_PADDING, GRID_PADDING, GRID_PADDING));
         pane.setHgap(CELL_SPACING);
         pane.setVgap(CELL_SPACING);
@@ -128,8 +114,6 @@ public class BoardView {
         for (int x = 0; x < boardRows; x++) {
             List<BoardCell> row = new ArrayList<>();
             for (int y = 0; y < boardCols; y++) {
-                System.out.println(x);
-                System.out.println(y);
                 BoardCell boardCell;
                 if (multiplePiecesPerSquare) {
                     boardCell = new MultiPieceBoardCell(x, y, cellWidth, cellHeight);
@@ -334,10 +318,13 @@ public class BoardView {
      * makes a move for the agent on the board
      */
     protected void makeAgentMove(){
-        if(!myController.userTurn()){
+        if(!myController.userTurn() && !myController.isGameOver()){
             myController.playMove();
             PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
-            wait.setOnFinished(e -> updateBoardAppearance());
+            wait.setOnFinished(e -> {
+                updateBoardAppearance();
+                makeAgentMove();
+            });
             wait.play();
         }
     }

@@ -45,7 +45,8 @@ public class Controller implements ControllerFramework {
         List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
         myGamePieces = createGamePieceFactory();
         Agent gameAgent = createAgent(startingConfiguration);
-        myGame = new Game(myGamePieces, startingConfiguration, myFileHandler.getNeighborhood(), myUserPlayerInfo,
+        List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
+        myGame = new Game(myGamePieces, startingConfiguration, objectConfig, myFileHandler.getNeighborhood(), myUserPlayerInfo,
                 myAgentPlayerInfo, userIsPlayer1, gameAgent);
     }
 
@@ -141,7 +142,8 @@ public class Controller implements ControllerFramework {
     public void restartGame() throws IOException, ParseException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
-        myGame = new Game(myGamePieces, myFileHandler.loadFileConfiguration(), myFileHandler.getNeighborhood(),
+        List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
+        myGame = new Game(myGamePieces, myFileHandler.loadFileConfiguration(), objectConfig, myFileHandler.getNeighborhood(),
                 myUserPlayerInfo, myAgentPlayerInfo, userIsPlayer1, createAgent(myFileHandler.loadFileConfiguration()));
     }
 

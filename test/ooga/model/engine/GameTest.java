@@ -51,13 +51,15 @@ public class GameTest {
     WinType win = new ConsecutivePieces(3);
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
     GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
-    Game inProgressGame = new Game(ticTacToeFactory, createTestConfig(startingConfig),
+    List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
+    List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
+    Game inProgressGame = new Game(ticTacToeFactory, createTestConfig(startingConfig),objectConfig,
             new ArrayList<>(), user,agent, true, myAgent);
-    Game noMovesLeftGame = new Game(ticTacToeFactory, createTestConfig(noMovesConfig),
+    Game noMovesLeftGame = new Game(ticTacToeFactory, createTestConfig(noMovesConfig),objectConfig,
             new ArrayList<>(), user,agent, true, myAgent);
-    Game player1WinGame = new Game(ticTacToeFactory, createTestConfig(player1Win),
+    Game player1WinGame = new Game(ticTacToeFactory, createTestConfig(player1Win),objectConfig,
             new ArrayList<>(), user,agent,true, myAgent);
-    Game player2WinGme = new Game(ticTacToeFactory, createTestConfig(player2Win),
+    Game player2WinGme = new Game(ticTacToeFactory, createTestConfig(player2Win),objectConfig,
             new ArrayList<>(), user,agent, true, myAgent);
 
     @Test

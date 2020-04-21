@@ -65,6 +65,9 @@ class JSONFileReaderTest {
         map.put("Neighborhood","");
         map.put("InitialConfig", "0,0,0;0,0,0;0,0,0");
         map.put("BoardWeights", "0,0,0;0,0,0;0,0,0");
+        map.put("ObjectConfig", "0,0,0;0,0,0;0,0,0");
+        map.put("MultiplePiecesPerSquare", "false");
+        map.put("SquareClickType", "empty");
         assertEquals(map, fr.loadFileProperties());
     }
 

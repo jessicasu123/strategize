@@ -97,7 +97,7 @@ public class GameViewTest extends DukeApplicationTest {
         List<Integer> agentCoords = findOpponentMove();
         int row = agentCoords.get(agentCoords.size()-2);
         int col = agentCoords.get(agentCoords.size()-1);
-        sleep(300);
+        sleep(1000);
         assertEquals(ImagePattern.class,
                 myBoardCells.get(row).get(col).getFill().getClass());
     }

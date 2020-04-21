@@ -34,12 +34,14 @@ public class BoardTest {
     List<String> neighborhoods = new ArrayList<>();
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
+    List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
+    List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
     GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
-    Board ticTacToeBoard = new Board(ticTacToeFactory, config, neighborhoods);
+    Board ticTacToeBoard = new Board(ticTacToeFactory, config,objectConfig, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(ticTacToeFactory, noMoves, neighborhoods);
+    Board noMovesBoard = new Board(ticTacToeFactory, noMoves,objectConfig, neighborhoods);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -51,8 +53,9 @@ public class BoardTest {
     List<Integer> row8 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
+    List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
     GamePieceFactory othelloFactory = new GamePieceFactory("Othello", user,agent,0, 0,0);
-    Board othelloBoard = new Board(othelloFactory, othelloConfig, othelloNeighborhoods);
+    Board othelloBoard = new Board(othelloFactory, othelloConfig,objectConfig2, othelloNeighborhoods);
 
     @Test
     void testOthelloBoard() {
@@ -139,7 +142,7 @@ public class BoardTest {
         List<Integer> user2 = new ArrayList<>(List.of(1,3));
         List<Integer> agent2 = new ArrayList<>(List.of(2,4));
         GamePieceFactory checkersFactory = new GamePieceFactory("Checkers", user2,agent2,0, 1,-1);
-        Board checkersBoard = new Board(checkersFactory, checkersConfig, checkersNeighborhoods);
+        Board checkersBoard = new Board(checkersFactory, checkersConfig,objectConfig2, checkersNeighborhoods);
 
         Coordinate start = new Coordinate(1,2);
         Coordinate end = new Coordinate(2,3);
@@ -156,11 +159,14 @@ public class BoardTest {
         List<Integer> user2 = new ArrayList<>(List.of(2,1));
         List<Integer> agent2 = new ArrayList<>(List.of(4,3));
         GamePieceFactory mancalaFactory = new GamePieceFactory("Mancala", user2,agent2,0, -1,1);
-        Board mancalaBoard = new Board(mancalaFactory, mancalaConfig, mancalaNeighborhoods);
+        List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
+        List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
+        Board mancalaBoard = new Board(mancalaFactory, mancalaConfig,objectConfig3, mancalaNeighborhoods);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);
-        assertNotEquals(mancalaConfig, mancalaBoard.getObjectInfo());
+        assertNotEquals(objectConfig3, mancalaBoard.getObjectInfo());
+        assertEquals(mancalaConfig, mancalaBoard.getStateInfo());
     }
 }
 

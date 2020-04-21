@@ -58,5 +58,6 @@ public interface FileHandler {
     int player2Direction();
     boolean doPiecesMove();
     String getGameType();
+    List<List<Integer>> getObjectConfig();
 
 }

@@ -175,7 +175,7 @@ public class GameView {
                     Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
                     buttonAction.invoke(GameView.this, new Object[0]);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
                 }
             });
         }
@@ -256,12 +256,15 @@ public class GameView {
                 didPass = false;
             }
             if (gameInProgress && myController.userTurn()) {
-                grid.makeUserMove();
-                checkGameStatus(false);
-                if (gameInProgress) {
-                    grid.makeAgentMove();
+                if(myController.userTurn()) {
+                    grid.makeUserMove();
+                    checkGameStatus(false);
+                    if (gameInProgress) {
+                        grid.makeAgentMove();
+                    }
+
+                    checkGameStatus(true);
                 }
-                checkGameStatus(true);
             }
         }catch(InvalidMoveException ex){
             new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
