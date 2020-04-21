@@ -24,6 +24,8 @@ public abstract class BoardCell {
 
     public double getCellHeight() {return myCellHeight;}
 
+    public void setMessage(int message) {}
+
     public abstract Node createCell();
 
     public abstract void updateImageOnSquare(Image image);

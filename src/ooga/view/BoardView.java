@@ -249,6 +249,7 @@ public class BoardView {
             imageIndex++;
             if (imageIndex == possiblePieceImages.size()) imageIndex = 0;
         }
+        currSquare.setMessage(numPieces);
     }
 
     private void handleBanks(BoardCell currSquare, boolean isUser) {

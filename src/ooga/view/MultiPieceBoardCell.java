@@ -1,6 +1,7 @@
 package ooga.view;
 
 import javafx.scene.Node;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -33,9 +34,20 @@ public class MultiPieceBoardCell extends BoardCell{
         myCellPane = new Pane();
         myCellPane.setMinWidth(getCellWidth());
         myCellPane.setMinHeight(getCellHeight());
+
         return myCellPane;
     }
 
+    @Override
+    public void setMessage(int message) {
+        myCellPane.setOnMouseEntered(e -> createHoverMessage(message));
+    }
+
+    private void createHoverMessage(int message) {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(String.valueOf(message));
+        Tooltip.install(myCellPane, tooltip);
+    }
 
     //TODO: add boolean for special image?
     @Override
