@@ -7,19 +7,15 @@
 
   "EvaluationFunctions": ["NumOpenLines"],
 
-  "BoardWeights": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;",
-
-  "WinValue": "4",
-
   "SpecialPieceIndex": 0,
 
-  "EmptyState": "0",
-
-  "PiecesMove": "false",
-
-  "Player1PosDirection": "false",
+  "EmptyState": 0,
 
   "MultiplePiecesPerSquare": "false",
+
+  "Player1PosDirection": false,
+
+  "PiecesMove": false,
 
   "Board": {
     "Default": "7 x 6",
@@ -28,7 +24,9 @@
       "7 x 6": {
         "Height": "6",
         "Width": "7",
-        "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;"
+        "InitialConfig": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;",
+        "BoardWeights": "0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;0,0,0,0,0,0,0;",
+        "WinValue": 4,
       }
     }
   },

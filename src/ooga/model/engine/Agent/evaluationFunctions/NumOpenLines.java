@@ -1,42 +1,59 @@
-package ooga.model.engine.Agent.newAgent.winTypes;
+package ooga.model.engine.Agent.evaluationFunctions;
+
+import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsecutivePieces implements WinType{
+public class NumOpenLines implements EvaluationFunction {
     private int myInARow;
-    private int myPlayer;
     private int ROWS = 6;
     private int COLS = 7;
+    private final List<Integer> myStates;
+    private final List<Integer> myOpponentsStates;
+    private final int myStateEvalFor;
+    private final int myOpponentStateEvalFor;
 
-    public ConsecutivePieces(int InARow, int player){
-        myInARow = InARow;
-        myPlayer = player;
+    public NumOpenLines(int stateIndex, List<Integer> maxStates, List<Integer> minStates, int inaRow){
+        myStateEvalFor = maxStates.get(stateIndex);
+        myOpponentStateEvalFor = minStates.get(stateIndex);
+        myStates = maxStates;
+        myOpponentsStates = minStates;
+        myInARow = inaRow;
     }
 
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
-        List<List<Integer>> rows = boardStateInfo;
-        List<List<Integer>> cols = getCols(boardStateInfo);
-        List<List<Integer>> diags = getDiagonals(boardStateInfo);
-        return checkWinInGroup(rows, playerStates.get(myPlayer)) || checkWinInGroup(cols,playerStates.get(myPlayer)) || checkWinInGroup(diags, playerStates.get(myPlayer));
+    public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+        int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
+        int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
+        int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));
+        return rowEvaluation + colEvaluation + diagEvaluation;
     }
 
-    private boolean checkWinInGroup(List<List<Integer>> spaceChecking, int player){
-        for(List<Integer> allOfGroup: spaceChecking){
-            int consecutive = 0;
-            for(int state : allOfGroup){
-                if(state == player){
-                    consecutive++;
-                }else{
-                    consecutive = 0;
-                }
-                if(consecutive >= myInARow){
-                    return true;
-                }
+    private int evaluateMaxOpenMinusMinOpen(List<List<Integer>> neighborhood){
+        int numOpenMax = 0;
+        int numOpenMin = 0;
+        for(List<Integer> group : neighborhood){
+            if(checkNeighborhoodOpen(group, myStateEvalFor)){
+                numOpenMax++;
+            }
+            if(checkNeighborhoodOpen(group, myOpponentStateEvalFor)){
+                numOpenMin++;
             }
         }
-        return false;
+        return numOpenMax - numOpenMin;
+    }
+
+    private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
+        int consecutiveUnblockedSpots = 0;
+        for(int state: check){
+            if(state == playerOpenFor || (state != myStateEvalFor && state != myOpponentStateEvalFor)){
+                consecutiveUnblockedSpots++;
+            }else{
+                consecutiveUnblockedSpots = 0;
+            }
+        }
+        return consecutiveUnblockedSpots >= myInARow;
     }
 
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
@@ -74,6 +91,7 @@ public class ConsecutivePieces implements WinType{
         }
         return alldiag;
     }
+
 
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
         List<List<Integer>> allCols = new ArrayList<>();

@@ -1,6 +1,11 @@
 package ooga.model.engine;
 
-import ooga.model.engine.GameTypeFactory.TicTacToeFactory;
+import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
+import ooga.model.engine.Agent.evaluationFunctions.NumOpenLines;
+import ooga.model.engine.Agent.winTypes.ConsecutivePieces;
+import ooga.model.engine.Agent.winTypes.WinType;
+import ooga.model.engine.pieces.GamePieceFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,14 +47,18 @@ public class GameTest {
     }
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
-    Game inProgressGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(startingConfig),
-            new ArrayList<>(), user,agent, true);
-    Game noMovesLeftGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(noMovesConfig),
-            new ArrayList<>(), user,agent, true);
-    Game player1WinGame = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(player1Win),
-            new ArrayList<>(), user,agent,true);
-    Game player2WinGme = new Game(new TicTacToeFactory(user,agent,0), createTestConfig(player2Win),
-            new ArrayList<>(), user,agent, true);
+    EvaluationFunction eval = new NumOpenLines(0, agent, user, 3);
+    WinType win = new ConsecutivePieces(3);
+    Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
+    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
+    Game inProgressGame = new Game(ticTacToeFactory, createTestConfig(startingConfig),
+            new ArrayList<>(), user,agent, true, myAgent);
+    Game noMovesLeftGame = new Game(ticTacToeFactory, createTestConfig(noMovesConfig),
+            new ArrayList<>(), user,agent, true, myAgent);
+    Game player1WinGame = new Game(ticTacToeFactory, createTestConfig(player1Win),
+            new ArrayList<>(), user,agent,true, myAgent);
+    Game player2WinGme = new Game(ticTacToeFactory, createTestConfig(player2Win),
+            new ArrayList<>(), user,agent, true, myAgent);
 
     @Test
     void testMakeUserAndAgentMove() {

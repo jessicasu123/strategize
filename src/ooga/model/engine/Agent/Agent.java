@@ -1,7 +1,7 @@
-package ooga.model.engine.Agent.newAgent;
+package ooga.model.engine.Agent;
 
-import ooga.model.engine.Agent.newAgent.evaluationFunctions.EvaluationFunction;
-import ooga.model.engine.Agent.newAgent.winTypes.WinType;
+import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
+import ooga.model.engine.Agent.winTypes.WinType;
 
 import java.util.List;
 
@@ -10,14 +10,12 @@ public class Agent {
     private List<EvaluationFunction> myEvals;
     private List<Integer> myAgentStates;
     private List<Integer> myUserStates;
-    private int myEmptyState;
 
-    public Agent(WinType winType, List<EvaluationFunction> evals, List<Integer> agentStates, List<Integer> userStates, int emptyState){
+    public Agent(WinType winType, List<EvaluationFunction> evals, List<Integer> agentStates, List<Integer> userStates){
         myWinType = winType;
         myEvals = evals;
         myAgentStates = agentStates;
         myUserStates = userStates;
-        myEmptyState = emptyState;
     }
 
     public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft){

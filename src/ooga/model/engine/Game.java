@@ -1,9 +1,9 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Agent.oldAgent.Agent;
-import ooga.model.engine.GameTypeFactory.GameTypeFactory;
+import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.Player.AgentPlayer;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePieceFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -24,13 +24,13 @@ public class Game implements GameFramework{
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
-                List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1) {
-        myBoard = new Board(gameType, startingConfiguration, neighborhoods);
+    public Game(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
+                List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1, Agent agent) {
+        myBoard = new Board(gamePieces, startingConfiguration, neighborhoods);
         myUserStates = userInfo;
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
-        myAgent = gameType.createAgent();
+        myAgent = agent;
         myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;

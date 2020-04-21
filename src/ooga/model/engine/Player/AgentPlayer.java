@@ -1,6 +1,6 @@
 package ooga.model.engine.Player;
 
-import ooga.model.engine.Agent.oldAgent.Agent;
+import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.exceptions.InvalidMoveException;
@@ -28,7 +28,7 @@ public class AgentPlayer implements Player{
     private final int myID;
     private final int myOpponentID;
     private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
-    public static final int MAX_SEARCH_DEPTH = 3;
+    public static final int MAX_SEARCH_DEPTH = 2;
 
     /**
      * Creates an agent player using the default search depth
@@ -74,7 +74,6 @@ public class AgentPlayer implements Player{
      * @throws InvalidMoveException - throws an exception if the move is not legal or no legal moves are available
      */
     public Map.Entry<Coordinate, Coordinate> calculateMove(BoardFramework boardCopy) throws InvalidMoveException {
-
         int bestMove = getMaxPlayerMove(boardCopy, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         if(moveMappings.isEmpty()){
             throw new InvalidMoveException("No legal moves for agent to play");

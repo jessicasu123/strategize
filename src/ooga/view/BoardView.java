@@ -85,7 +85,7 @@ public class BoardView {
             piecesMove = myController.doPiecesMove();
             possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
             multiplePiecesPerSquare = Boolean.parseBoolean(myController.getStartingProperties().get("MultiplePiecesPerSquare"));
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             System.out.println("error");
         }
     }
@@ -217,8 +217,11 @@ public class BoardView {
         Image currImage = myStateToImageMapping.get(currGameState);
 
         int numPieces = numPiecesInfo.get(r).get(c);
+        System.out.println(numPieces);
+
         int imageIndex = 0;
         List<Image> possiblePieceImages = new ArrayList<>();
+
         if (multiplePiecesPerSquare &&
                 (myUser.contains(currGameState) || myAgent.contains(currGameState))) {
             possiblePieceImages = findPieceImage(currGameState);
@@ -231,7 +234,7 @@ public class BoardView {
         }
 
         for (int i = 0; i < numPieces;i++) {
-            if (multiplePiecesPerSquare) {
+            if (multiplePiecesPerSquare && currGameState !=0) {
                 currImage = possiblePieceImages.get(imageIndex);
             }
             boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
