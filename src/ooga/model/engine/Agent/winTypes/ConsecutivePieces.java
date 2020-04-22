@@ -5,8 +5,6 @@ import java.util.List;
 
 public class ConsecutivePieces implements WinType {
     private int myInARow;
-    private int ROWS = 6;
-    private int COLS = 7;
 
     public ConsecutivePieces(int InARow){
         myInARow = InARow;
@@ -40,13 +38,13 @@ public class ConsecutivePieces implements WinType {
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
         boolean isSquare = boardStateInfo.size() == boardStateInfo.get(0).size();
         if (isSquare) {
-            return getDiagForSquare(boardStateInfo);
+            return getDiagForSquareGrid(boardStateInfo);
         } else {
-            return getDiagFor4(boardStateInfo);
+            return getDiagForRectangularGrid(boardStateInfo);
         }
     }
 
-    private List<List<Integer>> getDiagForSquare(List<List<Integer>> boardStateInfo) {
+    private List<List<Integer>> getDiagForSquareGrid(List<List<Integer>> boardStateInfo) {
         List<Integer> leftDiag = new ArrayList<>();
         List<Integer> rightDiag = new ArrayList<>();
         for(int i = 0; i < Math.min(boardStateInfo.size(), boardStateInfo.get(0).size()); i++){
@@ -56,14 +54,17 @@ public class ConsecutivePieces implements WinType {
         return new ArrayList<>(List.of(leftDiag, rightDiag));
     }
 
-    private List<List<Integer>> getDiagFor4(List<List<Integer>> boardStateInfo) {
+    private List<List<Integer>> getDiagForRectangularGrid(List<List<Integer>> boardStateInfo) {
         List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
-        for (int row = ROWS - 4; row >= 0; row--) {
-            for (int col = COLS - 4; col >= 0; col--) {
+        int rows = boardStateInfo.size();
+        int cols = boardStateInfo.get(0).size();
+        int remainder = myInARow - 1;
+        for (int row = rows - myInARow; row >= 0; row--) {
+            for (int col = cols - myInARow; col >= 0; col--) {
                 List<Integer> leftDiag = new ArrayList<Integer>();
                 List<Integer> rightDiag = new ArrayList<Integer>();
-                for (int i = 0; i < 4; i++) {
-                    rightDiag.add(boardStateInfo.get(row + i).get(col - i + 3));
+                for (int i = 0; i < myInARow; i++) {
+                    rightDiag.add(boardStateInfo.get(row + i).get(col - i + remainder));
                     leftDiag.add(boardStateInfo.get(row + i).get(col + i));
                 }
                 alldiag.add(leftDiag);
