@@ -17,7 +17,6 @@ public class ConvertAllDirections implements NeighborConverterFinder {
     public ConvertAllDirections() {
         neighborsToConvert = new ArrayList<>();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
-
     }
 
     @Override
