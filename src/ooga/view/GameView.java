@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -229,13 +230,13 @@ public class GameView {
 
     private void setCustomizationPreferences() {
         customizePopUp.close();
-        String userImage = customizePopUp.getUserImageChoice();
-        String agentImage = customizePopUp.getOpponentImageChoice();
+        List<String> userImage = customizePopUp.getUserImageChoice();
+        List<String> agentImage = customizePopUp.getOpponentImageChoice();
         String boardColor = customizePopUp.getBoardColorChoice();
         handleMode(customizePopUp.isLightMode());
         String boardOutlineColor = customizePopUp.getBoardOutlineColor();
         grid.updateVisuals(userImage, agentImage, boardColor, boardOutlineColor);
-        statusPanel.updatePlayerIcons(userImage, agentImage);
+        statusPanel.updatePlayerIcons(userImage.get(0), agentImage.get(0));
     }
 
     private void handleMode(boolean isLightMode) {

@@ -86,13 +86,14 @@ public class CustomizationPopUp extends GamePopUp{
      * Tells the view in which this pop-up is created what the user's piece choice was.
      * @return - the image that the user has chosen to represent his/her piece
      */
-    public String getUserImageChoice() { return userImage; }
+    public List<String> getUserImageChoice() {
+        return List.of(userImage.split(",")); }
 
     /**
      * Tells the view in which this pop-up is created what the opponent's piece should be.
      * @return - the image the user selected for the opponent's piece
      */
-    public String getOpponentImageChoice() { return opponentImage; }
+    public List<String> getOpponentImageChoice() { return List.of(opponentImage.split(",")); }
 
     /**
      * Tells the view in which this pop-up is created what the board color should be.

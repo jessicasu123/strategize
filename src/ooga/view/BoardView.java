@@ -39,7 +39,7 @@ public class BoardView {
     private boolean hasSelectPiece;
     private boolean hasSelectedSquare;
     public static final int STATE_ID_POS = 0;
-    private Map<Integer, Image> myStateToImageMapping;
+    private Map<Integer, List<Image>> myStateToImageMapping;
     private Map<Integer, String> stateToFileMapping;
     private List<Integer> myUser;
     private List<Integer> myAgent;
@@ -61,11 +61,18 @@ public class BoardView {
     private void initializeStateImageMapping(){
         stateToFileMapping = myController.getStateImageMapping();
         for(Map.Entry<Integer, String> entry: stateToFileMapping.entrySet()){
-            if (! multiplePiecesPerSquare) {
-                Image img = new Image(PIECES_RESOURCES +  entry.getValue());
-                myStateToImageMapping.put(entry.getKey(), img);
-            }
+            List<String> images = List.of(entry.getValue().split(","));
+            myStateToImageMapping.put(entry.getKey(), convertStringToImages(images));
+
         }
+    }
+
+    private List<Image> convertStringToImages(List<String> imageNames) {
+        List<Image> imageList = new ArrayList<>();
+        for (String img: imageNames) {
+            imageList.add(new Image(PIECES_RESOURCES + img));
+        }
+        return imageList;
     }
 
     private void initializeValuesBasedOnController(){
@@ -130,15 +137,15 @@ public class BoardView {
 
     /**
      * updates the visual information of the board based on what it is told to look like
-     * @param newUserImage - the new image used to represent the user
-     * @param newAgentImage - the new image used to represent the agent
+     * @param newUserImages - the new image used to represent the user
+     * @param newAgentImages - the new image used to represent the agent
      * @param newBoardColor - the new color of the board
      */
-    protected void updateVisuals(String newUserImage, String newAgentImage, String newBoardColor, String mode){
-        Image userImg = new Image(PIECES_RESOURCES + newUserImage);
-        Image agentImg = new Image(PIECES_RESOURCES + newAgentImage);
-        myStateToImageMapping.replace(myUser.get(STATE_ID_POS), userImg);
-        myStateToImageMapping.replace(myAgent.get(STATE_ID_POS), agentImg);
+    protected void updateVisuals(List<String> newUserImages, List<String> newAgentImages, String newBoardColor, String mode){
+        List<Image> userImages = convertStringToImages(newUserImages);
+        List<Image> agentImages = convertStringToImages(newAgentImages);
+        myStateToImageMapping.replace(myUser.get(STATE_ID_POS), userImages);
+        myStateToImageMapping.replace(myAgent.get(STATE_ID_POS), agentImages);
         boardColor = newBoardColor;
         boardOutlineColor = mode;
         updateBoardAppearance();
@@ -166,9 +173,9 @@ public class BoardView {
     private Image findImageForSquare(List<List<Integer>> gameStates) {
         Image img;
         if(hasSelectPiece){
-            img = myStateToImageMapping.get(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY));
+            img = myStateToImageMapping.get(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY)).get(0);
         }else{
-            img = myStateToImageMapping.get(myUser.get(STATE_ID_POS));
+            img = myStateToImageMapping.get(myUser.get(STATE_ID_POS)).get(0);
         }
         return img;
     }
@@ -191,16 +198,15 @@ public class BoardView {
         currSquare.setStyle(boardColor, boardOutlineColor);
         currSquare.clearFill(boardColor);
         int currGameState = gameStates.get(r).get(c);
-        Image currImage = myStateToImageMapping.get(currGameState);
+        Image currImage = null;
 
         int numPieces = numPiecesInfo.get(r).get(c);
-
         int imageIndex = 0;
         List<Image> possiblePieceImages = new ArrayList<>();
 
-        if (multiplePiecesPerSquare &&
-                (myUser.contains(currGameState) || myAgent.contains(currGameState))) {
-            possiblePieceImages = findPieceImage(currGameState);
+        if (myUser.contains(currGameState) || myAgent.contains(currGameState)) {
+            currImage = myStateToImageMapping.get(currGameState).get(0);
+            if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
 
         //TODO: find better way to do this
@@ -234,22 +240,11 @@ public class BoardView {
         else currSquare.updateCellFill("grey");
     }
 
-    private List<Image> findPieceImage(int currState) {
-        String[] imageNames = stateToFileMapping.get(currState).split(",");
-        List<Image> possiblePieceImages = new ArrayList<>();
-        for (String image : imageNames) {
-            possiblePieceImages.add(new Image(PIECES_RESOURCES + image));
-        }
-        return possiblePieceImages;
-    }
-
-
     private void updatePossibleMoveImageOnSquare(BoardCell currSquare, boolean isPossibleMove) {
         if (isPossibleMove && !possibleMoveImage.equals("") && myController.userTurn()) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
             currSquare.updateImageOnSquare(possibleMove);
         }
-
     }
 
     private void updateAgentCell(Image playerImage, BoardCell currSquare){
