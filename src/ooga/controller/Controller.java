@@ -144,6 +144,8 @@ public class Controller implements ControllerFramework {
     public void restartGame() throws IOException, ParseException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
+//        squareSelected(-1,-1);
+//        squareSelected(-1, -1);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
         myGame = new Game(myGamePieces, myFileHandler.loadFileConfiguration(), objectConfig, myFileHandler.getNeighborhood(),
                 myUserPlayerInfo, myAgentPlayerInfo, userIsPlayer1, createAgent(myFileHandler.loadFileConfiguration()));

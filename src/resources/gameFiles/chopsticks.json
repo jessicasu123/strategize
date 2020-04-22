@@ -5,7 +5,7 @@
 
   "Gametype": "Chopsticks",
 
-  "Neighborhood": "",
+  "Neighborhood": "complete",
 
   "WinType": "NoPiecesForOpponent",
 
@@ -58,6 +58,6 @@
 
   "possibleMove": "",
 
-  "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.", "Next, click on an opponents square to add your chopstick count to their hand. Press play move", "When a hand reaches or exceeds 5 chopsticks, their hand is empty", "The player who has two empty hands loses."]
+  "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.", "Next, click on an opponents square to add your chopstick count to their hand. Press play move", "When a hand reaches 5 chopsticks, their hand is empty", "If a hand exceeds 5 chopsticks, sum of sticks minus 5 sticks remain", "If you have no sticks on one hand and >= 2 in the other, you can click your hand to split it and revive the empty hand", "The player who has two empty hands loses."]
 
 }
