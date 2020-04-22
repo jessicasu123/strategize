@@ -164,7 +164,7 @@ public class BoardView {
             myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
             rect.updateImageOnSquare(img);
         }
-        if(!piecesMove){
+        if(!piecesMove && squareClickType.equals("empty")){
             rect.updateImageOnSquare(img);
         }
 
