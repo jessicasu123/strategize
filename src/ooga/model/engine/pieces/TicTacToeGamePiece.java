@@ -16,8 +16,8 @@ import java.util.List;
 public class TicTacToeGamePiece extends GamePiece {
 
 
-    public TicTacToeGamePiece(int state, Coordinate position){
-        super(state, position);
+    public TicTacToeGamePiece(int state, Coordinate position, int numPieces){
+        super(state, position, numPieces);
     }
 
     @Override

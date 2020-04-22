@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,7 +113,7 @@ public class GameView {
             int boardRows = Integer.parseInt(myController.getStartingProperties().get("Height"));
             int boardCols = Integer.parseInt(myController.getStartingProperties().get("Width"));
             grid = new BoardView(PANE_HEIGHT, PANE_HEIGHT, boardRows, boardCols, myController);
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }
@@ -175,7 +176,7 @@ public class GameView {
                     Method buttonAction = this.getClass().getDeclaredMethod(methodName, new Class[0]);
                     buttonAction.invoke(GameView.this, new Object[0]);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
                 }
             });
         }
@@ -229,13 +230,13 @@ public class GameView {
 
     private void setCustomizationPreferences() {
         customizePopUp.close();
-        String userImage = customizePopUp.getUserImageChoice();
-        String agentImage = customizePopUp.getOpponentImageChoice();
+        List<String> userImage = customizePopUp.getUserImageChoice();
+        List<String> agentImage = customizePopUp.getOpponentImageChoice();
         String boardColor = customizePopUp.getBoardColorChoice();
         handleMode(customizePopUp.isLightMode());
         String boardOutlineColor = customizePopUp.getBoardOutlineColor();
         grid.updateVisuals(userImage, agentImage, boardColor, boardOutlineColor);
-        statusPanel.updatePlayerIcons(userImage, agentImage);
+        statusPanel.updatePlayerIcons(userImage.get(0), agentImage.get(0));
     }
 
     private void handleMode(boolean isLightMode) {
@@ -248,6 +249,7 @@ public class GameView {
         }
     }
 
+    //TODO: allow agent to keep going if it's still their turn
     private void makeMove(){
         try {
             if (didPass) {
@@ -255,12 +257,15 @@ public class GameView {
                 didPass = false;
             }
             if (gameInProgress && myController.userTurn()) {
-                grid.makeUserMove();
-                checkGameStatus(false);
-                if (gameInProgress) {
-                    grid.makeAgentMove();
+                if(myController.userTurn()) {
+                    grid.makeUserMove();
+                    checkGameStatus(false);
+                    if (gameInProgress) {
+                        grid.makeAgentMove();
+                    }
+
+                    checkGameStatus(true);
                 }
-                checkGameStatus(true);
             }
         }catch(InvalidMoveException ex){
             new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());

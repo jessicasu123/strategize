@@ -1,4 +1,9 @@
 {
+
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
   "Gametype": "Othello",
 
   "Neighborhood": "horizontal,vertical,diagonal",
@@ -9,45 +14,58 @@
 
   "SpecialPieceIndex": 0,
 
-  "EmptyState": "0",
+  "EmptyState": 0,
 
-  "PiecesMove": "false",
+  "PiecesMove": false,
 
-  "Player1PosDirection": "false",
+  "Player1PosDirection": false,
 
-  "NumPiecesPerSquare": 1, 
+  "CheckCurrConfig": true,
 
-  "Board": {
-    "Default": "8 x 8",
-    "DimensionOptions": [ "8 x 8" ],
-    "DimensionDetails": {
-      "8 x 8": {
-        "Height": "8",
-        "Width": "8",
-        "InitialConfig": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,2,1,0,0,0;0,0,0,1,2,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
-        "WinValue": "",
-        "BoardWeights": "4,-2,3,3,3,3,-2,4;-2,-2,-1,-1,-1,-1,-2,-2;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;-2,-2,-1,-1,-1,-1,-2,-2;4,-2,3,3,3,3,-2,4"
-      },
-      "6 x 6": {
-        "Height": "6",
-        "Width": "6",
-        "InitialConfig": "0,0,0,0,0,0;0,0,0,0,0,0;0,0,2,1,0,0;0,0,1,2,0,0;0,0,0,0,0,0;0,0,0,0,0,0",
-        "WinValue": "",
-        "BoardWeights": "4,-2,3,3,-2,4;-2,-2,-1,-1,-2,-2;3,-1,0,0,-1,3;3,-1,0,0,-1,3;3,-1,0,0,-1,3;3,-1,0,0,-1,3;-2,-2,-1,-1,-2,-2;4,-2,3,3,-2,4"
-      }
-    }
+  "MultiplePiecesPerSquare": false,
+
+  "SquareClickOptions": ["empty", "player", "agent"],
+
+  "SquareClickType": "empty",
+
+  "DimensionOptions": [ "8 x 8", "6 x 6"],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "8 x 8",
+
+  "8 x 8": {
+    "Height": "8",
+    "Width": "8",
+    "InitialConfig": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,2,1,0,0,0;0,0,0,1,2,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
+    "ObjectConfig":  "1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1;1,1,1,1,1,1,1,1",
+    "WinValue": 0,
+    "BoardWeights": "4,-2,3,3,3,3,-2,4;-2,-2,-1,-1,-1,-1,-2,-2;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;3,-1,0,0,0,0,-1,3;-2,-2,-1,-1,-1,-1,-2,-2;4,-2,3,3,3,3,-2,4"
   },
+
+  "6 x 6": {
+    "Height": "6",
+    "Width": "6",
+    "InitialConfig": "0,0,0,0,0,0;0,0,0,0,0,0;0,0,2,1,0,0;0,0,1,2,0,0;0,0,0,0,0,0;0,0,0,0,0,0",
+    "ObjectConfig":  "1,1,1,1,1,1;1,1,1,1,1,1;1,1,1,1,1,1;1,1,1,1,1,1;1,1,1,1,1,1;1,1,1,1,1,1",
+    "WinValue": 0,
+    "BoardWeights": "4,-2,3,3,-2,4;-2,-2,-1,-1,-2,-2;3,-1,0,0,-1,3;3,-1,0,0,-1,3;-2,-2,-1,-1,-2,-2;4,-2,3,3,-2,4"
+  },
+
+  "PlayerKeys": ["States", "Images", "Colors"],
+
+
 
   "Player1": {
     "States": [1],
     "Images": ["blackCircle.png"],
-    "Color": "Black"
+    "Colors": ["white"]
   },
 
   "Player2": {
     "States": [2],
     "Images": ["blackOutlineCircle.png"],
-    "Color": "White"
+    "Colors": ["white"]
   },
 
   "possibleMove": "greyOutlineCircle.png",

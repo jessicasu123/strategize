@@ -1,4 +1,4 @@
-package ooga.model.engine.Agent.newAgent.winTypes;
+package ooga.model.engine.Agent.winTypes;
 
 import ooga.model.engine.exceptions.InvalidWinTypeException;
 
@@ -6,15 +6,15 @@ import java.util.List;
 
 public class WinTypeFactory {
 
-    public WinType createWinType(String winType, int emptyState, int winValue, int playerRow, int myPlayer, int playerStateIndex,
-                                 List<List<Integer>> initialConfig, Boolean checkCurrConfig) {
+    public WinType createWinType(String winType, int emptyState, int stateIndex, int winValue, boolean checkCurrConfig,
+                                 List<List<Integer>> initialConfig) {
         switch (winType) {
             case "ConsecutivePieces":
-                return new ConsecutivePieces(winValue, myPlayer);
+                return new ConsecutivePieces(winValue);
             case "NoPiecesForOpponent":
                 return new NoPiecesForOpponent(emptyState);
             case "NoMovesMorePieces":
-                return new NoMovesMorePieces(winValue, playerStateIndex, initialConfig, checkCurrConfig);
+                return new NoMovesMorePieces(winValue, stateIndex, initialConfig, checkCurrConfig);
             default:
                 throw new InvalidWinTypeException(winType + " is not a valid neighborhood type.");
         }

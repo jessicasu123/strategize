@@ -7,7 +7,7 @@ public class GameIcon {
     public static double DEFAULT_WIDTH = 30;
 
     public ImageView createGameIcon(String imageName, double width) {
-        Image img = new Image(imageName);
+        Image img = new Image(imageName.split(",")[0]);
         ImageView gameIcon = new ImageView(img);
         gameIcon.setFitWidth(width);
         gameIcon.setPreserveRatio(true);

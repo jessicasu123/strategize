@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.engine.exceptions.InvalidFileFormatException;
 import ooga.model.engine.exceptions.InvalidGameTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
@@ -145,7 +146,7 @@ public class GameSetupOptions {
 
     private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
-        String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0);
+        String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0).split(",")[0];
         Image playerImage = new Image(PIECE_ICON_RESOURCES + imageName, iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player);
         playerButton.setGraphic(new ImageView(playerImage));
@@ -155,8 +156,8 @@ public class GameSetupOptions {
     }
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
-        JSONObject board = gameFileData.getJSONObject("Board");
-        JSONArray boardArray = board.getJSONArray("DimensionOptions");
+        //JSONObject board = gameFileData.getJSONObject("Board");
+        JSONArray boardArray = gameFileData.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
         String label = labelText.getString("BoardSizeText");
         ArrayList<String> options = new ArrayList<>();
@@ -164,7 +165,7 @@ public class GameSetupOptions {
             options.add(boardArray.getString(i));
         }
         dimensionDropdown = new GameDropDown();
-        return dimensionDropdown.createDropDownContainer(position, options, prompt + board.getString("Default"), label);
+        return dimensionDropdown.createDropDownContainer(position, options, prompt + gameFileData.getString("Default"), label);
     }
 
 
@@ -176,10 +177,7 @@ public class GameSetupOptions {
                 String chosenDimension = getChosenDimension();
                 Controller c = new Controller(gameFileName, userPlayerID, opponent, chosenDimension);
                 new GameView(myStage, c);
-            } catch (IOException | org.json.simple.parser.ParseException ex) {
-                new ErrorAlerts(setupData.getJSONArray("AlertInfo"));
-                new StartView(myStage).displayToStage(WIDTH,HEIGHT);
-            }catch(InvalidGameTypeException ex){
+            } catch(InvalidGameTypeException | FileNotFoundException | InvalidFileFormatException ex){
                 new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
                 new StartView(myStage).displayToStage(WIDTH,HEIGHT);
             }
@@ -198,7 +196,7 @@ public class GameSetupOptions {
 
     private String getChosenDimension() {
         if (dimensionDropdown.getValue() == null) {
-            return gameFileData.getJSONObject("Board").getString("Default");
+            return gameFileData.getString("Default");
         }
         return dimensionDropdown.getValue();
     }

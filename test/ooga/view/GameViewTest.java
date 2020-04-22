@@ -69,9 +69,7 @@ public class GameViewTest extends DukeApplicationTest {
         try {
             numRows = Integer.parseInt(testController.getStartingProperties().get("Height"));
             numCols = Integer.parseInt(testController.getStartingProperties().get("Width"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         for (int r = 0; r < numRows; r++) {
@@ -92,6 +90,7 @@ public class GameViewTest extends DukeApplicationTest {
         //making a move
         javafxRun(() -> clickOn(makeMove));
         updateBoardCells();
+        sleep(5);
         //there should be an image (NOT WHITE) on the cell clicked
         assertEquals(ImagePattern.class, myBoardCells.get(0).get(0).getFill().getClass());
 
@@ -99,7 +98,7 @@ public class GameViewTest extends DukeApplicationTest {
         List<Integer> agentCoords = findOpponentMove();
         int row = agentCoords.get(agentCoords.size()-2);
         int col = agentCoords.get(agentCoords.size()-1);
-        sleep(300);
+        sleep(1000);
         assertEquals(ImagePattern.class,
                 myBoardCells.get(row).get(col).getFill().getClass());
     }

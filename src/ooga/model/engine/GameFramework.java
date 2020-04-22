@@ -48,6 +48,8 @@ public interface GameFramework {
      */
     List<List<Integer>> getVisualInfo();
 
+    List<List<Integer>> getObjectInfo();
+
     /**
      * METHOD PURPOSE:
      *  - passes along the visual state info for the possible moves

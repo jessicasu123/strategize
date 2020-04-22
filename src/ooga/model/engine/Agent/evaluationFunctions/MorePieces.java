@@ -1,4 +1,4 @@
-package ooga.model.engine.Agent.newAgent.evaluationFunctions;
+package ooga.model.engine.Agent.evaluationFunctions;
 
 import ooga.model.engine.Coordinate;
 
@@ -11,6 +11,7 @@ public class MorePieces implements EvaluationFunction{
     private final Boolean checkCurrConfig;
     private final List<List<Integer>> myInitialConfig;
 
+    //TODO: is there a way to give more weights to certain types of pieces?
     public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, List<List<Integer>> initialConfig, Boolean checkCurrConfig){
         myStateEvalFor = maxStates.get(stateIndex);
         opponentStateEvalFor = minStates.get(stateIndex);

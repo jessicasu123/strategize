@@ -1,9 +1,9 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Agent.oldAgent.Agent;
-import ooga.model.engine.GameTypeFactory.GameTypeFactory;
+import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.Player.AgentPlayer;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePieceFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -19,18 +19,19 @@ public class Game implements GameFramework{
     private List<Integer> myAgentStates;
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
-    private int numMovesStatus;
+    //private int numMovesStatus;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood
-    public Game(GameTypeFactory gameType, List<List<Integer>> startingConfiguration, List<String> neighborhoods,
-                List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1) {
-        myBoard = new Board(gameType, startingConfiguration, neighborhoods);
+    public Game(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration,
+                List<List<Integer>> objectConfiguration, List<String> neighborhoods,
+                List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1, Agent agent) {
+        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
         myUserStates = userInfo;
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
-        myAgent = gameType.createAgent();
+        myAgent = agent;
         myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;
@@ -48,9 +49,9 @@ public class Game implements GameFramework{
         if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
-        numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
-        noMovesForUser = numMovesStatus==1;
-        noMovesForAgent = numMovesStatus==2;
+        int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        noMovesForUser = numMovesStatus == 1;
+        noMovesForAgent = numMovesStatus == 2;
         if (noMovesForUser) playerPass = "user";
         if (noMovesForAgent) playerPass = "agent";
     }
@@ -95,10 +96,10 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
-        //NOTE: assumption that makeMove is called FIRST; otherwise numMovesStatus will just be 0
-        boolean noMovesLeft = numMovesStatus==0; //myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        boolean noMovesLeft = numMovesStatus == 0;
         int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
-        if (result==0 && noMovesLeft) { return 3; }
+        if (result == 0 && noMovesLeft) { return 3; }
         return result;
     }
 
@@ -110,6 +111,9 @@ public class Game implements GameFramework{
     public List<List<Integer>> getVisualInfo() {
         return myBoard.getStateInfo();
     }
+
+    @Override
+    public List<List<Integer>> getObjectInfo() {return myBoard.getObjectInfo();}
 
     /**
      * METHOD PURPOSE:
