@@ -40,4 +40,24 @@ public class MorePiecesTest {
         MorePieces moreOthelloPiecesEval = new MorePieces(stateIndex, agent, user,initialConfig, true);
         assertEquals(11, moreOthelloPiecesEval.evaluate(boardConfig, false));
     }
+
+    @Test
+    void testMorePiecesMancala() {
+        List<Integer> initial_row1 = new ArrayList<>(List.of(4,3,3,3,3,3,3,0));
+        List<Integer> initial_row2 = new ArrayList<>(List.of(0,1,1,1,1,1,1,2));
+        List<List<Integer>> initialConfig = new ArrayList<>(List.of(initial_row1,initial_row2));
+
+        List<Integer> agent = new ArrayList<>(List.of(3,4));
+        List<Integer> user = new ArrayList<>(List.of(1,2));
+        int stateIndex = 1;
+
+        List<Integer> row1 = new ArrayList<>(List.of(14,12,0,0,0,2,0,0));
+        List<Integer> row2 = new ArrayList<>(List.of(0,1,1,1,0,0,0,17));
+        //15 max pieces in agent goal pos
+        //18 min pieces in user goal pos
+        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2));
+        MorePieces moreMancalaPiecesEval = new MorePieces(stateIndex, agent, user, initialConfig, false);
+        assertEquals(-3, moreMancalaPiecesEval.evaluate(boardConfig, false));
+    }
+
 }
