@@ -10,7 +10,7 @@ public abstract class BoardCell {
 
     private Node myShape;
 
-    public BoardCell (int x, int y, double cellWidth, double cellHeight) {
+    public BoardCell (double cellWidth, double cellHeight) {
         myCellWidth = cellWidth;
         myCellHeight = cellHeight;
         myShape = createCell();
@@ -25,6 +25,8 @@ public abstract class BoardCell {
     public double getCellHeight() {return myCellHeight;}
 
     public void setMessage(int message) {}
+
+    public void setImagePositionIndex(int newIndex) {}
 
     public abstract Node createCell();
 

@@ -23,6 +23,10 @@
 
   "MultiplePiecesPerSquare": true,
 
+  "NumVisualRowsPerSquare": 12,
+
+  "MaxNumObjectsPerSquare": 48,
+
   "SquareClickOptions": ["empty", "player", "agent"],
 
   "SquareClickType": "player",

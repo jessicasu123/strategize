@@ -11,7 +11,7 @@ public class SinglePieceBoardCell extends BoardCell {
     private Rectangle myShape;
 
     public SinglePieceBoardCell(int x, int y, double cellWidth, double cellHeight) {
-        super(x, y, cellWidth, cellHeight);
+        super(cellWidth, cellHeight);
         myShape.setId("cell" + x + y);
 
     }

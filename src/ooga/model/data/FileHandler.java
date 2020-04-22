@@ -61,5 +61,7 @@ public interface FileHandler {
     List<List<Integer>> getObjectConfig();
     boolean shouldCheckCurrConfig();
     boolean hasMultiplePiecesPerSquare();
+    int getNumRowsPerSquare();
+    int getMaxObjectsPerSquare();
 
 }

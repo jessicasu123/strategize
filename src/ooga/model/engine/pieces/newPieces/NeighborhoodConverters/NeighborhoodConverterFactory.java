@@ -6,8 +6,8 @@ public class NeighborhoodConverterFactory {
 
     public NeighborConverterFinder createNeighborhoodConverterFinder(String converterType) {
         switch (converterType) {
-            case "ConvertAllDirections":
-                return new ConvertAllDirections();
+            case "FindAllFlippableNeighbors":
+                return new FindAllFlippableNeighbors();
             default:
                 throw new InvalidNeighborhoodConverterException(converterType + " is not a valid neighborhood converter type.");
         }

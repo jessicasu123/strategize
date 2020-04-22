@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConvertAllDirections implements NeighborConverterFinder {
+public class FindAllFlippableNeighbors implements NeighborConverterFinder {
 
     private int currRowPos;
     private int currColPos;
@@ -14,7 +14,7 @@ public class ConvertAllDirections implements NeighborConverterFinder {
     private List<GamePiece> neighborsToConvert;
     private int myPlayerID;
 
-    public ConvertAllDirections() {
+    public FindAllFlippableNeighbors() {
         neighborsToConvert = new ArrayList<>();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
