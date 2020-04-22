@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConnectFourGamePieceTest {
     Coordinate c = new Coordinate(5,3);
-    GamePiece piece = new ConnectFourGamePiece(0,c);
+    GamePiece piece = new ConnectFourGamePiece(0,c,1);
     Coordinate c1 = new Coordinate(5,3);
-    GamePiece neighbor = new ConnectFourGamePiece(2,c1);
+    GamePiece neighbor = new ConnectFourGamePiece(2,c1,1);
 
     @Test
     void testCalculateAllPossibleMoves() {

@@ -59,5 +59,6 @@ public interface FileHandler {
     boolean doPiecesMove();
     String getGameType();
     List<List<Integer>> getObjectConfig();
+    boolean shouldCheckCurrConfig();
 
 }
