@@ -1,16 +1,16 @@
 package ooga.model.engine.pieces.newPieces.MoveChecks;
 
 import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.ConvertAllDirections;
+import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.FindAllFlippableNeighbors;
 
 import java.util.List;
 
 public class CheckAllFlippableDirections implements MoveCheck{
-    private ConvertAllDirections myNeighborhoodFinder;
+    private FindAllFlippableNeighbors myNeighborhoodFinder;
     private int[][] directions;
 
     public CheckAllFlippableDirections() {
-        myNeighborhoodFinder = new ConvertAllDirections();
+        myNeighborhoodFinder = new FindAllFlippableNeighbors();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
     @Override
