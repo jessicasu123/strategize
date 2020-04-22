@@ -70,6 +70,8 @@ public interface ControllerFramework {
      */
     List<List<Integer>> getGameVisualInfo();
 
+    List<List<Integer>> getNumPiecesVisualInfo();
+
     /**
      * METHOD PURPOSE:
      * -returns the name of the JSON config file for the game currently running on a view.

@@ -10,6 +10,7 @@ import util.DukeApplicationTest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,20 +36,20 @@ public class CustomizationViewTest extends DukeApplicationTest {
 
         userChoice = lookup("#PlayerImage").queryComboBox();
         opponentChoice = lookup("#OpponentImage").queryComboBox();
-        colorChoice = lookup("#ChooseColor").queryComboBox();
+        colorChoice = lookup("#Color").queryComboBox();
 
     }
 
     @Test
     void testChooseUserImage() {
         select(userChoice, "fire");
-        assertEquals("fire.png", customizationPopUp.getUserImageChoice());
+        assertEquals(List.of("fire.png"), customizationPopUp.getUserImageChoice());
     }
 
     @Test
     void testChooseOpponentImage() {
         select(opponentChoice, "water");
-        assertEquals("water.png", customizationPopUp.getOpponentImageChoice());
+        assertEquals(List.of("water.png"), customizationPopUp.getOpponentImageChoice());
     }
 
     @Test

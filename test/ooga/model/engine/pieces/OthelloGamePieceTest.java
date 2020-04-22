@@ -9,19 +9,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class OthelloGamePieceTest {
     //PIECES FOR HORIZONTAL LEFT
-    OthelloGamePiece horizLeft = new OthelloGamePiece(0, new Coordinate(2,3));
+    OthelloGamePiece horizLeft = new OthelloGamePiece(0, new Coordinate(2,3),1);
     //horizontal neighbors
-    OthelloGamePiece emptyHoriz_HL = new OthelloGamePiece(0, new Coordinate(2,0));
-    OthelloGamePiece playerHoriz_HL = new OthelloGamePiece(1, new Coordinate(2,1));
-    OthelloGamePiece oppHoriz_HL = new OthelloGamePiece(2, new Coordinate(2,2));
+    OthelloGamePiece emptyHoriz_HL = new OthelloGamePiece(0, new Coordinate(2,0),1);
+    OthelloGamePiece playerHoriz_HL = new OthelloGamePiece(1, new Coordinate(2,1),1);
+    OthelloGamePiece oppHoriz_HL = new OthelloGamePiece(2, new Coordinate(2,2),1);
     //vertical neighbors
-    OthelloGamePiece empty1Vert_HL = new OthelloGamePiece(0, new Coordinate(0,3));
-    OthelloGamePiece empty2Vert_HL = new OthelloGamePiece(0, new Coordinate(1,3));
-    OthelloGamePiece empty3Vert_HL = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Vert_HL = new OthelloGamePiece(0, new Coordinate(0,3),1);
+    OthelloGamePiece empty2Vert_HL = new OthelloGamePiece(0, new Coordinate(1,3),1);
+    OthelloGamePiece empty3Vert_HL = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //diagonal neighbors
-    OthelloGamePiece empty1Diag_HL = new OthelloGamePiece(0, new Coordinate(0,1));
-    OthelloGamePiece playerDiag_HL = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece empty2Diag_HL = new OthelloGamePiece(0, new Coordinate(3,2));
+    OthelloGamePiece empty1Diag_HL = new OthelloGamePiece(0, new Coordinate(0,1),1);
+    OthelloGamePiece playerDiag_HL = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece empty2Diag_HL = new OthelloGamePiece(0, new Coordinate(3,2),1);
 
 
     //test for horizontal left move
@@ -42,19 +42,19 @@ public class OthelloGamePieceTest {
 
 
     //FOR HORIZONTAL RIGHT
-    OthelloGamePiece horizRight = new OthelloGamePiece(0, new Coordinate(1,0));
+    OthelloGamePiece horizRight = new OthelloGamePiece(0, new Coordinate(1,0),1);
     //horizontal row
-    OthelloGamePiece opponent1Horiz = new OthelloGamePiece(2, new Coordinate(1,1));
-    OthelloGamePiece myPiece1Horiz = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece emptySpotHoriz = new OthelloGamePiece(0, new Coordinate(1,3));
+    OthelloGamePiece opponent1Horiz = new OthelloGamePiece(2, new Coordinate(1,1),1);
+    OthelloGamePiece myPiece1Horiz = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece emptySpotHoriz = new OthelloGamePiece(0, new Coordinate(1,3),1);
     //vertical row
-    OthelloGamePiece empty1Vert = new OthelloGamePiece(0, new Coordinate(0,0));
-    OthelloGamePiece empty2Vert = new OthelloGamePiece(0, new Coordinate(2,0));
-    OthelloGamePiece empty3Vert = new OthelloGamePiece(0, new Coordinate(3,0));
+    OthelloGamePiece empty1Vert = new OthelloGamePiece(0, new Coordinate(0,0),1);
+    OthelloGamePiece empty2Vert = new OthelloGamePiece(0, new Coordinate(2,0),1);
+    OthelloGamePiece empty3Vert = new OthelloGamePiece(0, new Coordinate(3,0),1);
     //diagonals
-    OthelloGamePiece myPiece1Diag = new OthelloGamePiece(1, new Coordinate(2,1));
-    OthelloGamePiece empty1Diag = new OthelloGamePiece(0, new Coordinate(3,2));
-    OthelloGamePiece empty2Diag = new OthelloGamePiece(0, new Coordinate(0,1));
+    OthelloGamePiece myPiece1Diag = new OthelloGamePiece(1, new Coordinate(2,1),1);
+    OthelloGamePiece empty1Diag = new OthelloGamePiece(0, new Coordinate(3,2),1);
+    OthelloGamePiece empty2Diag = new OthelloGamePiece(0, new Coordinate(0,1),1);
 
 
     //test for horizontal right move
@@ -74,19 +74,19 @@ public class OthelloGamePieceTest {
     }
 
     //PIECES FOR VERTICAL TOP
-    OthelloGamePiece vertTop = new OthelloGamePiece(0,new Coordinate(3,2));
+    OthelloGamePiece vertTop = new OthelloGamePiece(0,new Coordinate(3,2),1);
     //horizontal neighbors
-    OthelloGamePiece empty1Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,0));
-    OthelloGamePiece empty2Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,1));
-    OthelloGamePiece empty3Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,0),1);
+    OthelloGamePiece empty2Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,1),1);
+    OthelloGamePiece empty3Horiz_VT = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //vertical neighbors
-    OthelloGamePiece empty1Vert_VT = new OthelloGamePiece(0, new Coordinate(0,2));
-    OthelloGamePiece player1Vert_VT = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece opponentVert_VT = new OthelloGamePiece(2, new Coordinate(2,2));
+    OthelloGamePiece empty1Vert_VT = new OthelloGamePiece(0, new Coordinate(0,2),1);
+    OthelloGamePiece player1Vert_VT = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece opponentVert_VT = new OthelloGamePiece(2, new Coordinate(2,2),1);
     //diagonal neighbors
-    OthelloGamePiece empty1Diag_VT = new OthelloGamePiece(0, new Coordinate(1,0));
-    OthelloGamePiece player1Diag_VT = new OthelloGamePiece(1, new Coordinate(2,2));
-    OthelloGamePiece empty2Diag_VT = new OthelloGamePiece(0, new Coordinate(2,3));
+    OthelloGamePiece empty1Diag_VT = new OthelloGamePiece(0, new Coordinate(1,0),1);
+    OthelloGamePiece player1Diag_VT = new OthelloGamePiece(1, new Coordinate(2,2),1);
+    OthelloGamePiece empty2Diag_VT = new OthelloGamePiece(0, new Coordinate(2,3),1);
 
     //test for vertical top move
     @Test
@@ -103,19 +103,19 @@ public class OthelloGamePieceTest {
     }
 
     //PIECES FOR VERTICAL BOTTOM
-    OthelloGamePiece vertBottom = new OthelloGamePiece (0, new Coordinate(0,1));
+    OthelloGamePiece vertBottom = new OthelloGamePiece (0, new Coordinate(0,1),1);
     //horizontal neighbors
-    OthelloGamePiece empty1Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,0));
-    OthelloGamePiece empty2Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,2));
-    OthelloGamePiece empty3Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,3));
+    OthelloGamePiece empty1Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,0),1);
+    OthelloGamePiece empty2Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,2),1);
+    OthelloGamePiece empty3Horiz_VB = new OthelloGamePiece(0, new Coordinate(0,3),1);
     //vertical neighbors
-    OthelloGamePiece opponentVert_VB = new OthelloGamePiece(2, new Coordinate(1,1));
-    OthelloGamePiece playerVert_VB = new OthelloGamePiece(1, new Coordinate(2,1));
-    OthelloGamePiece emptyVert_VB = new OthelloGamePiece(0, new Coordinate(3,1));
+    OthelloGamePiece opponentVert_VB = new OthelloGamePiece(2, new Coordinate(1,1),1);
+    OthelloGamePiece playerVert_VB = new OthelloGamePiece(1, new Coordinate(2,1),1);
+    OthelloGamePiece emptyVert_VB = new OthelloGamePiece(0, new Coordinate(3,1),1);
     //diagonal neighbors
-    OthelloGamePiece playerDiag_VB = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece empty1Diag_VB = new OthelloGamePiece(0, new Coordinate(2,3));
-    OthelloGamePiece empty2Diag_VB = new OthelloGamePiece(0, new Coordinate(1,0));
+    OthelloGamePiece playerDiag_VB = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece empty1Diag_VB = new OthelloGamePiece(0, new Coordinate(2,3),1);
+    OthelloGamePiece empty2Diag_VB = new OthelloGamePiece(0, new Coordinate(1,0),1);
 
     //test for vertical bottom move
     @Test
@@ -132,19 +132,19 @@ public class OthelloGamePieceTest {
 
 
     //PIECES FOR RIGHT DIAG PREV
-    OthelloGamePiece rightDiagPrev = new OthelloGamePiece(0, new Coordinate(2,3));
+    OthelloGamePiece rightDiagPrev = new OthelloGamePiece(0, new Coordinate(2,3),1);
     //horizontal neighbors
-    OthelloGamePiece emptyHoriz_RDP = new OthelloGamePiece(0, new Coordinate(2,0));
-    OthelloGamePiece playerHoriz_RDP = new OthelloGamePiece(1, new Coordinate(2,1));
-    OthelloGamePiece oppHoriz_RDP = new OthelloGamePiece(2, new Coordinate(2,2));
+    OthelloGamePiece emptyHoriz_RDP = new OthelloGamePiece(0, new Coordinate(2,0),1);
+    OthelloGamePiece playerHoriz_RDP = new OthelloGamePiece(1, new Coordinate(2,1),1);
+    OthelloGamePiece oppHoriz_RDP = new OthelloGamePiece(2, new Coordinate(2,2),1);
     //vertical neighbors
-    OthelloGamePiece empty1Vert_RDP = new OthelloGamePiece(0, new Coordinate(0,3));
-    OthelloGamePiece empty2Vert_RDP = new OthelloGamePiece(0, new Coordinate(1,3));
-    OthelloGamePiece empty3Vert_RDP = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Vert_RDP = new OthelloGamePiece(0, new Coordinate(0,3),1);
+    OthelloGamePiece empty2Vert_RDP = new OthelloGamePiece(0, new Coordinate(1,3),1);
+    OthelloGamePiece empty3Vert_RDP = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //diagonal neighbors
-    OthelloGamePiece playerDiag_RDP = new OthelloGamePiece(1, new Coordinate(0,1));
-    OthelloGamePiece oppDiag_RDP = new OthelloGamePiece(2, new Coordinate(1,2));
-    OthelloGamePiece emptyDiag_RDP = new OthelloGamePiece(0, new Coordinate(3,2));
+    OthelloGamePiece playerDiag_RDP = new OthelloGamePiece(1, new Coordinate(0,1),1);
+    OthelloGamePiece oppDiag_RDP = new OthelloGamePiece(2, new Coordinate(1,2),1);
+    OthelloGamePiece emptyDiag_RDP = new OthelloGamePiece(0, new Coordinate(3,2),1);
 
     @Test
     void testRightDiagPrevMove() {
@@ -163,19 +163,19 @@ public class OthelloGamePieceTest {
 
 
     //PIECES FOR RIGHT DIAG NEXT
-    OthelloGamePiece rightDiagNext = new OthelloGamePiece(0, new Coordinate(3,2));
+    OthelloGamePiece rightDiagNext = new OthelloGamePiece(0, new Coordinate(3,2),1);
     //horizontal neighbors
-    OthelloGamePiece empty1Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,0));
-    OthelloGamePiece empty2Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,1));
-    OthelloGamePiece empty3Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,0),1);
+    OthelloGamePiece empty2Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,1),1);
+    OthelloGamePiece empty3Horiz_RDN = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //vertical neighbors
-    OthelloGamePiece emptyVert_RDN = new OthelloGamePiece(0, new Coordinate(0,2));
-    OthelloGamePiece playerVert_RDN = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece oppVert_RDN = new OthelloGamePiece(2, new Coordinate(2,2));
+    OthelloGamePiece emptyVert_RDN = new OthelloGamePiece(0, new Coordinate(0,2),1);
+    OthelloGamePiece playerVert_RDN = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece oppVert_RDN = new OthelloGamePiece(2, new Coordinate(2,2),1);
     //diagonal neighbors
-    OthelloGamePiece playerDiag_RDN = new OthelloGamePiece(1, new Coordinate(1,0));
-    OthelloGamePiece oppDiag_RDN = new OthelloGamePiece(2, new Coordinate(2,1));
-    OthelloGamePiece emptyDiag_RDN = new OthelloGamePiece(0, new Coordinate(2,3));
+    OthelloGamePiece playerDiag_RDN = new OthelloGamePiece(1, new Coordinate(1,0),1);
+    OthelloGamePiece oppDiag_RDN = new OthelloGamePiece(2, new Coordinate(2,1),1);
+    OthelloGamePiece emptyDiag_RDN = new OthelloGamePiece(0, new Coordinate(2,3),1);
 
     //test for right diagonal next move - also tests that BOTH DIAGONAL AND VERTICAL TURN OPPONENTS
     @Test
@@ -193,19 +193,19 @@ public class OthelloGamePieceTest {
     }
 
     //PIECES FOR LEFT DIAG NEXT
-    OthelloGamePiece leftDiagNext = new OthelloGamePiece(0, new Coordinate(0,3));
+    OthelloGamePiece leftDiagNext = new OthelloGamePiece(0, new Coordinate(0,3),1);
     //horizontal neighbors
-    OthelloGamePiece emptyHoriz_LDN = new OthelloGamePiece(0, new Coordinate(0,0));
-    OthelloGamePiece playerHoriz_LDN = new OthelloGamePiece(1, new Coordinate(0,1));
-    OthelloGamePiece oppHoriz_LDN = new OthelloGamePiece(2, new Coordinate(0,2));
+    OthelloGamePiece emptyHoriz_LDN = new OthelloGamePiece(0, new Coordinate(0,0),1);
+    OthelloGamePiece playerHoriz_LDN = new OthelloGamePiece(1, new Coordinate(0,1),1);
+    OthelloGamePiece oppHoriz_LDN = new OthelloGamePiece(2, new Coordinate(0,2),1);
     //vertical neighbors
-    OthelloGamePiece empty1Vert_LDN = new OthelloGamePiece(0, new Coordinate(1,3));
-    OthelloGamePiece empty2Vert_LDN = new OthelloGamePiece(0, new Coordinate(2,3));
-    OthelloGamePiece empty3Vert_LDN = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Vert_LDN = new OthelloGamePiece(0, new Coordinate(1,3),1);
+    OthelloGamePiece empty2Vert_LDN = new OthelloGamePiece(0, new Coordinate(2,3),1);
+    OthelloGamePiece empty3Vert_LDN = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //diagonal neighbors
-    OthelloGamePiece oppDiag_LDN = new OthelloGamePiece(2, new Coordinate(1,2));
-    OthelloGamePiece playerDiag_LDN = new OthelloGamePiece(1, new Coordinate(2,1));
-    OthelloGamePiece emptyDiag_LDN = new OthelloGamePiece(0, new Coordinate(3,0));
+    OthelloGamePiece oppDiag_LDN = new OthelloGamePiece(2, new Coordinate(1,2),1);
+    OthelloGamePiece playerDiag_LDN = new OthelloGamePiece(1, new Coordinate(2,1),1);
+    OthelloGamePiece emptyDiag_LDN = new OthelloGamePiece(0, new Coordinate(3,0),1);
     @Test
     void testLeftDiagNextMove() {
         List<GamePiece> neighbors = List.of(emptyHoriz_LDN, playerHoriz_LDN, oppHoriz_LDN,
@@ -221,19 +221,19 @@ public class OthelloGamePieceTest {
     }
 
     //PIECES FOR LEFT DIAGONAL PREV MOVE
-    OthelloGamePiece leftDiagPrev = new OthelloGamePiece(0, new Coordinate(3,0));
+    OthelloGamePiece leftDiagPrev = new OthelloGamePiece(0, new Coordinate(3,0),1);
     //horizontal neighbors
-    OthelloGamePiece empty1Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,1));
-    OthelloGamePiece empty2Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,2));
-    OthelloGamePiece empty3Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,3));
+    OthelloGamePiece empty1Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,1),1);
+    OthelloGamePiece empty2Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,2),1);
+    OthelloGamePiece empty3Horiz_LDP = new OthelloGamePiece(0, new Coordinate(3,3),1);
     //vertical neighbors
-    OthelloGamePiece emptyVert_LDP = new OthelloGamePiece(0, new Coordinate(0,0));
-    OthelloGamePiece playerVert_LDP = new OthelloGamePiece(1, new Coordinate(1,0));
-    OthelloGamePiece oppVert_LDP = new OthelloGamePiece(2, new Coordinate(2,0));
+    OthelloGamePiece emptyVert_LDP = new OthelloGamePiece(0, new Coordinate(0,0),1);
+    OthelloGamePiece playerVert_LDP = new OthelloGamePiece(1, new Coordinate(1,0),1);
+    OthelloGamePiece oppVert_LDP = new OthelloGamePiece(2, new Coordinate(2,0),1);
     //diagonal neighbors
-    OthelloGamePiece emptyDiag_LDP = new OthelloGamePiece(0, new Coordinate(0,3));
-    OthelloGamePiece playerDiag_LDP = new OthelloGamePiece(1, new Coordinate(1,2));
-    OthelloGamePiece oppDiag_LDP = new OthelloGamePiece(2, new Coordinate(2,1));
+    OthelloGamePiece emptyDiag_LDP = new OthelloGamePiece(0, new Coordinate(0,3),1);
+    OthelloGamePiece playerDiag_LDP = new OthelloGamePiece(1, new Coordinate(1,2),1);
+    OthelloGamePiece oppDiag_LDP = new OthelloGamePiece(2, new Coordinate(2,1),1);
 
     //test for left diagonal prev move - also that both vertical and diagonal turn opponents
     @Test

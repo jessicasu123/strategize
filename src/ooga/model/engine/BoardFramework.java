@@ -45,6 +45,14 @@ public interface BoardFramework {
 
     /**
      * METHOD PURPOSE:
+     *  - gets the number of objects in a certain row,col position that the view will need
+     *  for games where there are multiple pieces per square
+     * @return list of list of the integers used to represent the number of objects at each location
+     */
+    List<List<Integer>> getObjectInfo();
+
+    /**
+     * METHOD PURPOSE:
      *  - makes a copy of the board so the agent can try out moves without affecting the actual game state
      * @return a copy of the board
      */

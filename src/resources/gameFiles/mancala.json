@@ -1,58 +1,61 @@
 {
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","8 x 2", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
   "Gametype": "Mancala",
 
-  "Neighborhood": "horizontal,vertical",
+  "Neighborhood": "complete",
 
   "WinType": "NoMovesMorePieces",
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0",
+  "SpecialPieceIndex": 1,
 
-  "WinValue": "",
+  "EmptyState": 0,
 
-  "SpecialPieceIndex": 0,
+  "PiecesMove": false,
 
-  "EmptyState": "0",
+  "Player1PosDirection": true,
 
-  "PiecesMove": "false",
+  "CheckCurrConfig": false,
 
-  "Player1PosDirection": "true",
+  "MultiplePiecesPerSquare": true,
 
+  "SquareClickOptions": ["empty", "player", "agent"],
 
-  "Board": {
-    "Default": "2 x 8",
-    "DimensionOptions": [ "2 x 8" ],
-    "DimensionDetails": {
-      "2 x 8": {
-        "Height": "2",
-        "Width": "8",
-        "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
-        "WinValue": "24",
-        "BoardWeights": ""
-      },
-      "2 x 10": {
-        "Height": "2",
-        "Width": "10",
-        "InitialConfig": "4,3,3,3,3,3,3,3,3,0;0,1,1,1,1,1,1,1,1,2",
-        "WinValue": "32",
-        "BoardWeights": ""
-      }
-    }
+  "SquareClickType": "player",
+
+  "DimensionOptions": [ "8 x 2" ],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "8 x 2",
+
+  "8 x 2": {
+    "Height": "2",
+    "Width": "8",
+    "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
+    "ObjectConfig": "0,4,4,4,4,4,4,0;0,4,4,4,4,4,4,0",
+    "WinValue": 0,
+    "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
   },
+
+  "PlayerKeys": ["States", "Images", "Colors"],
 
   "Player1": {
     "States": [1, 2],
-    "Images": ["orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
-    "Color": "White"
+    "Colors": ["white", "blue"]
   },
 
   "Player2": {
     "States": [3, 4],
-    "Images": ["orangeCircle.png, tealCircle.png, yellowCircle.png, redCircle.png"],
+    "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
-    "Color": "White"
+    "Colors": ["white", "grey"]
   },
 
   "possibleMove": "",

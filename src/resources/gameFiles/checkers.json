@@ -1,46 +1,67 @@
 {
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
+  "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
+  "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
   "Gametype": "Checkers",
 
   "Neighborhood": "diagonal",
 
   "WinType": "NoPiecesForOpponent",
 
-  "EvaluationFunctions": ["PieceDifferences","PositionWeights","SumOfDistancesForSpecialPiece"],
-
-  "BoardWeights": "0,-4,0,-4,0,-4,0,-4;-3,0,-3,0,-3,0,-3,0;0,-2,0,-2,0,-2,0,-2;-1,0,-1,0,-1,0,-1,0;0,1,0,1,0,1,0,1;2,0,2,0,2,0,2,0;0,3,0,3,0,3,0,3;4,0,4,0,4,0,4,0",
-
-  "WinValue": 0,
+  "EvaluationFunctions": ["MorePieces","PositionWeights","SumOfDistances"],
 
   "SpecialPieceIndex": 1,
 
-  "EmptyState": "0",
+  "EmptyState": 0,
 
-  "PiecesMove": "true",
+  "PiecesMove": true,
 
-  "Player1PosDirection": "false",
-  
-  "Board": {
-    "Default": "8 x 8",
-    "DimensionOptions": [ "8 x 8" ],
-    "DimensionDetails": {
-      "8 x 8": {
-        "Height": "8",
-        "Width": "8",
-        "InitialConfig": "0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;3,0,3,0,3,0,3,0;0,3,0,3,0,3,0,3;3,0,3,0,3,0,3,0"
-      }
-    }
+  "Player1PosDirection": false,
+
+  "CheckCurrConfig": true,
+
+  "MultiplePiecesPerSquare": false,
+
+  "SquareClickOptions": ["empty", "player", "agent"],
+
+  "SquareClickType": "empty",
+
+  "DimensionOptions": [ "8 x 8" , "6 x 6"],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "8 x 8",
+
+  "8 x 8": {
+    "Height": "8",
+    "Width": "8",
+    "InitialConfig": "0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0;3,0,3,0,3,0,3,0;0,3,0,3,0,3,0,3;3,0,3,0,3,0,3,0",
+    "ObjectConfig": "0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0;0,1,0,1,0,1,0,1;1,0,1,0,1,0,1,0",
+    "WinValue": 0,
+    "BoardWeights": "0,-4,0,-4,0,-4,0,-4;-3,0,-3,0,-3,0,-3,0;0,-2,0,-2,0,-2,0,-2;-1,0,-1,0,-1,0,-1,0;0,1,0,1,0,1,0,1;2,0,2,0,2,0,2,0;0,3,0,3,0,3,0,3;4,0,4,0,4,0,4,0"
   },
+  "6 x 6": {
+    "Height": "6",
+    "Width": "6",
+    "InitialConfig": "0,1,0,1,0,1;1,0,1,0,1,0;0,0,0,0,0,0;0,0,0,0,0,0;0,3,0,3,0,3;3,0,3,0,3,0",
+    "ObjectConfig": "0,1,0,1,0,1;1,0,1,0,1,0;0,1,0,1,0,1;1,0,1,0,1,0;0,1,0,1,0,1;1,0,1,0,1,0",
+    "WinValue": 0,
+    "BoardWeights": "0,-3,0,-3,0,-3;-2,0,-2,0,-2,0;0,-1,0,-1,0,-1;1,0,1,0,1,0;0,2,0,2,0,2;3,0,3,0,3,0"
+  },
+
+  "PlayerKeys": ["States", "Images", "Colors"],
 
   "Player1": {
     "States" : [3, 4],
     "Images": ["redCircle.png", "redCrown.png"],
-    "Color": "Red"
+    "Colors": ["white", "white"]
   },
 
   "Player2": {
     "States": [1, 2],
     "Images": ["blackCircle.png", "blackCrown.png"],
-    "Color": "Black"
+    "Colors": ["white", "white"]
   },
 
   "possibleMove": "greyOutlineCircle.png",

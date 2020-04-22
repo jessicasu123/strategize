@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class MancalaGamePiece extends GamePiece {
     public static final int MARBLES_TO_ADD = 1;
-    private int myMarbles;
     private int myGoalState;
     private int myDirection;
     private int myOpponentsGoal;
@@ -32,8 +31,7 @@ public class MancalaGamePiece extends GamePiece {
      * @param position - the position this square lives at
      */
     public MancalaGamePiece(int state, int goalState,int opponentGoal, int direction, int numMarbles, int emptyState, Coordinate position) {
-        super(state, position);
-        myMarbles = numMarbles;
+        super(state, position, numMarbles);
         myGoalState = goalState;
         myDirection = direction;
         myOpponentsGoal = opponentGoal;
@@ -51,7 +49,7 @@ public class MancalaGamePiece extends GamePiece {
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        if(this.getState() == playerID && myMarbles > 0){
+        if(this.getState() == playerID && this.getNumObjects() > 0){
             possibleMoves.add(this.getPosition());
         }
         return possibleMoves;
@@ -103,36 +101,70 @@ public class MancalaGamePiece extends GamePiece {
         int yPos = this.getPosition().getCol();
         List<GamePiece> myRow = myRowOfPieces(neighbors);
         List<GamePiece> myOpponentsRow = myOpponentRowOfPieces(neighbors);
-        int numMarblesBefore = myMarbles;
-        addMarblesToNeighborsBasedOnMove(myRow, myOpponentsRow, yPos + myDirection, myDirection);
-        int newStartingPos = yPos + (myDirection * (numMarblesBefore - myMarbles)) + (-myDirection);
-        addMarblesToNeighborsBasedOnMove(myOpponentsRow, myRow, newStartingPos, -myDirection);
+        int startingPos = yPos + myDirection;
+        while(this.getNumObjects() > 0){
+            addMarblesToNeighborsBasedOnMove(myRow, myOpponentsRow, startingPos);
+            startingPos = findFirstYCoord(neighbors);
+        }
+
+    }
+    private int findFirstYCoord(List<GamePiece> neighbors){
+        int min = 0;
+        for(GamePiece piece: neighbors){
+            if(piece.getPosition().getCol() * myDirection < min){
+                min = piece.getPosition().getCol();
+            }
+        }
+        return min;
     }
 
-    private void addMarblesToNeighborsBasedOnMove(List<GamePiece> row, List<GamePiece> otherRow, int startingPos, int direction) {
+    private void addMarblesToNeighborsBasedOnMove(List<GamePiece> row, List<GamePiece> otherRow, int startingPos) {
         int currentPos = startingPos;
-        while (myMarbles > 0 && currentPos >= 0 && currentPos <= maxYCoord(row)) {
+        int endPos = currentPos;
+        while (this.getNumObjects() > 0 && currentPos >= 0 && currentPos <= maxYCoord(row)) {
             for (GamePiece piece : row) {
                 if (piece.getPosition().getCol() == currentPos) {
                     performOneMove(row, otherRow, currentPos, piece);
+                    endPos = currentPos;
                     break;
                 }
             }
-            currentPos += direction;
+            currentPos += myDirection;
         }
+        currentPos = endPos;
+        while(currentPos < 0){
+            currentPos++;
+        }
+        while(currentPos > maxYCoord(otherRow)){
+            currentPos--;
+        }
+        while (this.getNumObjects() > 0 && currentPos >= 0 && currentPos <= maxYCoord(otherRow)) {
+            for (GamePiece piece : otherRow) {
+                if (piece.getPosition().getCol() == currentPos && piece.getState() != myOpponentsGoal) {
+                    this.changeNumObjects(-MARBLES_TO_ADD);
+                    piece.changeNumObjects(MARBLES_TO_ADD);
+                    myPlayerMovesAgain = false;
+                    break;
+                }
+            }
+            currentPos -= myDirection;
+        }
+
     }
 
     private void performOneMove(List<GamePiece> row, List<GamePiece> otherRow, int currentPos, GamePiece piece) {
-        this.changeState(-MARBLES_TO_ADD);
+        this.changeNumObjects(-MARBLES_TO_ADD);
         if(isSpecialMove(piece)){
             if(isSpecialCapture(piece)) {
+                myPlayerMovesAgain = false;
                 performSpecialCapture(row, otherRow, currentPos);
             }else{
                 myPlayerMovesAgain = true;
-                piece.changeState(MARBLES_TO_ADD);
+                piece.changeNumObjects(MARBLES_TO_ADD);
             }
         }else{
-            piece.changeState(MARBLES_TO_ADD);
+            myPlayerMovesAgain = false;
+            piece.changeNumObjects(MARBLES_TO_ADD);
         }
     }
 
@@ -141,8 +173,8 @@ public class MancalaGamePiece extends GamePiece {
             if(otherPiece.getPosition().getCol() == currYPos){
                 for(GamePiece myPiece: row){
                     if(myPiece.getState() == myGoalState){
-                        myPiece.changeState(MARBLES_TO_ADD + otherPiece.getVisualRepresentation());
-                        otherPiece.changeState(-otherPiece.getVisualRepresentation());
+                        myPiece.changeNumObjects(MARBLES_TO_ADD + otherPiece.getNumObjects());
+                        otherPiece.changeNumObjects(-otherPiece.getNumObjects());
                         break;
                     }
                 }
@@ -152,11 +184,11 @@ public class MancalaGamePiece extends GamePiece {
     }
 
     private boolean isSpecialMove(GamePiece piece){
-        return myMarbles == 0 && (piece.getState() == this.getState() || piece.getState() == myGoalState);
+        return this.getNumObjects() == 0 && (piece.getState() == this.getState() || piece.getState() == myGoalState);
     }
 
     private boolean isSpecialCapture(GamePiece piece) {
-        return piece.getVisualRepresentation() == 0 && piece.getState() != myGoalState;
+        return piece.getNumObjects() == 0 && piece.getState() != myGoalState;
     }
 
     @Override
@@ -164,21 +196,4 @@ public class MancalaGamePiece extends GamePiece {
         return !myPlayerMovesAgain;
     }
 
-    /**
-     * Overrides because the visual information this game wants to display is the number of marbles in each square
-     * @return number of marbles
-     */
-    @Override
-    public int getVisualRepresentation(){
-        return myMarbles;
-    }
-
-    /**
-     * Overrides because the state that changes is not who a piece belongs to but rather the number of marbles
-     * @param numberMarblesToAdd - the marbles adding to this square (if negative will remove them instead of adding)
-     */
-    @Override
-    protected void changeState(int numberMarblesToAdd){
-        myMarbles += numberMarblesToAdd;
-    }
 }

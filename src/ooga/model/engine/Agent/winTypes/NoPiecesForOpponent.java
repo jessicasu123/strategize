@@ -1,4 +1,4 @@
-package ooga.model.engine.Agent.newAgent.winTypes;
+package ooga.model.engine.Agent.winTypes;
 
 import java.util.List;
 

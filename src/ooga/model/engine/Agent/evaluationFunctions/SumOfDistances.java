@@ -1,15 +1,15 @@
-package ooga.model.engine.Agent.newAgent.evaluationFunctions;
+package ooga.model.engine.Agent.evaluationFunctions;
 
 import java.util.List;
 
-public class SumOfDistancesForSpecialPieceEval implements EvaluationFunction{
+public class SumOfDistances implements EvaluationFunction {
     public static final int MINIMIZE_FACTOR = -1;
     private final int myStateEvalFor;
     private final int myOpponentStateEvalFor;
     private final List<Integer> myStates;
     private final List<Integer> myOpponentsStates;
 
-    public SumOfDistancesForSpecialPieceEval(int stateIndex, List<Integer> maxStates, List<Integer> minStates){
+    public SumOfDistances(int stateIndex, List<Integer> maxStates, List<Integer> minStates){
         myStateEvalFor = maxStates.get(stateIndex);
         myOpponentStateEvalFor = minStates.get(stateIndex);
         myStates = maxStates;

@@ -29,8 +29,8 @@ public class CheckersGamePiece extends GamePiece {
      * @param direction - the direction this piece moves in (either +1 or -1)
      * @param position - the coordinate for the position of this piece
      */
-    public CheckersGamePiece(int state, int pawnState, int kingState, int emptyState, int direction, Coordinate position){
-        super(state, position);
+    public CheckersGamePiece(int state, int pawnState, int kingState, int emptyState, int direction,int numPieces, Coordinate position){
+        super(state, position, numPieces);
         myPawnState = pawnState;
         myKingState = kingState;
         myEmptyState = emptyState;
@@ -88,7 +88,7 @@ public class CheckersGamePiece extends GamePiece {
             if(checkJumpConditions(endOfPossibleJump, neighbor, jumpDirection) && !possibleMoves.contains(endCoord)){
                 possibleMoves.add(endCoord);
                 CheckersGamePiece jumpResult = new CheckersGamePiece(this.getState(), myPawnState, myKingState,
-                        myEmptyState, myDirection, endCoord);
+                        myEmptyState,  myDirection, this.getNumObjects(),endCoord);
                 jumpResult.calculateAllPossibleJumps(neighbors, possibleMoves);
             }
         }

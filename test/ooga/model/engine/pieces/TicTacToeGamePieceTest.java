@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TicTacToeGamePieceTest {
     Coordinate c = new Coordinate(0,1);
-    GamePiece piece = new TicTacToeGamePiece(0, c);
+    GamePiece piece = new TicTacToeGamePiece(0, c,1);
 
     @Test
     void testCalculateAllPossibleMoves() {
