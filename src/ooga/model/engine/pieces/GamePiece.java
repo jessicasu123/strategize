@@ -16,11 +16,13 @@ import java.util.List;
 
 public abstract class GamePiece {
     private int myState;
+    private int myObjects;
     private Coordinate myPosition;
 
-    public GamePiece(int state, Coordinate position){
+    public GamePiece(int state, Coordinate position, int numObject){
         myState = state;
         myPosition = position;
+        myObjects = numObject;
     }
     /**
      * METHOD PURPOSE:
@@ -60,8 +62,8 @@ public abstract class GamePiece {
      * By default it will return the state
      * @return the visual representation of this piece
      */
-    public int getVisualRepresentation(){
-        return 1;
+    public int getNumObjects(){
+        return myObjects;
     }
     /**
      *
@@ -79,6 +81,9 @@ public abstract class GamePiece {
         myState = newState;
     }
 
+    protected void changeNumObjects(int incrementObjectsBy){
+        myObjects += incrementObjectsBy;
+    }
     /**
      * changes the position of this piece
      * @param moveTo - the new position this piece will take on
@@ -86,5 +91,6 @@ public abstract class GamePiece {
     protected void move(Coordinate moveTo){
         myPosition = moveTo;
     }
+
 }
 

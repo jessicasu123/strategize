@@ -28,7 +28,7 @@ public class AgentPlayer implements Player{
     private final int myID;
     private final int myOpponentID;
     private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
-    public static final int MAX_SEARCH_DEPTH = 2;
+    public static final int MAX_SEARCH_DEPTH = 1;
 
     /**
      * Creates an agent player using the default search depth
@@ -83,7 +83,6 @@ public class AgentPlayer implements Player{
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
-
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
         if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft) || noMovesLeft){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
@@ -106,12 +105,12 @@ public class AgentPlayer implements Player{
 
             }
         }
+
         return currMaxVal;
     }
 
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
-
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
         if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft)|| noMovesLeft){
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);

@@ -72,10 +72,11 @@ public class Controller implements ControllerFramework {
         List<List<Integer>> boardWeights = myFileHandler.getBoardWeights();
         List<String> evalFunctions = myFileHandler.getEvaluationFunctions();
         List<EvaluationFunction> allEvals = new ArrayList<>();
+        boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
         for(String eval: evalFunctions){
             EvaluationFunction evalFunc = new EvaluationFunctionFactory().createEvaluationFunction(eval,
                     specialPieceIndex, myAgentPlayerInfo, myUserPlayerInfo, boardWeights, agentDirection,userDirection,
-                    winValue, true,startingConfig);
+                    winValue, checkCurrConfig,startingConfig);
             allEvals.add(evalFunc);
         }
         return allEvals;
@@ -85,7 +86,8 @@ public class Controller implements ControllerFramework {
         String winTypeStr = myFileHandler.getWinType();
         int emptyState = myFileHandler.getEmptyState();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
-        return new WinTypeFactory().createWinType(winTypeStr, emptyState,specialPieceIndex, winValue, true, startingConfig);
+        boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
+        return new WinTypeFactory().createWinType(winTypeStr, emptyState,specialPieceIndex, winValue, checkCurrConfig, startingConfig);
     }
 
     private GamePieceFactory createGamePieceFactory(){

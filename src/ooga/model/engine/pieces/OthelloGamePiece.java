@@ -14,8 +14,8 @@ public class OthelloGamePiece extends GamePiece {
     private int lastCheckedDirection;
 
 
-    public OthelloGamePiece(int status, Coordinate position) {
-        super(status, position);
+    public OthelloGamePiece(int status, Coordinate position, int numObjects) {
+        super(status, position, numObjects);
         neighborsToConvert = new ArrayList<>();
         currRowPos = this.getPosition().getRow();
         currColPos = this.getPosition().getCol();

@@ -17,8 +17,8 @@ public class ConnectFourGamePiece extends GamePiece {
     private int ROWS = 5;
     private int myPlayerID;
 
-    public ConnectFourGamePiece(int state, Coordinate position) {
-        super(state, position);
+    public ConnectFourGamePiece(int state, Coordinate position, int numPieces) {
+        super(state, position, numPieces);
     }
 
     /**

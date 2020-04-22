@@ -19,7 +19,7 @@ public class Game implements GameFramework{
     private List<Integer> myAgentStates;
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
-    private int numMovesStatus;
+    //private int numMovesStatus;
 
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
@@ -49,9 +49,9 @@ public class Game implements GameFramework{
         if(myBoard.changeTurns() || noMovesForUser || noMovesForAgent){
             isUserTurn = !isUserTurn;
         }
-        numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
-        noMovesForUser = numMovesStatus==1;
-        noMovesForAgent = numMovesStatus==2;
+        int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        noMovesForUser = numMovesStatus == 1;
+        noMovesForAgent = numMovesStatus == 2;
         if (noMovesForUser) playerPass = "user";
         if (noMovesForAgent) playerPass = "agent";
     }
@@ -96,10 +96,10 @@ public class Game implements GameFramework{
      */
     @Override
     public int getEndGameStatus() {
-        //NOTE: assumption that makeMove is called FIRST; otherwise numMovesStatus will just be 0
-        boolean noMovesLeft = numMovesStatus==0; //myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
+        boolean noMovesLeft = numMovesStatus == 0;
         int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
-        if (result==0 && noMovesLeft) { return 3; }
+        if (result == 0 && noMovesLeft) { return 3; }
         return result;
     }
 

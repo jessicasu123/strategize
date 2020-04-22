@@ -23,6 +23,8 @@
 
   "SquareClickType": "agent",
 
+  "CheckCurrConfig": true,
+
   "Board": {
     "Default": "2 x 2",
     "DimensionOptions": [ "2 x 2"],

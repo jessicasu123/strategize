@@ -180,6 +180,10 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties.get("Gametype");
     }
 
+    public boolean shouldCheckCurrConfig(){
+        return gameBoolProperties.get("CheckCurrConfig");
+    }
+
     /**
      * @return neighborhood in string form
      */
@@ -264,6 +268,7 @@ public class JSONFileReader implements FileHandler {
 
     private void parseBooleanData() {
         gameBoolProperties.put("PiecesMove", gameData.getBoolean("PiecesMove"));
+        gameBoolProperties.put("CheckCurrConfig", gameData.getBoolean("CheckCurrConfig"));
         gameBoolProperties.put("Player1PosDirection", gameData.getBoolean("Player1PosDirection"));
     }
 

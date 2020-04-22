@@ -38,13 +38,13 @@ public class GamePieceFactory {
         }
         switch (myGameType){
             case "Tic-Tac-Toe":
-                return new TicTacToeGamePiece(state, position);
+                return new TicTacToeGamePiece(state, position, numPieces);
             case "Othello":
-                return new OthelloGamePiece(state, position);
+                return new OthelloGamePiece(state, position, numPieces);
             case "Connect4":
-                return new ConnectFourGamePiece(state,position);
+                return new ConnectFourGamePiece(state,position, numPieces);
             case "Checkers":
-                return createCheckersGamePiece(state, position, regularState, direction);
+                return createCheckersGamePiece(state, position, regularState, direction, numPieces);
             case "Mancala":
                 return createMancalaGamePiece(state, position, numPieces, direction);
             default:
@@ -53,14 +53,14 @@ public class GamePieceFactory {
 
     }
 
-    private GamePiece createCheckersGamePiece(int state, Coordinate position, int regularState, int direction) {
+    private GamePiece createCheckersGamePiece(int state, Coordinate position, int regularState, int direction, int numPieces) {
         int kingState = 0;
         if(myUserStates.contains(state)){
             kingState = myUserStates.get(SPECIAL_STATE_INDEX);
         }else if(myAgentStates.contains(state)){
             kingState = myAgentStates.get(SPECIAL_STATE_INDEX);
         }
-        return new CheckersGamePiece(state, regularState, kingState, myEmptyState, direction, position);
+        return new CheckersGamePiece(state, regularState, kingState, myEmptyState, direction, numPieces, position);
     }
 
     private GamePiece createMancalaGamePiece(int state, Coordinate position, int numPieces, int direction) {

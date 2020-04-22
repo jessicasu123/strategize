@@ -122,8 +122,7 @@ public class Board implements BoardFramework{
     public Map<Coordinate, List<Coordinate>> getAllLegalMoves(List<Integer> playerStates) {
         Map<Coordinate, List<Coordinate>> allLegalMoves = new TreeMap<>();
         for (List<GamePiece> row: myGamePieces) {
-            for (int col = 0; col < row.size();col++) {
-                GamePiece currPiece = row.get(col);
+            for(GamePiece currPiece: row){
                 //TODO: later change to use data value for empty state
                 if (playerStates.contains(currPiece.getState()) || currPiece.getState() == 0) {
                     Coordinate currCoord = currPiece.getPosition();
@@ -197,7 +196,7 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowObjects = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getVisualRepresentation();
+                int currState = row.get(col).getNumObjects();
                 rowObjects.add(currState);
             }
             currObjectConfig.add(rowObjects);

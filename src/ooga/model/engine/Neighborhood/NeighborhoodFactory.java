@@ -23,6 +23,8 @@ public class NeighborhoodFactory {
                 return new VerticalNeighborhood(numRows, numCols);
             case "diagonal":
                 return new DiagonalNeighborhood(numRows, numCols);
+            case "complete":
+                return new CompleteNeighborhood(numRows,numCols);
             default:
                 throw new InvalidNeighborhoodException(neighborhoodType + " is not a valid neighborhood type.");
         }
