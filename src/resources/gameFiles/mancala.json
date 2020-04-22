@@ -27,19 +27,28 @@
 
   "SquareClickType": "player",
 
-  "DimensionOptions": [ "8 x 2" ],
+  "DimensionOptions": [ "6 x 2", "8 x 2" ],
 
   "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
 
-  "Default": "8 x 2",
+  "Default": "6 x 2",
 
-  "8 x 2": {
+  "6 x 2": {
     "Height": "2",
     "Width": "8",
     "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
     "ObjectConfig": "0,4,4,4,4,4,4,0;0,4,4,4,4,4,4,0",
-    "WinValue": 0,
+    "WinValue": 24,
     "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
+  },
+
+  "8 x 2": {
+    "Height": "2",
+    "Width": "10",
+    "InitialConfig": "4,3,3,3,3,3,3,3,3,0;0,1,1,1,1,1,1,1,1,2",
+    "ObjectConfig": "0,4,4,4,4,4,4,4,4,0;0,4,4,4,4,4,4,4,4,0",
+    "WinValue": 32,
+    "BoardWeights": "0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0"
   },
 
   "PlayerKeys": ["States", "Images", "Colors"],
@@ -60,6 +69,11 @@
 
   "possibleMove": "",
 
-  "Rules": []
-
+  "Rules": [ "Try to collect more marbles in your goal state (Mancala)!",
+    "To play a move, select a cell containing marbles from your row to deposit one if its marbles in each cell moving counterclockwise.",
+    "If you encounter your Mancala, a marble is added to it. Marbles will not be added to the opponent's Mancala during your turn.",
+    "If the last marble you drop lands in your Mancala, you get another turn.",
+    "If the last marble you drop lands in one of your empty cells, your marble and any marbles in the opposite cell are collected in your Mancala",
+    "When either player has no moves left to play, the opposite player's remaining marbles are added into their own Mancala.",
+    "The player with more marbles wins."]
 }
