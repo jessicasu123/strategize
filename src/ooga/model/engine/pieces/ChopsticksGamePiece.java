@@ -16,17 +16,19 @@ import java.util.List;
 public class ChopsticksGamePiece extends GamePiece {
     private boolean myPlayerMovesAgain;
     private final int myEmptyState;
+    private final int myHandMaxPieces;
 
     /**
      * Creates a chopstics piece
      * @param state - state of this piece
-     * @param numSticks - the number of stick objects this square starts with
      * @param emptyState - the empty state on the board - a hand that has died
      * @param position - the position this square lives at
+     * @param numPieces - the number of stick objects this square starts with
      */
-    public ChopsticksGamePiece(int state, int numSticks, int emptyState, Coordinate position, int numPieces) {
+    public ChopsticksGamePiece(int state, int emptyState, Coordinate position, int numPieces) {
         super(state, position, numPieces);
         myEmptyState = emptyState;
+        myHandMaxPieces = numPieces;
     }
 
     /**
@@ -41,7 +43,7 @@ public class ChopsticksGamePiece extends GamePiece {
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
         List<Coordinate> possibleMoves = new ArrayList<>();
-        if (this.getNumObjects() >= 1) {
+        if (this.getState() == playerID && this.getNumObjects() > 0) {
             for (GamePiece neighbor : neighbors) {
                 if (this.getNumObjects() >= 2 && neighbor.getState() == playerID && neighbor.getNumObjects() == 0) {
                     possibleMoves.add(neighbor.getPosition());
@@ -53,26 +55,6 @@ public class ChopsticksGamePiece extends GamePiece {
         return possibleMoves;
     }
 
-//    private List<GamePiece> myRowOfPieces(List<GamePiece> neighbors){
-//        List<GamePiece> myRow = new ArrayList<>();
-//        for(GamePiece square: neighbors){
-//            if(square.getState() == this.getState() || square.getState() == myGoalState){
-//                myRow.add(square);
-//            }
-//        }
-//        return myRow;
-//    }
-//
-//    private List<GamePiece> myOpponentRowOfPieces(List<GamePiece> neighbors){
-//        List<GamePiece> opponentsRow = new ArrayList<>();
-//        for(GamePiece square: neighbors){
-//            if(square.getState() != this.getState() && square.getState() != myGoalState && square.getState() != myEmptyState
-//                    && square.getState() != myOpponentsGoal){
-//                opponentsRow.add(square);
-//            }
-//        }
-//        return opponentsRow;
-//    }
 
     /**
      * Makes the move for the piece. The possible moves are:
@@ -102,13 +84,13 @@ public class ChopsticksGamePiece extends GamePiece {
 
     private void attackMove(GamePiece target) {
         int sum = target.getNumObjects() + this.getNumObjects();
-        if (sum == 5) {
+        if (sum == myHandMaxPieces) {
             target.changeState(myEmptyState);
-            target.changeNumObjects(-5);
-        } else if (sum > 5) {
-            target.changeNumObjects(sum - 5);
+            target.changeNumObjects(-myHandMaxPieces);
+        } else if (sum > myHandMaxPieces) {
+            target.changeNumObjects(sum - myHandMaxPieces);
         } else {
-            target.changeNumObjects(5);
+            target.changeNumObjects(myHandMaxPieces);
         }
     }
 
