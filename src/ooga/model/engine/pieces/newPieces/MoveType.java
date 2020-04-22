@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MoveType{
 
-    void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState);
+    void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState);
 
 
 }
