@@ -27,19 +27,28 @@
 
   "SquareClickType": "player",
 
-  "DimensionOptions": [ "8 x 2" ],
+  "DimensionOptions": [ "6 x 2", "8 x 2" ],
 
   "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
 
-  "Default": "8 x 2",
+  "Default": "6 x 2",
 
-  "8 x 2": {
+  "6 x 2": {
     "Height": "2",
     "Width": "8",
     "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
     "ObjectConfig": "0,4,4,4,4,4,4,0;0,4,4,4,4,4,4,0",
-    "WinValue": 0,
+    "WinValue": 24,
     "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
+  },
+
+  "8 x 2": {
+    "Height": "2",
+    "Width": "10",
+    "InitialConfig": "4,3,3,3,3,3,3,3,3,0;0,1,1,1,1,1,1,1,1,2",
+    "ObjectConfig": "0,4,4,4,4,4,4,4,4,0;0,4,4,4,4,4,4,4,4,0",
+    "WinValue": 32,
+    "BoardWeights": "0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0"
   },
 
   "PlayerKeys": ["States", "Images", "Colors"],
