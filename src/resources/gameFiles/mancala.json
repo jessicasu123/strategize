@@ -1,4 +1,8 @@
 {
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","8 x 2", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
   "Gametype": "Mancala",
 
   "Neighborhood": "complete",
@@ -17,37 +21,41 @@
 
   "CheckCurrConfig": false,
 
-  "MultiplePiecesPerSquare": "true",
+  "MultiplePiecesPerSquare": true,
+
+  "SquareClickOptions": ["empty", "player", "agent"],
 
   "SquareClickType": "player",
 
-  "Board": {
-    "Default": "8 x 2",
-    "DimensionOptions": [ "8 x 2" ],
-    "DimensionDetails": {
-      "8 x 2": {
-        "Height": "2",
-        "Width": "8",
-        "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
-        "ObjectConfig": "0,4,4,4,4,4,4,0;0,4,4,4,4,4,4,0",
-        "WinValue": 0,
-        "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
-      }
-    }
+  "DimensionOptions": [ "8 x 2" ],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "8 x 2",
+
+  "8 x 2": {
+    "Height": "2",
+    "Width": "8",
+    "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
+    "ObjectConfig": "0,4,4,4,4,4,4,0;0,4,4,4,4,4,4,0",
+    "WinValue": 0,
+    "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
   },
+
+  "PlayerKeys": ["States", "Images", "Colors"],
 
   "Player1": {
     "States": [1, 2],
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
-    "Color": "White"
+    "Colors": ["white", "blue"]
   },
 
   "Player2": {
     "States": [3, 4],
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "StartingPieces": "4",
-    "Color": "White"
+    "Colors": ["white", "grey"]
   },
 
   "possibleMove": "",

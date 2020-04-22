@@ -29,8 +29,8 @@ public class JSONFileReader implements FileHandler {
     public static Map<String, JSONArray> gameArrayProperties;
     private String configAsString;
     public static final String DEFAULT_RESOURCES = "src/resources/gameFiles/";
+    public static final String JSON_ENDING = ".json";
     private JSONObject gameData;
-    private JSONObject boardDetails;
     private String boardDimensions;
 
     public JSONFileReader(String file, String dimensions){
@@ -46,8 +46,7 @@ public class JSONFileReader implements FileHandler {
         try {
             FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
             JSONTokener token = new JSONTokener(br);
-            gameData = new org.json.JSONObject(token);
-            boardDetails = gameData.getJSONObject("Board").getJSONObject("DimensionDetails").getJSONObject(boardDimensions);
+            gameData = new JSONObject(token);
             parseData();
         }catch(Exception e){
             throw new InvalidFileFormatException(ERROR_MESSAGE);
@@ -161,9 +160,10 @@ public class JSONFileReader implements FileHandler {
      * @return configuration in string form
      */
     private String configAsString(List<List<Integer>> config){
+        configAsString = "";
         for (List<Integer> integers : config) {
             for (int j = 0; j < config.get(0).size(); j++) {
-                configAsString += integers.get(j) + ",";
+                configAsString += Integer.toString(integers.get(j)) + ",";
             }
             configAsString = configAsString.substring(0, configAsString.length() - 1);
             configAsString += ";";
@@ -172,10 +172,11 @@ public class JSONFileReader implements FileHandler {
         return configAsString;
     }
 
+    public boolean hasMultiplePiecesPerSquare() {return gameBoolProperties.get("MultiplePiecesPerSquare");}
+
     /**
      * @return gametype in string form
      */
-
     public String getGameType(){
         return gameStringProperties.get("Gametype");
     }
@@ -211,11 +212,41 @@ public class JSONFileReader implements FileHandler {
     }
 
     private void parseData(){
-        parseStringData();
-        parseBooleanData();
-        parseIntegerData();
-        parseArrayData();
+        for (String key: gameData.keySet()) {
+            Object value = gameData.get(key);
+            if (value.getClass().equals(JSONObject.class)) {
+                JSONObject nestedObject = gameData.getJSONObject(key);
+                parseNestedData(key, nestedObject);
+            } else {
+                getBasicValues(gameData, key, key, value);
+            }
+        }
         validateData();
+    }
+
+    private void parseNestedData(String key, JSONObject nestedObject) {
+        for (String nestedKey: nestedObject.keySet()) {
+            Object value = nestedObject.get(nestedKey);
+            String newKey = nestedKey;
+            if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
+                if (key.contains("Player")){
+                    newKey = key+nestedKey;
+                }
+                getBasicValues(nestedObject, nestedKey, newKey, value);
+            }
+        }
+    }
+
+    private void getBasicValues(JSONObject data, String key, String mapName, Object value) {
+        if (value.getClass().equals(String.class)) {
+            gameStringProperties.put(mapName, data.getString(key));
+        } else if (value.getClass().equals(Boolean.class)) {
+            gameBoolProperties.put(mapName, data.getBoolean(key));
+        } else if (value.getClass().equals(Integer.class)) {
+            gameIntProperties.put(mapName, data.getInt(key));
+        } else if (value.getClass().equals(JSONArray.class)) {
+            gameArrayProperties.put(mapName, data.getJSONArray(key));
+        }
     }
 
     private void validateData(){
@@ -252,42 +283,6 @@ public class JSONFileReader implements FileHandler {
         Integer.parseInt(gameStringProperties.get("Height")) != loadFileConfiguration().size();
     }
 
-    private void parseArrayData() {
-        gameArrayProperties.put("Player1States", gameData.getJSONObject("Player1").getJSONArray("States"));
-        gameArrayProperties.put("Player2States", gameData.getJSONObject("Player2").getJSONArray("States"));
-        gameArrayProperties.put("EvaluationFunctions", gameData.getJSONArray("EvaluationFunctions"));
-        gameArrayProperties.put("Player1Images", gameData.getJSONObject("Player1").getJSONArray("Images"));
-        gameArrayProperties.put("Player2Images", gameData.getJSONObject("Player2").getJSONArray("Images"));
-    }
-
-    private void parseIntegerData() {
-        gameIntProperties.put("WinValue", boardDetails.getInt("WinValue"));
-        gameIntProperties.put("SpecialPieceIndex", gameData.getInt("SpecialPieceIndex"));
-        gameIntProperties.put("EmptyState", gameData.getInt("EmptyState"));
-    }
-
-    private void parseBooleanData() {
-        gameBoolProperties.put("PiecesMove", gameData.getBoolean("PiecesMove"));
-        gameBoolProperties.put("CheckCurrConfig", gameData.getBoolean("CheckCurrConfig"));
-        gameBoolProperties.put("Player1PosDirection", gameData.getBoolean("Player1PosDirection"));
-    }
-
-    private void parseStringData() {
-        gameStringProperties.put("Gametype", gameData.getString("Gametype"));
-        gameStringProperties.put("Neighborhood", gameData.getString("Neighborhood"));
-        gameStringProperties.put("possibleMove", gameData.getString("possibleMove"));
-        gameStringProperties.put("Color1",gameData.getJSONObject("Player1").getString("Color"));
-        gameStringProperties.put("Color2",gameData.getJSONObject("Player2").getString("Color"));
-        gameStringProperties.put("Width", boardDetails.getString("Width"));
-        gameStringProperties.put("Height", boardDetails.getString("Height"));
-        gameStringProperties.put("InitialConfig", boardDetails.getString("InitialConfig"));
-        gameStringProperties.put("ObjectConfig", boardDetails.getString("ObjectConfig"));
-        gameStringProperties.put("WinType",  gameData.getString("WinType"));
-        gameStringProperties.put("BoardWeights",  boardDetails.getString("BoardWeights"));
-        gameStringProperties.put("MultiplePiecesPerSquare", gameData.getString("MultiplePiecesPerSquare"));
-        gameStringProperties.put("SquareClickType", gameData.getString("SquareClickType"));
-    }
-
     /**
      * @return - a Hashmap that maps Game properties names
      */
@@ -296,70 +291,63 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties;
     }
 
+    //TODO: user can also override images
+    private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig) {
+        if (gameStringProperties.keySet().contains(searchKey)) {
+            if (key.equals("InitialConfig")) { //user overridden config
+                writeTo.put(key,configAsString(currentConfig));
+            } else if (key.equals("Default") && (!boardDimensions.equals(gameStringProperties.get(key)))) {
+                    writeTo.put(key, boardDimensions);
+            } else {
+                writeTo.put(key, gameStringProperties.get(searchKey));
+            }
+        }
+        else if (gameBoolProperties.keySet().contains(searchKey)) {
+            writeTo.put(key, gameBoolProperties.get(searchKey));
+        } else if (gameArrayProperties.keySet().contains(searchKey)) {
+            writeTo.put(key, gameArrayProperties.get(searchKey));
+        } else if (gameIntProperties.keySet().contains(searchKey)) {
+            writeTo.put(key, gameIntProperties.get(searchKey));
+        }
+    }
+
+    private JSONObject writeNestedObject(String key, String valuesList, List<List<Integer>> config) {
+        JSONObject nestedObject = new JSONObject();
+        JSONArray values = gameArrayProperties.get(valuesList);
+        for (int val = 0; val < values.length(); val++) {
+            String nestedKey = (String) values.get(val);
+            String searchName = nestedKey;
+            if (key.contains("Player")) {
+                searchName = key + nestedKey;
+            }
+            writeBasicValues(searchName, nestedObject, nestedKey, config);
+        }
+        return nestedObject;
+    }
     /**
      * saves current configuration to a JSON File
      * @param fileName - the name of the JSON File
      * @param configurationInfo - a 2-D list of the current game view configuration
      */
-
     @Override
     public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
-        JSONArray fileArray = new JSONArray();
-        JSONObject gameType = new JSONObject();
-        JSONObject neighborhood = new JSONObject();
-        JSONObject emptystate = new JSONObject();
-        JSONObject pieceMove = new JSONObject();
-        JSONObject player1PosDirection = new JSONObject();
-        JSONObject board2 = new JSONObject();
-        JSONObject board = new JSONObject();
-        JSONObject player1_1 = new JSONObject();
-        JSONObject player2_1 = new JSONObject();
-        JSONObject player1 = new JSONObject();
-        JSONObject player2 = new JSONObject();
-        JSONObject possibleMove = new JSONObject();
-        JSONObject rules = new JSONObject();
-
-        gameType.put("GameType", properties.get("GameType"));
-
-        neighborhood.put("Neighborhood",properties.get("Neighborhood"));
-
-        emptystate.put("EmptyState",properties.get("EmptyState"));
-
-        pieceMove.put("PiecesMove",properties.get("PiecesMove"));
-
-        player1PosDirection.put("Player1PosDirection",properties.get("Player1PosDirection"));
-
-        board2.put("Width", properties.get("Width"));
-        board2.put("Height", properties.get("Height"));
-        board2.put("config", configAsString(configurationInfo));
-        board.put("Board", board2);
-
-        player1_1.put("State", properties.get("State"));
-        player1_1.put("Image", properties.get("Image"));
-        player1_1.put("StartingPieces",properties.get("StartingPieces"));
-        player1_1.put("Color", properties.get("Color"));
-        player1.put("Player1", player1_1);
-
-        player2_1.put("State", properties.get("State"));
-        player2_1.put("Image", properties.get("Image"));
-        player2_1.put("StartingPieces",properties.get("StartingPieces"));
-        player2_1.put("Color", properties.get("Color"));
-        player2.put("Player2", player2_1);
-
-        possibleMove.put("possibleMove", properties.get("possibleMove"));
-
-        fileArray.put(gameType);
-        fileArray.put(neighborhood);
-        fileArray.put(board);
-        fileArray.put(player1);
-        fileArray.put(player2);
-        fileArray.put(emptystate);
-        fileArray.put(pieceMove);
-        fileArray.put(player1PosDirection);
-        fileArray.put(possibleMove);
-
-        try (FileWriter file = new FileWriter("src/resources/gameFiles/" + fileName)) {
-            file.write(fileArray.toString());
+        JSONObject jsonFile = new JSONObject();
+        JSONArray allKeys = gameArrayProperties.get("Keys");
+        for (int i = 0; i < allKeys.length();i++) {
+            String key = (String) allKeys.get(i);
+            if (key.equals(boardDimensions)) { //TODO: fix so that there's a mapping from nested keys to their inner values
+                JSONObject nestedObject = writeNestedObject(key,"BoardKeys", configurationInfo);
+                jsonFile.put(key, nestedObject);
+            }
+            else if (key.equals("Player1") || key.equals("Player2")) {
+                JSONObject nestedPlayerObj = writeNestedObject(key, "PlayerKeys", configurationInfo);
+                jsonFile.put(key, nestedPlayerObj);
+            } else {
+                writeBasicValues(key, jsonFile, key, configurationInfo);
+            }
+        }
+        try (FileWriter file = new FileWriter(DEFAULT_RESOURCES + fileName + JSON_ENDING)) {
+            file.write(jsonFile.toString());
             file.flush();
 
         } catch (IOException e) {

@@ -156,8 +156,8 @@ public class GameSetupOptions {
     }
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
-        JSONObject board = gameFileData.getJSONObject("Board");
-        JSONArray boardArray = board.getJSONArray("DimensionOptions");
+        //JSONObject board = gameFileData.getJSONObject("Board");
+        JSONArray boardArray = gameFileData.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
         String label = labelText.getString("BoardSizeText");
         ArrayList<String> options = new ArrayList<>();
@@ -165,7 +165,7 @@ public class GameSetupOptions {
             options.add(boardArray.getString(i));
         }
         dimensionDropdown = new GameDropDown();
-        return dimensionDropdown.createDropDownContainer(position, options, prompt + board.getString("Default"), label);
+        return dimensionDropdown.createDropDownContainer(position, options, prompt + gameFileData.getString("Default"), label);
     }
 
 
@@ -196,7 +196,7 @@ public class GameSetupOptions {
 
     private String getChosenDimension() {
         if (dimensionDropdown.getValue() == null) {
-            return gameFileData.getJSONObject("Board").getString("Default");
+            return gameFileData.getString("Default");
         }
         return dimensionDropdown.getValue();
     }

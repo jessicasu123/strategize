@@ -60,5 +60,6 @@ public interface FileHandler {
     String getGameType();
     List<List<Integer>> getObjectConfig();
     boolean shouldCheckCurrConfig();
+    boolean hasMultiplePiecesPerSquare();
 
 }

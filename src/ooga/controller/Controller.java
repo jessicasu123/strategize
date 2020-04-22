@@ -164,6 +164,8 @@ public class Controller implements ControllerFramework {
         myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
     }
 
+    public boolean hasMultiplePiecesPerSquare() {return myFileHandler.hasMultiplePiecesPerSquare();}
+
     @Override
     public Map<String,String> getStartingProperties(){
         return myFileHandler.loadFileProperties();

@@ -80,7 +80,7 @@ public class BoardView {
         boardOutlineColor = "black";
         piecesMove = myController.doPiecesMove();
         possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
-        multiplePiecesPerSquare = Boolean.parseBoolean(myController.getStartingProperties().get("MultiplePiecesPerSquare"));
+        multiplePiecesPerSquare = myController.hasMultiplePiecesPerSquare();
         squareClickType = myController.getStartingProperties().get("SquareClickType");
 
     }

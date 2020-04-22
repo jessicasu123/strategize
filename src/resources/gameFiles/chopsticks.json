@@ -1,4 +1,8 @@
 {
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
   "Gametype": "Chopsticks",
 
   "Neighborhood": "",
@@ -7,46 +11,49 @@
 
   "EvaluationFunctions": ["PositionWeights"],
 
-  "BoardWeights": "1,1;1,1",
-
-  "WinValue": 0,
-
   "SpecialPieceIndex": 0,
 
-  "EmptyState": "",
+  "EmptyState": 0,
 
-  "PiecesMove": "false",
+  "PiecesMove": false,
 
-  "Player1PosDirection": "false",
-
-  "MultiplePiecesPerSquare": "false",
-
-  "SquareClickType": "agent",
+  "Player1PosDirection": false,
 
   "CheckCurrConfig": true,
 
-  "Board": {
-    "Default": "2 x 2",
-    "DimensionOptions": [ "2 x 2"],
-    "DimensionDetails": {
-      "2 x 2": {
-        "Height": "2",
-        "Width": "2",
-        "InitialConfig": "1,1;1,1"
-      }
-    }
+  "MultiplePiecesPerSquare": false,
+
+  "SquareClickOptions": ["empty", "player", "agent"],
+
+  "SquareClickType": "agent",
+
+  "DimensionOptions": [ "2 x 2"],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "2 x 2",
+
+  "2 x 2": {
+    "Height": "2",
+    "Width": "2",
+    "InitialConfig": "1,1;1,1",
+    "ObjectConfig": "1,1;1,1",
+    "WinValue": 0,
+    "BoardWeights": "0,0;0,0"
   },
 
+  "PlayerKeys": ["States", "Images", "Colors"],
+
   "Player1": {
-    "States": [1,2,3,4],
-    "Images": ["Chopstick1.png","Chopstick2.png","Chopstick3.png","Chopstick4.png"],
-    "Color": "White"
+    "States": [1],
+    "Images": ["Chopstick1.png,Chopstick2.png,Chopstick3.png,Chopstick4.png"],
+    "Colors": ["White"]
   },
 
   "Player2": {
-    "States": [1,2,3,4],
-    "Images": ["Chopstick1.png","Chopstick2.png","Chopstick3.png","Chopstick4.png"],
-    "Color": "White"
+    "States": [2],
+    "Images": ["Chopstick1.png,Chopstick2.png,Chopstick3.png,Chopstick4.png"],
+    "Colors": ["White"]
   },
 
   "possibleMove": "",
