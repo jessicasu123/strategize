@@ -1,7 +1,5 @@
 package ooga.model.engine.Agent.evaluationFunctions;
 
-import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,15 +55,15 @@ public class NumOpenLines implements EvaluationFunction {
     }
 
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        if(myInARow==4) {
+        boolean isSquare = boardStateInfo.size()==boardStateInfo.get(0).size();
+        if (isSquare) {
+            return getDiagForSquare(boardStateInfo);
+        } else {
             return getDiagFor4(boardStateInfo);
-        }
-        else{
-            return getDiagFor3(boardStateInfo);
         }
     }
 
-    private List<List<Integer>> getDiagFor3(List<List<Integer>> boardStateInfo) {
+    private List<List<Integer>> getDiagForSquare(List<List<Integer>> boardStateInfo) {
         List<Integer> leftDiag = new ArrayList<>();
         List<Integer> rightDiag = new ArrayList<>();
         for(int i = 0; i < Math.min(boardStateInfo.size(), boardStateInfo.get(0).size()); i++){
