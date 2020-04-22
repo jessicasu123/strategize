@@ -7,16 +7,12 @@ public class NumOpenLines implements EvaluationFunction {
     private int myInARow;
     private int ROWS = 6;
     private int COLS = 7;
-    private final List<Integer> myStates;
-    private final List<Integer> myOpponentsStates;
     private final int myStateEvalFor;
     private final int myOpponentStateEvalFor;
 
     public NumOpenLines(int stateIndex, List<Integer> maxStates, List<Integer> minStates, int inaRow){
         myStateEvalFor = maxStates.get(stateIndex);
         myOpponentStateEvalFor = minStates.get(stateIndex);
-        myStates = maxStates;
-        myOpponentsStates = minStates;
         myInARow = inaRow;
     }
 
