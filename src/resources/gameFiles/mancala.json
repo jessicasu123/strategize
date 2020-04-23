@@ -15,7 +15,7 @@
 
   "NeighborMoveChecks": [],
 
-  "MoveTypes": ["ChangeNeighborObjects", "ForceMoveAgain"],
+  "MoveTypes": ["ForceMoveAgain","ChangeNeighborObjects", "ClearObjects"],
 
   "NeighborConverterTypes": ["FindNeighborsUntilNoObjectsLeft"],
 
