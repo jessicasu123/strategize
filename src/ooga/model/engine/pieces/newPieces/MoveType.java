@@ -9,6 +9,5 @@ public interface MoveType{
 
     void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction);
 
-    boolean addOppositeDirection();
 
 }

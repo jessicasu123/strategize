@@ -48,10 +48,6 @@ public class ChangeOpponentPieces implements MoveType {
         }
     }
 
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
 
 
 }

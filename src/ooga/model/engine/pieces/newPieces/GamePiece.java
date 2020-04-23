@@ -71,9 +71,6 @@ public class GamePiece {
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState){
         for(MoveType move: myMoveTypes){
             move.completeMoveType(this, endCoordinateInfo, neighbors, newState, myMainDirection);
-            if(move.addOppositeDirection() && !myDirections.contains(-myMainDirection)){
-                myDirections.add(-myMainDirection);
-            }
         }
     }
 
@@ -107,5 +104,11 @@ public class GamePiece {
 
     protected void move(Coordinate moveTo){
         myPosition = moveTo;
+    }
+
+    protected void addDirection(int newDirection){
+        if(!myDirections.contains(newDirection)){
+            myDirections.add(newDirection);
+        }
     }
 }

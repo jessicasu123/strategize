@@ -31,10 +31,5 @@ public class ChangeNeighborObjects implements MoveType {
         }
     }
 
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
-
 
 }

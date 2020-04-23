@@ -10,9 +10,5 @@ public class ClearObjects implements MoveType {
         moving.incrementNumObjects(-moving.getNumObjects());
     }
 
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
 
 }

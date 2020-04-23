@@ -4,23 +4,20 @@ import ooga.model.engine.Coordinate;
 
 import java.util.List;
 
-public class ForceDirectionChange implements MoveType {
-    private boolean reachedPromotion;
+public class Promotion implements MoveType {
     private int myPromotionRow;
+    private int myPromotionState;
 
-    public ForceDirectionChange(int promotionRow){
+    public Promotion(int promotionRow, int promotionState){
         myPromotionRow = promotionRow;
+        myPromotionState = promotionState;
     }
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
         if(endCoordinateInfo.getRow() == myPromotionRow){
-            reachedPromotion = true;
+            moving.addDirection(-direction);
+            moving.changeState(myPromotionState);
         }
-    }
-
-    @Override
-    public boolean addOppositeDirection() {
-        return reachedPromotion;
     }
 
 }

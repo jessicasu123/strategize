@@ -17,10 +17,6 @@ public class PositionMove implements MoveType {
        moving.move(endCoordinateInfo);
     }
 
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
 
 
 }

@@ -39,8 +39,4 @@ public class SpecialCapture implements MoveType {
             }
         }
     }
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
 }

@@ -11,9 +11,5 @@ public class ChangeToNewState implements MoveType{
         moving.changeState(playerState);
     }
 
-    @Override
-    public boolean addOppositeDirection() {
-        return false;
-    }
 
 }
