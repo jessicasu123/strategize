@@ -50,9 +50,5 @@ public class ChangeOpponentPieces implements MoveType {
         return false;
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return true;
-    }
 
 }

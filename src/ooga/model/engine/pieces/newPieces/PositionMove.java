@@ -23,9 +23,4 @@ public class PositionMove implements MoveType {
     }
 
 
-    @Override
-    public boolean doesTurnChange() {
-        return true;
-    }
-
 }

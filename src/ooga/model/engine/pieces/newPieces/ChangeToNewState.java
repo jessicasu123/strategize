@@ -16,8 +16,4 @@ public class ChangeToNewState implements MoveType{
         return false;
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return true;
-    }
 }

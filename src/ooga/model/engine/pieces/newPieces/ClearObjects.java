@@ -15,8 +15,4 @@ public class ClearObjects implements MoveType {
         return false;
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return false;
-    }
 }

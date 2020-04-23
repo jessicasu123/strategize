@@ -21,7 +21,9 @@ public class ForceMoveAgain implements MoveType{
         List<GamePiece> piecesChanged = myPiecesChanged.findNeighborsToConvert(moving.getPosition(),endCoordinateInfo,
                 moving.getNumObjects(),playerState,direction,neighbors);
         if(myPlayerStates.contains(piecesChanged.get(piecesChanged.size() - 1).getState())){
-            turnChange = false;
+            moving.changeTurn(false);
+        }else{
+            moving.changeTurn(true);
         }
 
     }
@@ -31,8 +33,5 @@ public class ForceMoveAgain implements MoveType{
         return false;
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return turnChange;
-    }
+
 }

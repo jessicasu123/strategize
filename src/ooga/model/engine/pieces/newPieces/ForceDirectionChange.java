@@ -23,8 +23,4 @@ public class ForceDirectionChange implements MoveType {
         return reachedPromotion;
     }
 
-    @Override
-    public boolean doesTurnChange() {
-        return true;
-    }
 }

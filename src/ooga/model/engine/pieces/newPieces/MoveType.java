@@ -11,5 +11,4 @@ public interface MoveType{
 
     boolean addOppositeDirection();
 
-    boolean doesTurnChange();
 }
