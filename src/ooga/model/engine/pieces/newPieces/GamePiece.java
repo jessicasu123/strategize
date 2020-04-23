@@ -32,10 +32,10 @@ public class GamePiece {
 
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID){
         List<Coordinate> possibleMoves = new ArrayList<>();
-        boolean selfConditionsMet = checkSelfConditions(neighbors);
+        boolean selfConditionsMet = checkSelfConditions(neighbors, playerID);
         if (selfConditionsMet) {
             if (myNeighborMoveChecks.size() > 0) {
-                checkNeighborConditions(neighbors, possibleMoves);
+                checkNeighborConditions(neighbors, possibleMoves, playerID);
             } else {
                 possibleMoves.add(myPosition);
             }
@@ -43,21 +43,21 @@ public class GamePiece {
         return possibleMoves;
     }
 
-    private boolean checkSelfConditions(List<GamePiece> neighbors) {
+    private boolean checkSelfConditions(List<GamePiece> neighbors, int playerID) {
         for (MoveCheck check : myMoveChecks) {
-            if (!check.isConditionMet(myPosition, this, neighbors, myState, myDirections)) {
+            if (!check.isConditionMet(myPosition, this, neighbors, playerID, myDirections)) {
                 return false;
             }
         }
         return true;
     }
 
-    private void checkNeighborConditions(List<GamePiece> neighbors, List<Coordinate> possibleMoves) {
+    private void checkNeighborConditions(List<GamePiece> neighbors, List<Coordinate> possibleMoves, int playerID) {
         for (GamePiece neighbor : neighbors) {
             boolean neighborConditionsMet = true;
             for (MoveCheck check : myNeighborMoveChecks) {
-                // TODO: should this be taking neighbor state or myState?
-                if (!check.isConditionMet(myPosition, neighbor, neighbors, myState, myDirections)) {
+                // TODO: for state, should this be taking neighbor state or myState or playerID?
+                if (!check.isConditionMet(myPosition, neighbor, neighbors, playerID, myDirections)) {
                     neighborConditionsMet = false;
                     break;
                 }
