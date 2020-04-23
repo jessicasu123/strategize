@@ -8,24 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePiece {
-    public static final int DIRECTION = 1;
     private int myState;
     private Coordinate myPosition;
     private int myDirection;
+    private int myObjects;
     private List<MoveCheck> myMoveChecks;
     private List<MoveType> myMoveTypes;
     private boolean turnChange;
 
-    public GamePiece(int state, Coordinate position, boolean posDirection, List<MoveCheck> checks, List<MoveType> moveTypes){
+    public GamePiece(int state, Coordinate position, int direction, int numObjects, List<MoveCheck> checks, List<MoveType> moveTypes){
         myState = state;
         myPosition = position;
-        if(posDirection){
-            myDirection = DIRECTION;
-        }else{
-            myDirection = -DIRECTION;
-        }
+        myDirection = direction;
         myMoveChecks = checks;
         myMoveTypes = moveTypes;
+        myObjects = numObjects;
     }
     //TODO: fix later
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID){
@@ -37,7 +34,7 @@ public class GamePiece {
 
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState){
         for(MoveType move: myMoveTypes){
-            move.completeMoveType(this, endCoordinateInfo, neighbors, newState);
+            move.completeMoveType(this, endCoordinateInfo, neighbors, newState, myDirection);
         }
     }
 

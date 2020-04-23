@@ -18,8 +18,8 @@ public class FindNeighborsBetweenCoordinates implements NeighborConverterFinder 
     public static final int SQUARE = 2;
 
     @Override
-    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects, int playerID,
-                                                  List<GamePiece> neighbors) {
+    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
+                                                  int playerID, int direction, List<GamePiece> neighbors) {
         List<GamePiece> neighborsToConvert = new ArrayList<>();
         for(GamePiece neighbor: neighbors){
             if(isOnPathToEndCoord(currCoordinate,neighbor.getPosition(),endCoordinate)){
