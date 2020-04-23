@@ -15,13 +15,14 @@ import java.util.List;
 public class FindNeighborsBetweenCoordinates implements NeighborConverterFinder {
 
 
+    public static final int SQUARE = 2;
+
     @Override
-    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
+    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects, int playerID,
                                                   List<GamePiece> neighbors) {
         List<GamePiece> neighborsToConvert = new ArrayList<>();
         for(GamePiece neighbor: neighbors){
-            if(isOnPathToEndCoord(currCoordinate,neighbor.getPosition(),endCoordinate) &&
-                    neighbor.getPosition() != currCoordinate && neighbor.getPosition() != endCoordinate){
+            if(isOnPathToEndCoord(currCoordinate,neighbor.getPosition(),endCoordinate)){
                 neighborsToConvert.add(neighbor);
             }
         }
@@ -42,14 +43,14 @@ public class FindNeighborsBetweenCoordinates implements NeighborConverterFinder 
     }
 
     private boolean notPastTarget(Coordinate start, Coordinate compareTo, Coordinate end){
-        return manhattanDistance(start, compareTo) < manhattanDistance(start,end);
+        return euclidenDistance(start, compareTo) < euclidenDistance(start,end);
     }
 
     private boolean progressFromStart(Coordinate start, Coordinate compareTo, Coordinate end){
-        return manhattanDistance(start, end) > manhattanDistance(compareTo, end);
+        return euclidenDistance(start, end) > euclidenDistance(compareTo, end);
     }
-    private int manhattanDistance(Coordinate start, Coordinate end){
-        return Math.abs(start.getRow() - end.getRow()) + Math.abs(start.getCol() - end.getCol());
+    private int euclidenDistance(Coordinate start, Coordinate end){
+            return (int) Math.sqrt(Math.pow(start.getRow() - end.getRow(), SQUARE) + Math.pow(start.getCol() - end.getCol(), SQUARE));
     }
 
 }
