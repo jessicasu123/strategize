@@ -22,7 +22,7 @@ public class ChangeOpponentPiecesTest {
 
         //test for changing opponent pieces with a flippable neighbors from multiple directions
         FindAllFlippableNeighbors allFlippableNeighbors = new FindAllFlippableNeighbors();
-        ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(allFlippableNeighbors, playerID, numObjects);
+        ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(allFlippableNeighbors, playerID);
 
         GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         //horizontal neighbors
@@ -51,7 +51,7 @@ public class ChangeOpponentPiecesTest {
 
     //TEST FOR TURNING OPPONENTS TO EMPTY (EX. CHECKERS)
     FindNeighborsBetweenCoordinates findNeighborsBetweenCoordinates = new FindNeighborsBetweenCoordinates();
-    ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(findNeighborsBetweenCoordinates, 0, 1);
+    ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(findNeighborsBetweenCoordinates, 0);
 
     GamePiece checker1Red = new GamePiece(1, new Coordinate(0,0), List.of(1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     GamePiece checker2Black = new GamePiece(3,new Coordinate(1,1),List.of(-1),1,new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
