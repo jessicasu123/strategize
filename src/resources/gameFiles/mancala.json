@@ -11,6 +11,14 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
+  "SelfMoveChecks": ["SelfPieceCheck", "NumObjectsCheck"],
+
+  "NeighborMoveChecks": [],
+
+  "MoveTypes": ["ChangeNeighborObjects", "ForceMoveAgain"],
+
+  "NeighborConverterTypes": ["FindNeighborsUntilNoObjectsLeft"],
+
   "SpecialPieceIndex": 1,
 
   "EmptyState": 0,

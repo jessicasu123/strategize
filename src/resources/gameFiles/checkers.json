@@ -11,6 +11,14 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights","SumOfDistances"],
 
+  "SelfMoveChecks": ["CheckOwnPiece"],
+
+  "NeighborMoveChecks": ["CheckStep", "CheckJump", "CheckEmpty"],
+
+  "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "ForceDirectionChange"],
+
+  "NeighborConverterTypes": ["FindNeighborsBetweenCoordinates"],
+
   "SpecialPieceIndex": 1,
 
   "EmptyState": 0,
