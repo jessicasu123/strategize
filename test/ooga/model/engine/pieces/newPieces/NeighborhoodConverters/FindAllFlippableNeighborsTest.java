@@ -17,19 +17,19 @@ public class FindAllFlippableNeighborsTest {
     List<Integer> direction = new ArrayList<>(List.of(1));
 
     //PIECES FOR HORIZONTAL LEFT
-    GamePiece horizLeft = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece horizLeft = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece emptyHoriz_HL = new GamePiece(0, new Coordinate(2,0), direction,1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerHoriz_HL = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppHoriz_HL = new GamePiece(2, new Coordinate(2,2), direction,1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyHoriz_HL = new GamePiece(0, new Coordinate(2,0), direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerHoriz_HL = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppHoriz_HL = new GamePiece(2, new Coordinate(2,2), direction,1, new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
     //vertical neighbors
-    GamePiece empty1Vert_HL = new GamePiece(0, new Coordinate(0,3),direction,1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Vert_HL = new GamePiece(0, new Coordinate(1,3),direction,1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Vert_HL = new GamePiece(0, new Coordinate(3,3),direction,1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert_HL = new GamePiece(0, new Coordinate(0,3),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Vert_HL = new GamePiece(0, new Coordinate(1,3),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Vert_HL = new GamePiece(0, new Coordinate(3,3),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece empty1Diag_HL = new GamePiece(0, new Coordinate(0,1),direction,1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerDiag_HL = new GamePiece(1, new Coordinate(1,2),direction,1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Diag_HL = new GamePiece(0, new Coordinate(3,2),direction,1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Diag_HL = new GamePiece(0, new Coordinate(0,1),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerDiag_HL = new GamePiece(1, new Coordinate(1,2),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Diag_HL = new GamePiece(0, new Coordinate(3,2),direction,1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testHorizontalLeftFlippable() {
@@ -44,19 +44,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //FOR HORIZONTAL RIGHT
-    GamePiece horizRight = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece horizRight = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal row
-    GamePiece opponent1Horiz = new GamePiece(2, new Coordinate(1,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece myPiece1Horiz = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece emptySpotHoriz = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece opponent1Horiz = new GamePiece(2, new Coordinate(1,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece myPiece1Horiz = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece emptySpotHoriz = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical row
-    GamePiece empty1Vert = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Vert = new GamePiece(0, new Coordinate(2,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Vert = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Vert = new GamePiece(0, new Coordinate(2,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Vert = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonals
-    GamePiece myPiece1Diag = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty1Diag = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Diag = new GamePiece(0, new Coordinate(0,1),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece myPiece1Diag = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Diag = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Diag = new GamePiece(0, new Coordinate(0,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
 
     @Test
@@ -71,19 +71,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR VERTICAL TOP
-    GamePiece vertTop = new GamePiece(0,new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece vertTop = new GamePiece(0,new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece empty1Horiz_VT = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Horiz_VT = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Horiz_VT = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Horiz_VT = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Horiz_VT = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Horiz_VT = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece empty1Vert_VT = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece player1Vert_VT = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece opponentVert_VT = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert_VT = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece player1Vert_VT = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece opponentVert_VT = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece empty1Diag_VT = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece player1Diag_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Diag_VT = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Diag_VT = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece player1Diag_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Diag_VT = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testVerticalTopFlippable() {
@@ -99,19 +99,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR VERTICAL BOTTOM
-    GamePiece vertBottom = new GamePiece (0, new Coordinate(0,1),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece vertBottom = new GamePiece (0, new Coordinate(0,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece empty1Horiz_VB = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Horiz_VB = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Horiz_VB = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Horiz_VB = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Horiz_VB = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Horiz_VB = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece opponentVert_VB = new GamePiece(2, new Coordinate(1,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerVert_VB = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece emptyVert_VB = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece opponentVert_VB = new GamePiece(2, new Coordinate(1,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerVert_VB = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyVert_VB = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece playerDiag_VB = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty1Diag_VB = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Diag_VB = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece playerDiag_VB = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Diag_VB = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Diag_VB = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testVertBottomFlippable() {
@@ -125,19 +125,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR RIGHT DIAG PREV
-    GamePiece rightDiagPrev = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece rightDiagPrev = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece emptyHoriz_RDP = new GamePiece(0, new Coordinate(2,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerHoriz_RDP = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppHoriz_RDP = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyHoriz_RDP = new GamePiece(0, new Coordinate(2,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerHoriz_RDP = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppHoriz_RDP = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece empty1Vert_RDP = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Vert_RDP = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Vert_RDP = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert_RDP = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Vert_RDP = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Vert_RDP = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece playerDiag_RDP = new GamePiece(1, new Coordinate(0,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppDiag_RDP = new GamePiece(2, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece emptyDiag_RDP = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece playerDiag_RDP = new GamePiece(1, new Coordinate(0,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppDiag_RDP = new GamePiece(2, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyDiag_RDP = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testRightDiagPrevFlippable() {
@@ -155,19 +155,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR RIGHT DIAG NEXT
-    GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece empty1Horiz_RDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Horiz_RDN = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Horiz_RDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Horiz_RDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Horiz_RDN = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Horiz_RDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece emptyVert_RDN = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerVert_RDN = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppVert_RDN = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyVert_RDN = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerVert_RDN = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppVert_RDN = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece playerDiag_RDN = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppDiag_RDN = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece emptyDiag_RDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece playerDiag_RDN = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppDiag_RDN = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyDiag_RDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testRightDiagNextFlippable() {
@@ -185,19 +185,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR LEFT DIAG NEXT
-    GamePiece leftDiagNext = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece leftDiagNext = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece emptyHoriz_LDN = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerHoriz_LDN = new GamePiece(1, new Coordinate(0,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppHoriz_LDN = new GamePiece(2, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyHoriz_LDN = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerHoriz_LDN = new GamePiece(1, new Coordinate(0,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppHoriz_LDN = new GamePiece(2, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece empty1Vert_LDN = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Vert_LDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Vert_LDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert_LDN = new GamePiece(0, new Coordinate(1,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Vert_LDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Vert_LDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece oppDiag_LDN = new GamePiece(2, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerDiag_LDN = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece emptyDiag_LDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece oppDiag_LDN = new GamePiece(2, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+    GamePiece playerDiag_LDN = new GamePiece(1, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyDiag_LDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testLeftDiagNextFlippable() {
@@ -214,19 +214,19 @@ public class FindAllFlippableNeighborsTest {
     }
 
     //PIECES FOR LEFT DIAGONAL PREV MOVE
-    GamePiece leftDiagPrev = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece leftDiagPrev = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece empty1Horiz_LDP = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Horiz_LDP = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Horiz_LDP = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Horiz_LDP = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Horiz_LDP = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Horiz_LDP = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece emptyVert_LDP = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerVert_LDP = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppVert_LDP = new GamePiece(2, new Coordinate(2,0),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyVert_LDP = new GamePiece(0, new Coordinate(0,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerVert_LDP = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppVert_LDP = new GamePiece(2, new Coordinate(2,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece emptyDiag_LDP = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece playerDiag_LDP = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece oppDiag_LDP = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece emptyDiag_LDP = new GamePiece(0, new Coordinate(0,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece playerDiag_LDP = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece oppDiag_LDP = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testLeftDiagPrevFlippable() {

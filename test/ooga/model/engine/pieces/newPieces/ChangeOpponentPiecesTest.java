@@ -24,19 +24,19 @@ public class ChangeOpponentPiecesTest {
         FindAllFlippableNeighbors allFlippableNeighbors = new FindAllFlippableNeighbors();
         ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(allFlippableNeighbors, playerID, numObjects);
 
-        GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+        GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         //horizontal neighbors
-        GamePiece empty1Horiz_RDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece empty2Horiz_RDN = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece empty3Horiz_RDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+        GamePiece empty1Horiz_RDN = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece empty2Horiz_RDN = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece empty3Horiz_RDN = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         //vertical neighbors
-        GamePiece emptyVert_RDN = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece playerVert_RDN = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece oppVert_RDN = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+        GamePiece emptyVert_RDN = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece playerVert_RDN = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece oppVert_RDN = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         //diagonal neighbors
-        GamePiece playerDiag_RDN = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece oppDiag_RDN = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-        GamePiece emptyDiag_RDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+        GamePiece playerDiag_RDN = new GamePiece(1, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece oppDiag_RDN = new GamePiece(2, new Coordinate(2,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        GamePiece emptyDiag_RDN = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
         Coordinate endCoord = new Coordinate(3,2);
 
@@ -53,13 +53,13 @@ public class ChangeOpponentPiecesTest {
     FindNeighborsBetweenCoordinates findNeighborsBetweenCoordinates = new FindNeighborsBetweenCoordinates();
     ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(findNeighborsBetweenCoordinates, 0, 1);
 
-    GamePiece checker1Red = new GamePiece(1, new Coordinate(0,0), List.of(1), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker2Black = new GamePiece(3,new Coordinate(1,1),List.of(-1),1,new ArrayList<>(),new ArrayList<>());
-    GamePiece checker3Empty = new GamePiece(0, new Coordinate(2,2), List.of(0), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker4Red = new GamePiece(1, new Coordinate(3,3), List.of(1), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker12Empty = new GamePiece(0, new Coordinate(1,3), List.of(0), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker4Black = new GamePiece(3, new Coordinate(3,3), List.of(-1), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker5Empty = new GamePiece(0, new Coordinate(4,4), List.of(0), 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece checker1Red = new GamePiece(1, new Coordinate(0,0), List.of(1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker2Black = new GamePiece(3,new Coordinate(1,1),List.of(-1),1,new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+    GamePiece checker3Empty = new GamePiece(0, new Coordinate(2,2), List.of(0), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker4Red = new GamePiece(1, new Coordinate(3,3), List.of(1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker12Empty = new GamePiece(0, new Coordinate(1,3), List.of(0), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker4Black = new GamePiece(3, new Coordinate(3,3), List.of(-1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker5Empty = new GamePiece(0, new Coordinate(4,4), List.of(0), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     @Test
     void testChangeToEmptyForPlayerPiece() {
         int playerID = 1;
@@ -80,11 +80,11 @@ public class ChangeOpponentPiecesTest {
         assertEquals(0, checker4Black.getState());
     }
 
-    GamePiece checker5Black = new GamePiece(3, new Coordinate(4,4), List.of(-1), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker2Empty = new GamePiece(0, new Coordinate(1,1), List.of(0), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker1Black = new GamePiece(3, new Coordinate(0,0), List.of(-1), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker1Empty = new GamePiece(0, new Coordinate(0,0), List.of(0), 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece checker2Red = new GamePiece(1, new Coordinate(1,1), List.of(1), 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece checker5Black = new GamePiece(3, new Coordinate(4,4), List.of(-1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker2Empty = new GamePiece(0, new Coordinate(1,1), List.of(0), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker1Black = new GamePiece(3, new Coordinate(0,0), List.of(-1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker1Empty = new GamePiece(0, new Coordinate(0,0), List.of(0), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece checker2Red = new GamePiece(1, new Coordinate(1,1), List.of(1), 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     @Test
     void testChangeToEmptyForOpponentPiece() {
         int playerID = 3;

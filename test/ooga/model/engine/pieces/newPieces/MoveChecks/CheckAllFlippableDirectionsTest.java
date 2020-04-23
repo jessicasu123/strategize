@@ -21,19 +21,19 @@ public class CheckAllFlippableDirectionsTest {
      * one direction is flippable and when there are NO flippable directions.
      */
 
-    GamePiece vertTop = new GamePiece(0,new Coordinate(3,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece vertTop = new GamePiece(0,new Coordinate(3,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //horizontal neighbors
-    GamePiece empty1Horiz_VT = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Horiz_VT = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty3Horiz_VT = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Horiz_VT = new GamePiece(0, new Coordinate(3,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Horiz_VT = new GamePiece(0, new Coordinate(3,1),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty3Horiz_VT = new GamePiece(0, new Coordinate(3,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //vertical neighbors
-    GamePiece empty1Vert_VT = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece player1Vert_VT = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece opponentVert_VT = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Vert_VT = new GamePiece(0, new Coordinate(0,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece player1Vert_VT = new GamePiece(1, new Coordinate(1,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece opponentVert_VT = new GamePiece(2, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     //diagonal neighbors
-    GamePiece empty1Diag_VT = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece player1Diag_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2Diag_VT = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1Diag_VT = new GamePiece(0, new Coordinate(1,0),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece player1Diag_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2Diag_VT = new GamePiece(0, new Coordinate(2,3),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
 
     //There should be a possible move in the vertical top direction because there is an opponent piece directly above
@@ -51,7 +51,7 @@ public class CheckAllFlippableDirectionsTest {
 
     //now if the opponent in the vertical top direction is changed to a player, there is no longer a possible move line.
     //there is no adjacent opponent between an empty spot and another player - its just two players in a row.
-    GamePiece player2Vert_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(), new ArrayList<>());
+    GamePiece player2Vert_VT = new GamePiece(1, new Coordinate(2,2),direction, 1, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     @Test
     void testNoPossibleFlippableDirections() {
