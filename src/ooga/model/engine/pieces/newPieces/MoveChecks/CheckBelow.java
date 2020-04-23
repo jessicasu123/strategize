@@ -9,9 +9,6 @@ public class CheckBelow implements MoveCheck {
     private GamePiece myPiece;
     private int bottomRow;
 
-    public CheckBelow(GamePiece gamePiece){
-        myPiece = gamePiece;
-    }
 
     private int findNumRows(List<GamePiece> neighbors) {
         int rowCount = 0;
@@ -25,6 +22,7 @@ public class CheckBelow implements MoveCheck {
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
+        myPiece = checking;
         bottomRow = findNumRows(neighbors);
         if(! (myPiece.getPosition().getRow()== bottomRow)) {
             for (GamePiece neighbor : neighbors) {
