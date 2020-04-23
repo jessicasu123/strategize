@@ -9,6 +9,7 @@ public class ForceMoveAgain implements MoveType{
     private FindNeighborsUntilNoObjects myPiecesChanged;
     private boolean turnChange;
     private List<Integer> myPlayerStates;
+
     public ForceMoveAgain(List<Integer> statesToIgnore, List<Integer> playerStates){
         myPiecesChanged = new FindNeighborsUntilNoObjects(statesToIgnore);
         turnChange = true;
