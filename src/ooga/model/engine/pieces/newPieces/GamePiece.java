@@ -62,7 +62,7 @@ public class GamePiece {
         turnChange = changeTurns;
     }
     
-    protected void changeState(int newState){
+    public void changeState(int newState){
         myState = newState;
     }
 
