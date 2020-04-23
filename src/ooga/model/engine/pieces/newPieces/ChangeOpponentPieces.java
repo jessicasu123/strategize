@@ -10,7 +10,6 @@ public class ChangeOpponentPieces implements MoveType {
     private ConvertableNeighborFinder myNeighborhoodConverterFinder;
     private int myEmptyState;
     private boolean convertToEmptyState;
-    private ConvertableNeighborFinderFactory converterFactory;
 
     /**
      * @param convertableNeighborFinder - finds all the neighbors that need to be converted
@@ -22,10 +21,6 @@ public class ChangeOpponentPieces implements MoveType {
         myNeighborhoodConverterFinder = convertableNeighborFinder;
     }
 
-//    private void createNeighborhoodConverter(String neighborConverterType) {
-//        converterFactory = new ConvertableNeighborFinderFactory();
-//        myNeighborhoodConverterFinder = converterFactory.createNeighborhoodConverterFinder(neighborConverterType);
-//    }
 
     /**
      * Finds all neighbors to possible convert using the neighborhood converter finder and

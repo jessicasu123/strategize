@@ -15,6 +15,6 @@ public class CheckEmptyState implements MoveCheck{
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
-        return state == myEmptyState;
+        return checking.getState() == myEmptyState;
     }
 }
