@@ -13,7 +13,8 @@ public class Player {
     private List<MoveType> myMoveTypes;
     private boolean isPlayer1;
 
-    public Player(List<Integer> states, List<Integer> directions, List<MoveCheck> selfMoveChecks, List<MoveCheck> neighborMoveChecks,
+    public Player(List<Integer> states, List<Integer> directions,
+                  List<MoveCheck> selfMoveChecks, List<MoveCheck> neighborMoveChecks,
                   List<MoveType> moveTypes, boolean isPlayer1){
         myPlayerStates = states;
         myDirections = directions;
