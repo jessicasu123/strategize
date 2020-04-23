@@ -1,6 +1,7 @@
-package ooga.model.engine.pieces.newPieces;
+package ooga.model.engine.pieces.newPieces.MoveTypes;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.pieces.newPieces.GamePiece;
 
 import java.util.List;
 
