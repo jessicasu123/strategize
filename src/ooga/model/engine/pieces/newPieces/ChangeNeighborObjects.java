@@ -24,7 +24,7 @@ public class ChangeNeighborObjects implements MoveType {
     public void completeMoveType(GamePiece selfPiece, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(selfPiece.getPosition(),
                 endCoordinateInfo, selfPiece.getNumObjects(), playerState,direction, neighbors);
-        
+
         for (GamePiece neighbor: neighborsToConvert) {
             neighbor.incrementNumObjects(objectsToGive);
         }

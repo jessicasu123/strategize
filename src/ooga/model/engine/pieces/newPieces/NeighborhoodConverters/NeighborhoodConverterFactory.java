@@ -14,6 +14,8 @@ public class NeighborhoodConverterFactory {
                 return new FindNeighborsUntilNoObjects(toIgnore);
             case "FingNeighborsBetweenCoordinates":
                 return new FindNeighborsBetweenCoordinates();
+            case "FindNeighborByEndCoord":
+                return new FindNeighborAtEndCoord();
             default:
                 throw new InvalidNeighborhoodConverterException(converterType + " is not a valid neighborhood converter type.");
         }
