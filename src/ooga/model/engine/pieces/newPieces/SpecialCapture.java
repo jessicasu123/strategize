@@ -1,16 +1,17 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindNeighborsUntilNoObjects;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
 
 import java.util.List;
 
 public class SpecialCapture implements MoveType {
     public static final int TO_ADD = 1;
-    private FindNeighborsUntilNoObjects myPiecesChanged;
+    private ConvertableNeighborFinder myPiecesChanged;
     private List<Integer> myPlayerStates;
-    public SpecialCapture(List<Integer> statesToIgnore, List<Integer> playerStates){
-        myPiecesChanged = new FindNeighborsUntilNoObjects(statesToIgnore);
+
+    public SpecialCapture(List<Integer> playerStates, ConvertableNeighborFinder finder){
+        myPiecesChanged = finder;
         myPlayerStates = playerStates;
     }
 
@@ -27,7 +28,7 @@ public class SpecialCapture implements MoveType {
 
     private void performSpecialCapture(List<GamePiece> neighbors, int currYPos, int playerState) {
         for(GamePiece otherPiece: neighbors){
-            if(otherPiece.getPosition().getCol() == currYPos){
+            if(otherPiece.getPosition().getCol() == currYPos && !myPlayerStates.contains(otherPiece.getState())){
                 for(GamePiece myPiece: neighbors){
                     if(myPlayerStates.contains(myPiece.getState()) && myPiece.getState() != playerState){
                         myPiece.incrementNumObjects(TO_ADD + otherPiece.getNumObjects());
@@ -35,7 +36,6 @@ public class SpecialCapture implements MoveType {
                         break;
                     }
                 }
-                break;
             }
         }
     }
