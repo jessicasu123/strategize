@@ -45,9 +45,8 @@ public class ChopsticksGamePiece extends GamePiece {
         List<Coordinate> possibleMoves = new ArrayList<>();
         if (this.getState() == playerID && this.getNumObjects() > 0) {
             for (GamePiece neighbor : neighbors) {
-                if (this.getNumObjects() >= 2 && neighbor.getState() == playerID && neighbor.getNumObjects() == 0) {
-                    possibleMoves.add(neighbor.getPosition());
-                } else if (neighbor.getNumObjects() > 0 && neighbor.getState() != playerID ) {
+                if (this.getNumObjects() >= 2 && neighbor.getState() == playerID && neighbor.getNumObjects() == 0
+                        || neighbor.getNumObjects() > 0 && neighbor.getState() != playerID) {
                     possibleMoves.add(neighbor.getPosition());
                 }
             }
