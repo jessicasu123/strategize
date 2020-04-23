@@ -16,14 +16,14 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AgentPlayerTest {
+class AgentPlayerInterfaceTest {
     //doing search depth of 1 so it can easily be checked
     private List<Integer> user = new ArrayList<>(List.of(2));
     private List<Integer> agent = new ArrayList<>(List.of(1));
     EvaluationFunction eval = new NumOpenLines(0, agent, user, 3);
     WinType win = new ConsecutivePieces(3);
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
-    private AgentPlayer myTicTacToeAgentPlayer = new AgentPlayer(agent, myAgent,user, 1);
+    private AgentPlayerInterface myTicTacToeAgentPlayer = new AgentPlayerInterface(agent, myAgent,user, 1);
     List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
     List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
 

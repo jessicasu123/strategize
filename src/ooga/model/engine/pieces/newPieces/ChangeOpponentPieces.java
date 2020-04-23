@@ -1,28 +1,29 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.NeighborConverterFinder;
-import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.NeighborhoodConverterFactory;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinderFactory;
 
 import java.util.List;
 
 public class ChangeOpponentPieces implements MoveType {
-    private NeighborConverterFinder myNeighborhoodConverterFinder;
-    private int stateToConvertTo;
-    private NeighborhoodConverterFactory converterFactory;
+    private ConvertableNeighborFinder myNeighborhoodConverterFinder;
+    private int myEmptyState;
+    private boolean convertToEmptyState;
+    private ConvertableNeighborFinderFactory converterFactory;
 
     /**
-     * @param neighborConverterFinder - finds all the neighbors that need to be converted
-     * @param convertedState - need this parameter because state to convert to
-     *                       might not be the same as "newState" in completeMoveType
+     * @param convertableNeighborFinder - finds all the neighbors that need to be converted
+
      */
-    public ChangeOpponentPieces(NeighborConverterFinder neighborConverterFinder,int convertedState) {
-        stateToConvertTo = convertedState;
-        myNeighborhoodConverterFinder = neighborConverterFinder;
+    public ChangeOpponentPieces(ConvertableNeighborFinder convertableNeighborFinder, boolean convertToEmptyState, int emptyState) {
+        myEmptyState = emptyState;
+        this.convertToEmptyState = convertToEmptyState;
+        myNeighborhoodConverterFinder = convertableNeighborFinder;
     }
 
 //    private void createNeighborhoodConverter(String neighborConverterType) {
-//        converterFactory = new NeighborhoodConverterFactory();
+//        converterFactory = new ConvertableNeighborFinderFactory();
 //        myNeighborhoodConverterFinder = converterFactory.createNeighborhoodConverterFinder(neighborConverterType);
 //    }
 
@@ -39,7 +40,11 @@ public class ChangeOpponentPieces implements MoveType {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(moving.getPosition(), endCoordinateInfo,
                 moving.getNumObjects(), playerState,direction, neighbors);
         for (GamePiece neighbor: neighborsToConvert) {
-            neighbor.changeState(stateToConvertTo);
+            if(convertToEmptyState){
+                neighbor.changeState(myEmptyState);
+            }else{
+                neighbor.changeState(playerState);
+            }
         }
     }
 

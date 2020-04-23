@@ -132,7 +132,7 @@ public class CustomizationPopUp extends GamePopUp{
         HBox topCustomizeContainer = createContainerWithHeadingLabel(labelText.getString("PlayerCustomization"),
                 "customizeLabels");
 
-        HBox userChoiceContainer = createChoiceContainerWithComboBox(true,labelText.getString("PlayerChoice"), "Player Image");
+        HBox userChoiceContainer = createChoiceContainerWithComboBox(true,labelText.getString("PlayerChoice"), "PlayerInterface Image");
         userImageChoice = setImageView(userImage);
         userChoiceContainer.getChildren().add(userImageChoice);
 

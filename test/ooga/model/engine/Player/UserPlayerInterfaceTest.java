@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserPlayerTest {
-    private UserPlayer myUser = new UserPlayer(1);
-    private UserPlayer myUser2 = new UserPlayer(5);
+class UserPlayerInterfaceTest {
+    private UserPlayerInterface myUser = new UserPlayerInterface(1);
+    private UserPlayerInterface myUser2 = new UserPlayerInterface(5);
     @Test
     void getPlayerID() {
         assertEquals(1, myUser.getPlayerID());

@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllFlippableNeighbors implements NeighborConverterFinder {
+public class FindAllFlippableNeighbors implements ConvertableNeighborFinder {
 
     private int currRowPos;
     private int currColPos;

@@ -13,7 +13,11 @@
 
   "SelfMoveChecks": ["CheckOwnPiece"],
 
+  "SelfNumObjectsToCompare": 0,
+
   "NeighborMoveChecks": ["CheckStep", "CheckJump", "CheckEmpty"],
+
+  "NeighborNumObjectsToCompare": 0,
 
   "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "ForceDirectionChange"],
 

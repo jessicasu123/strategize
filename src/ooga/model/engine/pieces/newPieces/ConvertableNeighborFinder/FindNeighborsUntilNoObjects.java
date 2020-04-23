@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindNeighborsUntilNoObjects implements  NeighborConverterFinder {
+public class FindNeighborsUntilNoObjects implements ConvertableNeighborFinder {
 
     public static final int REVERSE_DIRECTION = -1;
     private List<Integer> myStatesToIgnore;

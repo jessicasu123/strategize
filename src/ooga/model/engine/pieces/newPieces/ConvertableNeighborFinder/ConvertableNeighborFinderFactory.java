@@ -1,12 +1,12 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.exceptions.InvalidNeighborhoodConverterException;
 
 import java.util.List;
 
-public class NeighborhoodConverterFactory {
+public class ConvertableNeighborFinderFactory {
 
-    public NeighborConverterFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) {
+    public ConvertableNeighborFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) {
         switch (converterType) {
             case "FindAllFlippableNeighbors":
                 return new FindAllFlippableNeighbors();
@@ -15,7 +15,7 @@ public class NeighborhoodConverterFactory {
             case "FindNeighborsBetweenCoordinates":
                 return new FindNeighborsBetweenCoordinates();
             case "FindNeighborByEndCoord":
-                return new FindNeighborAtEndCoord();
+                return new FindConvertableNeighborAtEndCoord();
             default:
                 throw new InvalidNeighborhoodConverterException(converterType + " is not a valid neighborhood converter type.");
         }

@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindNeighborAtEndCoord implements NeighborConverterFinder {
+public class FindConvertableNeighborAtEndCoord implements ConvertableNeighborFinder {
     /**
      * Given a list of all of the neighbors and an end coordinate, finds the piece at that end coordinate
      */

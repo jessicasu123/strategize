@@ -2,7 +2,7 @@ package ooga.model.engine.pieces.newPieces.MoveChecks;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.FindAllFlippableNeighbors;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindAllFlippableNeighbors;
 
 import java.util.List;
 

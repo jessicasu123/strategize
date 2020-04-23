@@ -1,7 +1,7 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Player.AgentPlayer;
+import ooga.model.engine.Player.AgentPlayerInterface;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.model.engine.pieces.GamePieceFactory;
 
@@ -12,7 +12,7 @@ public class Game implements GameFramework{
     private static final int ID_STATE_POS = 0;
     private Board myBoard;
     private Agent myAgent;
-    private AgentPlayer myAgentPlayer;
+    private AgentPlayerInterface myAgentPlayer;
     private boolean isUserTurn;
     private String playerPass;
     private List<Integer> myUserStates;
@@ -32,7 +32,7 @@ public class Game implements GameFramework{
         myAgentStates = agentInfo;
         isUserTurn = userIsPlayer1;
         myAgent = agent;
-        myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
+        myAgentPlayer = new AgentPlayerInterface(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;
     }

@@ -18,7 +18,7 @@ public class GamePiece {
     private List<MoveType> myMoveTypes;
     private boolean turnChange;
 
-    public GamePiece(int state, Coordinate position, List<Integer> directions, int numObjects, List<MoveCheck> selfMoveChecks,
+    public GamePiece(int state, Coordinate position, int numObjects, List<Integer> directions, List<MoveCheck> selfMoveChecks,
                      List<MoveCheck> neighborMoveChecks, List<MoveType> moveTypes){
         myState = state;
         myPosition = position;

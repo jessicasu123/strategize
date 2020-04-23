@@ -19,7 +19,7 @@ import java.util.Map;
  *      - it uses minimax with alpha-beta pruning to allow for increased efficiency and thus enabling it to
  *      have a higher branching factor
  */
-public class AgentPlayer implements Player{
+public class AgentPlayerInterface implements PlayerInterface {
     public static final int ID_STATE = 0;
     private Agent myAgent;
     private List<Integer> myStates;
@@ -36,7 +36,7 @@ public class AgentPlayer implements Player{
      * @param gameAgent - the AI agent for this type of game
      * @param opponentStates - the states of the pieces that belong to the opponent
      */
-    public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates){
+    public AgentPlayerInterface(List<Integer> states, Agent gameAgent, List<Integer> opponentStates){
         this(states, gameAgent, opponentStates, MAX_SEARCH_DEPTH);
     }
 
@@ -47,7 +47,7 @@ public class AgentPlayer implements Player{
      * @param opponentStates - the states of the pieces that belong to the opponent
      */
     //TODO: take in search depth from data
-    public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates, int searchDepth){
+    public AgentPlayerInterface(List<Integer> states, Agent gameAgent, List<Integer> opponentStates, int searchDepth){
         myStates = states;
         myAgent = gameAgent;
         myID = myStates.get(ID_STATE);

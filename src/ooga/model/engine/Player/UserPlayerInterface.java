@@ -5,14 +5,14 @@ package ooga.model.engine.Player;
  * As of right now, this player has an ID associated with it which corresponds to all of the pieces that it has
  * Later more utility may be added to this class
  */
-public class UserPlayer implements Player{
+public class UserPlayerInterface implements PlayerInterface {
     private final int myID;
 
     /**
      * Creates a user player
      * @param id - the id of this player (the state of the game piece's that belong to this player)
      */
-    public UserPlayer(int id){
+    public UserPlayerInterface(int id){
         myID = id;
     }
 

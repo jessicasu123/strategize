@@ -1,11 +1,11 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
 
 import java.util.List;
 
-public interface NeighborConverterFinder {
+public interface ConvertableNeighborFinder {
     /**
      * Finds all the neighbors that need to be converted to a different state
      * @param currCoordinate - current (start) coordinate

@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
@@ -12,7 +12,7 @@ import java.util.List;
  * In between means that that piece is closer to the end distance than the start piece is to the end distance
  *
  */
-public class FindNeighborsBetweenCoordinates implements NeighborConverterFinder {
+public class FindNeighborsBetweenCoordinates implements ConvertableNeighborFinder {
 
 
     public static final int SQUARE = 2;

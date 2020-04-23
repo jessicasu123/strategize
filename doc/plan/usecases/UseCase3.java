@@ -9,7 +9,7 @@ import ooga.view.MockGameView;
 /**
  * USE CASE: User is informed that they won/lost the game
  *      -User calls Game.getGameStatus and agent.findWinner() in the model to determine if the user or agent won the game.
- *      -Player number of winner is passed to Controller and GameView calls controller.getUserNumber() and
+ *      -PlayerInterface number of winner is passed to Controller and GameView calls controller.getUserNumber() and
  *      Popup.winner(player number) to display the winner.
  * NOTE: for all of the use cases the concrete classes that are needed have been implemented as mocked versions
  *      - in doing so, for the use cases some of the concrete classes have very simple implementation only show

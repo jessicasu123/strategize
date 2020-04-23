@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.NeighborhoodConverters;
+package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;
@@ -35,31 +35,31 @@ class FindNeighborsUntilNoObjectsTest {
     Coordinate coord16 = new Coordinate(1,6);
     Coordinate coord17 = new Coordinate(1,7);
 
-    GamePiece goal1 = new GamePiece(4,coord00, negDir,0, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece goal2 = new GamePiece(2, coord17, posDir,0, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece goal1 = new GamePiece(4,coord00, 0,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece goal2 = new GamePiece(2, coord17, 0,posDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
-    GamePiece empty1= new GamePiece(0,coord07, noDir,0, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2 = new GamePiece(0,coord10, noDir,0, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1= new GamePiece(0,coord07,0, noDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2 = new GamePiece(0,coord10,0, noDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
-    GamePiece topSquare1 = new GamePiece(3,coord01, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare2 = new GamePiece(3,coord02, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare3 = new GamePiece(3,coord03, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare4 = new GamePiece(3,coord04, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare5 = new GamePiece(3,coord05, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare6 = new GamePiece(3,coord06, negDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare1 = new GamePiece(3,coord01, 4,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare2 = new GamePiece(3,coord02, 4,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare3 = new GamePiece(3,coord03, 4,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare4 = new GamePiece(3,coord04, 4,negDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare5 = new GamePiece(3,coord05, 4,negDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare6 = new GamePiece(3,coord06, 4,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
 
-    GamePiece bottomSquare1 = new GamePiece(1,coord11, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare2 = new GamePiece(1,coord12, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare3 = new GamePiece(1,coord13, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare4 = new GamePiece(1,coord14, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare5 = new GamePiece(1,coord15, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare6 = new GamePiece(1,coord16, posDir,4, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare1 = new GamePiece(1,coord11, 4,posDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare2 = new GamePiece(1,coord12, 4,posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare3 = new GamePiece(1,coord13,4, posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare4 = new GamePiece(1,coord14, 4,posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare5 = new GamePiece(1,coord15, 4,posDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare6 = new GamePiece(1,coord16,4, posDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     List<GamePiece> allPiece = new ArrayList<>(List.of(goal1,goal2,empty1,empty2,topSquare1,topSquare2,topSquare3,
             topSquare4,topSquare5,topSquare6,bottomSquare1,bottomSquare2,bottomSquare3,bottomSquare4,bottomSquare5,bottomSquare6));
-    NeighborConverterFinder noObjects1 = new FindNeighborsUntilNoObjects(statesToIgnore1);
-    NeighborConverterFinder noObjects2 = new FindNeighborsUntilNoObjects(statesToIgnore2);
+    ConvertableNeighborFinder noObjects1 = new FindNeighborsUntilNoObjects(statesToIgnore1);
+    ConvertableNeighborFinder noObjects2 = new FindNeighborsUntilNoObjects(statesToIgnore2);
     @Test
     void findNeighborsToConvertNormal() {
         List<GamePiece> toConvert = new ArrayList<>(List.of(bottomSquare2,bottomSquare3,bottomSquare4,bottomSquare5));

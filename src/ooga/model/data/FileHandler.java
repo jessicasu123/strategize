@@ -64,4 +64,17 @@ public interface FileHandler {
     int getNumRowsPerSquare();
     int getMaxObjectsPerSquare();
 
+    List<Integer> getStatesToIgnoreForPlayer(int i);
+    String getConverterTypes();
+    List<String> getSelfMoveChecks();
+    List<String> getNeighborMoveChecks();
+    List<String> getMoveTypes();
+    List<Integer> getDirectionForPlayer(int i);
+    int getNeighborNumObjectsToCompare();
+    int getSelfNumObjectsToCompare();
+
+    boolean convertToEmptyState();
+    int getPromotionRowForPlayer(int i);
+
+
 }
