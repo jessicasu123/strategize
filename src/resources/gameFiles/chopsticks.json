@@ -9,7 +9,7 @@
 
   "WinType": "NoPiecesForOpponent",
 
-  "EvaluationFunctions": ["PositionWeights"],
+  "EvaluationFunctions": ["MorePieces"],
 
   "SpecialPieceIndex": 0,
 
@@ -22,6 +22,10 @@
   "CheckCurrConfig": true,
 
   "MultiplePiecesPerSquare": false,
+
+  "NumVisualRowsPerSquare": 1,
+
+  "MaxNumObjectsPerSquare": 4,
 
   "SquareClickOptions": ["empty", "player", "agent"],
 
@@ -46,13 +50,13 @@
 
   "Player1": {
     "States": [1],
-    "Images": ["Chopstick1.png,Chopstick2.png,Chopstick3.png,Chopstick4.png"],
+    "Images": ["white-stick.png"],
     "Colors": ["White"]
   },
 
   "Player2": {
     "States": [2],
-    "Images": ["Chopstick1.png,Chopstick2.png,Chopstick3.png,Chopstick4.png"],
+    "Images": ["black-stick.png"],
     "Colors": ["White"]
   },
 

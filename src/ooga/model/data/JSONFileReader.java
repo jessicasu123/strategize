@@ -53,6 +53,17 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    @Override
+    public int getMaxObjectsPerSquare() {
+        return gameIntProperties.get("MaxNumObjectsPerSquare");
+    }
+
+    @Override
+    public int getNumRowsPerSquare() {
+        return gameIntProperties.get("NumVisualRowsPerSquare");
+    }
+
+
     /**
      * parses the configuration string and adds to the configuration 2-D List
      * @param config - the String configuration from the JSON File

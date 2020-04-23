@@ -222,5 +222,12 @@ public class Controller implements ControllerFramework {
 
     public List<List<Integer>> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
 
+    public int getVisualRowsPerSquare() {
+        return myFileHandler.getNumRowsPerSquare();
+    }
+
+    public int getMaxPiecesPerSquare() {
+        return myFileHandler.getMaxObjectsPerSquare();
+    }
 
 }
