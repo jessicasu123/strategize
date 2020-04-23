@@ -12,6 +12,8 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights"],
 
+  "SelfMoveChecks": ["EmptyPieceCheck", "CheckFlippableDirection"],
+
   "SpecialPieceIndex": 0,
 
   "EmptyState": 0,
@@ -23,6 +25,10 @@
   "CheckCurrConfig": true,
 
   "MultiplePiecesPerSquare": false,
+
+  "NumVisualRowsPerSquare": 1,
+
+  "MaxNumObjectsPerSquare": 1,
 
   "SquareClickOptions": ["empty", "player", "agent"],
 

@@ -2,6 +2,7 @@ package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
+import ooga.model.engine.pieces.newPieces.MoveTypes.MoveType;
 
 import java.util.ArrayList;
 import java.util.List;

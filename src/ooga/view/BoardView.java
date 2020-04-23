@@ -123,7 +123,9 @@ public class BoardView {
             for (int y = 0; y < boardCols; y++) {
                 BoardCell boardCell;
                 if (multiplePiecesPerSquare) {
-                    boardCell = new MultiPieceBoardCell(x, y, cellWidth, cellHeight);
+                    boardCell = new MultiPieceBoardCell(cellWidth, cellHeight,
+                            myController.getVisualRowsPerSquare(),
+                            myController.getMaxPiecesPerSquare());
                 } else {
                     boardCell = new SinglePieceBoardCell(x,y, cellWidth, cellHeight);
                 }
@@ -197,6 +199,7 @@ public class BoardView {
                                       List<List<Integer>> possibleMoves, List<List<Integer>> numPiecesInfo) {
         currSquare.setStyle(boardColor, boardOutlineColor);
         currSquare.clearFill(boardColor);
+        currSquare.setImagePositionIndex(0);
         int currGameState = gameStates.get(r).get(c);
         Image currImage = null;
 
