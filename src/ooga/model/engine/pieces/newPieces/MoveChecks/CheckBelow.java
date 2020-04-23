@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CheckBelow implements MoveCheck {
     private GamePiece myPiece;
-    private int row;
+    private int bottomRow;
 
     public CheckBelow(GamePiece gamePiece){
         myPiece = gamePiece;
@@ -25,8 +25,8 @@ public class CheckBelow implements MoveCheck {
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
-        row = findNumRows(neighbors);
-        if(! (myPiece.getPosition().getRow()==row)) {
+        bottomRow = findNumRows(neighbors);
+        if(! (myPiece.getPosition().getRow()== bottomRow)) {
             for (GamePiece neighbor : neighbors) {
                 if (neighbor.getPosition().getRow()-1 == myPiece.getPosition().getRow()) {
                     if (neighbor.getState()!=0) return true;

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ConnectFourGamePiece extends GamePiece {
 
-    private int rows;
+    private int bottomRow;
     public ConnectFourGamePiece(int state, Coordinate position, int numPieces) {
         super(state, position, numPieces);
     }
@@ -29,7 +29,7 @@ public class ConnectFourGamePiece extends GamePiece {
 
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
-        rows = findNumRows(neighbors);
+        bottomRow = findNumRows(neighbors);
         List<Coordinate> possibleMoves = new ArrayList<>();
         if (this.getState() == 0 && checkBelow(neighbors)) {
             possibleMoves.add(this.getPosition());
@@ -55,7 +55,7 @@ public class ConnectFourGamePiece extends GamePiece {
      */
     //TODO: replace number with DIM-1
     private boolean checkBelow(List<GamePiece> neighbors){
-        if(!(this.getPosition().getRow()== rows)) {
+        if(!(this.getPosition().getRow()== bottomRow)) {
             for (GamePiece neighbor : neighbors) {
                 if (neighbor.getPosition().getRow()-1 == this.getPosition().getRow()  && neighbor.getPosition().getCol() == this.getPosition().getCol()) {
                     if (neighbor.getState()!=0) return true;
