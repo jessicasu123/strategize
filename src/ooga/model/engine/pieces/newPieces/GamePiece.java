@@ -14,24 +14,58 @@ public class GamePiece {
     private int myMainDirection;
     private int myObjects;
     private List<MoveCheck> myMoveChecks;
+    private List<MoveCheck> myNeighborMoveChecks;
     private List<MoveType> myMoveTypes;
     private boolean turnChange;
 
-    public GamePiece(int state, Coordinate position, List<Integer> directions, int numObjects, List<MoveCheck> checks, List<MoveType> moveTypes){
+    public GamePiece(int state, Coordinate position, List<Integer> directions, int numObjects, List<MoveCheck> selfMoveChecks,
+                     List<MoveCheck> neighborMoveChecks, List<MoveType> moveTypes){
         myState = state;
         myPosition = position;
         myDirections = directions;
         myMainDirection = myDirections.get(MAIN_DIRECTION_INDEX);
-        myMoveChecks = checks;
+        myMoveChecks = selfMoveChecks;
+        myNeighborMoveChecks = neighborMoveChecks;
         myMoveTypes = moveTypes;
         myObjects = numObjects;
     }
-    //TODO: fix later
+
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID){
         List<Coordinate> possibleMoves = new ArrayList<>();
-
-
+        boolean selfConditionsMet = checkSelfConditions(neighbors);
+        if (selfConditionsMet) {
+            if (myNeighborMoveChecks.size() > 0) {
+                checkNeighborConditions(neighbors, possibleMoves);
+            } else {
+                possibleMoves.add(myPosition);
+            }
+        }
         return possibleMoves;
+    }
+
+    private boolean checkSelfConditions(List<GamePiece> neighbors) {
+        for (MoveCheck check : myMoveChecks) {
+            if (!check.isConditionMet(myPosition, this, neighbors, myState, myDirections)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void checkNeighborConditions(List<GamePiece> neighbors, List<Coordinate> possibleMoves) {
+        for (GamePiece neighbor : neighbors) {
+            boolean neighborConditionsMet = true;
+            for (MoveCheck check : myNeighborMoveChecks) {
+                // TODO: should this be taking neighbor state or myState?
+                if (!check.isConditionMet(myPosition, neighbor, neighbors, myState, myDirections)) {
+                    neighborConditionsMet = false;
+                    break;
+                }
+            }
+            if (neighborConditionsMet) {
+                possibleMoves.add(neighbor.getPosition());
+            }
+        }
     }
 
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState){
