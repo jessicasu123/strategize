@@ -28,6 +28,7 @@ public class GamePiece {
         myNeighborMoveChecks = neighborMoveChecks;
         myMoveTypes = moveTypes;
         myObjects = numObjects;
+        turnChange = true;
     }
 
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID){
