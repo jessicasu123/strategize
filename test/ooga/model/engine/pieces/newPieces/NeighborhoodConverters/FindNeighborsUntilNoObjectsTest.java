@@ -13,6 +13,10 @@ class FindNeighborsUntilNoObjectsTest {
     List<Integer> statesToIgnore1 = new ArrayList<>(List.of(0,4));
     List<Integer> statesToIgnore2 = new ArrayList<>(List.of(0,2));
 
+    List<Integer> posDir = new ArrayList<>(List.of(1));
+    List<Integer> negDir = new ArrayList<>(List.of(-1));
+    List<Integer> noDir = new ArrayList<>(List.of(0));
+
     Coordinate coord00 = new Coordinate(0,0);
     Coordinate coord01 = new Coordinate(0,1);
     Coordinate coord02 = new Coordinate(0,2);
@@ -31,26 +35,26 @@ class FindNeighborsUntilNoObjectsTest {
     Coordinate coord16 = new Coordinate(1,6);
     Coordinate coord17 = new Coordinate(1,7);
 
-    GamePiece goal1 = new GamePiece(4,coord00, -1,0, new ArrayList<>(), new ArrayList<>());
-    GamePiece goal2 = new GamePiece(2, coord17, 1,0, new ArrayList<>(), new ArrayList<>());
+    GamePiece goal1 = new GamePiece(4,coord00, negDir,0, new ArrayList<>(), new ArrayList<>());
+    GamePiece goal2 = new GamePiece(2, coord17, posDir,0, new ArrayList<>(), new ArrayList<>());
 
-    GamePiece empty1= new GamePiece(0,coord07, 0,0, new ArrayList<>(), new ArrayList<>());
-    GamePiece empty2 = new GamePiece(0,coord10, 0,0, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty1= new GamePiece(0,coord07, noDir,0, new ArrayList<>(), new ArrayList<>());
+    GamePiece empty2 = new GamePiece(0,coord10, noDir,0, new ArrayList<>(), new ArrayList<>());
 
-    GamePiece topSquare1 = new GamePiece(3,coord01, -1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare2 = new GamePiece(3,coord02, -1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare3 = new GamePiece(3,coord03, -1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare4 = new GamePiece(3,coord04, -1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare5 = new GamePiece(3,coord05, -1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece topSquare6 = new GamePiece(3,coord06, -1,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare1 = new GamePiece(3,coord01, negDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare2 = new GamePiece(3,coord02, negDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare3 = new GamePiece(3,coord03, negDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare4 = new GamePiece(3,coord04, negDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare5 = new GamePiece(3,coord05, negDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare6 = new GamePiece(3,coord06, negDir,4, new ArrayList<>(), new ArrayList<>());
 
 
-    GamePiece bottomSquare1 = new GamePiece(1,coord11, 1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare2 = new GamePiece(1,coord12, 1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare3 = new GamePiece(1,coord13, 1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare4 = new GamePiece(1,coord14, 1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare5 = new GamePiece(1,coord15, 1,4, new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare6 = new GamePiece(1,coord16, 1,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare1 = new GamePiece(1,coord11, posDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare2 = new GamePiece(1,coord12, posDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare3 = new GamePiece(1,coord13, posDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare4 = new GamePiece(1,coord14, posDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare5 = new GamePiece(1,coord15, posDir,4, new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare6 = new GamePiece(1,coord16, posDir,4, new ArrayList<>(), new ArrayList<>());
 
     List<GamePiece> allPiece = new ArrayList<>(List.of(goal1,goal2,empty1,empty2,topSquare1,topSquare2,topSquare3,
             topSquare4,topSquare5,topSquare6,bottomSquare1,bottomSquare2,bottomSquare3,bottomSquare4,bottomSquare5,bottomSquare6));

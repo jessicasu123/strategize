@@ -7,18 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePiece {
+    public static final int MAIN_DIRECTION_INDEX = 0;
     private int myState;
     private Coordinate myPosition;
-    private int myDirection;
+    private List<Integer> myDirections;
+    private int myMainDirection;
     private int myObjects;
     private List<MoveCheck> myMoveChecks;
     private List<MoveType> myMoveTypes;
     private boolean turnChange;
 
-    public GamePiece(int state, Coordinate position, int direction, int numObjects, List<MoveCheck> checks, List<MoveType> moveTypes){
+    public GamePiece(int state, Coordinate position, List<Integer> directions, int numObjects, List<MoveCheck> checks, List<MoveType> moveTypes){
         myState = state;
         myPosition = position;
-        myDirection = direction;
+        myDirections = directions;
+        myMainDirection = myDirections.get(MAIN_DIRECTION_INDEX);
         myMoveChecks = checks;
         myMoveTypes = moveTypes;
         myObjects = numObjects;
@@ -33,7 +36,7 @@ public class GamePiece {
 
     public void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors, int newState){
         for(MoveType move: myMoveTypes){
-            move.completeMoveType(this, endCoordinateInfo, neighbors, newState, myDirection);
+            move.completeMoveType(this, endCoordinateInfo, neighbors, newState, myMainDirection);
         }
     }
 

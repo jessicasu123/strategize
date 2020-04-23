@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PositionMoveTest {
     MoveType pos = new PositionMove();
-
-    GamePiece piece1 = new GamePiece(1,new Coordinate(0,0),1,1,
+    List<Integer> direction = new ArrayList<>(List.of(1));
+    GamePiece piece1 = new GamePiece(1,new Coordinate(0,0),direction,1,
             new ArrayList<>(), new ArrayList<>(List.of(pos)));
-    GamePiece piece2 = new GamePiece(1,new Coordinate(1,1),1,1,
+    GamePiece piece2 = new GamePiece(1,new Coordinate(1,1),direction,1,
             new ArrayList<>(), new ArrayList<>(List.of(pos)));
-    GamePiece piece3 = new GamePiece(1,new Coordinate(2,2),1,1,
+    GamePiece piece3 = new GamePiece(1,new Coordinate(2,2),direction,1,
             new ArrayList<>(), new ArrayList<>(List.of(pos)));
 
     @Test
