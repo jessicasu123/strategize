@@ -11,4 +11,14 @@ public class ForceMoveAgain implements MoveType{
                                  int playerState, int direction) {
 
     }
+
+    @Override
+    public boolean addOppositeDirection() {
+        return false;
+    }
+
+    @Override
+    public boolean doesTurnChange() {
+        return false;
+    }
 }

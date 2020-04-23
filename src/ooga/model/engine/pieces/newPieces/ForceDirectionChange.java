@@ -4,16 +4,23 @@ import ooga.model.engine.Coordinate;
 
 import java.util.List;
 
-public class ChangeToNewState implements MoveType{
+public class ForceDirectionChange implements MoveType {
+    private boolean reachedPromotion;
+    private int myPromotionRow;
 
+    public ForceDirectionChange(int promotionRow){
+        myPromotionRow = promotionRow;
+    }
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
-        moving.changeState(playerState);
+        if(endCoordinateInfo.getRow() == myPromotionRow){
+            reachedPromotion = true;
+        }
     }
 
     @Override
     public boolean addOppositeDirection() {
-        return false;
+        return reachedPromotion;
     }
 
     @Override

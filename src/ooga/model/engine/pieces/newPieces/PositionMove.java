@@ -2,6 +2,7 @@ package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PositionMove implements MoveType {
@@ -14,6 +15,17 @@ public class PositionMove implements MoveType {
            }
        }
        moving.move(endCoordinateInfo);
+    }
+
+    @Override
+    public boolean addOppositeDirection() {
+        return false;
+    }
+
+
+    @Override
+    public boolean doesTurnChange() {
+        return true;
     }
 
 }
