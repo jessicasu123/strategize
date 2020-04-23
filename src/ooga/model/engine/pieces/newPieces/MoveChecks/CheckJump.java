@@ -34,9 +34,16 @@ public class CheckJump implements MoveCheck {
             startCheckLocation = findStartingLocation(piecesBetween,startCheckLocation,checking);
         }
 
-        return patternMet;
+        return patternMet && checkDirection(directions,startingLocation,checking.getPosition());
     }
-
+    private boolean checkDirection( List<Integer> directions, Coordinate startingLocation, Coordinate endLocation){
+        for(int direction : directions){
+            if(startingLocation.getRow() + direction == endLocation.getRow()){
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean pathMeetsPattern(List<GamePiece> piecesBetween,Coordinate startingLocation, GamePiece checking,
                                      int numPiecesChecked){
         GamePiece closestToStart = checking;
