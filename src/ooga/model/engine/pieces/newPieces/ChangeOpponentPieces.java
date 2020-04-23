@@ -38,9 +38,9 @@ public class ChangeOpponentPieces implements MoveType {
      * @param playerState - the current player ID
      */
     @Override
-    public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState) {
+    public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(moving.getPosition(), endCoordinateInfo,
-                objectsToGive, playerState, neighbors);
+                moving.getVisualRepresentation(), playerState,direction, neighbors);
         for (GamePiece neighbor: neighborsToConvert) {
             neighbor.changeState(stateToConvertTo);
         }

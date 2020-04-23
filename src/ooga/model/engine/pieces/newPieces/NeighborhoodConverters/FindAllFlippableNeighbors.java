@@ -20,7 +20,8 @@ public class FindAllFlippableNeighbors implements NeighborConverterFinder {
     }
 
     @Override
-    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects, int playerID, List<GamePiece> neighbors) {
+    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
+                                                  int playerID,int direction, List<GamePiece> neighbors) {
         myPlayerID = playerID;
         currRowPos = currCoordinate.getRow();
         currColPos = currCoordinate.getCol();

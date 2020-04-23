@@ -16,5 +16,5 @@ public interface NeighborConverterFinder {
      * @return
      */
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate,
-                                                  int numObjects, int playerID, List<GamePiece> neighbors);
+                                                  int numObjects, int playerID,int direction, List<GamePiece> neighbors);
 }
