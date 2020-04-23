@@ -9,7 +9,6 @@ import java.util.List;
 public class ChangeOpponentPieces implements MoveType {
     private NeighborConverterFinder myNeighborhoodConverterFinder;
     private int stateToConvertTo;
-    private int objectsToGive;
     private NeighborhoodConverterFactory converterFactory;
 
     /**
@@ -17,9 +16,8 @@ public class ChangeOpponentPieces implements MoveType {
      * @param convertedState - need this parameter because state to convert to
      *                       might not be the same as "newState" in completeMoveType
      */
-    public ChangeOpponentPieces(NeighborConverterFinder neighborConverterFinder,int convertedState, int numObjects) {
+    public ChangeOpponentPieces(NeighborConverterFinder neighborConverterFinder,int convertedState) {
         stateToConvertTo = convertedState;
-        objectsToGive = numObjects;
         myNeighborhoodConverterFinder = neighborConverterFinder;
     }
 
