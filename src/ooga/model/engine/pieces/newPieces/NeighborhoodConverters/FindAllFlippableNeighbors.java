@@ -31,7 +31,7 @@ public class FindAllFlippableNeighbors implements NeighborConverterFinder {
     private List<GamePiece> checkValidMoveInAnyDirection(List<GamePiece> neighbors) {
         for (int i = 0; i < directions.length;i++) {
             int[] direction = directions[i];
-            checkFlippableDirection(direction[0], direction[1], neighbors);
+            checkFlippableDirection(currRowPos, currColPos, myPlayerID, direction[0], direction[1], neighbors);
         }
         return neighborsToConvert;
     }
@@ -43,7 +43,8 @@ public class FindAllFlippableNeighbors implements NeighborConverterFinder {
      * @param neighbors
      * @return
      */
-    public boolean checkFlippableDirection(int rowOffset, int colOffset, List<GamePiece> neighbors) {
+    public boolean checkFlippableDirection(int currRowPos, int currColPos, int myPlayerID,
+                                           int rowOffset, int colOffset, List<GamePiece> neighbors) {
         int currRow = currRowPos + rowOffset;
         int currCol = currColPos + colOffset;
         int numOpponents = 0;

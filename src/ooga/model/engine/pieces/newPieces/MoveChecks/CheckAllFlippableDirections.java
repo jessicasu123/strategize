@@ -14,11 +14,14 @@ public class CheckAllFlippableDirections implements MoveCheck{
         myNeighborhoodFinder = new FindAllFlippableNeighbors();
         myDirections = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
+
+    //TODO: is the state the playerID?
     @Override
     public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
         for (int i = 0; i < myDirections.length;i++) {
             int[] direction = myDirections[i];
-            if (myNeighborhoodFinder.checkFlippableDirection(direction[0], direction[1], neighbors)) {
+            if (myNeighborhoodFinder.checkFlippableDirection(startingLocation.getRow(),
+                    startingLocation.getCol(), state, direction[0], direction[1], neighbors)) {
                 return true;
             }
         }

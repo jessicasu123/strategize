@@ -13,20 +13,20 @@ public class CheckBelow implements MoveCheck {
         myPiece = gamePiece;
     }
 
-    private int findNumColumns(List<GamePiece> neighbors) {
-        int colCount = 0;
+    private int findNumRows(List<GamePiece> neighbors) {
+        int rowCount = 0;
         for (GamePiece g: neighbors) {
             if (g.getPosition().getCol()==myPiece.getPosition().getCol()) {
-                colCount++;
+                rowCount++;
             }
         }
-        return colCount;
+        return rowCount;
     }
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
-        row = findNumColumns(neighbors);
-        if(myPiece.getPosition().getRow()==row) {
+        row = findNumRows(neighbors);
+        if(! (myPiece.getPosition().getRow()==row)) {
             for (GamePiece neighbor : neighbors) {
                 if (neighbor.getPosition().getRow()-1 == myPiece.getPosition().getRow()) {
                     if (neighbor.getState()!=0) return true;

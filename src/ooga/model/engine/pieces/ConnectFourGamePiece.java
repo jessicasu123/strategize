@@ -29,7 +29,7 @@ public class ConnectFourGamePiece extends GamePiece {
 
     @Override
     public List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors, int playerID) {
-        rows = findNumColumns(neighbors);
+        rows = findNumRows(neighbors);
         List<Coordinate> possibleMoves = new ArrayList<>();
         if (this.getState() == 0 && checkBelow(neighbors)) {
             possibleMoves.add(this.getPosition());
@@ -37,14 +37,14 @@ public class ConnectFourGamePiece extends GamePiece {
         return possibleMoves;
     }
 
-    private int findNumColumns(List<GamePiece> neighbors) {
-        int colCount = 0;
+    private int findNumRows(List<GamePiece> neighbors) {
+        int rowCount = 0;
         for (GamePiece g: neighbors) {
             if (g.getPosition().getCol()==this.getPosition().getCol()) {
-                colCount++;
+                rowCount++;
             }
         }
-        return colCount;
+        return rowCount;
     }
 
     /**
