@@ -1,7 +1,6 @@
 package ooga.model.engine.pieces.newPieces.MoveChecks;
 
 import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.ConvertAllDirections;
 
 import java.util.List;
 
