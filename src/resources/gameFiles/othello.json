@@ -12,7 +12,7 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights"],
 
-  "SelfMoveChecks": ["EmptyPieceCheck", "CheckFlippableDirection"],
+  "SelfMoveChecks": ["CheckEmptyState", "CheckAllFlippableDirections"],
 
   "SpecialPieceIndex": 0,
 
