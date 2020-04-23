@@ -12,7 +12,7 @@ public class NeighborhoodConverterFactory {
                 return new FindAllFlippableNeighbors();
             case "FindNeighbordUntilNoObjects":
                 return new FindNeighborsUntilNoObjects(toIgnore);
-            case "FingNeighborsBetweenCoordinates":
+            case "FindNeighborsBetweenCoordinates":
                 return new FindNeighborsBetweenCoordinates();
             case "FindNeighborByEndCoord":
                 return new FindNeighborAtEndCoord();
