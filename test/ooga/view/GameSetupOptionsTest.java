@@ -44,8 +44,8 @@ class GameSetupOptionsTest extends DukeApplicationTest {
     void testDisplayToStage() {
         assertEquals("Select Opponent:", opponentText.getText());
         assertEquals("vs. Computer", vsComputer.getText());
-        assertEquals("vs. PlayerInterface", vsPlayer.getText());
-        assertEquals("Select Your PlayerInterface:", playerText.getText());
+        assertEquals("vs. Player", vsPlayer.getText());
+        assertEquals("Select Your Player:", playerText.getText());
         assertEquals("Player1", player1.getText());
         assertEquals("Player2", player2.getText());
 //        assertEquals("Default: 3 x 3", boardDropdown.getPromptText());
