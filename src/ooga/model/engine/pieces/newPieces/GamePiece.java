@@ -2,7 +2,6 @@ package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
-import ooga.model.engine.pieces.newPieces.MoveTypes.MoveType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +45,9 @@ public class GamePiece {
         return turnChange;
     }
 
-    public int getVisualRepresentation(){
-        return myState;
+    public int getNumObjects(){
+        return myObjects;
     }
-
 
     public Coordinate getPosition(){
         return myPosition;
@@ -59,8 +57,12 @@ public class GamePiece {
         turnChange = changeTurns;
     }
     
-    public void changeState(int newState){
+    protected void changeState(int newState){
         myState = newState;
+    }
+
+    protected void incrementNumObjects(int incrementBy){
+        myObjects += incrementBy;
     }
 
     protected void move(Coordinate moveTo){

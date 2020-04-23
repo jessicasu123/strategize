@@ -1,4 +1,4 @@
-package ooga.model.engine.pieces.newPieces.MoveTypes;
+package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.GamePiece;

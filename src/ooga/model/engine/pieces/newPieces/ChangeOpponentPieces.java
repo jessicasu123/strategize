@@ -1,8 +1,6 @@
-package ooga.model.engine.pieces.newPieces.MoveTypes;
+package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.MoveTypes.MoveType;
 import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.NeighborConverterFinder;
 import ooga.model.engine.pieces.newPieces.NeighborhoodConverters.NeighborhoodConverterFactory;
 
@@ -41,7 +39,7 @@ public class ChangeOpponentPieces implements MoveType {
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(moving.getPosition(), endCoordinateInfo,
-                moving.getVisualRepresentation(), playerState,direction, neighbors);
+                moving.getNumObjects(), playerState,direction, neighbors);
         for (GamePiece neighbor: neighborsToConvert) {
             neighbor.changeState(stateToConvertTo);
         }
