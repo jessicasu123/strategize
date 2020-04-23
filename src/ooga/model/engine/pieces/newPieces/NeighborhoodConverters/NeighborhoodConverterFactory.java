@@ -10,7 +10,7 @@ public class NeighborhoodConverterFactory {
         switch (converterType) {
             case "FindAllFlippableNeighbors":
                 return new FindAllFlippableNeighbors();
-            case "FindNeighbordUntilNoObjects":
+            case "FindNeighborsUntilNoObjects":
                 return new FindNeighborsUntilNoObjects(toIgnore);
             case "FindNeighborsBetweenCoordinates":
                 return new FindNeighborsBetweenCoordinates();
