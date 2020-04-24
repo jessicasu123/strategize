@@ -60,7 +60,7 @@ public class JSONFileReader implements FileHandler {
 
     @Override
     public List<Integer> getStatesToIgnoreForPlayer(int i) {
-        return convertJSONArrayToIntegerList(gameArrayProperties.get("PlayerInfoHolder" + i + "StatesToIgnore"));
+        return convertJSONArrayToIntegerList(gameArrayProperties.get("Player" + i + "StatesToIgnore"));
     }
 
     private List<String> convertJSONArrayToStringList(JSONArray jsonArray) {
@@ -101,7 +101,7 @@ public class JSONFileReader implements FileHandler {
 
     @Override
     public List<Integer> getDirectionForPlayer(int i) {
-        return convertJSONArrayToIntegerList(gameArrayProperties.get("PlayerInfoHolder"+i+"Direction"));
+        return convertJSONArrayToIntegerList(gameArrayProperties.get("Player"+i+"Direction"));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class JSONFileReader implements FileHandler {
 
     @Override
     public int getImmovableStateForPlayer(int player) {
-        return gameIntProperties.get("PlayerInfoHolder" + player + "ImmovableState");
+        return gameIntProperties.get("Player" + player + "ImmovableState");
     }
 
     @Override
@@ -164,7 +164,7 @@ public class JSONFileReader implements FileHandler {
      * @return the states of that player
      */
     public List<Integer> getPlayerStateInfo(int i){
-        JSONArray stateInfo = gameArrayProperties.get("PlayerInfoHolder" + i + "States");
+        JSONArray stateInfo = gameArrayProperties.get("Player" + i + "States");
         List<Integer> playerStateInfo = new ArrayList<>();
         for (int j = 0; j < stateInfo.length(); j++) {
             playerStateInfo.add(stateInfo.getInt(j));
@@ -230,7 +230,7 @@ public class JSONFileReader implements FileHandler {
     public Map<Integer, String> getStateImageMapping(int i){
         List<Integer> states = getPlayerStateInfo(i);
         Map<Integer, String> stateImageMapping = new HashMap<>();
-        JSONArray imageInfo = gameArrayProperties.get("PlayerInfoHolder" + i + "Images");
+        JSONArray imageInfo = gameArrayProperties.get("Player" + i + "Images");
         for(int j = 0; j < imageInfo.length(); j++){
             stateImageMapping.put(states.get(j), imageInfo.getString(j));
         }
@@ -241,7 +241,7 @@ public class JSONFileReader implements FileHandler {
         List<Integer> states = getPlayerStateInfo(i);
         Map<Integer,String> specialStateColorMapping = new HashMap<>();
         if (states.size()>1) {
-            JSONArray colorInfo = gameArrayProperties.get("PlayerInfoHolder" + i + "Colors");
+            JSONArray colorInfo = gameArrayProperties.get("Player" + i + "Colors");
             specialStateColorMapping.put(states.get(states.size()-1), colorInfo.getString(colorInfo.length()-1));
         }
         return specialStateColorMapping;
@@ -304,28 +304,36 @@ public class JSONFileReader implements FileHandler {
     }
 
     private void parseData(){
-        for (String key: gameData.keySet()) {
-            Object value = gameData.get(key);
-            if (value.getClass().equals(JSONObject.class)) {
-                JSONObject nestedObject = gameData.getJSONObject(key);
-                parseNestedData(key, nestedObject);
-            } else {
-                getBasicValues(gameData, key, key, value);
+        try {
+            for (String key : gameData.keySet()) {
+                Object value = gameData.get(key);
+                if (value.getClass().equals(JSONObject.class)) {
+                    JSONObject nestedObject = gameData.getJSONObject(key);
+                    parseNestedData(key, nestedObject);
+                } else {
+                    getBasicValues(gameData, key, key, value);
+                }
             }
+            validateData();
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
-        validateData();
     }
 
     private void parseNestedData(String key, JSONObject nestedObject) {
-        for (String nestedKey: nestedObject.keySet()) {
-            Object value = nestedObject.get(nestedKey);
-            String newKey = nestedKey;
-            if (key.contains("PlayerInfoHolder") || key.equals(boardDimensions)) { //TODO: don't harcode?
-                if (key.contains("PlayerInfoHolder")){
-                    newKey = key+nestedKey;
+        try {
+            for (String nestedKey : nestedObject.keySet()) {
+                Object value = nestedObject.get(nestedKey);
+                String newKey = nestedKey;
+                if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
+                    if (key.contains("Player")) {
+                        newKey = key + nestedKey;
+                    }
+                    getBasicValues(nestedObject, nestedKey, newKey, value);
                 }
-                getBasicValues(nestedObject, nestedKey, newKey, value);
             }
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
     }
 
@@ -408,7 +416,7 @@ public class JSONFileReader implements FileHandler {
         for (int val = 0; val < values.length(); val++) {
             String nestedKey = (String) values.get(val);
             String searchName = nestedKey;
-            if (key.contains("PlayerInfoHolder")) {
+            if (key.contains("Player")) {
                 searchName = key + nestedKey;
             }
             writeBasicValues(searchName, nestedObject, nestedKey, config);

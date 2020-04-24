@@ -42,6 +42,7 @@ public class FlippableNeighborFinder implements ConvertibleNeighborFinder {
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID,int direction, List<GamePiece> neighbors) {
+        neighborsToConvert = new ArrayList<>();
         myPlayerID = playerID;
         currRowPos = currCoordinate.getRow();
         currColPos = currCoordinate.getCol();

@@ -28,7 +28,7 @@
 
   "MoveTypes": ["ForceMoveAgainMove","ChangeNeighborObjectsMove","SpecialCaptureMove", "ClearObjectsMove"],
 
-  "NeighborConverterTypes": ["NeighborsUntilNoObjectsLeftFinder"],
+  "NeighborConverterType": "NeighborsUntilNoObjectsFinder",
 
   "SpecialPieceIndex": 1,
 

@@ -41,6 +41,7 @@ public class AllFlippableDirectionsCheck implements MoveCheck{
                 return true;
             }
         }
+
         return false;
     }
 }

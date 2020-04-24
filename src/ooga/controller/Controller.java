@@ -47,8 +47,8 @@ public class Controller implements ControllerFramework {
         myFileHandler.parseFile();
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
-        createUserAndAgentPlayers();
         myStateToImageMapping = new HashMap<>();
+        createUserAndAgentPlayers();
         emptyState = myFileHandler.getEmptyState();
         List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
         Agent gameAgent = createAgent(startingConfiguration);
@@ -60,8 +60,6 @@ public class Controller implements ControllerFramework {
     }
 
     private void createUserAndAgentPlayers() {
-        addPlayerStateImageInfoToMap(1);
-        addPlayerStateImageInfoToMap(2);
         if(userIsPlayer1){
             myUserPlayerInfoHolder = makePlayer(1);
             myAgentPlayerInfoHolder = makePlayer(2);
@@ -70,6 +68,8 @@ public class Controller implements ControllerFramework {
             myUserPlayerInfoHolder = makePlayer(2);
             myAgentPlayerInfoHolder = makePlayer(1);
         }
+        addPlayerStateImageInfoToMap(1);
+        addPlayerStateImageInfoToMap(2);
     }
 
     private void makeGamePieceCreator() {

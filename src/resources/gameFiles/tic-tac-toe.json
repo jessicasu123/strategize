@@ -27,7 +27,7 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ChangeToNewState"],
+  "MoveTypes": ["ChangeToNewStateMove"],
 
   "NeighborConverterType": "",
 
@@ -88,7 +88,7 @@
     "States": [1],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["X.png"],
     "Colors": ["white"]
   },
@@ -97,7 +97,7 @@
     "States": [2],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["O.png"],
     "Colors": ["white"]
   },

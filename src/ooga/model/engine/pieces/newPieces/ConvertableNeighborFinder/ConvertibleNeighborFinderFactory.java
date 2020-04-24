@@ -24,6 +24,8 @@ public class ConvertibleNeighborFinderFactory {
                 return new NeighborsBetweenCoordinatesFinder();
             case "FindNeighborByEndCoord":
                 return new NeighborAtEndCoordinateFinder();
+            case "":
+                return null;
             default:
                 throw new InvalidConvertibleNeighborFinderException(converterType + " is not a valid neighborhood converter type.");
         }

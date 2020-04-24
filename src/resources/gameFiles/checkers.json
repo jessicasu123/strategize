@@ -14,7 +14,7 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights","SumOfDistances"],
 
-  "SelfMoveChecks": ["CheckOwnPiece"],
+  "SelfMoveChecks": ["OwnPieceCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
