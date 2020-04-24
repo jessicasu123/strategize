@@ -58,8 +58,8 @@ class FindNeighborsUntilNoObjectsTest {
 
     List<GamePiece> allPiece = new ArrayList<>(List.of(goal1,goal2,empty1,empty2,topSquare1,topSquare2,topSquare3,
             topSquare4,topSquare5,topSquare6,bottomSquare1,bottomSquare2,bottomSquare3,bottomSquare4,bottomSquare5,bottomSquare6));
-    ConvertableNeighborFinder noObjects1 = new FindNeighborsUntilNoObjects(statesToIgnore1);
-    ConvertableNeighborFinder noObjects2 = new FindNeighborsUntilNoObjects(statesToIgnore2);
+    ConvertibleNeighborFinder noObjects1 = new FindNeighborsUntilNoObjects(statesToIgnore1);
+    ConvertibleNeighborFinder noObjects2 = new FindNeighborsUntilNoObjects(statesToIgnore2);
     @Test
     void findNeighborsToConvertNormal() {
         List<GamePiece> toConvert = new ArrayList<>(List.of(bottomSquare2,bottomSquare3,bottomSquare4,bottomSquare5));

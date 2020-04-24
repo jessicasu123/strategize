@@ -1,15 +1,15 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
 import java.util.List;
 
 public class ForceMoveAgain implements MoveType{
-    private ConvertableNeighborFinder myPiecesChangedFinder;
+    private ConvertibleNeighborFinder myPiecesChangedFinder;
     private List<Integer> myPlayerStates;
 
-    public ForceMoveAgain(List<Integer> playerStates, ConvertableNeighborFinder finder){
+    public ForceMoveAgain(List<Integer> playerStates, ConvertibleNeighborFinder finder){
         myPiecesChangedFinder = finder;
         myPlayerStates = playerStates;
     }

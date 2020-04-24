@@ -5,6 +5,7 @@ import ooga.model.engine.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MorePieces implements EvaluationFunction{
     private int myStateEvalFor;
     private int opponentStateEvalFor;

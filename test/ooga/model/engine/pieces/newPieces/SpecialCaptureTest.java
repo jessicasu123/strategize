@@ -1,7 +1,7 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindNeighborsUntilNoObjects;
 import org.junit.jupiter.api.Test;
 
@@ -47,8 +47,8 @@ class SpecialCaptureTest {
     List<Integer> player2 = new ArrayList<>(List.of(3,4));
     List<Integer> toIgnore = new ArrayList<>(List.of(0,4));
     List<Integer> toIgnore2 = new ArrayList<>(List.of(0,2));
-    ConvertableNeighborFinder finder1 = new FindNeighborsUntilNoObjects(toIgnore);
-    ConvertableNeighborFinder finder2 = new FindNeighborsUntilNoObjects(toIgnore2);
+    ConvertibleNeighborFinder finder1 = new FindNeighborsUntilNoObjects(toIgnore);
+    ConvertibleNeighborFinder finder2 = new FindNeighborsUntilNoObjects(toIgnore2);
     SpecialCapture capture1 = new SpecialCapture(player,finder1);
     SpecialCapture capture2 = new SpecialCapture(player2,finder2);
 

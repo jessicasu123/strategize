@@ -1,7 +1,7 @@
 package ooga.model.engine.pieces.newPieces.IntegrationTests;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.*;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindNeighborsBetweenCoordinates;
 import ooga.model.engine.pieces.newPieces.MoveChecks.CheckJump;
 import ooga.model.engine.pieces.newPieces.MoveChecks.CheckOwnPiece;
@@ -20,7 +20,7 @@ public class CheckersIntegrationTest {
     List<Integer> bothDirections = new ArrayList<>(List.of(-1,1));
     int emptyState = 0;
     int numObjects = 1;
-    ConvertableNeighborFinder myFinder = new FindNeighborsBetweenCoordinates();
+    ConvertibleNeighborFinder myFinder = new FindNeighborsBetweenCoordinates();
     MoveCheck ownPiecePlayer1 = new CheckOwnPiece(player1);
     MoveCheck ownPiecePlayer2 = new CheckOwnPiece(player2);
     MoveCheck step = new CheckStep(emptyState);

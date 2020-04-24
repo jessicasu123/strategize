@@ -4,8 +4,14 @@ import ooga.model.engine.exceptions.InvalidFileFormatException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface is responsible for reading values from a file
+ * that will be relevant to constructing the back-end and front-end components of a game.
+ *
+ * FileHandler will provide all these values to other classes (ex. Controller)
+ * that will need them to know how to instantiate the Game/Board/View/etc.
+ */
 public interface FileHandler {
-
 
     /**
      * METHOD PURPOSE:
@@ -32,21 +38,70 @@ public interface FileHandler {
      */
     void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
 
-    public List<String> getNeighborhood();
+    /**
+     * METHOD PURPOSE:
+     * - gets a list of all the neighborhood types a certain game piece
+     * will need to consider.
+     * @return - neighbor types to consider
+     */
+    List<String> getNeighborhood();
 
     /**
      *
      * @param i - the player whose info are looking for
      * @return list of all of the states for that player
      */
-    public List<Integer> getPlayerStateInfo(int i);
+    List<Integer> getPlayerStateInfo(int i);
 
     /**
      *
      * @param i - the player whose info are looking for
      * @return a map that maps each state to the image to represent it
      */
-    public Map<Integer, String> getStateImageMapping(int i);
+    Map<Integer, String> getStateImageMapping(int i);
+
+    /**
+     * METHOD PURPOSE:
+     *  - gets the configuration of number of objects in each row, col position
+     *  for the view.
+     *  - relevant for games with multi-piece board cells.
+     * @return a list of list of integers, where each row,col position represents the number
+     * of objects at that location.
+     */
+    List<List<Integer>> getObjectConfig();
+
+
+    /**
+     * METHOD PURPOSE:
+     * - determines whether a board cell will hold multiple pieces or not
+     * @return true if the cell should be multi-piece, false if not
+     */
+    boolean hasMultiplePiecesPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * -gets the number of VISUAL rows per square
+     * -relevant for games with multiple pieces per cell
+     * @return number of rows that the board cell should use to populate piece images
+     */
+    int getNumRowsPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * -gets the maximum number of objects in each square
+     * @return max number of objects a board cell can hold
+     */
+    int getMaxObjectsPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * - mapping of the special state to the color that represents that state.
+     * - relevant for multi piece board cell games where the game pieces are the
+     * same for both players but the special states should be differentiated somehow.
+     * @param i - the player whose special state value is being looked for
+     * @return map with keys as special states and values as colors representing those states
+     */
+    Map<Integer,String> getSpecialStateColorMapping(int i);
 
     int getSpecialPieceIndex();
     List<String> getEvaluationFunctions();
@@ -58,12 +113,6 @@ public interface FileHandler {
     int player2Direction();
     boolean doPiecesMove();
     String getGameType();
-    List<List<Integer>> getObjectConfig();
-    boolean shouldCheckCurrConfig();
-    boolean hasMultiplePiecesPerSquare();
-    int getNumRowsPerSquare();
-    int getMaxObjectsPerSquare();
-
     List<Integer> getStatesToIgnoreForPlayer(int i);
     String getConverterType();
     List<String> getSelfMoveChecks();
@@ -72,10 +121,9 @@ public interface FileHandler {
     List<Integer> getDirectionForPlayer(int i);
     int getNeighborNumObjectsToCompare();
     int getSelfNumObjectsToCompare();
-
     boolean convertToEmptyState();
     boolean getPromotionRowForPlayer1();
-    Map<Integer,String> getSpecialStateColorMapping(int i);
+    boolean shouldCheckCurrConfig();
 
 
 }

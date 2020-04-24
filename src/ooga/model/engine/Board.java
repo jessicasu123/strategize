@@ -10,6 +10,16 @@ import ooga.model.engine.pieces.GamePieceFactory;
 import java.util.*;
 
 
+/**
+ * This class is responsible for managing the GamePieces, which includes
+ * creating them, telling them when to make moves, and sending information about them
+ * to other classes that may need the information. This information includes
+ * whether there are moves left/all the legal moves (used by the backend),
+ * as well as what the current states/number of objects/number of possible moves
+ * that the view may need.
+ *
+ * @author: Jessica Su
+ */
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
@@ -49,16 +59,12 @@ public class Board implements BoardFramework{
      * @return boolean
      */
     public int checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
-        //TODO: decide whether or not to change to OR. game in Othello is not over until BOTH players don't have moves.
         boolean noMovesForPlayer1 = checkEmptyMovesForPlayer(userStates);
         boolean noMovesForPlayer2 = checkEmptyMovesForPlayer(agentStates);
         if (noMovesForPlayer1 && noMovesForPlayer2) return 0;
         else if (noMovesForPlayer1) return 1;
         else if (noMovesForPlayer2) return 2;
         else return 3;
-
-//        return checkEmptyMovesForPlayer(userStates) &&
-//                checkEmptyMovesForPlayer(agentStates);
     }
 
     private boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
@@ -166,6 +172,11 @@ public class Board implements BoardFramework{
     }
 
 
+    /**
+     * Determines whether the turn should be switched
+     * according to the moves made by the pieces.
+     * @return true if the turn changes, false if it doesn't
+     */
     public boolean changeTurns(){
         return doesTurnChange;
     }
@@ -177,32 +188,38 @@ public class Board implements BoardFramework{
      */
     @Override
     public List<List<Integer>> getStateInfo() {
-        List<List<Integer>> currStateConfig = new ArrayList<>();
-        for (List<GamePiece> row: myGamePieces) {
-            List<Integer> rowStates = new ArrayList<>();
-            for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getState();
-                rowStates.add(currState);
-            }
-            currStateConfig.add(rowStates);
-        }
+        List<List<Integer>> currStateConfig = getVisualInfoFromPieces("state");
         return Collections.unmodifiableList(currStateConfig);
     }
 
-    //TODO: refactor
+    /**
+     * METHOD PURPOSE:
+     *  - gets the number of objects in a certain row,col position that the view will need
+     *  for games where there are multiple pieces per square
+     * @return list of list of the integers used to represent the number of objects at each location
+     */
     @Override
     public List<List<Integer>> getObjectInfo() {
-        List<List<Integer>> currObjectConfig = new ArrayList<>();
+        List<List<Integer>> currObjectConfig = getVisualInfoFromPieces("object");
+        return Collections.unmodifiableList(currObjectConfig);
+    }
+
+    private List<List<Integer>> getVisualInfoFromPieces(String visualInfoType) {
+        List<List<Integer>> visualInfo = new ArrayList<>();
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowObjects = new ArrayList<>();
             for (int col = 0; col < row.size(); col++) {
-                int currState = row.get(col).getNumObjects();
-                rowObjects.add(currState);
+                int curr;
+                if (visualInfoType.equals("state")) {
+                    curr = row.get(col).getState();
+                } else {
+                    curr = row.get(col).getNumObjects();
+                }
+                rowObjects.add(curr);
             }
-            currObjectConfig.add(rowObjects);
+            visualInfo.add(rowObjects);
         }
-        return Collections.unmodifiableList(currObjectConfig);
-
+        return visualInfo;
     }
 
     /**

@@ -1,21 +1,21 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
 import java.util.List;
 
 public class ChangeNeighborObjects implements MoveType {
-    private ConvertableNeighborFinder myNeighborhoodConverterFinder;
+    private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
     private boolean doDivideObjects;
 
     /**
-     * @param convertableNeighborFinder - finds all the neighbors that need to be converted
+     * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
      * @param divideObjects - boolean to indicate whether to divide objects among neighbors
      */
-    public ChangeNeighborObjects(ConvertableNeighborFinder convertableNeighborFinder, boolean divideObjects) {
+    public ChangeNeighborObjects(ConvertibleNeighborFinder convertibleNeighborFinder, boolean divideObjects) {
         doDivideObjects = divideObjects;
-        myNeighborhoodConverterFinder = convertableNeighborFinder;
+        myNeighborhoodConverterFinder = convertibleNeighborFinder;
     }
 
     @Override

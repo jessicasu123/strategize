@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindNeighborsUntilNoObjects implements ConvertableNeighborFinder {
+public class FindNeighborsUntilNoObjects implements ConvertibleNeighborFinder {
 
     public static final int REVERSE_DIRECTION = -1;
     private List<Integer> myStatesToIgnore;

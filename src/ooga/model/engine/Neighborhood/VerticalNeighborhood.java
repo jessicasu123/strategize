@@ -34,6 +34,12 @@ public class VerticalNeighborhood extends Neighborhood {
         return allCoordinates;
     }
 
+    /**
+     * This method is responsible for getting ALL the vertical columns
+     * given a certain board configuration.
+     * @param config - the List of Lists of integers representing an entire board.
+     * @return - a List of the columns in the board, where each column is represented as a List of integers
+     */
     public List<List<Integer>> getAllVerticals(List<List<Integer>> config) {
         List<List<Integer>> allCols = new ArrayList<>();
         for(int i = 0; i < config.get(0).size(); i++) {

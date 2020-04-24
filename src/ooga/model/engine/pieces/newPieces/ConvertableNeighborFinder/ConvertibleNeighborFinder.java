@@ -5,7 +5,14 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 
 import java.util.List;
 
-public interface ConvertableNeighborFinder {
+/**
+ * This interface is responsible for finding all the neighbors that
+ * should potentially be converted in a game. These neighbors can be
+ * converted to the empty state, another player state, or a state with
+ * a different number of objects.
+ *
+ */
+public interface ConvertibleNeighborFinder {
     /**
      * Finds all the neighbors that need to be converted to a different state
      * @param currCoordinate - current (start) coordinate

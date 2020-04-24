@@ -11,8 +11,8 @@ import ooga.model.engine.Agent.winTypes.WinTypeFactory;
 import ooga.model.engine.Player.Player;
 import ooga.model.engine.exceptions.*;
 import ooga.model.engine.pieces.GamePieceFactory;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinderFactory;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinderFactory;
 import ooga.model.engine.pieces.newPieces.GamePieceCreator;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheckFactory;
@@ -90,9 +90,9 @@ public class Controller implements ControllerFramework {
                 neighborMoveChecks, moveTypes,isPlayer1);
     }
 
-    private ConvertableNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore){
+    private ConvertibleNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore){
         String finderType = myFileHandler.getConverterType();
-        return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
+        return new ConvertibleNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
     private List<MoveType> createMoveTypesForPLayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException {
@@ -103,7 +103,7 @@ public class Controller implements ControllerFramework {
         List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(player);
         boolean isPlayer1PromotionLastRow = myFileHandler.getPromotionRowForPlayer1();
         int promotionRow = getPromotionRow(isPlayer1PromotionLastRow);
-        ConvertableNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
+        ConvertibleNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
         for(String moveTypeName: moveTypeNames){
             MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,
                     convertToEmptyState,promotionRow,playerStates);

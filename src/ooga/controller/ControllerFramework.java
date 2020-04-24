@@ -81,8 +81,6 @@ public interface ControllerFramework {
      */
     String getGameFileName();
 
-
-
     /**
      * METHOD PURPOSE:
      *  - lets the view know if the game is over based on the logic from the backend
@@ -99,4 +97,74 @@ public interface ControllerFramework {
      *             -if no one won (no moves left) will return 3
      */
     int gameWinner();
+
+    /**
+     * METHOD PURPOSE:
+     * - tells the view all the locations that are possible moves
+     * @return List of List of integers, where a 1 represents a possible move and a 0
+     * represents everything else
+     */
+    List<List<Integer>> getPossibleMovesForView();
+
+    /**
+     * METHOD PURPOSE:
+     * - gets the number of rows that should be populated with pieces in the view.
+     * - relevant for cells with multiple pieces
+     * @return number of rows that each board cell should have
+     */
+    int getVisualRowsPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * - tells the view what the maximum number of pieces for each square should be.
+     * - relevant for cells with multiple pieces
+     * @return max number of pieces a square can hold
+     */
+    int getMaxPiecesPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * - lets the view know if it's the user turn or not
+     * so it can update the board appearance or not
+     * @return true if it's the user's turn, false if not
+     */
+    boolean userTurn();
+
+    /**
+     * METHOD PURPOSE:
+     * - tells the view if the pieces move. the view will have
+     * extra conditions to update cells if the piece moves (requires a click on a piece AND a square)
+     * or doesn't (user only clicks on a square).
+     * @return true if the pieces move, false if they don't
+     */
+    boolean doPiecesMove();
+
+    /**
+     * METHOD PURPOSE:
+     * - string representing which player passed because they did not have moves
+     * @return "user" if user passed, "agent" if agent passed, "" if neither passed
+     */
+    String playerPass();
+
+    /**
+     * METHOD PURPOSE:
+     * - gets a mapping of the states to the images that the state
+     * will be visually represented by
+     * @return map with states as keys and values as images for those states
+     */
+    Map<Integer, String> getStateImageMapping();
+
+    /**
+     * METHOD PURPOSE:
+     * gets the state information for the user player.
+     * @return - list of integers corresponding to the user's states
+     */
+    List<Integer> getUserStateInfo();
+
+    /**
+     * METHOD PURPOSE:
+     * gets the state information for the agent player.
+     * @return - list of integers corresponding to the agent's states
+     */
+    List<Integer> getAgentStateInfo();
 }

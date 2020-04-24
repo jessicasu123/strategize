@@ -8,7 +8,9 @@ import java.util.List;
 /**
  * Abstract superclass for a neighborhood (group of coordinates
  * arranged in a certain pattern - ex. horizontally, vertically, diagonally)
- * Each neighborhood that extends this class will find its neighbors differently
+ * Each neighborhood that extends this class will find its neighbors differently.
+ *
+ * @author: Jessica Su
  */
 public abstract class Neighborhood {
     protected List<Coordinate> allCoordinates;

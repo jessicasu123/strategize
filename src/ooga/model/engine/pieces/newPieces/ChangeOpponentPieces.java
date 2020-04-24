@@ -1,24 +1,23 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinderFactory;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
 import java.util.List;
 
 public class ChangeOpponentPieces implements MoveType {
-    private ConvertableNeighborFinder myNeighborhoodConverterFinder;
+    private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
     private int myEmptyState;
     private boolean convertToEmptyState;
 
     /**
-     * @param convertableNeighborFinder - finds all the neighbors that need to be converted
+     * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
 
      */
-    public ChangeOpponentPieces(ConvertableNeighborFinder convertableNeighborFinder, boolean convertToEmptyState, int emptyState) {
+    public ChangeOpponentPieces(ConvertibleNeighborFinder convertibleNeighborFinder, boolean convertToEmptyState, int emptyState) {
         myEmptyState = emptyState;
         this.convertToEmptyState = convertToEmptyState;
-        myNeighborhoodConverterFinder = convertableNeighborFinder;
+        myNeighborhoodConverterFinder = convertibleNeighborFinder;
     }
 
 

@@ -1,13 +1,13 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.exceptions.InvalidMoveTypeException;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
 import java.util.List;
 
 public class MoveTypeFactory {
     public static final int SPECIAL_STATE_INDEX = 1;
-    public MoveType createMoveType(String moveTypeName, ConvertableNeighborFinder converter, int emptyState, boolean convertToEmptyState,
+    public MoveType createMoveType(String moveTypeName, ConvertibleNeighborFinder converter, int emptyState, boolean convertToEmptyState,
                                    int promotionRow, List<Integer> playerStates) throws InvalidMoveTypeException {
         switch(moveTypeName){
             case "PositionMove":

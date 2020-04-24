@@ -12,7 +12,7 @@ import java.util.List;
  * In between means that that piece is closer to the end distance than the start piece is to the end distance
  *
  */
-public class FindNeighborsBetweenCoordinates implements ConvertableNeighborFinder {
+public class FindNeighborsBetweenCoordinates implements ConvertibleNeighborFinder {
 
 
     public static final int SQUARE = 2;

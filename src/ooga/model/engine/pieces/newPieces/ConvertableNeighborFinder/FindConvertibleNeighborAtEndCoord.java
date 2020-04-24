@@ -6,7 +6,7 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindConvertableNeighborAtEndCoord implements ConvertableNeighborFinder {
+public class FindConvertibleNeighborAtEndCoord implements ConvertibleNeighborFinder {
     /**
      * Given a list of all of the neighbors and an end coordinate, finds the piece at that end coordinate
      */

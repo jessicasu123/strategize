@@ -6,7 +6,15 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllFlippableNeighbors implements ConvertableNeighborFinder {
+/**
+ * This class is responsible for finding neighbors in ALL 8 directions
+ * that could possibly be flipped.
+ * The criteria for an opponent being flipped is that there is
+ * at least one opponent piece between an empty spot and another player piece.
+ *
+ * @author Jessica Su
+ */
+public class FindAllFlippableNeighbors implements ConvertibleNeighborFinder {
 
     private int currRowPos;
     private int currColPos;
@@ -19,6 +27,18 @@ public class FindAllFlippableNeighbors implements ConvertableNeighborFinder {
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
 
+    /**
+     * This method finds all the neighbors in potentially multiple of the 8 directions
+     * that should be flipped to the player state.
+     *
+     * @param currCoordinate - current (start) coordinate
+     * @param endCoordinate - end coordinate (position of the last neighbor to be converted)
+     * @param numObjects - number of objects (continue giving number of objects until there are none left)
+     * @param playerID - the current player's ID
+     * @param direction - the direction of the piece
+     * @param neighbors - the list of all possible neighbors to be considered
+     * @return
+     */
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID,int direction, List<GamePiece> neighbors) {
@@ -37,11 +57,12 @@ public class FindAllFlippableNeighbors implements ConvertableNeighborFinder {
     }
 
     /**
-     * Used by CheckAllFlippableDirections.
-     * @param rowOffset
-     * @param colOffset
-     * @param neighbors
-     * @return
+     * Used by CheckAllFlippableDirections. The logic of checking that there is at least 1 out of 8
+     * valid directions to flip and actually flipping all the neighbors is essentially the same.
+     * @param rowOffset - the amount to add to the current row to find the row coordinate of the NEIGHBOR
+     * @param colOffset - the amount to add to the current col to find the col coordinate of the NEIGHBOR
+     * @param neighbors - the list of all the neighbors
+     * @return a boolean of whether there is at least ONE neighbor to flip
      */
     public boolean checkFlippableDirection(int currRowPos, int currColPos, int myPlayerID,
                                            int rowOffset, int colOffset, List<GamePiece> neighbors) {

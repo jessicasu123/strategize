@@ -1,16 +1,16 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
 import java.util.List;
 
 public class SpecialCapture implements MoveType {
     public static final int TO_ADD = 1;
-    private ConvertableNeighborFinder myPiecesChanged;
+    private ConvertibleNeighborFinder myPiecesChanged;
     private List<Integer> myPlayerStates;
 
-    public SpecialCapture(List<Integer> playerStates, ConvertableNeighborFinder finder){
+    public SpecialCapture(List<Integer> playerStates, ConvertibleNeighborFinder finder){
         myPiecesChanged = finder;
         myPlayerStates = playerStates;
     }

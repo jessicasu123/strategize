@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * This neighborhood is for calculating information about diagonals in a grid.
+ * This includes the information on diagonals around a specific piece, as well
+ * as all the diagonals on the grid.
+ *
  */
 public class DiagonalNeighborhood extends Neighborhood {
     public DiagonalNeighborhood(int rows, int cols) {
@@ -28,6 +31,12 @@ public class DiagonalNeighborhood extends Neighborhood {
         return allCoordinates;
     }
 
+    /**
+     * Gets ALL the diagonals of a certain length from an entire board.
+     * @param config - the current board configuration
+     * @param diagonalLength - the length of the diagonal being looked for
+     * @return
+     */
     public List<List<Integer>> getAllDiagonals(List<List<Integer>> config, int diagonalLength) {
         boolean isSquare = config.size() == config.get(0).size();
         if (isSquare) {
@@ -48,7 +57,7 @@ public class DiagonalNeighborhood extends Neighborhood {
     }
 
     private List<List<Integer>> getDiagonalsForRectangularGrid(List<List<Integer>> config, int diagonalLength) {
-        List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
+        List<List<Integer>> allDiag = new ArrayList<List<Integer>>();
         int rows = config.size();
         int cols = config.get(0).size();
         int remainder = diagonalLength - 1;
@@ -60,11 +69,11 @@ public class DiagonalNeighborhood extends Neighborhood {
                     rightDiag.add(config.get(row + i).get(col - i + remainder));
                     leftDiag.add(config.get(row + i).get(col + i));
                 }
-                alldiag.add(leftDiag);
-                alldiag.add(rightDiag);
+                allDiag.add(leftDiag);
+                allDiag.add(rightDiag);
             }
         }
-        return alldiag;
+        return allDiag;
     }
 
     /**
