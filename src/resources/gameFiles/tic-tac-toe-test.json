@@ -2,8 +2,8 @@
 
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
-    "Player1PromotionIsLastRow","EmptyState",
-    "PiecesMove", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "Player1PromotionIsLastRow", "OnlyChangeOpponent", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
     "DimensionOptions", "BoardKeys", "Default","3 x 3", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
@@ -26,6 +26,8 @@
   "ConvertToEmptyState": true,
 
   "Player1PromotionIsLastRow": false,
+
+  "OnlyChangeOpponent": false,
 
   "MoveTypes": ["ChangeToNewStateMove"],
 

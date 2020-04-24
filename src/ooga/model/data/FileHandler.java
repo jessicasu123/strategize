@@ -124,4 +124,5 @@ public interface FileHandler {
     int getPromotionRowForPlayer(int player);
     int getImmovableStateForPlayer(int player);
 
+    boolean getOnlyChangeOpponent();
 }

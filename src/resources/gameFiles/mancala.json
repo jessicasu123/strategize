@@ -1,10 +1,10 @@
 {
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
-    "Player1PromotionIsLastRow", "EmptyState",
-    "PiecesMove", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
-    "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+    "Player1PromotionIsLastRow", "OnlyChangeOpponent", "EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig",
+    "MultiplePiecesPerSquare", "ConvertToEmptyState", "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions",
+    "SquareClickType", "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2",
+    "possibleMove", "Rules"],
 
   "Gametype": "Mancala",
 
@@ -25,6 +25,8 @@
   "ConvertToEmptyState": false,
 
   "Player1PromotionIsLastRow": false,
+
+  "OnlyChangeOpponent": false,
 
   "MoveTypes": ["ForceMoveAgainMove","ChangeNeighborObjectsMove","SpecialCaptureMove", "ClearObjectsMove"],
 
