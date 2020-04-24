@@ -6,33 +6,34 @@ import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleN
 import java.util.List;
 
 
-public class ChangeNeighborObjects implements MoveType {
+public class SplitObjectsMove implements MoveType {
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
-    private boolean onlyChangeOpponent;
 
     /**
-     * Responsible for evenly giving the number of objects in the current piece between neighbor pieces
-     * as found by the convertibleNeighborFinder. The number of piece own objects are not decremented
-     * @author Sanya Kochhar
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
-     * @param onlyGiveToOpponent - boolean whether objects should only be given to opponent pieces
      */
-    public ChangeNeighborObjects(ConvertibleNeighborFinder convertibleNeighborFinder, boolean onlyGiveToOpponent) {
+    public SplitObjectsMove(ConvertibleNeighborFinder convertibleNeighborFinder) {
         myNeighborhoodConverterFinder = convertibleNeighborFinder;
-        onlyChangeOpponent = onlyGiveToOpponent;
     }
 
     @Override
     public void completeMoveType(GamePiece selfPiece, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(selfPiece.getPosition(),
                 endCoordinateInfo, selfPiece.getNumObjects(), playerState,direction, neighbors);
-        int objectsToGive = selfPiece.getNumObjects();
-        objectsToGive = objectsToGive/neighborsToConvert.size();
         for (GamePiece neighbor: neighborsToConvert) {
-            if (onlyChangeOpponent && neighbor.getState() == selfPiece.getState()) {
-                return;
+            if (neighbor.getState() == selfPiece.getState()) {
+                splitObjects(selfPiece, neighbor);
             }
-            neighbor.incrementNumObjects(objectsToGive);
+        }
+    }
+
+    private void splitObjects(GamePiece selfPiece, GamePiece neighborPiece) {
+        if (selfPiece.getNumObjects() % 2 == 0) {
+            selfPiece.incrementNumObjects(-selfPiece.getNumObjects()/2);
+            neighborPiece.incrementNumObjects(selfPiece.getNumObjects()/2);
+        } else {
+            selfPiece.incrementNumObjects(-1);
+            neighborPiece.incrementNumObjects(1);
         }
     }
 

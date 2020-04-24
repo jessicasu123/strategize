@@ -15,9 +15,9 @@
 
   "SelfMoveChecks": ["CheckOwnPiece", "CheckNumObjects"],
 
-  "SelfNumObjectsToCompare": 1,
+  "SelfNumObjectsToCompare": 0,
 
-  "NeighborMoveChecks": ["CheckNumObjects", "CheckOpponentPiece"],
+  "NeighborMoveChecks": ["CanReceiveObjectsCheck", "OpponentHasObjectsCheck"],
 
   "NeighborNumObjectsToCompare": 5,
 
@@ -25,7 +25,7 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ChangeNeighborObjects", "ClearObjects"],
+  "MoveTypes": ["SplitObjectsMove", "ChangeNeighborObjects", "PieceReachedMaxObjectsMove"],
 
   "NeighborConverterTypes": ["FindConvertibleNeighborAtEndCoord"],
 
