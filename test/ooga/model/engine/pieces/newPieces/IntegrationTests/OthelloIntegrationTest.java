@@ -1,10 +1,14 @@
-package ooga.model.engine.pieces.newPieces;
+package ooga.model.engine.pieces.newPieces.IntegrationTests;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.pieces.newPieces.ChangeOpponentPieces;
+import ooga.model.engine.pieces.newPieces.ChangeToNewState;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindAllFlippableNeighbors;
+import ooga.model.engine.pieces.newPieces.GamePiece;
 import ooga.model.engine.pieces.newPieces.MoveChecks.CheckAllFlippableDirections;
 import ooga.model.engine.pieces.newPieces.MoveChecks.CheckEmptyState;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
+import ooga.model.engine.pieces.newPieces.MoveType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,7 +1,10 @@
 {
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
-  "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
-  "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow","EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Checkers",
 
@@ -15,11 +18,15 @@
 
   "SelfNumObjectsToCompare": 0,
 
-  "NeighborMoveChecks": ["CheckStep", "CheckJump", "CheckEmpty"],
+  "NeighborMoveChecks": ["CheckStep", "CheckJump"],
 
   "NeighborNumObjectsToCompare": 0,
 
-  "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "ForceDirectionChange"],
+  "ConvertToEmptyState": true,
+
+  "Player1PromotionIsLastRow": false,
+
+  "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "Promotion"],
 
   "NeighborConverterType": "FindNeighborsBetweenCoordinates",
 
@@ -66,16 +73,20 @@
     "BoardWeights": "0,-3,0,-3,0,-3;-2,0,-2,0,-2,0;0,-1,0,-1,0,-1;1,0,1,0,1,0;0,2,0,2,0,2;3,0,3,0,3,0"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction"],
 
   "Player1": {
     "States" : [3, 4],
+    "StatesToIgnore": [0],
+    "Direction": [-1],
     "Images": ["redCircle.png", "redCrown.png"],
     "Colors": ["white", "white"]
   },
 
   "Player2": {
     "States": [1, 2],
+    "StatesToIgnore": [0],
+    "Direction": [1],
     "Images": ["blackCircle.png", "blackCrown.png"],
     "Colors": ["white", "white"]
   },

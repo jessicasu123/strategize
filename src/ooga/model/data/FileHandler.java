@@ -74,7 +74,7 @@ public interface FileHandler {
     int getSelfNumObjectsToCompare();
 
     boolean convertToEmptyState();
-    int getPromotionRowForPlayer(int i);
+    boolean getPromotionRowForPlayer1();
 
 
 }

@@ -120,8 +120,8 @@ public class JSONFileReader implements FileHandler {
     }
 
     @Override
-    public int getPromotionRowForPlayer(int i) {
-        return 0;
+    public boolean getPromotionRowForPlayer1() {
+        return gameBoolProperties.get("Player1PromotionIsLastRow");
     }
 
     @Override
