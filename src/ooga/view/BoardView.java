@@ -184,8 +184,10 @@ public class BoardView {
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
         if(hasSelectPiece){
-            myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
-            rect.updateImageOnSquare(img);
+            if (! squareClickType.equals(AGENT_CLICK_TYPE)) { //TODO: fix so its not chopsticks specific
+                myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
+                rect.updateImageOnSquare(img);
+            }
         }
         if(!piecesMove && squareClickType.equals(EMPTY_CLICK_TYPE)){
             rect.updateImageOnSquare(img);
@@ -309,7 +311,7 @@ public class BoardView {
     }
 
     private void handlePieceSelected(int r, int c, Image img) {
-        if(piecesMove){
+        if(piecesMove || squareClickType.equals(AGENT_CLICK_TYPE)){
             if(hasSelectPiece){
                 movePieceBackToOriginalSpot(img);
             }

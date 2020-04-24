@@ -100,8 +100,8 @@
 //     */
 //    private void splitMove(GamePiece otherPiece) {
 //        if (this.getNumObjects() % 2 == 0) {
-//            this.changeNumObjects(-myEmptyState/2);
-//            otherPiece.changeNumObjects(myEmptyState/2);
+//            this.changeNumObjects(-this.getNumObjects()/2);
+//            otherPiece.changeNumObjects(-this.getNumObjects()/2);
 //            otherPiece.changeState(this.getState());
 //        } else {
 //            this.changeState(-1);

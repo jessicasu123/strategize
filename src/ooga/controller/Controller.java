@@ -102,9 +102,11 @@ public class Controller implements ControllerFramework {
 
         ConvertibleNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
         int promotionRow = myFileHandler.getPromotionRowForPlayer(player);
+        boolean onlyChangeOpponent = myFileHandler.getOnlyChangeOpponent();
+        int objToCompare = myFileHandler.getNeighborNumObjectsToCompare();
         for(String moveTypeName: moveTypeNames){
             MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,
-                    convertToEmptyState,promotionRow,playerStates);
+                    convertToEmptyState,promotionRow,playerStates,onlyChangeOpponent, objToCompare);
             moveTypes.add(move);
         }
         return moveTypes;
@@ -240,12 +242,17 @@ public class Controller implements ControllerFramework {
 
     @Override
     public void playMove() throws InvalidMoveException {
-        if (!isPieceSelected) {
-            pieceSelected(squareSelectedX, squareSelectedY);
+        try {
+            if (!isPieceSelected) {
+                pieceSelected(squareSelectedX, squareSelectedY);
+            }
+            myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
+            isPieceSelected = false;
+            userTurn = myGame.isUserTurn();
+        }catch(Exception e){
+            isPieceSelected = false;
+            throw e;
         }
-        myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
-        isPieceSelected = false;
-        userTurn = myGame.isUserTurn();
     }
 
     @Override

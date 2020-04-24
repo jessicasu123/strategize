@@ -19,6 +19,7 @@ public class MancalaIntegrationTest {
     List<Integer> player2Direction = new ArrayList<>(List.of(-1));
     List<Integer> player1StatesToIgnore = new ArrayList<>(List.of(0,4));
     List<Integer> player2StatesToIgnore = new ArrayList<>(List.of(0,2));
+
     ConvertibleNeighborFinder player1Finder = new NeighborsUntilNoObjectsFinder(player1StatesToIgnore);
     ConvertibleNeighborFinder player2Finder = new NeighborsUntilNoObjectsFinder(player2StatesToIgnore);
 
@@ -32,8 +33,8 @@ public class MancalaIntegrationTest {
     MoveType forceMoveAgainPlayer2 = new ForceMoveAgainMove(player2,player2Finder);
     MoveType specialCapturePlayer1 = new SpecialCaptureMove(player1,player1Finder);
     MoveType specialCapturePlayer2 = new SpecialCaptureMove(player2,player2Finder);
-    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjectsMove(player1Finder);
-    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjectsMove(player2Finder);
+    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjectsMove(player1Finder, false);
+    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjectsMove(player2Finder, false);
     MoveType clear = new ClearObjectsMove();
 
     List<MoveCheck> selfMoveCheckPlayer1 = new ArrayList<>(List.of(ownPiecePlayer1, immovablePlayer1, numObjectsCheck));

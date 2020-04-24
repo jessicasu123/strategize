@@ -1,7 +1,9 @@
 {
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
-    "PiecesMove", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow", "OnlyChangeOpponent","EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare",
+    "SquareClickOptions","SquareClickType", "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1",
+    "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Chopsticks",
 
@@ -11,16 +13,33 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
+  "SelfMoveChecks": ["OwnPieceCheck", "NumObjectsCheck"],
+
+  "SelfNumObjectsToCompare": 0,
+
+  "NeighborMoveChecks": ["CanReceiveObjectsCheck", "OpponentPieceCheck"],
+
+  "NeighborNumObjectsToCompare": 4,
+
+  "ConvertToEmptyState": false,
+
+  "Player1PromotionIsLastRow": false,
+
+  "OnlyChangeOpponent": true,
+
+  "MoveTypes": ["SplitObjectsMove", "ChangeNeighborObjectsMove", "PieceAtMaxObjectsMove"],
+
+  "NeighborConverterType": "NeighborAtEndCoordinateFinder",
+
   "SpecialPieceIndex": 0,
 
   "EmptyState": 0,
 
   "PiecesMove": false,
 
-
   "CheckCurrConfig": true,
 
-  "MultiplePiecesPerSquare": false,
+  "MultiplePiecesPerSquare": true,
 
   "NumVisualRowsPerSquare": 1,
 
@@ -39,7 +58,7 @@
   "2 x 2": {
     "Height": "2",
     "Width": "2",
-    "InitialConfig": "1,1;1,1",
+    "InitialConfig": "2,2;1,1",
     "ObjectConfig": "1,1;1,1",
     "WinValue": 0,
     "BoardWeights": "0,0;0,0"
@@ -67,6 +86,11 @@
 
   "possibleMove": "",
 
-  "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.", "Next, click on an opponents square to add your chopstick count to their hand. Press play move", "When a hand reaches 5 chopsticks, their hand is empty", "If a hand exceeds 5 chopsticks, sum of sticks minus 5 sticks remain", "If you have no sticks on one hand and >= 2 in the other, you can click your hand to split it and revive the empty hand", "The player who has two empty hands loses."]
+  "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.",
+            "Next, click on an opponents square to add your chopstick count to their hand. Press play move",
+            "When a hand reaches 5 chopsticks, it dies",
+            "If a hand exceeds 5 chopsticks, sum of sticks minus 5 sticks remain",
+            "If you have no sticks on one hand and >= 2 in the other, you can click your hand to split\n it and revive the empty hand",
+            "The player who has two empty hands loses."]
 
 }
