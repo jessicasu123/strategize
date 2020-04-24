@@ -93,7 +93,7 @@ public class StatusPanel {
         opponentIcon = new GameIcon().createGameIcon(PIECES_RESOURCES+agentImage);
         userScore = createTextField();
         opponentScore = createTextField();
-        player = new Label(buttonTexts.getString("Player"));
+        player = new Label(buttonTexts.getString("PlayerInfoHolder"));
         player.setMinHeight(30);
         opponent = new Label(buttonTexts.getString("Opponent"));
         opponent.setMinHeight(30);

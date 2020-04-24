@@ -15,7 +15,7 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights"],
 
-  "SelfMoveChecks": ["CheckEmptyState", "CheckAllFlippableDirections"],
+  "SelfMoveChecks": ["EmptyStateCheck", "AllFlippableDirectionsCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
@@ -23,9 +23,9 @@
 
   "NeighborNumObjectsToCompare": 0,
 
-  "MoveTypes": ["ChangeToNewState", "ChangeOpponentPieces"],
+  "MoveTypes": ["ChangeToNewStateMove", "ChangeOpponentPiecesMove"],
 
-  "NeighborConverterType": "CheckAllFlippableDirections",
+  "NeighborConverterType": "FlippableNeighborFinder",
 
   "SpecialPieceIndex": 0,
 

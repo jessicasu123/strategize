@@ -48,8 +48,8 @@ public class UseCase2 {
          * tells the back-end to do the logic for having an agent make a move
          * this would be called from within the GameView
          * Calls Game.makeAgentMove
-         * Game calls AgentPlayerInterface.makeMove and Board.makeMove
-         * AgentPlayerInterface creates its own version of the board and calls Board.getAllLegalMoves and Board.move
+         * Game calls AgentPlayer.makeMove and Board.makeMove
+         * AgentPlayer creates its own version of the board and calls Board.getAllLegalMoves and Board.move
          * Board calls GamePiece.calculateAllPossibleMoves and GamePiece.move
          */
         myMockController.haveAgentMove();

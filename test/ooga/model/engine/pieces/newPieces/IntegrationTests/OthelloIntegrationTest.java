@@ -1,12 +1,12 @@
 package ooga.model.engine.pieces.newPieces.IntegrationTests;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.newPieces.ChangeOpponentPieces;
-import ooga.model.engine.pieces.newPieces.ChangeToNewState;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindAllFlippableNeighbors;
+import ooga.model.engine.pieces.newPieces.ChangeOpponentPiecesMove;
+import ooga.model.engine.pieces.newPieces.ChangeToNewStateMove;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FlippableNeighborFinder;
 import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.MoveChecks.CheckAllFlippableDirections;
-import ooga.model.engine.pieces.newPieces.MoveChecks.CheckEmptyState;
+import ooga.model.engine.pieces.newPieces.MoveChecks.AllFlippableDirectionsCheck;
+import ooga.model.engine.pieces.newPieces.MoveChecks.EmptyStateCheck;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
 import ooga.model.engine.pieces.newPieces.MoveType;
 import org.junit.jupiter.api.Test;
@@ -22,14 +22,14 @@ public class OthelloIntegrationTest {
     int playerID = 1;
     int dir = 1;
     List<Integer> direction = new ArrayList<>(List.of(1));
-    MoveCheck checkAllFlippableDirections = new CheckAllFlippableDirections();
-    MoveCheck checkEmptyState = new CheckEmptyState(0);
+    MoveCheck checkAllFlippableDirections = new AllFlippableDirectionsCheck();
+    MoveCheck checkEmptyState = new EmptyStateCheck(0);
     List<MoveCheck> moveChecks = List.of(checkEmptyState, checkAllFlippableDirections);
 
-    MoveType changeToNewState = new ChangeToNewState();
-    FindAllFlippableNeighbors allFlippableNeighbors = new FindAllFlippableNeighbors();
-    ChangeOpponentPieces changeOpponentPieces = new ChangeOpponentPieces(allFlippableNeighbors, false,0);
-    List<MoveType> moveTypes = List.of(changeToNewState, changeOpponentPieces);
+    MoveType changeToNewState = new ChangeToNewStateMove();
+    FlippableNeighborFinder allFlippableNeighbors = new FlippableNeighborFinder();
+    ChangeOpponentPiecesMove changeOpponentPiecesMove = new ChangeOpponentPiecesMove(allFlippableNeighbors, false,0);
+    List<MoveType> moveTypes = List.of(changeToNewState, changeOpponentPiecesMove);
 
 
     //PIECES FOR HORIZONTAL LEFT

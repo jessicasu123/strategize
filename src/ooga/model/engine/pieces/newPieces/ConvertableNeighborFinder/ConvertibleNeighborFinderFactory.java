@@ -16,14 +16,14 @@ public class ConvertibleNeighborFinderFactory {
      */
     public ConvertibleNeighborFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) {
         switch (converterType) {
-            case "FindAllFlippableNeighbors":
-                return new FindAllFlippableNeighbors();
-            case "FindNeighborsUntilNoObjects":
-                return new FindNeighborsUntilNoObjects(toIgnore);
-            case "FindNeighborsBetweenCoordinates":
-                return new FindNeighborsBetweenCoordinates();
+            case "FlippableNeighborFinder":
+                return new FlippableNeighborFinder();
+            case "NeighborsUntilNoObjectsFinder":
+                return new NeighborsUntilNoObjectsFinder(toIgnore);
+            case "NeighborsBetweenCoordinatesFinder":
+                return new NeighborsBetweenCoordinatesFinder();
             case "FindNeighborByEndCoord":
-                return new FindConvertibleNeighborAtEndCoord();
+                return new NeighborAtEndCoordinateFinder();
             default:
                 throw new InvalidConvertibleNeighborFinderException(converterType + " is not a valid neighborhood converter type.");
         }

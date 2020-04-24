@@ -18,7 +18,7 @@
 
   "SelfNumObjectsToCompare": 0,
 
-  "NeighborMoveChecks": ["CheckStep", "CheckJump"],
+  "NeighborMoveChecks": ["StepCheck", "JumpCheck"],
 
   "NeighborNumObjectsToCompare": 0,
 
@@ -26,9 +26,9 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "Promotion"],
+  "MoveTypes": ["ChangeOpponentPiecesMove", "PositionMove", "PromotionMove"],
 
-  "NeighborConverterType": "FindNeighborsBetweenCoordinates",
+  "NeighborConverterType": "NeighborsBetweenCoordinatesFinder",
 
   "SpecialPieceIndex": 1,
 

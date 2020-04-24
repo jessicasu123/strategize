@@ -1,7 +1,7 @@
 package ooga.model.engine.pieces.newPieces.IntegrationTests;
 
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindNeighborsUntilNoObjects;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsUntilNoObjectsFinder;
 import ooga.model.engine.pieces.newPieces.MoveChecks.*;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -18,22 +18,22 @@ public class MancalaIntegrationTest {
     List<Integer> player2Direction = new ArrayList<>(List.of(-1));
     List<Integer> player1StatesToIgnore = new ArrayList<>(List.of(0,4));
     List<Integer> player2StatesToIgnore = new ArrayList<>(List.of(0,2));
-    ConvertibleNeighborFinder player1Finder = new FindNeighborsUntilNoObjects(player1StatesToIgnore);
-    ConvertibleNeighborFinder player2Finder = new FindNeighborsUntilNoObjects(player2StatesToIgnore);
+    ConvertibleNeighborFinder player1Finder = new NeighborsUntilNoObjectsFinder(player1StatesToIgnore);
+    ConvertibleNeighborFinder player2Finder = new NeighborsUntilNoObjectsFinder(player2StatesToIgnore);
 
-    MoveCheck ownPiecePlayer1 = new CheckOwnPiece(player1);
-    MoveCheck ownPiecePlayer2 = new CheckOwnPiece(player2);
-    MoveCheck immovablePlayer1 = new CheckNotImmovable(2);
-    MoveCheck immovablePlayer2 = new CheckNotImmovable(4);
-    MoveCheck numObjectsCheck = new CheckNumObjects(0);
+    MoveCheck ownPiecePlayer1 = new OwnPieceCheck(player1);
+    MoveCheck ownPiecePlayer2 = new OwnPieceCheck(player2);
+    MoveCheck immovablePlayer1 = new NotImmovableCheck(2);
+    MoveCheck immovablePlayer2 = new NotImmovableCheck(4);
+    MoveCheck numObjectsCheck = new NumObjectsCheck(0);
 
-    MoveType forceMoveAgainPlayer1 = new ForceMoveAgain(player1,player1Finder);
-    MoveType forceMoveAgainPlayer2 = new ForceMoveAgain(player2,player2Finder);
-    MoveType specialCapturePlayer1 = new SpecialCapture(player1,player1Finder);
-    MoveType specialCapturePlayer2 = new SpecialCapture(player2,player2Finder);
-    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjects(player1Finder);
-    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjects(player2Finder);
-    MoveType clear = new ClearObjects();
+    MoveType forceMoveAgainPlayer1 = new ForceMoveAgainMove(player1,player1Finder);
+    MoveType forceMoveAgainPlayer2 = new ForceMoveAgainMove(player2,player2Finder);
+    MoveType specialCapturePlayer1 = new SpecialCaptureMove(player1,player1Finder);
+    MoveType specialCapturePlayer2 = new SpecialCaptureMove(player2,player2Finder);
+    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjectsMove(player1Finder);
+    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjectsMove(player2Finder);
+    MoveType clear = new ClearObjectsMove();
 
     List<MoveCheck> selfMoveCheckPlayer1 = new ArrayList<>(List.of(ownPiecePlayer1, immovablePlayer1, numObjectsCheck));
     List<MoveCheck> selfMoveCheckPlayer2 = new ArrayList<>(List.of(ownPiecePlayer2, immovablePlayer2, numObjectsCheck));

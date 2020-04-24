@@ -1,9 +1,10 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Player.AgentPlayerInterface;
+import ooga.model.engine.Player.AgentPlayer;
+import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.GamePieceFactory;
+import ooga.model.engine.pieces.newPieces.GamePieceCreator;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
  *  - holding a board object and Agent (which will allow the computer to calculate moves)
  *  - determining the game status (still continuing, win/loss, no moves left)
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public class Game implements GameFramework{
     private static final int ID_STATE_POS = 0;
@@ -27,7 +28,7 @@ public class Game implements GameFramework{
     public static final String AGENT_PASS = "agent";
     private Board myBoard;
     private Agent myAgent;
-    private AgentPlayerInterface myAgentPlayer;
+    private AgentPlayer myAgentPlayer;
     private boolean isUserTurn;
     private String playerPass;
     private List<Integer> myUserStates;
@@ -36,15 +37,15 @@ public class Game implements GameFramework{
     private boolean noMovesForAgent;
 
     //TODO: decide if we want to pass in UserPlayer and AgentPlayer instead
-    public Game(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration,
-                List<List<Integer>> objectConfiguration, List<String> neighborhoods,
-                List<Integer> userInfo, List<Integer> agentInfo, boolean userIsPlayer1, Agent agent) {
+    public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
+                List<List<Integer>> objectConfiguration, List<String> neighborhoods, PlayerInfoHolder userPlayerInfo,
+                PlayerInfoHolder agentPlayerInfo, Agent agent) {
         myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
-        myUserStates = userInfo;
-        myAgentStates = agentInfo;
-        isUserTurn = userIsPlayer1;
+        myUserStates = userPlayerInfo.getPlayerStates();
+        myAgentStates = agentPlayerInfo.getPlayerStates();
+        isUserTurn = userPlayerInfo.isPlayer1();
         myAgent = agent;
-        myAgentPlayer = new AgentPlayerInterface(myAgentStates, myAgent, myUserStates);
+        myAgentPlayer = new AgentPlayer(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;
         playerPass = "";

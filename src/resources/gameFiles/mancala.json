@@ -14,7 +14,7 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "SelfMoveChecks": ["CheckOwnPiece","CheckNotImmovable", "CheckNumObjects"],
+  "SelfMoveChecks": ["OwnPieceCheck","NotImmovableCheck", "NumObjectsCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
@@ -26,9 +26,9 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ForceMoveAgain","ChangeNeighborObjects","SpecialCapture", "ClearObjects"],
+  "MoveTypes": ["ForceMoveAgainMove","ChangeNeighborObjectsMove","SpecialCaptureMove", "ClearObjectsMove"],
 
-  "NeighborConverterTypes": ["FindNeighborsUntilNoObjectsLeft"],
+  "NeighborConverterTypes": ["NeighborsUntilNoObjectsLeftFinder"],
 
   "SpecialPieceIndex": 1,
 
