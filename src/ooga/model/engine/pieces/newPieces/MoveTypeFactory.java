@@ -1,5 +1,6 @@
 package ooga.model.engine.pieces.newPieces;
 
+import ooga.model.engine.exceptions.InvalidMoveTypeException;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class MoveTypeFactory {
             case "SpecialCapture":
                 return new SpecialCapture(playerStates, converter);
             default:
-                throw new Exception();
+                throw new InvalidMoveTypeException(moveTypeName + " is not a valid move type.");
         }
     }
 }

@@ -1,6 +1,6 @@
 package ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder;
 
-import ooga.model.engine.exceptions.InvalidNeighborhoodConverterException;
+import ooga.model.engine.exceptions.InvalidConvertableNeighborFinderException;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ConvertableNeighborFinderFactory {
             case "FindNeighborByEndCoord":
                 return new FindConvertableNeighborAtEndCoord();
             default:
-                throw new InvalidNeighborhoodConverterException(converterType + " is not a valid neighborhood converter type.");
+                throw new InvalidConvertableNeighborFinderException(converterType + " is not a valid neighborhood converter type.");
         }
     }
 }
