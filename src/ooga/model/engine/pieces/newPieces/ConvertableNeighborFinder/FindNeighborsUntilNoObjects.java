@@ -6,14 +6,34 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is responsible for finding neighbors until no objects are left
+ * The path is calculated by travelling in the direction of the player and wrapping around the board
+ * @author Holly Ansel
+ */
 public class FindNeighborsUntilNoObjects implements ConvertibleNeighborFinder {
 
     public static final int REVERSE_DIRECTION = -1;
     private List<Integer> myStatesToIgnore;
 
+    /**
+     * @param statesToIgnore - states that should not be considered when looking at the path of where objects will
+     *                       be placed
+     */
     public FindNeighborsUntilNoObjects(List<Integer> statesToIgnore){
         myStatesToIgnore = statesToIgnore;
     }
+
+    /**
+     * @param currCoordinate - current (start) coordinate
+     * @param endCoordinate - end coordinate (position of the last neighbor to be converted)
+     * @param numObjects - number of objects (continue giving number of objects until there are none left)
+     * @param playerID - the current player's ID
+     * @param direction  - the direction that the player is moving in
+     * @param neighbors - the list of all possible neighbors to be considered
+     * @return a list of all the neighbors that would be touched before the number of objects would run out
+     */
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID, int direction, List<GamePiece> neighbors) {

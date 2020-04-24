@@ -18,9 +18,10 @@ public interface ConvertibleNeighborFinder {
      * @param currCoordinate - current (start) coordinate
      * @param endCoordinate - end coordinate (position of the last neighbor to be converted)
      * @param playerID - the current player's ID
+     * @param direction  - the direction that the player is moving in
      * @param numObjects - number of objects (continue giving number of objects until there are none left)
      * @param neighbors - the list of all possible neighbors to be considered
-     * @return
+     * @return a list of all of the game pieces to convert
      */
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate,
                                                   int numObjects, int playerID,int direction, List<GamePiece> neighbors);
