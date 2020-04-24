@@ -25,6 +25,8 @@ public class BoardView {
     public static final int PANE_PADDING = 20;
     public static final int GRID_PADDING = 2;
     public static final int CELL_SPACING = 1;
+    public static final int STATE_ID_POS = 0;
+    public static final int SPECIAL_STATE_ID_POS = 1;
 
     private List<List<BoardCell>> myBoardCells;
     private VBox myBoard;
@@ -38,7 +40,6 @@ public class BoardView {
     private int lastPieceSelectedY;
     private boolean hasSelectPiece;
     private boolean hasSelectedSquare;
-    public static final int STATE_ID_POS = 0;
     private Map<Integer, List<Image>> myStateToImageMapping;
     private Map<Integer, String> mySpecialStateToColorMapping;
     private Map<Integer, String> stateToFileMapping;
@@ -146,11 +147,18 @@ public class BoardView {
     protected void updateVisuals(List<String> newUserImages, List<String> newAgentImages, String newBoardColor, String mode){
         List<Image> userImages = convertStringToImages(newUserImages);
         List<Image> agentImages = convertStringToImages(newAgentImages);
-        myStateToImageMapping.replace(myUser.get(STATE_ID_POS), userImages);
-        myStateToImageMapping.replace(myAgent.get(STATE_ID_POS), agentImages);
+        updateStateToImageMapping(STATE_ID_POS, userImages, agentImages);
+        if (multiplePiecesPerSquare) {
+            updateStateToImageMapping(SPECIAL_STATE_ID_POS, userImages, agentImages);
+        }
         boardColor = newBoardColor;
         boardOutlineColor = mode;
         updateBoardAppearance();
+    }
+
+    private void updateStateToImageMapping(int playerIDPosition, List<Image> userImages, List<Image> agentImages) {
+        myStateToImageMapping.replace(myUser.get(playerIDPosition), userImages);
+        myStateToImageMapping.replace(myAgent.get(playerIDPosition), agentImages);
     }
 
     private void processUserClickOnSquare(BoardCell rect, List<List<Integer>> gameStates, int finalX, int finalY, boolean possibleMove) {
