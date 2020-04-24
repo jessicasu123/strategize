@@ -4,10 +4,10 @@
   "Labels": {
     "PlayerCustomization": "CUSTOMIZE YOUR PLAYERS",
     "BackgroundCustomization": "CUSTOMIZE BOARD BACKGROUND",
-    "PlayerChoice": "Player",
-    "OpponentChoice": "Opponent",
-    "BackgroundColor": "Choose Color",
-    "ModeChoice": "Choose Mode"
+    "PlayerChoice": "Player,Choose Player",
+    "OpponentChoice": "Opponent,Choose Opponent",
+    "BackgroundColor": "Choose Color,Color",
+    "ModeChoice": "Choose Mode,Mode"
   },
   "Buttons": {
     "LightMode": "switchToLightMode",

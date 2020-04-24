@@ -13,6 +13,8 @@ import ooga.view.components.GameButton;
  * in sub-panels on a view or in pop-ups. It can create different
  * kinds of buttons (with images, without images) and also
  * returns a mapping of the buttons themselves to the actions they are associated with.
+ *
+ * @author: Jessica Su
  */
 public class GameButtonManager {
 

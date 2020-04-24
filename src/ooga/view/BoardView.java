@@ -17,7 +17,11 @@ import java.util.Map;
 
 /**
  * Responsible for creating the container that holds the visual
- * representation of the game board.
+ * representation of the game board. Also responsible for executing
+ * player and opponent moves, as well as updating the visual
+ * appearance of the board after a move.
+ *
+ * @author: Brian Li, Holly Ansel, Jessica Su
  */
 public class BoardView {
     public static final String PIECES_RESOURCES = "resources/images/pieces/";
@@ -27,8 +31,17 @@ public class BoardView {
     public static final int CELL_SPACING = 1;
     public static final int STATE_ID_POS = 0;
     public static final int SPECIAL_STATE_ID_POS = 1;
+    public static final String EMPTY_CLICK_TYPE = "empty";
+    public static final String PLAYER_CLICK_TYPE = "player";
+    public static final String DEFAULT_BOARD_COLOR = "white";
+    public static final String DEFAULT_BOARD_OUTLINE = "black";
+    public static final String POSSIBLE_MOVE_KEY = "possibleMove";
+    public static final String SQUARE_CLICK_KEY = "SquareClickType";
 
     private List<List<BoardCell>> myBoardCells;
+    private List<List<Integer>> gameStates;
+    private List<List<Integer>> possibleMoves;
+    private List<List<Integer>> numPiecesInfo;
     private VBox myBoard;
     private Controller myController;
     private String boardColor;
@@ -49,9 +62,17 @@ public class BoardView {
     private boolean multiplePiecesPerSquare;
     private String squareClickType;
 
-    public BoardView(int width, int height, int rows, int cols, Controller c) {
+    /**
+     * Constructor for BoardView.
+     * @param width - width of the board
+     * @param height - height of the board
+     * @param rows - number of rows in the board
+     * @param cols - number of columns in the board
+     * @param controller - Controller to ger backend information from
+     */
+    public BoardView(int width, int height, int rows, int cols, Controller controller) {
         myBoardCells = new ArrayList<>();
-        myController = c;
+        myController = controller;
         myStateToImageMapping = new HashMap<>();
         initializeValuesBasedOnController();
         initializeStateImageMapping();
@@ -77,12 +98,12 @@ public class BoardView {
     }
 
     private void initializeValuesBasedOnController(){
-        boardColor = "white";
-        boardOutlineColor = "black";
+        boardColor = DEFAULT_BOARD_COLOR;
+        boardOutlineColor = DEFAULT_BOARD_OUTLINE;
         piecesMove = myController.doPiecesMove();
-        possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
+        possibleMoveImage =  myController.getStartingProperties().get(POSSIBLE_MOVE_KEY);
         multiplePiecesPerSquare = myController.hasMultiplePiecesPerSquare();
-        squareClickType = myController.getStartingProperties().get("SquareClickType");
+        squareClickType = myController.getStartingProperties().get(SQUARE_CLICK_KEY);
         mySpecialStateToColorMapping = myController.getSpecialStateColorMapping();
     }
     /**
@@ -93,10 +114,7 @@ public class BoardView {
         return myBoard;
     }
 
-    /**
-     * creates the grid given a specific board dimension
-     * @return Gridpane of board
-     */
+
     private VBox makeGrid(int paneWidth, int paneHeight, int boardRows, int boardCols) {
         VBox paneContainer = new VBox(PANE_PADDING);
         GridPane pane = new GridPane();
@@ -112,12 +130,6 @@ public class BoardView {
         return paneContainer;
     }
 
-    /**
-     * creates the cells that are added to the board
-     * must be overriden by subclasses to allow for flexibility in cell shape
-     * @param cellHeight - height of cell
-     * @param cellWidth - width of cell
-     */
     private void createCells(double cellWidth, double cellHeight, GridPane pane, int boardRows, int boardCols) {
         for (int x = 0; x < boardRows; x++) {
             List<BoardCell> row = new ArrayList<>();
@@ -161,9 +173,9 @@ public class BoardView {
         myStateToImageMapping.replace(myAgent.get(playerIDPosition), agentImages);
     }
 
-    private void processUserClickOnSquare(BoardCell rect, List<List<Integer>> gameStates, int finalX, int finalY, boolean possibleMove) {
+    private void processUserClickOnSquare(BoardCell rect,int finalX, int finalY, boolean possibleMove) {
         Image img = findImageForSquare(gameStates);
-        if(hasSelectedSquare && squareClickType.equals("empty")){
+        if(hasSelectedSquare && squareClickType.equals(EMPTY_CLICK_TYPE)){
             myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).clearFill(boardColor);
             updatePossibleMoveImageOnSquare(myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY), possibleMove);
         }
@@ -174,7 +186,7 @@ public class BoardView {
             myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
             rect.updateImageOnSquare(img);
         }
-        if(!piecesMove && squareClickType.equals("empty")){
+        if(!piecesMove && squareClickType.equals(EMPTY_CLICK_TYPE)){
             rect.updateImageOnSquare(img);
         }
 
@@ -191,32 +203,33 @@ public class BoardView {
     }
 
 
+    /**
+     * Updates every cell in the board. Involves updating the current image on the cell
+     * depending on the player/cell style, updating images to represent possible move locations,
+     * and adding action handlers to player/opponent/empty cells as necessary.
+     */
     protected void updateBoardAppearance() {
-        List<List<Integer>> gameStates = myController.getGameVisualInfo();
-        List<List<Integer>> possibleMoves = myController.getPossibleMovesForView();
-        List<List<Integer>> numPiecesInfo = myController.getNumPiecesVisualInfo();
+        gameStates = myController.getGameVisualInfo();
+        possibleMoves = myController.getPossibleMovesForView();
+        numPiecesInfo = myController.getNumPiecesVisualInfo();
         for (int r = 0; r < myBoardCells.size(); r++) {
             for (int c = 0; c < myBoardCells.get(0).size(); c++) {
                 BoardCell currSquare = myBoardCells.get(r).get(c);
-                updateCellAppearance(currSquare, r, c, gameStates, possibleMoves, numPiecesInfo);
+                updateCellAppearance(currSquare, r, c);
             }
         }
     }
 
-    private void updateCellAppearance(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates,
-                                      List<List<Integer>> possibleMoves, List<List<Integer>> numPiecesInfo) {
+    private void updateCellAppearance(BoardCell currSquare, int r, int c) {
         currSquare.setStyle(boardColor, boardOutlineColor);
         currSquare.clearFill(boardColor);
-        currSquare.setImagePositionIndex(0);
         int currGameState = gameStates.get(r).get(c);
         Image currImage = null;
-
         int numPieces = numPiecesInfo.get(r).get(c);
-        int imageIndex = 0;
-        List<Image> possiblePieceImages = new ArrayList<>();
 
+        List<Image> possiblePieceImages = new ArrayList<>();
         if (myUser.contains(currGameState) || myAgent.contains(currGameState)) {
-            currImage = myStateToImageMapping.get(currGameState).get(0);
+            currImage = myStateToImageMapping.get(currGameState).get(STATE_ID_POS);
             if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
 
@@ -224,6 +237,14 @@ public class BoardView {
             currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
 
+        updateAllPiecesOnCell(currSquare, numPieces, currImage,
+                currGameState, possiblePieceImages, r, c);
+    }
+
+    private void updateAllPiecesOnCell(BoardCell currSquare, int numPieces, Image currImage,
+                                       int currGameState, List<Image> possiblePieceImages, int r, int c) {
+        int imageIndex = 0;
+        currSquare.setImagePositionIndex(imageIndex);
         for (int i = 0; i < numPieces;i++) {
             if (multiplePiecesPerSquare) {
                 currImage = possiblePieceImages.get(imageIndex);
@@ -236,13 +257,14 @@ public class BoardView {
             else if(myAgent.contains(currGameState)) {
                 updateAgentCell(currImage, currSquare);
             }else{
-                updateEmptyCell(currSquare, r,c, gameStates, isPossibleMove);
+                updateEmptyCell(currSquare, r,c,isPossibleMove);
             }
             imageIndex++;
             if (imageIndex == possiblePieceImages.size()) imageIndex = 0;
         }
         currSquare.setMessage(numPieces);
     }
+
 
     private void updatePossibleMoveImageOnSquare(BoardCell currSquare, boolean isPossibleMove) {
         if (isPossibleMove && !possibleMoveImage.equals("") && myController.userTurn()) {
@@ -256,25 +278,28 @@ public class BoardView {
         currSquare.getShape().setOnMouseClicked(null);
     }
 
-    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
+    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c,
+                                  List<List<Integer>> gameStates, boolean possibleMove) {
         currSquare.updateImageOnSquare(playerImage);
-        if (squareClickType.equals("player")) {
-            clickableCell(currSquare, r, c, gameStates, possibleMove);
+        if (squareClickType.equals(PLAYER_CLICK_TYPE)) {
+            clickableCell(currSquare, r, c,possibleMove);
         } else {
             currSquare.getShape().setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
         }
     }
 
-    private void updateEmptyCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
-        if (squareClickType.equals("empty")) {
-            clickableCell(currSquare, r,c,gameStates, possibleMove);
+    private void updateEmptyCell(BoardCell currSquare, int r, int c,
+                                 boolean possibleMove) {
+        if (squareClickType.equals(EMPTY_CLICK_TYPE)) {
+            clickableCell(currSquare, r,c,possibleMove);
         }
     }
 
-    private void clickableCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
-        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c, possibleMove);
+    private void clickableCell(BoardCell currSquare, int r, int c,
+                               boolean possibleMove) {
+        EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,r,c,possibleMove);
         currSquare.getShape().setOnMouseClicked(userClick);
-        currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);//can't click on square with player already
+        currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);
     }
 
     private void handlePieceSelected(int r, int c, Image img) {
@@ -294,7 +319,6 @@ public class BoardView {
             myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).clearFill(boardColor);
         }
     }
-
 
     /**
      * makes a move indicated by the user on the board
