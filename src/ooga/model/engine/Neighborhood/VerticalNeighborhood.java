@@ -3,15 +3,18 @@ package ooga.model.engine.Neighborhood;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.Neighborhood.Neighborhood;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This neighborhood is for calculating vertical (column) neighbors.
  */
 public class VerticalNeighborhood extends Neighborhood {
+
     public VerticalNeighborhood(int rows, int cols) {
         super(rows, cols);
     }
+
 
     /**
      * Finds all the neighbors in the same COLUMN
@@ -30,4 +33,17 @@ public class VerticalNeighborhood extends Neighborhood {
         }
         return allCoordinates;
     }
+
+    public List<List<Integer>> getAllVerticals(List<List<Integer>> config) {
+        List<List<Integer>> allCols = new ArrayList<>();
+        for(int i = 0; i < config.get(0).size(); i++) {
+            List<Integer> col = new ArrayList<>();
+            for (List<Integer> row : config) {
+                col.add(row.get(i));
+            }
+            allCols.add(col);
+        }
+        return allCols;
+    }
+
 }

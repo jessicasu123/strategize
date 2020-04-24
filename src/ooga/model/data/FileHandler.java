@@ -65,7 +65,7 @@ public interface FileHandler {
     int getMaxObjectsPerSquare();
 
     List<Integer> getStatesToIgnoreForPlayer(int i);
-    String getConverterTypes();
+    String getConverterType();
     List<String> getSelfMoveChecks();
     List<String> getNeighborMoveChecks();
     List<String> getMoveTypes();
@@ -74,7 +74,8 @@ public interface FileHandler {
     int getSelfNumObjectsToCompare();
 
     boolean convertToEmptyState();
-    int getPromotionRowForPlayer(int i);
+    boolean getPromotionRowForPlayer1();
+    Map<Integer,String> getSpecialStateColorMapping(int i);
 
 
 }

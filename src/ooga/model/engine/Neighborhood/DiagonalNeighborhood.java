@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This neighborhood is for calculating diagonal neighbors.
+ * This neighborhood is for calculating information about diagonals in a grid.
  */
 public class DiagonalNeighborhood extends Neighborhood {
     public DiagonalNeighborhood(int rows, int cols) {
@@ -26,6 +26,45 @@ public class DiagonalNeighborhood extends Neighborhood {
         getRightDiag(r,c);
         getLeftDiag(r,c);
         return allCoordinates;
+    }
+
+    public List<List<Integer>> getAllDiagonals(List<List<Integer>> config, int diagonalLength) {
+        boolean isSquare = config.size() == config.get(0).size();
+        if (isSquare) {
+            return getDiagonalsForSquareGrid(config);
+        } else {
+            return getDiagonalsForRectangularGrid(config, diagonalLength);
+        }
+    }
+
+    private List<List<Integer>> getDiagonalsForSquareGrid(List<List<Integer>> config) {
+        List<Integer> leftDiag = new ArrayList<>();
+        List<Integer> rightDiag = new ArrayList<>();
+        for(int i = 0; i < Math.min(config.size(), config.get(0).size()); i++){
+            leftDiag.add(config.get(i).get(i));
+            rightDiag.add(config.get(i).get(config.size() - 1 - i));
+        }
+        return new ArrayList<>(List.of(leftDiag, rightDiag));
+    }
+
+    private List<List<Integer>> getDiagonalsForRectangularGrid(List<List<Integer>> config, int diagonalLength) {
+        List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
+        int rows = config.size();
+        int cols = config.get(0).size();
+        int remainder = diagonalLength - 1;
+        for (int row = rows - diagonalLength; row >= 0; row--) {
+            for (int col = cols - diagonalLength; col >= 0; col--) {
+                List<Integer> leftDiag = new ArrayList<Integer>();
+                List<Integer> rightDiag = new ArrayList<Integer>();
+                for (int i = 0; i < diagonalLength; i++) {
+                    rightDiag.add(config.get(row + i).get(col - i + remainder));
+                    leftDiag.add(config.get(row + i).get(col + i));
+                }
+                alldiag.add(leftDiag);
+                alldiag.add(rightDiag);
+            }
+        }
+        return alldiag;
     }
 
     /**
