@@ -14,6 +14,6 @@ public class CheckOwnPiece implements MoveCheck{
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
-        return myPlayerStates.contains(checking.getState());
+        return myPlayerStates.contains(checking.getState()) && myPlayerStates.contains(state);
     }
 }

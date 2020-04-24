@@ -27,6 +27,9 @@ public class CheckJump implements MoveCheck {
                 checking.getPosition(),checking.getNumObjects(),state,directions.get(0),neighbors);
         Coordinate startCheckLocation = findStartingLocation(piecesBetween,startingLocation,checking);
         int numPiecesToCheck = piecesBetween.size();
+        if(numPiecesToCheck % 2 == 0){
+            return false;
+        }
         for(int i = 0; i < numPiecesToCheck;i++){
             boolean patternMetSoFar = pathMeetsPattern(piecesBetween,startCheckLocation,checking,i);
             patternMet = patternMet && patternMetSoFar;

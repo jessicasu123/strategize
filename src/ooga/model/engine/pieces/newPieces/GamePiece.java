@@ -55,13 +55,12 @@ public class GamePiece {
 
     private void checkNeighborConditions(List<GamePiece> neighbors, List<Coordinate> possibleMoves, int playerID) {
         for (GamePiece neighbor : neighbors) {
-            boolean neighborConditionsMet = true;
+            boolean neighborConditionsMet = false;
             for (MoveCheck check : myNeighborMoveChecks) {
+                boolean isCheckMet = check.isConditionMet(myPosition, neighbor, neighbors, playerID, myDirections);
                 // TODO: for state, should this be taking neighbor state or myState or playerID?
-                if (!check.isConditionMet(myPosition, neighbor, neighbors, playerID, myDirections)) {
-                    neighborConditionsMet = false;
-                    break;
-                }
+                neighborConditionsMet = neighborConditionsMet || isCheckMet;
+
             }
             if (neighborConditionsMet) {
                 possibleMoves.add(neighbor.getPosition());
