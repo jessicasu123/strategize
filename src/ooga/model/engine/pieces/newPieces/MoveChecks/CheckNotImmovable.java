@@ -5,15 +5,13 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 
 import java.util.List;
 
-public class CheckOwnPiece implements MoveCheck{
-    private List<Integer> myPlayerStates;
-
-    public CheckOwnPiece(List<Integer> playerStates){
-        myPlayerStates = playerStates;
+public class CheckNotImmovable implements MoveCheck {
+    private int myNonMovingState;
+    public CheckNotImmovable(int nonMovingState){
+        myNonMovingState = nonMovingState;
     }
-
     @Override
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
-        return myPlayerStates.contains(checking.getState()) && myPlayerStates.contains(state);
+        return checking.getState() != myNonMovingState;
     }
 }

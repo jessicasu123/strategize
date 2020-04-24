@@ -22,8 +22,8 @@
     }
   },
   "Buttons": {
-      "Return to Setup": "backToSetup",
-      "Return to Main Menu": "backToMenu",
-      "Play Again": "restart"
+      "Return to Setup": "returnToSetup",
+      "Return to Main Menu": "returnToMenu",
+      "Play Again": "playAgain"
   }
 }

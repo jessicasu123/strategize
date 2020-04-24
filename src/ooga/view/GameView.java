@@ -1,9 +1,11 @@
 package ooga.view;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.view.components.ErrorAlerts;
@@ -41,9 +43,12 @@ public class GameView {
     public static final String DARK_MODE_STYLE = "darkMode";
     public static final String DARK_MODE_TEXT_COLOR = "white";
     public static final String LIGHT_MODE_TEXT_COLOR = "black";
+    public static final String USER_PASS = "user";
+    public static final String AGENT_PASS = "agent";
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
+    public static final double DELAY = 1.5;
     public static int WIDTH = 600;
     public static int HEIGHT = 700;
 
@@ -186,21 +191,22 @@ public class GameView {
             });
         }
     }
-
+    private void playAgain() throws IOException, ParseException {
+        gameEnd.close();
+        restart();
+    }
     private void restart() throws IOException, ParseException {
-        if (gameEnd != null) {
-            gameEnd.close();
-        }
         gameInProgress = true;
         didPass = false;
         myController.restartGame();
         grid.updateBoardAppearance();
     }
-
+    private void returnToSetUp() throws IOException, ParseException {
+        gameEnd.close();
+        backToSetup();
+    }
     private void backToSetup() throws IOException, ParseException {
-        if (gameEnd != null) {
-            gameEnd.close();
-        }
+
         GameSetupOptions gso = new GameSetupOptions(myStage, myController.getGameFileName());
         gso.displayToStage();
     }
@@ -214,11 +220,11 @@ public class GameView {
         save.close();
         myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
     }
-
+    private void returnToMenu() throws FileNotFoundException {
+        gameEnd.close();
+        backToMenu();
+    }
     private void backToMenu() throws FileNotFoundException {
-        if (gameEnd != null) {
-            gameEnd.close();
-        }
         StartView sv = new StartView(myStage);
         sv.displayToStage(START_DIM,START_DIM);
     }
@@ -251,11 +257,11 @@ public class GameView {
         }
     }
 
-    //TODO: allow agent to keep going if it's still their turn
     private void makeMove(){
         try {
             if (didPass) {
-                gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("MakeMoveText"));
                 didPass = false;
             }
             if (gameInProgress && myController.userTurn()) {
@@ -265,8 +271,10 @@ public class GameView {
                     if (gameInProgress) {
                         grid.makeAgentMove();
                     }
+                    PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
+                    wait.setOnFinished(e -> checkGameStatus(true));
+                    wait.play();
 
-                    checkGameStatus(true);
                 }
             }
         }catch(InvalidMoveException ex){
@@ -282,10 +290,12 @@ public class GameView {
     private void checkPass(boolean isBeforeUserTurn) {
         String playerPassed = myController.playerPass();
         if (gameInProgress && (!playerPassed.equals(""))) {
-            if (playerPassed.equals("user") && isBeforeUserTurn) {
-                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
-            } else if (playerPassed.equals("agent") && !isBeforeUserTurn){
-                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
+            if (playerPassed.equals(USER_PASS) && isBeforeUserTurn) {
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("PassText"));
+            } else if (playerPassed.equals(AGENT_PASS) && !isBeforeUserTurn){
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("GoAgainText"));
             }
             didPass = true;
         }

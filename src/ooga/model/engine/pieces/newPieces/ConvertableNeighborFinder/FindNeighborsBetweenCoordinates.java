@@ -21,36 +21,57 @@ public class FindNeighborsBetweenCoordinates implements ConvertableNeighborFinde
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID, int direction, List<GamePiece> neighbors) {
         List<GamePiece> neighborsToConvert = new ArrayList<>();
-        for(GamePiece neighbor: neighbors){
-            if(isOnPathToEndCoord(currCoordinate,neighbor.getPosition(),endCoordinate)){
-                neighborsToConvert.add(neighbor);
-            }
-        }
+        int currRow = currCoordinate.getRow();
+        int currCol = currCoordinate.getCol();
+        int targetRow = endCoordinate.getRow();
+        int targetCol = endCoordinate.getCol();
+
+        int rowDirection = getDirectionGroup(currRow, targetRow);
+        int colDirection = getDirectionGroup(currCol, targetCol);
+
+        checkInBetween(currRow,currCol,rowDirection, colDirection, neighbors,targetRow,targetCol, neighborsToConvert);
 
         return neighborsToConvert;
     }
 
-    private boolean isOnPathToEndCoord(Coordinate curr, Coordinate compareTo, Coordinate goingTo){
-
-        return isShorter(curr.getCol(), compareTo.getCol(), goingTo.getCol()) &&
-                isShorter(curr.getRow(),compareTo.getRow(),goingTo.getRow()) &&
-                notPastTarget(curr, compareTo,goingTo) &&
-                progressFromStart(curr, compareTo, goingTo);
+    private int getDirectionGroup(int curr, int target) {
+        if(curr > target){
+            return -1;
+        }else if(curr == target){
+            return 0;
+        }else{
+            return 1;
+        }
     }
 
-    private boolean isShorter(int curr, int compareTo, int goingTo){
-        return Math.abs(compareTo - goingTo) <= Math.abs(curr - goingTo);
+    private void checkInBetween(int currRowPos, int currColPos, int rowOffset, int colOffset, List<GamePiece> neighbors,
+                                   int targetRow, int targetCol, List<GamePiece> neighborsToConvert) {
+        int currRow = currRowPos + rowOffset;
+        int currCol = currColPos + colOffset;
+        GamePiece neighbor = getPieceNeighborFromCoordinate(neighbors, new Coordinate(currRow, currCol));
+        while (currRow != targetRow || currCol != targetCol) {
+            if(neighbor != null){
+                neighborsToConvert.add(neighbor);
+            }
+            if(currRow != targetRow) {
+                currRow += rowOffset;
+            }
+            if(currCol != targetCol) {
+                currCol += colOffset;
+            }
+            neighbor = getPieceNeighborFromCoordinate(neighbors, new Coordinate(currRow, currCol));
+        }
     }
 
-    private boolean notPastTarget(Coordinate start, Coordinate compareTo, Coordinate end){
-        return euclidenDistance(start, compareTo) < euclidenDistance(start,end);
+    private GamePiece getPieceNeighborFromCoordinate(List<GamePiece> neighbors, Coordinate c) {
+        for (GamePiece g: neighbors) {
+            if (g.getPosition().equals(c)) {
+                return g;
+            }
+        }
+        return null;
     }
 
-    private boolean progressFromStart(Coordinate start, Coordinate compareTo, Coordinate end){
-        return euclidenDistance(start, end) > euclidenDistance(compareTo, end);
-    }
-    private int euclidenDistance(Coordinate start, Coordinate end){
-            return (int) Math.sqrt(Math.pow(start.getRow() - end.getRow(), SQUARE) + Math.pow(start.getCol() - end.getCol(), SQUARE));
-    }
+
 
 }

@@ -37,17 +37,42 @@ public interface GameFramework {
      */
     int getEndGameStatus();
 
-    public boolean isUserTurn();
-
-    public String whichPlayerPassed();
-
-    public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
     /**
      * METHOD PURPOSE:
-     *  - passes along the visual state info from the board so the view can access it
+     *  - returns whether it's the user's turn or not
+     *  - true if it's the user's turn, false if it's the agent's turn
+     *  - used by the view to update the board appearance accordingly 
+     */
+    boolean isUserTurn();
+
+    /**
+     * METHOD PURPOSE:
+     *  - passes along the information about which player passed (either user or agent)
+     *  - returns "user" if used passed, "agent" if agent passed, and "" if neither passed
+     */
+    String whichPlayerPassed();
+
+    /**
+     * METHOD PURPOSE:
+     *  - executes both the user's move IF it's the user's turn AND the agent's
+     *  move IF it's the agent's turn. Has logic to check if either player has no moves
+     *  and must pass
+     * @param moveCoordinates - the start and end coordinates of the user's move
+     */
+    void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+
+    /**
+     * METHOD PURPOSE:
+     *  - passes along the visual state info about which PLAYER is in which position
+     *  from the board so the view can access it
      */
     List<List<Integer>> getVisualInfo();
 
+    /**
+     * METHOD PURPOSE:
+     *  - passes along the info from the board about how many OBJECTS are in each position
+     *  so the view can access it
+     */
     List<List<Integer>> getObjectInfo();
 
     /**

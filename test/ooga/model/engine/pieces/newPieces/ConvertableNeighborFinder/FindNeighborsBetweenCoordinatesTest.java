@@ -51,25 +51,27 @@ class FindNeighborsBetweenCoordinatesTest {
     GamePiece piece45 = new GamePiece(0,coord45,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     Coordinate coord54 = new Coordinate(5,4);
     GamePiece piece54 = new GamePiece(0,coord54,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    Coordinate coord30 = new Coordinate(3,0);
+    GamePiece piece30 = new GamePiece(0,coord30,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    Coordinate coord42 = new Coordinate(4,2);
+    GamePiece piece42 = new GamePiece(0,coord42,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     List<GamePiece> allPieces = new ArrayList<>(List.of(piece00, piece11, piece22, piece33, piece44, piece55,
             piece50,piece41,piece32,piece23,piece14,piece05,piece31,piece43,piece21,piece10,piece12,piece45));
 
-    List<GamePiece> onlyDiag1 = new ArrayList<>(List.of(piece10,piece21, piece32,piece43, piece54));
+    List<GamePiece> onlyDiag1 = new ArrayList<>(List.of(piece10,piece21,piece30, piece32,piece43, piece54));
 
     List<GamePiece> onlyDiag2 = new ArrayList<>(List.of(piece50, piece41,piece32,piece23,piece14,piece05));
 
-    List<GamePiece> onlyRows = new ArrayList<>(List.of(piece41,piece43,piece44,piece45));
+    List<GamePiece> onlyRows = new ArrayList<>(List.of(piece41,piece42,piece43,piece44,piece45));
 
     List<GamePiece> onlyCols = new ArrayList<>(List.of(piece41,piece31,piece21,piece11));
 
     //test getting all neighbors in between (rows, cols, diags)
     @Test
     void findNeighborsToConvertAllPiece() {
-        List<GamePiece> toConvert = new ArrayList<>(List.of(piece22, piece33, piece23,piece14, piece12));
+        List<GamePiece> toConvert = new ArrayList<>(List.of(piece23,piece14));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord32,coord05,0,0,1,allPieces));
-        assertEquals(toConvert, myFinder.findNeighborsToConvert(coord05,coord32,0,0,1,allPieces));
-
 
         toConvert = new ArrayList<>(List.of(piece21));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord32,coord10,0,0,1,allPieces));
@@ -78,12 +80,14 @@ class FindNeighborsBetweenCoordinatesTest {
 
     @Test
     void findNeighborsToConvertDiagonalsOnly() {
-        List<GamePiece> toConvert = new ArrayList<>(List.of(piece23,piece14));
+        List<GamePiece> toConvert = new ArrayList<>(List.of(piece23, piece14));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord32,coord05,0,0,1, onlyDiag2));
+        toConvert = new ArrayList<>(List.of(piece14, piece23));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord05,coord32,0,0,1, onlyDiag2));
 
-        toConvert = new ArrayList<>(List.of(piece21,piece32, piece43));
+        toConvert = new ArrayList<>(List.of(piece43,piece32, piece21));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord54,coord10,0,0,1, onlyDiag1));
+        toConvert = new ArrayList<>(List.of(piece21,piece32, piece43));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord10,coord54,0,0,1, onlyDiag1));
 
         toConvert = new ArrayList<>(List.of(piece32));
@@ -97,8 +101,9 @@ class FindNeighborsBetweenCoordinatesTest {
 
     @Test
     void findNeighborsToConvertRowOnly() {
-        List<GamePiece> toConvert = new ArrayList<>(List.of(piece43,piece44));
+        List<GamePiece> toConvert = new ArrayList<>(List.of(piece42,piece43,piece44));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord41,coord45,0,0,1, onlyRows));
+        toConvert = new ArrayList<>(List.of(piece44,piece43,piece42));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord45,coord41,0,0,1, onlyRows));
 
         toConvert = new ArrayList<>(List.of(piece44));
@@ -110,6 +115,7 @@ class FindNeighborsBetweenCoordinatesTest {
     void findNeighborsToConvertColsOnly() {
         List<GamePiece> toConvert = new ArrayList<>(List.of(piece31,piece21));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord41,coord11,0,0,1, onlyCols));
+        toConvert = new ArrayList<>(List.of(piece21,piece31));
         assertEquals(toConvert, myFinder.findNeighborsToConvert(coord11,coord41,0,0,1, onlyCols));
 
         toConvert = new ArrayList<>(List.of(piece21));
