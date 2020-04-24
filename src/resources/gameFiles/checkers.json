@@ -21,7 +21,7 @@
 
   "MoveTypes": ["ChangeOpponentPieces", "PositionMove", "ForceDirectionChange"],
 
-  "NeighborConverterTypes": ["FindNeighborsBetweenCoordinates"],
+  "NeighborConverterType": "FindNeighborsBetweenCoordinates",
 
   "SpecialPieceIndex": 1,
 
