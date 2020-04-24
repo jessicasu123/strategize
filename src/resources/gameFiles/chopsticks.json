@@ -17,7 +17,7 @@
 
   "SelfNumObjectsToCompare": 0,
 
-  "NeighborMoveChecks": ["CanReceiveObjectsCheck", "OpponentPieceCheck"],
+  "NeighborMoveChecks": ["OwnPieceCheck", "OpponentPieceCheck"],
 
   "NeighborNumObjectsToCompare": 4,
 
