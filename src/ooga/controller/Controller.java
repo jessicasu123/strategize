@@ -94,7 +94,7 @@ public class Controller implements ControllerFramework {
 
 
     private ConvertableNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore){
-        String finderType = myFileHandler.getConverterTypes();
+        String finderType = myFileHandler.getConverterType();
         return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
@@ -222,7 +222,7 @@ public class Controller implements ControllerFramework {
     }
 
     public List<Integer> getAgentStateInfo(){
-        //return Collections.unmodifiableList(agentPlayer.getPlayerStates()); 
+        //return Collections.unmodifiableList(agentPlayer.getPlayerStates());
         return Collections.unmodifiableList(myAgentPlayerInfo);
     }
 

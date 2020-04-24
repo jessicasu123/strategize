@@ -65,7 +65,7 @@ public interface FileHandler {
     int getMaxObjectsPerSquare();
 
     List<Integer> getStatesToIgnoreForPlayer(int i);
-    String getConverterTypes();
+    String getConverterType();
     List<String> getSelfMoveChecks();
     List<String> getNeighborMoveChecks();
     List<String> getMoveTypes();
