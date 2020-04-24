@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.engine.exceptions.InvalidGameTypeException;
+import ooga.model.engine.exceptions.*;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class ControllerTest {
     Controller testController;
     Controller testController2;
 
-    ControllerTest() throws IOException, ParseException, InvalidGameTypeException {
+    ControllerTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
         testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
         testController2 = new Controller("tic-tac-toe-test.json", "Player2", "Computer", "3 x 3");
     }

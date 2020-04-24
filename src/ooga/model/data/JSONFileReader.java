@@ -376,11 +376,15 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties;
     }
 
-    private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig) {
+    private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig,
+                                  List<List<Integer>> objectConfig) {
         if (gameStringProperties.keySet().contains(searchKey)) {
             if (key.equals("InitialConfig")) {
                 writeTo.put(key,configAsString(currentConfig));
-            } else if (key.equals("Default") && (!boardDimensions.equals(gameStringProperties.get(key)))) {
+            } else if (key.equals("ObjectConfig") && hasMultiplePiecesPerSquare()) {
+                writeTo.put(key, configAsString(objectConfig));
+            }
+            else if (key.equals("Default") && (!boardDimensions.equals(gameStringProperties.get(key)))) {
                     writeTo.put(key, boardDimensions);
             } else {
                 writeTo.put(key, gameStringProperties.get(searchKey));
@@ -395,7 +399,8 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
-    private JSONObject writeNestedObject(String key, String valuesList, List<List<Integer>> config) {
+    private JSONObject writeNestedObject(String key, String valuesList, List<List<Integer>> config,
+                                         List<List<Integer>> objectInfo) {
         JSONObject nestedObject = new JSONObject();
         JSONArray values = gameArrayProperties.get(valuesList);
         for (int val = 0; val < values.length(); val++) {
@@ -404,7 +409,7 @@ public class JSONFileReader implements FileHandler {
             if (key.contains("Player")) {
                 searchName = key + nestedKey;
             }
-            writeBasicValues(searchName, nestedObject, nestedKey, config);
+            writeBasicValues(searchName, nestedObject, nestedKey, config, objectInfo);
         }
         return nestedObject;
     }
@@ -414,20 +419,21 @@ public class JSONFileReader implements FileHandler {
      * @param configurationInfo - a 2-D list of the current game view configuration
      */
     @Override
-    public void saveToFile(String fileName, Map<String, String> properties, List<List<Integer>> configurationInfo) {
+    public void saveToFile(String fileName, List<List<Integer>> configurationInfo,
+                           List<List<Integer>> objectConfigurationInfo) {
         JSONObject jsonFile = new JSONObject();
         JSONArray allKeys = gameArrayProperties.get("Keys");
         for (int i = 0; i < allKeys.length();i++) {
             String key = (String) allKeys.get(i);
             if (key.equals(boardDimensions)) { //TODO: fix so that there's a mapping from nested keys to their inner values
-                JSONObject nestedObject = writeNestedObject(key,"BoardKeys", configurationInfo);
+                JSONObject nestedObject = writeNestedObject(key,"BoardKeys", configurationInfo, objectConfigurationInfo);
                 jsonFile.put(key, nestedObject);
             }
             else if (key.equals("Player1") || key.equals("Player2")) {
-                JSONObject nestedPlayerObj = writeNestedObject(key, "PlayerKeys", configurationInfo);
+                JSONObject nestedPlayerObj = writeNestedObject(key, "PlayerKeys", configurationInfo, objectConfigurationInfo);
                 jsonFile.put(key, nestedPlayerObj);
             } else {
-                writeBasicValues(key, jsonFile, key, configurationInfo);
+                writeBasicValues(key, jsonFile, key, configurationInfo, objectConfigurationInfo);
             }
         }
         try (FileWriter file = new FileWriter(DEFAULT_RESOURCES + fileName + JSON_ENDING)) {

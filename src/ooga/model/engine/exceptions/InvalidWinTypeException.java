@@ -5,7 +5,7 @@ package ooga.model.engine.exceptions;
  * match one of the supported win types.
  */
 
-public class InvalidWinTypeException extends RuntimeException{
+public class InvalidWinTypeException extends Exception{
     public InvalidWinTypeException(String message, Object ... values) {
         super(String.format(message, values));
     }

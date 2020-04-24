@@ -37,10 +37,9 @@
 
   "PiecesMove": false,
 
-
   "CheckCurrConfig": true,
 
-  "MultiplePiecesPerSquare": false,
+  "MultiplePiecesPerSquare": true,
 
   "NumVisualRowsPerSquare": 1,
 
@@ -59,7 +58,7 @@
   "2 x 2": {
     "Height": "2",
     "Width": "2",
-    "InitialConfig": "1,1;1,1",
+    "InitialConfig": "2,2;1,1",
     "ObjectConfig": "1,1;1,1",
     "WinValue": 0,
     "BoardWeights": "0,0;0,0"

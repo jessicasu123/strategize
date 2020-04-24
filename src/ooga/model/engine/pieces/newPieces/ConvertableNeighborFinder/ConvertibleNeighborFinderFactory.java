@@ -14,7 +14,7 @@ public class ConvertibleNeighborFinderFactory {
      * @param toIgnore - a list of states to ignore when finding which to convert
      * @return a convertible neighbor finder based on the parameters
      */
-    public ConvertibleNeighborFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) {
+    public ConvertibleNeighborFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) throws InvalidConvertibleNeighborFinderException {
         switch (converterType) {
             case "FlippableNeighborFinder":
                 return new FlippableNeighborFinder();

@@ -3,7 +3,7 @@ package ooga.view;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.InvalidGameTypeException;
+import ooga.model.engine.exceptions.*;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -31,7 +31,7 @@ public class GameViewTest extends DukeApplicationTest {
     private int numRows;
     private int numCols;
     List<List<Rectangle>> myBoardCells;
-    public GameViewTest() throws IOException, ParseException, InvalidGameTypeException {
+    public GameViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
         testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
         myBoardCells = new ArrayList<>();
     }

@@ -252,8 +252,7 @@ class JSONFileReaderTest {
 
     @Test
     void saveToFile() {
-        System.out.println(fr.loadFileConfiguration());
-        fr.saveToFile("checkersgame",fr.loadFileProperties(), fr.loadFileConfiguration());
+        fr.saveToFile("checkersgame", fr.loadFileConfiguration(), fr.getObjectConfig());
         JSONFileReader fr2 = new JSONFileReader("checkersgame.json","8 x 8");
         fr2.parseFile();
         assertEquals(fr.loadFileConfiguration(),fr2.loadFileConfiguration());

@@ -1,6 +1,7 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Player.AgentPlayer;
 import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.InvalidMoveException;
@@ -36,9 +37,9 @@ public class Game implements GameFramework{
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
 
-    //TODO: decide if we want to pass in UserPlayer and AgentPlayer instead
+
     public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                List<List<Integer>> objectConfiguration, List<String> neighborhoods, PlayerInfoHolder userPlayerInfo,
+                List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
                 PlayerInfoHolder agentPlayerInfo, Agent agent) {
         myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
         myUserStates = userPlayerInfo.getPlayerStates();

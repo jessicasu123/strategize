@@ -1,6 +1,9 @@
 package ooga.controller;
 
+import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
+import ooga.model.engine.exceptions.InvalidWinTypeException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -20,7 +23,7 @@ public interface ControllerFramework {
      * METHOD PURPOSE:
      *  -creates a new game and board when the "Restart" button is clicked
      */
-    void restartGame() throws IOException, ParseException;
+    void restartGame() throws IOException, ParseException, InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException;
 
     /**
      * METHOD PURPOSE:

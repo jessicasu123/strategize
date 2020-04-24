@@ -7,7 +7,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
+import ooga.model.engine.exceptions.InvalidWinTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameScene;
 import org.json.JSONObject;
@@ -157,7 +160,7 @@ public class GameView {
         VBox elements = new VBox(SPACING);
         elements.getChildren().addAll(statusPanel.createStatusPanel(userImage,agentImage),
                 grid.getGridContainer(),navPanel.createNavigationBar());
-        if (myController.hasMultiplePiecesPerSquare()) {
+        if (myController.hasMultiplePiecesPerSquare() && myController.getSpecialStateColorMapping().keySet().size()>0) {
             statusPanel.updateStatusBarForMultiPiecePlayers(
                     myController.getSpecialStateColorMapping().get(myController.getUserStateInfo().get(1)),
                     myController.getSpecialStateColorMapping().get(myController.getAgentStateInfo().get(1)));
@@ -191,11 +194,11 @@ public class GameView {
             });
         }
     }
-    private void playAgain() throws IOException, ParseException {
+    private void playAgain() throws InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidNeighborhoodException {
         gameEnd.close();
         restart();
     }
-    private void restart() throws IOException, ParseException {
+    private void restart() throws InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidNeighborhoodException {
         gameInProgress = true;
         didPass = false;
         myController.restartGame();

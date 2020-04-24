@@ -36,7 +36,7 @@ public interface FileHandler {
      * @param fileName - the name of the file it will be saved to
      * @param configurationInfo  - the board configuration to save to the file
      */
-    void saveToFile(String fileName, Map<String, String> properties,List<List<Integer>> configurationInfo);
+    void saveToFile(String fileName, List<List<Integer>> configurationInfo, List<List<Integer>> objectConfigInfo);
 
     /**
      * METHOD PURPOSE:
