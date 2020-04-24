@@ -73,11 +73,12 @@
     "BoardWeights": "0,-3,0,-3,0,-3;-2,0,-2,0,-2,0;0,-1,0,-1,0,-1;1,0,1,0,1,0;0,2,0,2,0,2;3,0,3,0,3,0"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],
 
   "Player1": {
     "States" : [3, 4],
     "StatesToIgnore": [0],
+    "ImmovableState": -1,
     "Direction": [-1],
     "Images": ["redCircle.png", "redCrown.png"],
     "Colors": ["white", "white"]
@@ -86,6 +87,7 @@
   "Player2": {
     "States": [1, 2],
     "StatesToIgnore": [0],
+    "ImmovableState": -1,
     "Direction": [1],
     "Images": ["blackCircle.png", "blackCrown.png"],
     "Colors": ["white", "white"]

@@ -82,7 +82,7 @@
     "Images": ["blackCircle.png"],
     "Colors": ["white"],
     "StatesToIgnore": [],
-    "Direction": [],
+    "Direction": []
   },
 
   "Player2": {
@@ -90,7 +90,7 @@
     "Images": ["blackOutlineCircle.png"],
     "Colors": ["white"],
     "StatesToIgnore": [],
-    "Direction": [],
+    "Direction": []
   },
 
   "possibleMove": "greyOutlineCircle.png",

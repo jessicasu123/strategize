@@ -46,16 +46,22 @@
     "BoardWeights": "0,0;0,0"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],
 
   "Player1": {
     "States": [1],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [-1],
     "Images": ["white-stick.png"],
     "Colors": ["White"]
   },
 
   "Player2": {
     "States": [2],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [1],
     "Images": ["black-stick.png"],
     "Colors": ["White"]
   },

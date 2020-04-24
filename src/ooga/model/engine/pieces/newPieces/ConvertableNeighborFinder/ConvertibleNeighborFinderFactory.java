@@ -9,6 +9,11 @@ import java.util.List;
  * depending on a NeighborConverterType specified in the game configuration file.
  */
 public class ConvertibleNeighborFinderFactory {
+    /**
+     * @param converterType - the type of this converter
+     * @param toIgnore - a list of states to ignore when finding which to convert
+     * @return a convertible neighbor finder based on the parameters
+     */
     public ConvertibleNeighborFinder createNeighborhoodConverterFinder(String converterType, List<Integer> toIgnore) {
         switch (converterType) {
             case "FindAllFlippableNeighbors":

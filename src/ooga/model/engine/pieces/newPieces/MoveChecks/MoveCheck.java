@@ -17,5 +17,14 @@ import java.util.List;
  */
 public interface MoveCheck {
 
-    boolean isConditionMet(Coordinate startingLocation,GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions);
+    /**
+     *
+     * @param startingLocation - the starting location of piece that is calculating its possible moves
+     * @param checking - the game piece that is being checked
+     * @param neighbors - the neighbors of the piece that is calculating its possible moves
+     * @param player - the player which the move is being checked for
+     * @param directions - all the legal directions this piece can move in
+     * @return whether or not this move given by the parameters is satisfied according to the logic of each move check
+     */
+    boolean isConditionMet(Coordinate startingLocation,GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions);
 }

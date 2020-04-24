@@ -11,7 +11,7 @@ public class CheckNotImmovable implements MoveCheck {
         myNonMovingState = nonMovingState;
     }
     @Override
-    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
+    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions) {
         return checking.getState() != myNonMovingState;
     }
 }

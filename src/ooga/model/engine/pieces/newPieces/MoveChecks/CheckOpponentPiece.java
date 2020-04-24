@@ -16,7 +16,7 @@ public class CheckOpponentPiece implements MoveCheck{
     }
 
     @Override
-    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
+    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions) {
         for (int myState : myStates) {
             if (checking.getState() == myState) {
                 return false;

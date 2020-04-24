@@ -7,16 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Given a list of all of the neighbors and a start and end coordinate finds all of the pieces in between the start
- * and end coordinate
- * In between means that that piece is closer to the end distance than the start piece is to the end distance
- *
+ * This class is responsible for finding neighbors in between coordinates
+ * It searches by incrementing the row and column until the target row and column is reached
+ * Works for any direction type (row, column, diagonal)
+ * @author Holly Ansel
  */
 public class FindNeighborsBetweenCoordinates implements ConvertibleNeighborFinder {
 
-
-    public static final int SQUARE = 2;
-
+    /**
+     * @param currCoordinate - current (start) coordinate
+     * @param endCoordinate - end coordinate (position of the last neighbor to be converted)
+     * @param numObjects - number of objects (continue giving number of objects until there are none left)
+     * @param playerID - the current player's ID
+     * @param direction  - the direction that the player is moving in
+     * @param neighbors - the list of all possible neighbors to be considered
+     * @return a list of all the game pieces in between the start and end coordinates
+     */
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID, int direction, List<GamePiece> neighbors) {
@@ -35,13 +41,7 @@ public class FindNeighborsBetweenCoordinates implements ConvertibleNeighborFinde
     }
 
     private int getDirectionGroup(int curr, int target) {
-        if(curr > target){
-            return -1;
-        }else if(curr == target){
-            return 0;
-        }else{
-            return 1;
-        }
+        return Integer.compare(target, curr);
     }
 
     private void checkInBetween(int currRowPos, int currColPos, int rowOffset, int colOffset, List<GamePiece> neighbors,
@@ -63,10 +63,10 @@ public class FindNeighborsBetweenCoordinates implements ConvertibleNeighborFinde
         }
     }
 
-    private GamePiece getPieceNeighborFromCoordinate(List<GamePiece> neighbors, Coordinate c) {
-        for (GamePiece g: neighbors) {
-            if (g.getPosition().equals(c)) {
-                return g;
+    private GamePiece getPieceNeighborFromCoordinate(List<GamePiece> neighbors, Coordinate coord) {
+        for (GamePiece neighbor: neighbors) {
+            if (neighbor.getPosition().equals(coord)) {
+                return neighbor;
             }
         }
         return null;

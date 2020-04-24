@@ -48,16 +48,22 @@
   },
 
 
-  "PlayerKeys": ["States", "Images", "Colors"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],
 
   "Player1": {
     "States": [1],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [],
     "Images": ["X.png"],
     "Colors": ["white"]
   },
 
   "Player2": {
     "States": [2],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [],
     "Images": ["O.png"],
     "Colors": ["white"]
   },

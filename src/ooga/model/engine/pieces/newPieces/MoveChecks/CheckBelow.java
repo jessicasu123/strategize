@@ -20,7 +20,7 @@ public class CheckBelow implements MoveCheck {
     }
 
     @Override
-    public boolean isConditionMet(Coordinate startingLocation,GamePiece checking,List<GamePiece> neighbors, int state, List<Integer> directions) {
+    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions) {
         myPiece = checking;
         bottomRow = findNumRows(neighbors);
         if(! (myPiece.getPosition().getRow()== bottomRow)) {
