@@ -7,10 +7,16 @@ import java.util.List;
 
 public class CheckStep implements MoveCheck {
     public static final int STEP_SIZE = 1;
+    private int myEmptyState;
+
+    public CheckStep(int emptyState){
+        myEmptyState = emptyState;
+    }
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
-        return checkStepRow(startingLocation, checking, directions) && checkStepCol(startingLocation, checking);
+        return checkStepRow(startingLocation, checking, directions) && checkStepCol(startingLocation, checking)
+                && checking.getState() == myEmptyState;
     }
 
     private boolean checkStepRow(Coordinate startingLocation, GamePiece checking, List<Integer> directions){

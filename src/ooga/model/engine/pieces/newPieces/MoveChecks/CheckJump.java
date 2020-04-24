@@ -26,7 +26,8 @@ public class CheckJump implements MoveCheck {
         List<GamePiece> piecesBetween = myPiecesInBetween.findNeighborsToConvert(startingLocation,
                 checking.getPosition(),checking.getNumObjects(),state,directions.get(0),neighbors);
         Coordinate startCheckLocation = findStartingLocation(piecesBetween,startingLocation,checking);
-        for(int i = 0; i < piecesBetween.size();i++){
+        int numPiecesToCheck = piecesBetween.size();
+        for(int i = 0; i < numPiecesToCheck;i++){
             boolean patternMetSoFar = pathMeetsPattern(piecesBetween,startCheckLocation,checking,i);
             patternMet = patternMet && patternMetSoFar;
             piecesBetween = myPiecesInBetween.findNeighborsToConvert(startCheckLocation,checking.getPosition(),
@@ -34,11 +35,13 @@ public class CheckJump implements MoveCheck {
             startCheckLocation = findStartingLocation(piecesBetween,startCheckLocation,checking);
         }
 
-        return patternMet && checkDirection(directions,startingLocation,checking.getPosition());
+        return patternMet && checkDirection(directions,startingLocation,checking.getPosition(), numPiecesToCheck)
+                && checking.getState() == myEmptyState;
     }
-    private boolean checkDirection( List<Integer> directions, Coordinate startingLocation, Coordinate endLocation){
+    private boolean checkDirection(List<Integer> directions, Coordinate startingLocation, Coordinate endLocation,
+                                    int numPiecesChecked){
         for(int direction : directions){
-            if(startingLocation.getRow() + direction == endLocation.getRow()){
+            if(startingLocation.getRow() + (direction * (numPiecesChecked + 1)) == endLocation.getRow()){
                 return true;
             }
         }
@@ -48,7 +51,7 @@ public class CheckJump implements MoveCheck {
                                      int numPiecesChecked){
         GamePiece closestToStart = checking;
         for(GamePiece between : piecesBetween){
-            if(between.getPosition() == startingLocation){
+            if(between.getPosition().equals(startingLocation)){
                 closestToStart = between;
             }
         }

@@ -12,7 +12,7 @@ class FindNeighborsBetweenCoordinatesTest {
     List<Integer> direction = new ArrayList<>(List.of(1));
     //main diagonals
     Coordinate coord00 = new Coordinate(0,0);
-    GamePiece piece00 = new GamePiece(0,coord00,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece piece00 = new GamePiece(1,coord00,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     Coordinate coord11 = new Coordinate(1,1);
     GamePiece piece11 = new GamePiece(0,coord11,1,direction,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     Coordinate coord22 = new Coordinate(2,2);
