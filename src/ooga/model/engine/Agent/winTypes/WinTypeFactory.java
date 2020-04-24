@@ -26,7 +26,7 @@ public class WinTypeFactory {
             case "NoPiecesForOpponent":
                 return new NoPiecesForOpponent(emptyState);
             case "NoMovesMorePieces":
-                return new NoMovesMorePieces(winValue, stateIndex, initialConfig, checkCurrConfig);
+                return new NoMovesMorePieces(stateIndex, initialConfig, checkCurrConfig, emptyState);
             default:
                 throw new InvalidWinTypeException(winType + " is not a valid neighborhood type.");
         }

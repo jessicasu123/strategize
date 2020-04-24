@@ -19,7 +19,7 @@ class NoMovesMorePiecesTest {
         List<Integer> agentStateInfo = new ArrayList<>(List.of(3,4));
         int stateIndex = 1;
 
-        NoMovesMorePieces mancalaWinType = new NoMovesMorePieces(24, stateIndex, initialConfig, false);
+        NoMovesMorePieces mancalaWinType = new NoMovesMorePieces(stateIndex, initialConfig, false, 0);
 
         List<Integer> gipRow1 = new ArrayList<>(List.of(14,12,0,0,0,2,0,0));
         List<Integer> gipRow2 = new ArrayList<>(List.of(0,1,1,1,0,0,0,17));

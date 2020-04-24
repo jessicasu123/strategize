@@ -8,31 +8,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Given a winValue and index for the player's row of pieces,
- * returns whether that player has sufficient pieces in its row
- * meet the win condition
+ * Given a winValue and index for the player's row of pieces, returns whether
+ * that player has sufficient pieces in its row meet the win condition
+ * For games such as Mancala where the winning condition relies on the number
+ * of objects each player has, not pieces, checks number of objects based on
+ * positions found from the initialStateConfig
  */
 
 public class NoMovesMorePieces implements WinType {
-    private final int myWinValue;
     private final int myStateIndex;
     private final List<List<Integer>> myInitialConfig;
+    private List<List<Integer>> myCurrConfig;
     private final Boolean checkCurrConfig;
     private int myPlayerState;
+    private int myEmptyState;
 
-    public NoMovesMorePieces(int winValue, int stateIndex, List<List<Integer>> initialConfig, Boolean checkCurrConfig){
-        myWinValue = winValue;
+    public NoMovesMorePieces(int stateIndex, List<List<Integer>> initialConfig, Boolean checkCurrConfig, int emptyState){
         myStateIndex = stateIndex;
         myInitialConfig = initialConfig;
         this.checkCurrConfig = checkCurrConfig;
+        myEmptyState = emptyState;
     }
 
     @Override
     public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
         myPlayerState = playerStates.get(myStateIndex);
+        myCurrConfig = boardStateInfo;
         List<List<Integer>> boardToCheck;
         if (checkCurrConfig) {
-            boardToCheck = boardStateInfo;
+            boardToCheck = myCurrConfig;
         } else {
             boardToCheck = myInitialConfig;
         }
@@ -41,9 +45,23 @@ public class NoMovesMorePieces implements WinType {
         if (checkCurrConfig) {
             numPlayerPieces = myStateCoords.size();
         } else {
-            numPlayerPieces = countStateOccurrences(myStateCoords, boardStateInfo);
+            numPlayerPieces = countStateOccurrences(myStateCoords);
         }
-        return noMovesLeft && numPlayerPieces > myWinValue;
+        return noMovesLeft && numPlayerPieces > countAllPieces()/2;
+    }
+
+    private int countAllPieces() {
+        int allPieceCount = 0;
+        for (List<Integer> row: myCurrConfig) {
+            for (int colValue: row) {
+                if (colValue != myEmptyState && checkCurrConfig) {
+                        allPieceCount += 1;
+                } else {
+                    allPieceCount += colValue;
+                }
+            }
+        }
+        return allPieceCount;
     }
 
     private ArrayList<Coordinate> getStateCoords(List<List<Integer>> boardToCheck) {
@@ -58,10 +76,10 @@ public class NoMovesMorePieces implements WinType {
         return stateCoords;
     }
 
-    private int countStateOccurrences(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
+    private int countStateOccurrences(ArrayList<Coordinate> stateCoords) {
         int total = 0;
         for (Coordinate pos : stateCoords) {
-            total += boardStateInfo.get(pos.getRow()).get(pos.getCol());
+            total += myCurrConfig.get(pos.getRow()).get(pos.getCol());
         }
         return total;
     }
