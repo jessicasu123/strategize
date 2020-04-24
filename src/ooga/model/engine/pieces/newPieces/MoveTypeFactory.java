@@ -8,7 +8,7 @@ import java.util.List;
 public class MoveTypeFactory {
     public static final int SPECIAL_STATE_INDEX = 1;
     public MoveType createMoveType(String moveTypeName, ConvertableNeighborFinder converter, int emptyState, boolean convertToEmptyState,
-                                   int promotionRow, List<Integer> playerStates) throws Exception {
+                                   int promotionRow, List<Integer> playerStates) throws InvalidMoveTypeException {
         switch(moveTypeName){
             case "PositionMove":
                 return new PositionMove();

@@ -9,9 +9,7 @@ import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
 import ooga.model.engine.Agent.winTypes.WinType;
 import ooga.model.engine.Agent.winTypes.WinTypeFactory;
 import ooga.model.engine.Player.Player;
-import ooga.model.engine.exceptions.InvalidFileFormatException;
-import ooga.model.engine.exceptions.InvalidGameTypeException;
-import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.*;
 import ooga.model.engine.pieces.GamePieceFactory;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinder;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertableNeighborFinderFactory;
@@ -98,7 +96,7 @@ public class Controller implements ControllerFramework {
         return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, statesToIgnore);
     }
 
-    private List<MoveType> createMoveTypesForPLayer(int i) throws Exception {
+    private List<MoveType> createMoveTypesForPLayer(int i) throws InvalidMoveTypeException {
         List<MoveType> moveTypes = new ArrayList<>();
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
         int emptyState = myFileHandler.getEmptyState();
@@ -114,7 +112,7 @@ public class Controller implements ControllerFramework {
         return moveTypes;
     }
 
-    private List<MoveCheck> createSelfMoveCheckForPlayer(int i) throws Exception {
+    private List<MoveCheck> createSelfMoveCheckForPlayer(int i) throws InvalidMoveCheckException {
         List<MoveCheck> moveChecks = new ArrayList<>();
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
         int emptyState = myFileHandler.getEmptyState();
@@ -127,7 +125,7 @@ public class Controller implements ControllerFramework {
         return moveChecks;
     }
 
-    private List<MoveCheck> createNeighborMoveCheckForPlayer(int i) throws Exception {
+    private List<MoveCheck> createNeighborMoveCheckForPlayer(int i) throws InvalidMoveCheckException {
         List<MoveCheck> moveChecks = new ArrayList<>();
         List<String> selfMoveCheck = myFileHandler.getNeighborMoveChecks();
         int emptyState = myFileHandler.getEmptyState();
