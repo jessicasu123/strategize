@@ -4,8 +4,8 @@ import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.model.engine.exceptions.InvalidNeighborhoodException;
-import ooga.model.engine.pieces.GamePiece;
-import ooga.model.engine.pieces.GamePieceFactory;
+import ooga.model.engine.pieces.newPieces.GamePiece;
+import ooga.model.engine.pieces.newPieces.GamePieceCreator;
 
 import java.util.*;
 
@@ -24,7 +24,7 @@ public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
     private List<List<Integer>> myObjectConfiguration;
-    private GamePieceFactory myGamePieceFactory;
+    private GamePieceCreator myGamePieceFactory;
     private int numRows;
     private int numCols;
     private boolean doesTurnChange;
@@ -36,7 +36,7 @@ public class Board implements BoardFramework{
      * @param gamePieces - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
-    public Board(GamePieceFactory gamePieces, List<List<Integer>> startingConfiguration,
+    public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
                  List<List<Integer>> objectConfiguration, List<String> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;

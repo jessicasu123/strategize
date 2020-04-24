@@ -309,28 +309,36 @@ public class JSONFileReader implements FileHandler {
     }
 
     private void parseData(){
-        for (String key: gameData.keySet()) {
-            Object value = gameData.get(key);
-            if (value.getClass().equals(JSONObject.class)) {
-                JSONObject nestedObject = gameData.getJSONObject(key);
-                parseNestedData(key, nestedObject);
-            } else {
-                getBasicValues(gameData, key, key, value);
+        try {
+            for (String key : gameData.keySet()) {
+                Object value = gameData.get(key);
+                if (value.getClass().equals(JSONObject.class)) {
+                    JSONObject nestedObject = gameData.getJSONObject(key);
+                    parseNestedData(key, nestedObject);
+                } else {
+                    getBasicValues(gameData, key, key, value);
+                }
             }
+            validateData();
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
-        validateData();
     }
 
     private void parseNestedData(String key, JSONObject nestedObject) {
-        for (String nestedKey: nestedObject.keySet()) {
-            Object value = nestedObject.get(nestedKey);
-            String newKey = nestedKey;
-            if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
-                if (key.contains("Player")){
-                    newKey = key+nestedKey;
+        try {
+            for (String nestedKey : nestedObject.keySet()) {
+                Object value = nestedObject.get(nestedKey);
+                String newKey = nestedKey;
+                if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
+                    if (key.contains("Player")) {
+                        newKey = key + nestedKey;
+                    }
+                    getBasicValues(nestedObject, nestedKey, newKey, value);
                 }
-                getBasicValues(nestedObject, nestedKey, newKey, value);
             }
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
     }
 

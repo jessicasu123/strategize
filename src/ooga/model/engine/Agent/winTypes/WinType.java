@@ -22,5 +22,5 @@ public interface WinType {
      * @param noMovesLeft - true if there are no moves left, false if there are
      * @return true if a player has won the game, false if the game is continuing/tie
      */
-    boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft);
+    boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft);
 }

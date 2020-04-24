@@ -20,7 +20,7 @@ class ConsecutivePiecesTest {
         List<Integer> row6 = new ArrayList<>(List.of(0,0,1,1,1,1,0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         List<Integer> playerstate = new ArrayList<>(List.of(0,1,2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         //test vertical
         row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
@@ -31,7 +31,7 @@ class ConsecutivePiecesTest {
         row6 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         playerstate = new ArrayList<>(List.of(0,1,2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
 
         //test diagonal
@@ -43,7 +43,7 @@ class ConsecutivePiecesTest {
         row6 = new ArrayList<>(List.of(0,0,0,1,2,1,1));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         playerstate = new ArrayList<>(List.of(1));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
 
     @Test
@@ -57,7 +57,7 @@ class ConsecutivePiecesTest {
         List<Integer> row6 = new ArrayList<>(List.of(0, 0, 1, 1, 1, 2, 0));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         List<Integer> playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         row2 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
@@ -67,7 +67,7 @@ class ConsecutivePiecesTest {
         row6 = new ArrayList<>(List.of(0,0,1,1,2,0,0));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         row2 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
@@ -77,7 +77,7 @@ class ConsecutivePiecesTest {
         row6 = new ArrayList<>(List.of(0,0,1,1,2,1,2));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
         playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
 
     @Test
@@ -88,21 +88,21 @@ class ConsecutivePiecesTest {
         List<Integer> row3 = new ArrayList<>(List.of(2,0,2));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         List<Integer> playerstate = new ArrayList<>(List.of(1));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(2,1,2));
         row2 = new ArrayList<>(List.of(0,1,0));
         row3 = new ArrayList<>(List.of(2,1,2));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         playerstate = new ArrayList<>(List.of(1));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(1,2,2));
         row2 = new ArrayList<>(List.of(0,1,0));
         row3 = new ArrayList<>(List.of(2,2,1));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         playerstate = new ArrayList<>(List.of(1));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
 
     @Test
@@ -113,20 +113,20 @@ class ConsecutivePiecesTest {
         List<Integer> row3 = new ArrayList<>(List.of(2,2,2));
         List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         List<Integer> playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(1,1,2));
         row2 = new ArrayList<>(List.of(0,0,2));
         row3 = new ArrayList<>(List.of(1,1,2));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(2,1,1));
         row2 = new ArrayList<>(List.of(0,2,0));
         row3 = new ArrayList<>(List.of(2,1,2));
         sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
         playerstate = new ArrayList<>(List.of(2));
-        assertTrue(cp.isWin(playerstate,sampleConfig, false));
+        assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
 }

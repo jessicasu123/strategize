@@ -41,30 +41,30 @@ class JSONFileReaderTest {
 
     @Test
     void getConverterTypeTest(){
-        assertEquals("FindNeighborsBetweenCoordinates", fr.getConverterType());
+        assertEquals("NeighborsBetweenCoordinatesFinder", fr.getConverterType());
     }
 
     @Test
     void getSelfMoveChecksTest(){
         List<String> movechecks = new ArrayList<>();
-        movechecks.add("CheckOwnPiece");
+        movechecks.add("OwnPieceCheck");
         assertEquals(movechecks,fr.getSelfMoveChecks());
     }
 
     @Test
     void getNeighborMoveChecksTest(){
         List<String> movechecks = new ArrayList<>();
-        movechecks.add("CheckStep");
-        movechecks.add("CheckJump");
+        movechecks.add("StepCheck");
+        movechecks.add("JumpCheck");
         assertEquals(movechecks,fr.getNeighborMoveChecks());
     }
 
     @Test
     void getMoveTypeTest(){
         List<String> movechecks = new ArrayList<>();
-        movechecks.add("ChangeOpponentPieces");
+        movechecks.add("ChangeOpponentPiecesMove");
         movechecks.add("PositionMove");
-        movechecks.add("Promotion");
+        movechecks.add("PromotionMove");
         assertEquals(movechecks,fr.getMoveTypes());
     }
 

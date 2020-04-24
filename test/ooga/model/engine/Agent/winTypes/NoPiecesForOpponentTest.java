@@ -18,8 +18,8 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(noPieces.isWin(user,boardConfig,false));
-        assertFalse(noPieces.isWin(agent,boardConfig,false));
+        assertFalse(noPieces.isWin(user,boardConfig,boardConfig, false));
+        assertFalse(noPieces.isWin(agent,boardConfig,boardConfig,false));
     }
 
     @Test
@@ -30,8 +30,8 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(noPieces.isWin(user,boardConfig,false));
-        assertTrue(noPieces.isWin(agent,boardConfig,true));
+        assertFalse(noPieces.isWin(user,boardConfig,boardConfig,false));
+        assertTrue(noPieces.isWin(agent,boardConfig,boardConfig,true));
     }
 
     @Test
@@ -41,7 +41,7 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(noPieces.isWin(user,boardConfig,true));
-        assertFalse(noPieces.isWin(agent,boardConfig,false));
+        assertTrue(noPieces.isWin(user,boardConfig,boardConfig,true));
+        assertFalse(noPieces.isWin(agent,boardConfig,boardConfig,false));
     }
 }

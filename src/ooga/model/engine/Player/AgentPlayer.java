@@ -4,15 +4,22 @@ import ooga.model.engine.Agent.Agent;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
-import ooga.model.engine.pieces.newPieces.MoveType;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AgentPlayer extends Player{
+/**
+ * An agent player is a player that uses AI to calculate its move
+ * this player has an ID associated with it which corresponds to all of the pieces that it has
+ * when called upon will calculate its move based on using the specific AI agent for the game being played
+ *      - in calculating the move the agent player uses the minimax algorithm to determine the best move
+ *      based on the evaluation from the agent
+ *      - it uses minimax with alpha-beta pruning to allow for increased efficiency and thus enabling it to
+ *      have a higher branching factor
+ */
+public class AgentPlayer{
     public static final int ID_STATE = 0;
     private Agent myAgent;
     private List<Integer> myStates;
@@ -23,18 +30,31 @@ public class AgentPlayer extends Player{
     private Map<Integer, Map.Entry<Coordinate, Coordinate>> moveMappings;
     public static final int MAX_SEARCH_DEPTH = 1;
 
+    /**
+     * Creates an agent player using the default search depth
+     * @param states -  the states of the agent
+     * @param gameAgent - the AI agent for this type of game
+     * @param opponentStates - the states of the pieces that belong to the opponent
+     */
+    public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates){
+        this(states, gameAgent, opponentStates, MAX_SEARCH_DEPTH);
+    }
 
-    public AgentPlayer(List<Integer> states, List<Integer> directions, List<MoveCheck> selfMoveChecks,
-                       List<MoveCheck> neighborMoveChecks, List<MoveType> moveTypes, boolean isPlayer1,
-                       List<Integer> opponentStates, Agent gameAgent) {
-        super(states, directions, selfMoveChecks, neighborMoveChecks, moveTypes, isPlayer1);
+    /**
+     * Creates an agent player using specified search depth
+     * @param states - the states of the agent
+     * @param gameAgent - the AI agent for this type of game
+     * @param opponentStates - the states of the pieces that belong to the opponent
+     */
+    //TODO: take in search depth from data
+    public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates, int searchDepth){
         myStates = states;
         myAgent = gameAgent;
         myID = myStates.get(ID_STATE);
         myOpponentStates = opponentStates;
         myOpponentID = myOpponentStates.get(ID_STATE);
         moveMappings = new HashMap<>();
-        mySearchDepth = MAX_SEARCH_DEPTH;
+        mySearchDepth = searchDepth;
     }
 
     /**
@@ -55,8 +75,8 @@ public class AgentPlayer extends Player{
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft) || noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft) || noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMaxVal = Integer.MIN_VALUE;
 
@@ -83,8 +103,8 @@ public class AgentPlayer extends Player{
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft)|| noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft)|| noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMinVal = Integer.MAX_VALUE;
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponentStates).entrySet()) {
@@ -102,5 +122,6 @@ public class AgentPlayer extends Player{
 
         return currMinVal;
     }
+
 
 }

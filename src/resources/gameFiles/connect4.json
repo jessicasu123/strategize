@@ -1,7 +1,10 @@
 {
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
-    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","6 x 7", "7 x 8", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow", "OnlyChangeOpponent","EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig",
+    "MultiplePiecesPerSquare", "ConvertToEmptyState", "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions",
+    "SquareClickType", "DimensionOptions", "BoardKeys", "Default","6 x 7", "7 x 8", "PlayerKeys","Player1", "Player2",
+    "possibleMove", "Rules"],
 
   "Gametype": "Connect4",
 
@@ -10,6 +13,24 @@
   "WinType": "ConsecutivePieces",
 
   "EvaluationFunctions": ["NumOpenLines"],
+
+  "SelfMoveChecks": ["EmptyStateCheck", "BelowCheck"],
+
+  "SelfNumObjectsToCompare": 0,
+
+  "NeighborMoveChecks": [],
+
+  "NeighborNumObjectsToCompare": 0,
+
+  "ConvertToEmptyState": true,
+
+  "Player1PromotionIsLastRow": false,
+
+  "OnlyChangeOpponent": false;
+
+  "MoveTypes": ["ChangeToNewStateMove"],
+
+  "NeighborConverterType": "",
 
   "SpecialPieceIndex": 0,
 
@@ -60,7 +81,7 @@
     "States": [1],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["redCircle.png"],
     "Colors": ["white"]
   },
@@ -69,7 +90,7 @@
     "States": [2],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["yellowCircle.png"],
     "Colors": ["white"]
   },
