@@ -28,20 +28,20 @@ public class MoveTypeFactory {
         switch(moveTypeName){
             case "PositionMove":
                 return new PositionMove();
-            case "Promotion":
-                return new Promotion(promotionRow,playerStates.get(SPECIAL_STATE_INDEX));
-            case "ForceMoveAgain":
-                return new ForceMoveAgain(playerStates, converter);
-            case "ClearObjects":
-                return new ClearObjects();
-            case "SpecialCapture":
-                return new SpecialCapture(playerStates, converter);
-            case "ChangeNeighborObjects":
-                return new ChangeNeighborObjects(converter);
-            case "ChangeOpponentPieces":
-                return new ChangeOpponentPieces(converter, convertToEmptyState, emptyState);
-            case "ChangeToNewState":
-                return new ChangeToNewState();
+            case "PromotionMove":
+                return new PromotionMove(promotionRow,playerStates.get(SPECIAL_STATE_INDEX));
+            case "ForceMoveAgainMove":
+                return new ForceMoveAgainMove(playerStates, converter);
+            case "ClearObjectsMove":
+                return new ClearObjectsMove();
+            case "SpecialCaptureMove":
+                return new SpecialCaptureMove(playerStates, converter);
+            case "ChangeNeighborObjectsMove":
+                return new ChangeNeighborObjectsMove(converter);
+            case "ChangeOpponentPiecesMove":
+                return new ChangeOpponentPiecesMove(converter, convertToEmptyState, emptyState);
+            case "ChangeToNewStateMove":
+                return new ChangeToNewStateMove();
             default:
                 throw new InvalidMoveTypeException(moveTypeName + " is not a valid move type.");
         }

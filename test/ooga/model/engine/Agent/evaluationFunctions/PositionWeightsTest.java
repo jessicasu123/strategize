@@ -38,7 +38,7 @@ public class PositionWeightsTest {
         //player 2 (max player) has better positions on the board - 3 corners, as well as the entire
         //stable border rows on the top and bottom
         PositionWeights othelloPosWeights = new PositionWeights(othelloWeights, agent, user, maxDirection, minDirection);
-        assertEquals(42, othelloPosWeights.evaluate(boardConfig, false));
+        assertEquals(42, othelloPosWeights.evaluate(boardConfig,boardConfig, false));
     }
 
 
@@ -63,7 +63,7 @@ public class PositionWeightsTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,1,0,1));
         List<Integer> row4 = new ArrayList<>(List.of(3,0,3,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(6, checkersPosWeightsEval.evaluate(boardConfig, false));
+        assertEquals(6, checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
 
         //test better position for pawns for min
         row1 = new ArrayList<>(List.of(0,1,0,1));
@@ -71,7 +71,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig, false));
+        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
 
         //test better position for kings for min
         row1 = new ArrayList<>(List.of(0,2,0,2));
@@ -79,7 +79,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig, false));
+        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
 
         //test better position for kings for max
         row1 = new ArrayList<>(List.of(0,0,0,0));
@@ -87,7 +87,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,2,0,2));
         row4 = new ArrayList<>(List.of(4,0,4,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(6,checkersPosWeightsEval.evaluate(boardConfig, false));
+        assertEquals(6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
 
     }
 

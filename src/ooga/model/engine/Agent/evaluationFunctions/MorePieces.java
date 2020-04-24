@@ -20,7 +20,7 @@ public class MorePieces implements EvaluationFunction{
     }
 
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         List<List<Integer>> boardStates;
         if (checkCurrConfig) {
             boardStates = boardStateInfo;

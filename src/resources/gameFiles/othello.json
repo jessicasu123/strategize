@@ -3,7 +3,7 @@
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
     "Player1PromotionIsLastRow","EmptyState",
-    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "PiecesMove",  "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
     "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
@@ -15,7 +15,7 @@
 
   "EvaluationFunctions": ["MorePieces","PositionWeights"],
 
-  "SelfMoveChecks": ["CheckEmptyState", "CheckAllFlippableDirections"],
+  "SelfMoveChecks": ["EmptyStateCheck", "AllFlippableDirectionsCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
@@ -23,9 +23,9 @@
 
   "NeighborNumObjectsToCompare": 0,
 
-  "MoveTypes": ["ChangeToNewState", "ChangeOpponentPieces"],
+  "MoveTypes": ["ChangeToNewStateMove", "ChangeOpponentPiecesMove"],
 
-  "NeighborConverterType": "CheckAllFlippableDirections",
+  "NeighborConverterType": "FlippableNeighborFinder",
 
   "SpecialPieceIndex": 0,
 
@@ -34,8 +34,6 @@
   "Player1PromotionIsLastRow": false,
 
   "PiecesMove": false,
-
-  "Player1PosDirection": false,
 
   "CheckCurrConfig": true,
 
@@ -75,22 +73,24 @@
     "BoardWeights": "4,-2,3,3,-2,4;-2,-2,-1,-1,-2,-2;3,-1,0,0,-1,3;3,-1,0,0,-1,3;-2,-2,-1,-1,-2,-2;4,-2,3,3,-2,4"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction"],
+  "PlayerKeys": ["States", "Images", "Colors", "ImmovableState","StatesToIgnore", "Direction"],
 
   "Player1": {
     "States": [1],
     "Images": ["blackCircle.png"],
     "Colors": ["white"],
+    "ImmovableState": -1,
     "StatesToIgnore": [],
-    "Direction": []
+    "Direction": [0]
   },
 
   "Player2": {
     "States": [2],
     "Images": ["blackOutlineCircle.png"],
     "Colors": ["white"],
+    "ImmovableState": -1,
     "StatesToIgnore": [],
-    "Direction": []
+    "Direction": [0]
   },
 
   "possibleMove": "greyOutlineCircle.png",

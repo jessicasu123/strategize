@@ -8,7 +8,7 @@ import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
 import ooga.model.engine.Agent.winTypes.WinType;
 import ooga.model.engine.Agent.winTypes.WinTypeFactory;
-import ooga.model.engine.Player.Player;
+import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.*;
 import ooga.model.engine.pieces.GamePieceFactory;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
@@ -26,7 +26,6 @@ import java.util.*;
 
 public class Controller implements ControllerFramework {
     private GameFramework myGame;
-    private GamePieceFactory myGamePieces;
     private FileHandler myFileHandler;
     private boolean isPieceSelected;
     private int pieceSelectedX;
@@ -36,12 +35,10 @@ public class Controller implements ControllerFramework {
     private String gameFileName;
     private boolean userIsPlayer1;
     private boolean userTurn;
-    private Player userPlayer;
-    private Player agentPlayer;
-    private List<Integer> myUserPlayerInfo;
-    private List<Integer> myAgentPlayerInfo;
+    private PlayerInfoHolder myUserPlayerInfoHolder;
+    private PlayerInfoHolder myAgentPlayerInfoHolder;
     private Map<Integer, String> myStateToImageMapping;
-    private GamePieceCreator GamePieceCreator;
+    private GamePieceCreator myGamePieceCreator;
     private int emptyState;
 
     public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidGameTypeException, InvalidFileFormatException {
@@ -50,44 +47,44 @@ public class Controller implements ControllerFramework {
         myFileHandler.parseFile();
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
-        //createUserAndAgentPlayers();
         myStateToImageMapping = new HashMap<>();
-        setPlayerInformation();
-
+        createUserAndAgentPlayers();
         emptyState = myFileHandler.getEmptyState();
         List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
-        myGamePieces = createGamePieceFactory();
         Agent gameAgent = createAgent(startingConfiguration);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
 
-        //makeGamePieceCreator();
-        myGame = new Game(myGamePieces, startingConfiguration, objectConfig, myFileHandler.getNeighborhood(), myUserPlayerInfo,
-                myAgentPlayerInfo, userIsPlayer1, gameAgent);
+        makeGamePieceCreator();
+        myGame = new Game(myGamePieceCreator, startingConfiguration, objectConfig, myFileHandler.getNeighborhood(), myUserPlayerInfoHolder,
+                myAgentPlayerInfoHolder, gameAgent);
     }
 
     private void createUserAndAgentPlayers() {
         if(userIsPlayer1){
-            userPlayer = makePlayer(1);
-            agentPlayer = makePlayer(2);
+            myUserPlayerInfoHolder = makePlayer(1);
+            myAgentPlayerInfoHolder = makePlayer(2);
+
         }else{
-            userPlayer = makePlayer(2);
-            agentPlayer = makePlayer(1);
+            myUserPlayerInfoHolder = makePlayer(2);
+            myAgentPlayerInfoHolder = makePlayer(1);
         }
+        addPlayerStateImageInfoToMap(1);
+        addPlayerStateImageInfoToMap(2);
     }
 
     private void makeGamePieceCreator() {
-        GamePieceCreator = new GamePieceCreator(userPlayer, agentPlayer);
+        myGamePieceCreator = new GamePieceCreator(myUserPlayerInfoHolder, myAgentPlayerInfoHolder);
     }
 
-    private Player makePlayer(int player) {
+    private PlayerInfoHolder makePlayer(int player) {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
         int immovableState = myFileHandler.getImmovableStateForPlayer(player);
         List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates, immovableState);
         List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(playerStates, immovableState);
         List<MoveType> moveTypes = createMoveTypesForPlayer(player, playerStates);
         List<Integer> directions = myFileHandler.getDirectionForPlayer(player);
-        boolean isPlayer1 = (userIsPlayer1 && player==1) || (!userIsPlayer1 && player==2);
-        return new Player(playerStates, directions, selfMoveChecks,
+        boolean isPlayer1 = (userIsPlayer1 && player == 1) || (!userIsPlayer1 && player == 1);
+        return new PlayerInfoHolder(playerStates, directions, selfMoveChecks,
                 neighborMoveChecks, moveTypes,isPlayer1);
     }
 
@@ -138,28 +135,26 @@ public class Controller implements ControllerFramework {
         int winValue = myFileHandler.getWinValue();
         WinType winType = createWinType(winValue, startingConfig);
         List<EvaluationFunction> allEvals = createEvaluationFunctions(winValue, startingConfig);
-        return new Agent(winType, allEvals, myAgentPlayerInfo, myUserPlayerInfo);
+        List<Integer> agentInfo = myAgentPlayerInfoHolder.getPlayerStates();
+        List<Integer> userInfo = myUserPlayerInfoHolder.getPlayerStates();
+        return new Agent(winType, allEvals, agentInfo, userInfo);
 
     }
 
     private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) {
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
-        int userDirection; //userPlayer.getDirections().get(0);
-        int agentDirection; //agentPlayer.getDirections().get(0);
-        if(userIsPlayer1){ //TODO: remove once FileHandler gets directions from file
-            userDirection = myFileHandler.player1Direction();
-            agentDirection = myFileHandler.player2Direction();
-        }else{
-            userDirection = myFileHandler.player2Direction();
-            agentDirection = myFileHandler.player1Direction();
-        }
+        int userDirection = myUserPlayerInfoHolder.getDirections().get(0);
+        int agentDirection = myAgentPlayerInfoHolder.getDirections().get(0);
+
         List<List<Integer>> boardWeights = myFileHandler.getBoardWeights();
         List<String> evalFunctions = myFileHandler.getEvaluationFunctions();
         List<EvaluationFunction> allEvals = new ArrayList<>();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
+        List<Integer> agentInfo = myAgentPlayerInfoHolder.getPlayerStates();
+        List<Integer> userInfo = myUserPlayerInfoHolder.getPlayerStates();
         for(String eval: evalFunctions){
             EvaluationFunction evalFunc = new EvaluationFunctionFactory().createEvaluationFunction(eval,
-                    specialPieceIndex, myAgentPlayerInfo, myUserPlayerInfo, boardWeights, agentDirection,userDirection,
+                    specialPieceIndex, agentInfo, userInfo, boardWeights, agentDirection,userDirection,
                     winValue, checkCurrConfig,startingConfig);
             allEvals.add(evalFunc);
         }
@@ -171,37 +166,6 @@ public class Controller implements ControllerFramework {
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
         return new WinTypeFactory().createWinType(winTypeStr, emptyState,specialPieceIndex, winValue, checkCurrConfig, startingConfig);
-    }
-
-    private GamePieceFactory createGamePieceFactory(){
-        String gameType = myFileHandler.getGameType();
-        int userDirection;
-        int agentDirection;
-        if(userIsPlayer1){
-            userDirection = myFileHandler.player1Direction();
-            agentDirection = myFileHandler.player2Direction();
-        }else{
-            userDirection = myFileHandler.player2Direction();
-            agentDirection = myFileHandler.player1Direction();
-        }
-        return new GamePieceFactory(gameType, myUserPlayerInfo, myAgentPlayerInfo, emptyState, userDirection, agentDirection);
-    }
-
-    private void setPlayerInformation(){ //TODO: change to only getting the state image mapping
-        if (userIsPlayer1) {
-            myUserPlayerInfo = createPlayerStateInformation(1);
-            myAgentPlayerInfo = createPlayerStateInformation(2);
-        }
-        else {
-            myUserPlayerInfo = createPlayerStateInformation(2);
-            myAgentPlayerInfo = createPlayerStateInformation(1);
-        }
-    }
-
-    private List<Integer> createPlayerStateInformation(int playerNum){
-        List<Integer> stateInfo = myFileHandler.getPlayerStateInfo(playerNum);
-        addPlayerStateImageInfoToMap(playerNum);
-        return Collections.unmodifiableList(stateInfo);
     }
 
     private void addPlayerStateImageInfoToMap(int playerNum){
@@ -222,13 +186,11 @@ public class Controller implements ControllerFramework {
     }
 
     public List<Integer> getUserStateInfo(){
-        //return Collections.unmodifiableList(userPlayer.getPlayerStates()); //TODO: uncomment
-        return Collections.unmodifiableList(myUserPlayerInfo);
+        return Collections.unmodifiableList(myUserPlayerInfoHolder.getPlayerStates());
     }
 
     public List<Integer> getAgentStateInfo(){
-        //return Collections.unmodifiableList(agentPlayer.getPlayerStates()); //TODO: uncomment
-        return Collections.unmodifiableList(myAgentPlayerInfo);
+        return Collections.unmodifiableList(myAgentPlayerInfoHolder.getPlayerStates());
     }
 
     public void restartGame() throws IOException, ParseException {
@@ -237,8 +199,8 @@ public class Controller implements ControllerFramework {
 //        squareSelected(-1,-1);
 //        squareSelected(-1, -1);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-        myGame = new Game(myGamePieces, myFileHandler.loadFileConfiguration(), objectConfig, myFileHandler.getNeighborhood(),
-                myUserPlayerInfo, myAgentPlayerInfo, userIsPlayer1, createAgent(myFileHandler.loadFileConfiguration()));
+        myGame = new Game(myGamePieceCreator, myFileHandler.loadFileConfiguration(), objectConfig, myFileHandler.getNeighborhood(),
+                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()));
     }
 
     public String playerPass() {return myGame.whichPlayerPassed();}

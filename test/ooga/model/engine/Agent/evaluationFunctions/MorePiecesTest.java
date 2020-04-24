@@ -38,7 +38,7 @@ public class MorePiecesTest {
         //7 of min pieces
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
         MorePieces moreOthelloPiecesEval = new MorePieces(stateIndex, agent, user,initialConfig, true);
-        assertEquals(11, moreOthelloPiecesEval.evaluate(boardConfig, false));
+        assertEquals(11, moreOthelloPiecesEval.evaluate(boardConfig,boardConfig, false));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class MorePiecesTest {
         //18 min pieces in user goal pos
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2));
         MorePieces moreMancalaPiecesEval = new MorePieces(stateIndex, agent, user, initialConfig, false);
-        assertEquals(-3, moreMancalaPiecesEval.evaluate(boardConfig, false));
+        assertEquals(-3, moreMancalaPiecesEval.evaluate(boardConfig,boardConfig, false));
     }
 
 }

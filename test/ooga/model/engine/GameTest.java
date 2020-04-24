@@ -5,7 +5,13 @@ import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.Agent.evaluationFunctions.NumOpenLines;
 import ooga.model.engine.Agent.winTypes.ConsecutivePieces;
 import ooga.model.engine.Agent.winTypes.WinType;
+import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.pieces.GamePieceFactory;
+import ooga.model.engine.pieces.newPieces.ChangeToNewStateMove;
+import ooga.model.engine.pieces.newPieces.GamePieceCreator;
+import ooga.model.engine.pieces.newPieces.MoveChecks.EmptyStateCheck;
+import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
+import ooga.model.engine.pieces.newPieces.MoveType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,17 +56,25 @@ public class GameTest {
     EvaluationFunction eval = new NumOpenLines(0, agent, user, 3);
     WinType win = new ConsecutivePieces(3);
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
-    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
-    List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
+   List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
     List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
-    Game inProgressGame = new Game(ticTacToeFactory, createTestConfig(startingConfig),objectConfig,
-            new ArrayList<>(), user,agent, true, myAgent);
-    Game noMovesLeftGame = new Game(ticTacToeFactory, createTestConfig(noMovesConfig),objectConfig,
-            new ArrayList<>(), user,agent, true, myAgent);
-    Game player1WinGame = new Game(ticTacToeFactory, createTestConfig(player1Win),objectConfig,
-            new ArrayList<>(), user,agent,true, myAgent);
-    Game player2WinGme = new Game(ticTacToeFactory, createTestConfig(player2Win),objectConfig,
-            new ArrayList<>(), user,agent, true, myAgent);
+
+    List<Integer> direction = new ArrayList<>(List.of(1));
+    MoveCheck checkEmptyState = new EmptyStateCheck(0);
+    MoveType changeToNewState = new ChangeToNewStateMove();
+    PlayerInfoHolder player1InfoTicTacToe = new PlayerInfoHolder(user, direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),true);
+    PlayerInfoHolder player2InfoTicTacToe = new PlayerInfoHolder(agent,direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),false);
+
+    GamePieceCreator gamePieceCreator = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
+
+    Game inProgressGame = new Game(gamePieceCreator, createTestConfig(startingConfig),objectConfig,
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+    Game noMovesLeftGame = new Game(gamePieceCreator, createTestConfig(noMovesConfig),objectConfig,
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+    Game player1WinGame = new Game(gamePieceCreator, createTestConfig(player1Win),objectConfig,
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+    Game player2WinGme = new Game(gamePieceCreator, createTestConfig(player2Win),objectConfig,
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
 
     @Test
     void testMakeUserAndAgentMove() {

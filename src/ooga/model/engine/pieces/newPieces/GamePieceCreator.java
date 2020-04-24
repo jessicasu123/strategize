@@ -1,10 +1,9 @@
 package ooga.model.engine.pieces.newPieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.Player.Player;
+import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,20 +24,20 @@ public class GamePieceCreator {
 
     /**
      * Stores all of the information needed to create each players pieces
-     * @param userPlayer - the user player of the program
-     * @param agentPlayer - the agent player of the program
+     * @param userPlayerInfoHolder - the user player of the program
+     * @param agentPlayerInfoHolder - the agent player of the program
      */
-    public GamePieceCreator(Player userPlayer, Player agentPlayer){
-        myUserDirections = userPlayer.getDirections();
-        myUserMoveChecks = userPlayer.getMoveChecks();
-        myUserNeighborMoveChecks = userPlayer.getNeighborMoveChecks();
-        myUserMoveTypes = userPlayer.getMoveTypes();
-        myAgentDirections = agentPlayer.getDirections();
-        myAgentMoveChecks = agentPlayer.getMoveChecks();
-        myAgentNeighborMoveChecks = agentPlayer.getNeighborMoveChecks();
-        myAgentMoveTypes = agentPlayer.getMoveTypes();
-        myUserStates = userPlayer.getPlayerStates();
-        myAgentStates = agentPlayer.getPlayerStates();
+    public GamePieceCreator(PlayerInfoHolder userPlayerInfoHolder, PlayerInfoHolder agentPlayerInfoHolder){
+        myUserDirections = userPlayerInfoHolder.getDirections();
+        myUserMoveChecks = userPlayerInfoHolder.getMoveChecks();
+        myUserNeighborMoveChecks = userPlayerInfoHolder.getNeighborMoveChecks();
+        myUserMoveTypes = userPlayerInfoHolder.getMoveTypes();
+        myAgentDirections = agentPlayerInfoHolder.getDirections();
+        myAgentMoveChecks = agentPlayerInfoHolder.getMoveChecks();
+        myAgentNeighborMoveChecks = agentPlayerInfoHolder.getNeighborMoveChecks();
+        myAgentMoveTypes = agentPlayerInfoHolder.getMoveTypes();
+        myUserStates = userPlayerInfoHolder.getPlayerStates();
+        myAgentStates = agentPlayerInfoHolder.getPlayerStates();
     }
 
     /**

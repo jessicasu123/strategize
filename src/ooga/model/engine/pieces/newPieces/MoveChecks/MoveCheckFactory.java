@@ -21,18 +21,24 @@ public class MoveCheckFactory {
     public MoveCheck createMoveCheck(String moveCheckType, int emptyState, List<Integer> playerStates, int numObjectsToCompare,
                                      int immovableState) throws InvalidMoveCheckException {
         switch(moveCheckType){
-            case "CheckStep":
-                return new CheckStep(emptyState);
-            case "CheckJump":
-                return new CheckJump(emptyState, playerStates);
-            case "CheckAllFlippableDirections":
-                return new CheckAllFlippableDirections();
-            case "CheckBelow":
-                return new CheckBelow();
-            case "CheckEmptyState":
-                return new CheckEmptyState(emptyState);
-            case "CheckNotImmovable":
-                return new CheckNotImmovable(immovableState);
+            case "StepCheck":
+                return new StepCheck(emptyState);
+            case "JumpCheck":
+                return new JumpCheck(emptyState, playerStates);
+            case "AllFlippableDirectionsCheck":
+                return new AllFlippableDirectionsCheck();
+            case "BelowCheck":
+                return new BelowCheck();
+            case "EmptyStateCheck":
+                return new EmptyStateCheck(emptyState);
+            case "NotImmovableCheck":
+                return new NotImmovableCheck(immovableState);
+            case "NumObjectsCheck":
+                return new NumObjectsCheck(numObjectsToCompare);
+            case "OpponentPieceCheck":
+                return new OpponentPieceCheck(emptyState,playerStates);
+            case "OwnPieceCheck":
+                return new OwnPieceCheck(playerStates);
             default:
                 throw new InvalidMoveCheckException(moveCheckType + " is not a valid move check type.");
         }

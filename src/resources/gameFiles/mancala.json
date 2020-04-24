@@ -2,7 +2,7 @@
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
     "Player1PromotionIsLastRow", "EmptyState",
-    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "PiecesMove", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
     "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
@@ -14,7 +14,7 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "SelfMoveChecks": ["CheckOwnPiece","CheckNotImmovable", "CheckNumObjects"],
+  "SelfMoveChecks": ["OwnPieceCheck","NotImmovableCheck", "NumObjectsCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
@@ -26,17 +26,15 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ForceMoveAgain","ChangeNeighborObjects","SpecialCapture", "ClearObjects"],
+  "MoveTypes": ["ForceMoveAgainMove","ChangeNeighborObjectsMove","SpecialCaptureMove", "ClearObjectsMove"],
 
-  "NeighborConverterTypes": ["FindNeighborsUntilNoObjectsLeft"],
+  "NeighborConverterType": "NeighborsUntilNoObjectsFinder",
 
   "SpecialPieceIndex": 1,
 
   "EmptyState": 0,
 
   "PiecesMove": false,
-
-  "Player1PosDirection": true,
 
   "CheckCurrConfig": false,
 

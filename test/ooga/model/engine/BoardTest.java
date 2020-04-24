@@ -1,7 +1,14 @@
 package ooga.model.engine;
 
+import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.model.engine.pieces.GamePieceFactory;
+import ooga.model.engine.pieces.newPieces.*;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FlippableNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsBetweenCoordinatesFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsUntilNoObjectsFinder;
+import ooga.model.engine.pieces.newPieces.MoveChecks.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,13 +42,20 @@ public class BoardTest {
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
     List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
+    List<Integer> direction = new ArrayList<>(List.of(1));
+    MoveCheck checkEmptyState = new EmptyStateCheck(0);
+    MoveType changeToNewState = new ChangeToNewStateMove();
     List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
-    GamePieceFactory ticTacToeFactory = new GamePieceFactory("Tic-Tac-Toe", user,agent,0, 0,0);
-    Board ticTacToeBoard = new Board(ticTacToeFactory, config,objectConfig, neighborhoods);
+    PlayerInfoHolder player1InfoTicTacToe = new PlayerInfoHolder(user, direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),true);
+    PlayerInfoHolder player2InfoTicTacToe = new PlayerInfoHolder(agent,direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),false);
+
+    GamePieceCreator gamePieceCreatorTicTacToe = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
+
+    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(ticTacToeFactory, noMoves,objectConfig, neighborhoods);
+    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -51,11 +65,23 @@ public class BoardTest {
     List<Integer> row6 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row7 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row8 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
+
+    MoveCheck checkAllFlippableDirections = new AllFlippableDirectionsCheck();
+    List<MoveCheck> moveChecks = List.of(checkEmptyState, checkAllFlippableDirections);
+
+    FlippableNeighborFinder allFlippableNeighbors = new FlippableNeighborFinder();
+    ChangeOpponentPiecesMove changeOpponentPiecesMove = new ChangeOpponentPiecesMove(allFlippableNeighbors, false,0);
+    List<MoveType> moveTypes = List.of(changeToNewState, changeOpponentPiecesMove);
+
+    PlayerInfoHolder player1Info = new PlayerInfoHolder(user, direction,moveChecks,new ArrayList<>(),moveTypes,true);
+    PlayerInfoHolder player2Info = new PlayerInfoHolder(agent,direction,moveChecks,new ArrayList<>(),moveTypes,false);
+
+    GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
+
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
     List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
     List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
-    GamePieceFactory othelloFactory = new GamePieceFactory("Othello", user,agent,0, 0,0);
-    Board othelloBoard = new Board(othelloFactory, othelloConfig,objectConfig2, othelloNeighborhoods);
+    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods);
 
     @Test
     void testOthelloBoard() {
@@ -129,6 +155,37 @@ public class BoardTest {
 
     @Test
     void testCheckersBoard() {
+        List<Integer> player1 = new ArrayList<>(List.of(1,3));
+        List<Integer> player1Direction = new ArrayList<>(List.of(1));
+        List<Integer> player2 = new ArrayList<>(List.of(2,4));
+        List<Integer> player2Direction = new ArrayList<>(List.of(-1));
+        List<Integer> bothDirections = new ArrayList<>(List.of(-1,1));
+        int emptyState = 0;
+        ConvertibleNeighborFinder myFinder = new NeighborsBetweenCoordinatesFinder();
+        MoveCheck ownPiecePlayer1 = new OwnPieceCheck(player1);
+        MoveCheck ownPiecePlayer2 = new OwnPieceCheck(player2);
+        MoveCheck step = new StepCheck(emptyState);
+        MoveCheck jumpPlayer1 = new JumpCheck(emptyState, player1);
+        MoveCheck jumpPlayer2 = new JumpCheck(emptyState, player2);
+        MoveType changeOpponent = new ChangeOpponentPiecesMove(myFinder,true,emptyState);
+        MoveType positon = new PositionMove();
+        MoveType promotionPlayer1 = new PromotionMove(0,3);
+        MoveType promotionPlayer2 = new PromotionMove(8,4);
+
+        List<MoveCheck> selfMoveCheckPlayer1 = new ArrayList<>(List.of(ownPiecePlayer1));
+        List<MoveCheck> selfMoveCheckPlayer2 = new ArrayList<>(List.of(ownPiecePlayer2));
+        List<MoveCheck> neighborMoveCheckPlayer1 = new ArrayList<>(List.of(step, jumpPlayer1));
+        List<MoveCheck> neighborMoveCheckPlayer2 = new ArrayList<>(List.of(step, jumpPlayer2));
+        List<MoveType> moveTypesPlayer1 = new ArrayList<>(List.of(changeOpponent,positon,promotionPlayer1));
+        List<MoveType> moveTypesPlayer2 = new ArrayList<>(List.of(changeOpponent,positon,promotionPlayer2));
+
+
+        PlayerInfoHolder player1Info = new PlayerInfoHolder(player1,player1Direction,selfMoveCheckPlayer1,neighborMoveCheckPlayer1,moveTypesPlayer1,true);
+        PlayerInfoHolder player2Info = new PlayerInfoHolder(player2,player2Direction,selfMoveCheckPlayer2,neighborMoveCheckPlayer2,moveTypesPlayer2,false);
+
+        GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
+
+
         row1 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         row2 =new ArrayList<>(List.of(0,0,1,0,0,0,0,0));
         row3 =new ArrayList<>(List.of(0,1,1,0,0,0,0,0));
@@ -139,10 +196,7 @@ public class BoardTest {
         row8 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
         List<String> checkersNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-        List<Integer> user2 = new ArrayList<>(List.of(1,3));
-        List<Integer> agent2 = new ArrayList<>(List.of(2,4));
-        GamePieceFactory checkersFactory = new GamePieceFactory("Checkers", user2,agent2,0, 1,-1);
-        Board checkersBoard = new Board(checkersFactory, checkersConfig,objectConfig2, checkersNeighborhoods);
+       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods);
 
         Coordinate start = new Coordinate(1,2);
         Coordinate end = new Coordinate(2,3);
@@ -152,16 +206,46 @@ public class BoardTest {
 
     @Test
     void testMancalaBoard() {
+        List<Integer> player1 = new ArrayList<>(List.of(2,1));
+        List<Integer> player1Direction = new ArrayList<>(List.of(-1));
+        List<Integer> player2 = new ArrayList<>(List.of(4,3));
+        List<Integer> player2Direction = new ArrayList<>(List.of(1));
+        List<Integer> player1StatesToIgnore = new ArrayList<>(List.of(0,3));
+        List<Integer> player2StatesToIgnore = new ArrayList<>(List.of(0,1));
+        ConvertibleNeighborFinder player1Finder = new NeighborsUntilNoObjectsFinder(player1StatesToIgnore);
+        ConvertibleNeighborFinder player2Finder = new NeighborsUntilNoObjectsFinder(player2StatesToIgnore);
+
+        MoveCheck ownPiecePlayer1 = new OwnPieceCheck(player1);
+        MoveCheck ownPiecePlayer2 = new OwnPieceCheck(player2);
+        MoveCheck immovablePlayer1 = new NotImmovableCheck(1);
+        MoveCheck immovablePlayer2 = new NotImmovableCheck(3);
+        MoveCheck numObjectsCheck = new NumObjectsCheck(0);
+
+        MoveType forceMoveAgainPlayer1 = new ForceMoveAgainMove(player1,player1Finder);
+        MoveType forceMoveAgainPlayer2 = new ForceMoveAgainMove(player2,player2Finder);
+        MoveType specialCapturePlayer1 = new SpecialCaptureMove(player1,player1Finder);
+        MoveType specialCapturePlayer2 = new SpecialCaptureMove(player2,player2Finder);
+        MoveType changeNeighborsPlayer1 = new ChangeNeighborObjectsMove(player1Finder);
+        MoveType changeNeighborsPlayer2 = new ChangeNeighborObjectsMove(player2Finder);
+        MoveType clear = new ClearObjectsMove();
+
+        List<MoveCheck> selfMoveCheckPlayer1 = new ArrayList<>(List.of(ownPiecePlayer1, immovablePlayer1, numObjectsCheck));
+        List<MoveCheck> selfMoveCheckPlayer2 = new ArrayList<>(List.of(ownPiecePlayer2, immovablePlayer2, numObjectsCheck));
+        List<MoveCheck> neighborMoveCheck = new ArrayList<>();
+        List<MoveType> moveTypesPlayer1 = new ArrayList<>(List.of(forceMoveAgainPlayer1, changeNeighborsPlayer1,specialCapturePlayer1,clear));
+        List<MoveType> moveTypesPlayer2 = new ArrayList<>(List.of(forceMoveAgainPlayer2, changeNeighborsPlayer2,specialCapturePlayer2,clear));
+
+        PlayerInfoHolder player1Info = new PlayerInfoHolder(player1,player1Direction,selfMoveCheckPlayer1,neighborMoveCheck,moveTypesPlayer1,true);
+        PlayerInfoHolder player2Info = new PlayerInfoHolder(player2,player2Direction,selfMoveCheckPlayer2,neighborMoveCheck,moveTypesPlayer2,false);
+
+        GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
         row1 =new ArrayList<>(List.of(1,2,2,2,2,2,2,0));
         row2 =new ArrayList<>(List.of(0,4,4,4,4,4,4,3));
         List<List<Integer>> mancalaConfig = new ArrayList<>(List.of(row1, row2));
         List<String> mancalaNeighborhoods = List.of("horizontal", "vertical");
-        List<Integer> user2 = new ArrayList<>(List.of(2,1));
-        List<Integer> agent2 = new ArrayList<>(List.of(4,3));
-        GamePieceFactory mancalaFactory = new GamePieceFactory("Mancala", user2,agent2,0, -1,1);
         List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
         List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
-        Board mancalaBoard = new Board(mancalaFactory, mancalaConfig,objectConfig3, mancalaNeighborhoods);
+        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);

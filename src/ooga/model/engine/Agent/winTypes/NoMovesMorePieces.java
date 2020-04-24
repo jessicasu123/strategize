@@ -31,7 +31,7 @@ public class NoMovesMorePieces implements WinType {
     }
 
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         myPlayerState = playerStates.get(myStateIndex);
         myCurrConfig = boardStateInfo;
         List<List<Integer>> boardToCheck;

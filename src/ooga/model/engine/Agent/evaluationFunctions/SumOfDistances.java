@@ -37,7 +37,7 @@ public class SumOfDistances implements EvaluationFunction {
      *         - this is then multiplied by a factor to minimize it
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         int maxDistanceEval = 0;
         int minDistanceEval = 0;
         int rowNum = 0;
