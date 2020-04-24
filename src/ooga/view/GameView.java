@@ -160,7 +160,7 @@ public class GameView {
         VBox elements = new VBox(SPACING);
         elements.getChildren().addAll(statusPanel.createStatusPanel(userImage,agentImage),
                 grid.getGridContainer(),navPanel.createNavigationBar());
-        if (myController.hasMultiplePiecesPerSquare()) {
+        if (myController.hasMultiplePiecesPerSquare() && myController.getSpecialStateColorMapping().keySet().size()>0) {
             statusPanel.updateStatusBarForMultiPiecePlayers(
                     myController.getSpecialStateColorMapping().get(myController.getUserStateInfo().get(1)),
                     myController.getSpecialStateColorMapping().get(myController.getAgentStateInfo().get(1)));

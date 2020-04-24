@@ -14,8 +14,9 @@ public class NeighborAtEndCoordinateFinder implements ConvertibleNeighborFinder 
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                   int playerID, int direction, List<GamePiece> neighbors) {
         List<GamePiece> neighborToReturn = new ArrayList<>();
+
         for (GamePiece neighbor: neighbors) {
-            if (neighbor.getPosition() == endCoordinate) {
+            if (neighbor.getPosition().equals(endCoordinate)) {
                 neighborToReturn.add(neighbor);
             }
         }

@@ -35,8 +35,8 @@ public class SplitObjectsMove implements MoveType {
 
     private void splitObjects(GamePiece selfPiece, GamePiece neighborPiece) {
         if (selfPiece.getNumObjects() % 2 == 0) {
-            selfPiece.incrementNumObjects(-selfPiece.getNumObjects()/2);
             neighborPiece.incrementNumObjects(selfPiece.getNumObjects()/2);
+            selfPiece.incrementNumObjects(-selfPiece.getNumObjects()/2);
         } else {
             selfPiece.incrementNumObjects(-1);
             neighborPiece.incrementNumObjects(1);

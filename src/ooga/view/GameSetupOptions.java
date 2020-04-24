@@ -145,14 +145,16 @@ public class GameSetupOptions {
     private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
         boolean hasMultiplePieces = gameFileData.getBoolean("MultiplePiecesPerSquare");
+        boolean hasSpecialStateColors = gameFileData.getJSONObject("Player1").getJSONArray("Colors").length() > 1;
         String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0).split(",")[0];
         Image playerImage = new Image(PIECE_ICON_RESOURCES + imageName, iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player);
-        if (! hasMultiplePieces) {
-            playerButton.setGraphic(new ImageView(playerImage));
-        } else {
+
+        if (hasMultiplePieces && hasSpecialStateColors) {
             String colorName = gameFileData.getJSONObject(player).getJSONArray("Colors").getString(1);
-            playerButton.setStyle("-fx-mark-color: " + colorName); //TODO: somehow put this in CSS
+            playerButton.setStyle("-fx-mark-color: " + colorName);
+        } else {
+            playerButton.setGraphic(new ImageView(playerImage));
         }
         playerButton.setToggleGroup(group);
         playerButton.setId(player);

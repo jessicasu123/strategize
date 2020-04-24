@@ -51,7 +51,7 @@
 
   "SquareClickType": "empty",
 
-  "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],
+  "DimensionOptions": ["3 x 3"],
 
   "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
 
