@@ -3,17 +3,20 @@ package ooga.model.engine.pieces.newPieces;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 
+import java.time.temporal.Temporal;
 import java.util.List;
 
 
 public class SplitObjectsMove implements MoveType {
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
+    private int myEmptyState;
 
     /**
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
      */
-    public SplitObjectsMove(ConvertibleNeighborFinder convertibleNeighborFinder) {
+    public SplitObjectsMove(ConvertibleNeighborFinder convertibleNeighborFinder, int emptyState) {
         myNeighborhoodConverterFinder = convertibleNeighborFinder;
+        myEmptyState = emptyState;
     }
 
     @Override
@@ -24,6 +27,9 @@ public class SplitObjectsMove implements MoveType {
             if (neighbor.getState() == selfPiece.getState()) {
                 splitObjects(selfPiece, neighbor);
             }
+        }
+        if (selfPiece.getNumObjects() == 0) {
+            selfPiece.changeState(myEmptyState);
         }
     }
 

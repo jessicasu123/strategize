@@ -5,7 +5,7 @@ import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleN
 
 import java.util.List;
 
-public class PieceReachedMaxObjectsMove implements MoveType {
+public class PieceAtMaxObjectsMove implements MoveType {
     private int myEmptyState;
     private int myMaxObjects;
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
@@ -14,7 +14,7 @@ public class PieceReachedMaxObjectsMove implements MoveType {
     /**
      * @param maxObjects - max number of objects piece can hold without being converted to empty state
      */
-    public PieceReachedMaxObjectsMove(int maxObjects, int emptyState, ConvertibleNeighborFinder convertibleNeighborFinder) {
+    public PieceAtMaxObjectsMove(int maxObjects, int emptyState, ConvertibleNeighborFinder convertibleNeighborFinder) {
         myMaxObjects = maxObjects;
         myEmptyState = emptyState;
         myNeighborhoodConverterFinder = convertibleNeighborFinder;

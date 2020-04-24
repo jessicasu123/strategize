@@ -13,11 +13,11 @@
 
   "EvaluationFunctions": ["MorePieces"],
 
-  "SelfMoveChecks": ["CheckOwnPiece", "CheckNumObjects"],
+  "SelfMoveChecks": ["OwnPieceCheck", "NumObjectsCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
-  "NeighborMoveChecks": ["CanReceiveObjectsCheck", "OpponentHasObjectsCheck"],
+  "NeighborMoveChecks": ["CanReceiveObjectsCheck", "OpponentPieceCheck"],
 
   "NeighborNumObjectsToCompare": 4,
 
@@ -27,15 +27,15 @@
 
   "OnlyChangeOpponent": true,
 
-  "MoveTypes": ["SplitObjectsMove", "ChangeNeighborObjects", "PieceReachedMaxObjectsMove"],
+  "MoveTypes": ["SplitObjectsMove", "ChangeNeighborObjectsMove", "PieceAtMaxObjectsMove"],
 
-  "NeighborConverterTypes": ["NeighborAtEndCoordFinder"],
+  "NeighborConverterType": "NeighborAtEndCoordinateFinder",
 
   "SpecialPieceIndex": 0,
 
   "EmptyState": 0,
 
-  "PiecesMove": false,
+  "PiecesMove": true,
 
   "Player1PosDirection": false,
 
