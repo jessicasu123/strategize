@@ -21,8 +21,9 @@ public class SpecialCapture implements MoveType {
         List<GamePiece> piecesChanged = myPiecesChanged.findNeighborsToConvert(moving.getPosition(),endCoordinateInfo,
                 moving.getNumObjects(),playerState,direction,neighbors);
         GamePiece lastPiece = piecesChanged.get(piecesChanged.size() - 1);
-        if(lastPiece.getState() == playerState && lastPiece.getNumObjects() == 0){
+        if(lastPiece.getState() == playerState && lastPiece.getNumObjects() == 1){
             performSpecialCapture(neighbors,lastPiece.getPosition().getCol(), playerState);
+            lastPiece.incrementNumObjects(-lastPiece.getNumObjects());
         }
     }
 

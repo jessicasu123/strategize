@@ -83,7 +83,7 @@ public class Controller implements ControllerFramework {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
         List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates);
         List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(playerStates);
-        List<MoveType> moveTypes = createMoveTypesForPLayer(player, playerStates);
+        List<MoveType> moveTypes = createMoveTypesForPlayer(player, playerStates);
         List<Integer> directions = myFileHandler.getDirectionForPlayer(player);
         boolean isPlayer1 = (userIsPlayer1 && player==1) || (!userIsPlayer1 && player==2);
         return new Player(playerStates, directions, selfMoveChecks,
@@ -95,7 +95,7 @@ public class Controller implements ControllerFramework {
         return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
-    private List<MoveType> createMoveTypesForPLayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException {
+    private List<MoveType> createMoveTypesForPlayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException {
         List<MoveType> moveTypes = new ArrayList<>();
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
         boolean convertToEmptyState = myFileHandler.convertToEmptyState();
