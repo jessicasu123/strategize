@@ -5,20 +5,41 @@ import ooga.model.engine.pieces.newPieces.GamePiece;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FindNeighborsBetweenCoordinates;
 
 import java.util.List;
-
+/**
+ * This class is responsible for checking whether from the start coordinate a piece can jump to the location
+ * of the piece checking.
+ * A jump needs to follow the pattern of jumping over a piece of the opponent state, followed by an empty square
+ * Jumps can only land on empty squares, therefore the number of pieces being jumped over has to be even
+ *
+ * @author Holly Ansel
+ */
 public class CheckJump implements MoveCheck {
     public static final int SQUARE = 2;
     private FindNeighborsBetweenCoordinates myPiecesInBetween;
     private int myEmptyState;
     private List<Integer> myPlayerStates;
 
+    /**
+     * @param emptyState - the empty state, where jumps can land and is used to confirm the pattern
+     * @param playerStates - the states of player who is jumping which is used to identify opponent pieces ensuring
+     *                     that you only jump over opponents
+     */
     public CheckJump(int emptyState, List<Integer> playerStates){
         myPiecesInBetween = new FindNeighborsBetweenCoordinates();
         myEmptyState = emptyState;
         myPlayerStates = playerStates;
     }
 
-
+    /**
+     * Checks the pattern of pieces in between the start and end coordinate to see if they alternate opponent state,
+     * empty state and the end coordinate is an empty state
+     * @param startingLocation - the starting location of piece that is calculating its possible moves
+     * @param checking - the game piece that is being checked
+     * @param neighbors - the neighbors of the piece that is calculating its possible moves
+     * @param player - the player which the move is being checked for
+     * @param directions - all the legal directions this piece can move in
+     * @return whether going from the start coordinate to the end coordinate meets the conditions for a legal jump
+     */
     @Override
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors,
                                   int player, List<Integer> directions) {
@@ -27,7 +48,7 @@ public class CheckJump implements MoveCheck {
                 checking.getPosition(),checking.getNumObjects(), player,directions.get(0),neighbors);
         Coordinate startCheckLocation = findStartingLocation(piecesBetween,startingLocation,checking);
         int numPiecesToCheck = piecesBetween.size();
-        if(numPiecesToCheck % 2 == 0){
+        if(checkEvenNumberOfPieces(numPiecesToCheck)){
             return false;
         }
         for(int i = 0; i < numPiecesToCheck;i++){
@@ -41,9 +62,15 @@ public class CheckJump implements MoveCheck {
         return patternMet && checkDirection(directions,startingLocation,checking.getPosition(), numPiecesToCheck)
                 && checking.getState() == myEmptyState;
     }
+
+    private boolean checkEvenNumberOfPieces(int numPiecesToCheck) {
+        return numPiecesToCheck % 2 == 0;
+    }
+
     private boolean checkDirection(List<Integer> directions, Coordinate startingLocation, Coordinate endLocation,
                                     int numPiecesChecked){
         for(int direction : directions){
+            //includes counting the starting location
             if(startingLocation.getRow() + (direction * (numPiecesChecked + 1)) == endLocation.getRow()){
                 return true;
             }
@@ -59,7 +86,7 @@ public class CheckJump implements MoveCheck {
             }
         }
         boolean pieceTypeCheck;
-        if(numPiecesChecked % 2 == 0){
+        if(checkEvenNumberOfPieces(numPiecesChecked)){
             pieceTypeCheck = opponentPiece(closestToStart);
         }else{
             pieceTypeCheck = checkLandingSpotEmpty(closestToStart);
