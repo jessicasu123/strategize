@@ -33,6 +33,7 @@ public class BoardView {
     public static final int SPECIAL_STATE_ID_POS = 1;
     public static final String EMPTY_CLICK_TYPE = "empty";
     public static final String PLAYER_CLICK_TYPE = "player";
+    public static final String AGENT_CLICK_TYPE = "agent";
     public static final String DEFAULT_BOARD_COLOR = "white";
     public static final String DEFAULT_BOARD_OUTLINE = "black";
     public static final String POSSIBLE_MOVE_KEY = "possibleMove";
@@ -255,7 +256,7 @@ public class BoardView {
                 updatePlayerCell(currImage, currSquare, r, c, gameStates,isPossibleMove);
             }
             else if(myAgent.contains(currGameState)) {
-                updateAgentCell(currImage, currSquare);
+                updateAgentCell(currImage, currSquare, r , c, isPossibleMove);
             }else{
                 updateEmptyCell(currSquare, r,c,isPossibleMove);
             }
@@ -273,9 +274,14 @@ public class BoardView {
         }
     }
 
-    private void updateAgentCell(Image playerImage, BoardCell currSquare){
+    private void updateAgentCell(Image playerImage, BoardCell currSquare, int r, int c, boolean possibleMove){
         currSquare.updateImageOnSquare(playerImage);
-        currSquare.getShape().setOnMouseClicked(null);
+        if (squareClickType.equals(AGENT_CLICK_TYPE)) {
+            clickableCell(currSquare, r, c, possibleMove);
+        } else {
+            currSquare.getShape().setOnMouseClicked(null);
+        }
+
     }
 
     private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c,
