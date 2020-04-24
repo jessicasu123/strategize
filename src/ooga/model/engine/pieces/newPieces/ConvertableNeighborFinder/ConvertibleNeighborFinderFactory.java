@@ -22,7 +22,7 @@ public class ConvertibleNeighborFinderFactory {
                 return new NeighborsUntilNoObjectsFinder(toIgnore);
             case "NeighborsBetweenCoordinatesFinder":
                 return new NeighborsBetweenCoordinatesFinder();
-            case "FindNeighborByEndCoord":
+            case "NeighborAtEndCoordinateFinder":
                 return new NeighborAtEndCoordinateFinder();
             case "":
                 return null;

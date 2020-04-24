@@ -102,9 +102,11 @@ public class Controller implements ControllerFramework {
 
         ConvertibleNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
         int promotionRow = myFileHandler.getPromotionRowForPlayer(player);
+        boolean onlyChangeOpponent = myFileHandler.getOnlyChangeOpponent();
+        int objToCompare = myFileHandler.getNeighborNumObjectsToCompare();
         for(String moveTypeName: moveTypeNames){
             MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,
-                    convertToEmptyState,promotionRow,playerStates);
+                    convertToEmptyState,promotionRow,playerStates,onlyChangeOpponent, objToCompare);
             moveTypes.add(move);
         }
         return moveTypes;
