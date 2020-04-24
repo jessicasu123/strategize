@@ -103,7 +103,6 @@ public class Game implements GameFramework{
 
     private void makeAgentMove() throws InvalidMoveException {
         Map.Entry<Coordinate, Coordinate> agentMove =  myAgentPlayer.calculateMove(myBoard.copyBoard());
-        System.out.println(agentMove.getValue());
         myBoard.makeMove(myAgentStates.get(ID_STATE_POS), agentMove.getKey(), agentMove.getValue());
     }
 
