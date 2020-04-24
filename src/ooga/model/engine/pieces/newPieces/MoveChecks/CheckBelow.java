@@ -8,17 +8,12 @@ import java.util.List;
 public class CheckBelow implements MoveCheck {
     private GamePiece myPiece;
     private int bottomRow;
-    private int myRows;
-
-    public CheckBelow(int rows){
-        myRows = rows-1;
-    }
 
     public int findNumRows(List<GamePiece> neighbors) {
-        int rowCount = myRows;
+        int rowCount = 0;
         for (GamePiece g: neighbors) {
             if (g.getPosition().getCol()==myPiece.getPosition().getCol()) {
-                rowCount--;
+                rowCount++;
             }
         }
         return rowCount;

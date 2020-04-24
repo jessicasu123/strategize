@@ -20,6 +20,12 @@ public class MoveTypeFactory {
                 return new ClearObjects();
             case "SpecialCapture":
                 return new SpecialCapture(playerStates, converter);
+            case "ChangeNeighborObjects":
+                return new ChangeNeighborObjects(converter);
+            case "ChangeOpponentPieces":
+                return new ChangeOpponentPieces(converter, convertToEmptyState, emptyState);
+            case "ChangeToNewState":
+                return new ChangeToNewState();
             default:
                 throw new InvalidMoveTypeException(moveTypeName + " is not a valid move type.");
         }

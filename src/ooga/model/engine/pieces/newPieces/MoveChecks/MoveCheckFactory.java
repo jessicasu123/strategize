@@ -15,6 +15,12 @@ public class MoveCheckFactory {
                 return new CheckStep(emptyState);
             case "CheckJump":
                 return new CheckJump(emptyState, playerStates);
+            case "CheckAllFlippableDirections":
+                return new CheckAllFlippableDirections();
+            case "CheckBelow":
+                return new CheckBelow();
+            case "CheckEmptyState":
+                return new CheckEmptyState(emptyState);
             default:
                 throw new InvalidMoveCheckException(moveCheckType + " is not a valid move check type.");
         }
