@@ -35,7 +35,7 @@
 
   "EmptyState": 0,
 
-  "PiecesMove": true,
+  "PiecesMove": false,
 
   "Player1PosDirection": false,
 
