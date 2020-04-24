@@ -9,7 +9,8 @@ import java.util.List;
  * MoveCheckType specified in the game configuration file.
  */
 public class MoveCheckFactory {
-    public MoveCheck createMoveCheck(String moveCheckType, int emptyState, List<Integer> playerStates, int numObjectsToCompare) throws InvalidMoveCheckException {
+    public MoveCheck createMoveCheck(String moveCheckType, int emptyState, List<Integer> playerStates, int numObjectsToCompare,
+                                     int immovableState) throws InvalidMoveCheckException {
         switch(moveCheckType){
             case "CheckStep":
                 return new CheckStep(emptyState);
@@ -21,6 +22,8 @@ public class MoveCheckFactory {
                 return new CheckBelow();
             case "CheckEmptyState":
                 return new CheckEmptyState(emptyState);
+            case "CheckNotImmovable":
+                return new CheckNotImmovable(immovableState);
             default:
                 throw new InvalidMoveCheckException(moveCheckType + " is not a valid move check type.");
         }

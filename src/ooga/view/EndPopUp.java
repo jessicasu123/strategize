@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
-import java.util.*;
 
 /**
  * Responsible for allowing the user to customize the piece images

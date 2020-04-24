@@ -81,8 +81,9 @@ public class Controller implements ControllerFramework {
 
     private Player makePlayer(int player) {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
-        List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates);
-        List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(playerStates);
+        int immovableState = myFileHandler.getImmovableStateForPlayer(player);
+        List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates, immovableState);
+        List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(playerStates, immovableState);
         List<MoveType> moveTypes = createMoveTypesForPlayer(player, playerStates);
         List<Integer> directions = myFileHandler.getDirectionForPlayer(player);
         boolean isPlayer1 = (userIsPlayer1 && player==1) || (!userIsPlayer1 && player==2);
@@ -112,25 +113,25 @@ public class Controller implements ControllerFramework {
         return moveTypes;
     }
 
-    private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates) {
+    private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates, int immovableState) {
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
-        return createMoveCheck(selfMoveCheck, playerStates);
+        return createMoveCheck(selfMoveCheck, playerStates, immovableState);
     }
 
-    private List<MoveCheck> createMoveCheck(List<String> moveCheckNames, List<Integer> playerStates) throws InvalidMoveCheckException {
+    private List<MoveCheck> createMoveCheck(List<String> moveCheckNames, List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<MoveCheck> moveChecks = new ArrayList<>();
         int objToCompare = myFileHandler.getSelfNumObjectsToCompare();
         for (String moveCheckName: moveCheckNames) {
             MoveCheck moveCheck = new MoveCheckFactory().createMoveCheck(moveCheckName,emptyState,
-                    playerStates,objToCompare);
+                    playerStates,objToCompare, immovableState);
             moveChecks.add(moveCheck);
         }
         return moveChecks;
     }
 
-    private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates) {
+    private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates, int immovableState) {
         List<String> neighborMoveChecks = myFileHandler.getNeighborMoveChecks();
-        return createMoveCheck(neighborMoveChecks, playerStates);
+        return createMoveCheck(neighborMoveChecks, playerStates, immovableState);
     }
 
     private Agent createAgent(List<List<Integer>> startingConfig){

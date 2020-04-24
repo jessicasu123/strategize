@@ -130,6 +130,11 @@ public class JSONFileReader implements FileHandler {
     }
 
     @Override
+    public int getImmovableStateForPlayer(int player) {
+        return gameIntProperties.get("Player" + player + "ImmovableState");
+    }
+
+    @Override
     public int getNumRowsPerSquare() {
         return gameIntProperties.get("NumVisualRowsPerSquare");
     }

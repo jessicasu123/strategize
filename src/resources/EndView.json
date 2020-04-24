@@ -13,7 +13,7 @@
     "Loss": {
       "Text": "SAD!",
       "Subtext": "You lost",
-      "Image": "loss.png",
+      "Image": "loss.png"
     },
     "Tie": {
       "Text": "IT'S A TIE",
