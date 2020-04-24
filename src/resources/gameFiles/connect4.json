@@ -13,7 +13,7 @@
 
   "EvaluationFunctions": ["NumOpenLines"],
 
-  "SelfMoveChecks": ["EmptyStateCheck", "CheckBelow"],
+  "SelfMoveChecks": ["EmptyStateCheck", "BelowCheck"],
 
   "SelfNumObjectsToCompare": 0,
 
@@ -25,7 +25,7 @@
 
   "Player1PromotionIsLastRow": false,
 
-  "MoveTypes": ["ChangeToNewState"],
+  "MoveTypes": ["ChangeToNewStateMove"],
 
   "NeighborConverterType": "",
 
@@ -78,7 +78,7 @@
     "States": [1],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["redCircle.png"],
     "Colors": ["white"]
   },
@@ -87,7 +87,7 @@
     "States": [2],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [],
+    "Direction": [0],
     "Images": ["yellowCircle.png"],
     "Colors": ["white"]
   },

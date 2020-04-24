@@ -3,6 +3,7 @@ package ooga.model.engine.pieces.newPieces.IntegrationTests;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsUntilNoObjectsFinder;
 import ooga.model.engine.pieces.newPieces.MoveChecks.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
