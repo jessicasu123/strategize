@@ -48,7 +48,7 @@ public class SinglePieceBoardCell extends BoardCell {
     }
 
     /**
-     * Updates the cell fill without changing the border color. 
+     * Updates the cell fill without changing the border color.
      * @param color - the color to set the cell to
      */
     @Override
