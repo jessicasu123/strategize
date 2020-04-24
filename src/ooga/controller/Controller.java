@@ -103,12 +103,11 @@ public class Controller implements ControllerFramework {
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
         int emptyState = myFileHandler.getEmptyState();
         boolean convertToEmptyState = myFileHandler.convertToEmptyState();
-        List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(i);
         int promotionRow = myFileHandler.getPromotionRowForPlayer(i);
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(i);
         ConvertableNeighborFinder neighborFinder = createConvertableNeighborFinderForPlayer(i);
         for(String moveTypeName: moveTypeNames){
-            MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,convertToEmptyState,statesToIgnore,promotionRow,playerStates);
+            MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,convertToEmptyState,promotionRow,playerStates);
             moveTypes.add(move);
         }
 
