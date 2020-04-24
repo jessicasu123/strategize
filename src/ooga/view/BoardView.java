@@ -97,7 +97,7 @@ public class BoardView {
      * @return Gridpane of board
      */
     private VBox makeGrid(int paneWidth, int paneHeight, int boardRows, int boardCols) {
-        VBox panecontainer = new VBox(PANE_PADDING);
+        VBox paneContainer = new VBox(PANE_PADDING);
         GridPane pane = new GridPane();
         pane.setPadding(new Insets(GRID_PADDING, GRID_PADDING, GRID_PADDING, GRID_PADDING));
         pane.setHgap(CELL_SPACING);
@@ -106,9 +106,9 @@ public class BoardView {
         int cellWidth = paneWidth / boardCols;
         createCells(cellWidth, cellHeight, pane, boardRows, boardCols);
         pane.setAlignment(Pos.TOP_CENTER);
-        panecontainer.getChildren().add(pane);
-        panecontainer.setAlignment(Pos.CENTER);
-        return panecontainer;
+        paneContainer.getChildren().add(pane);
+        paneContainer.setAlignment(Pos.CENTER);
+        return paneContainer;
     }
 
     /**
@@ -216,12 +216,6 @@ public class BoardView {
             currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
 
-//        //TODO: find better way to do this
-//        if (multiplePiecesPerSquare &&
-//                (myUser.get(myUser.size()-1)==currGameState || myAgent.get(myAgent.size()-1)==currGameState)) {
-//            handleBanks(currSquare, myUser.get(myUser.size()-1)==currGameState);
-//        }
-
         for (int i = 0; i < numPieces;i++) {
             if (multiplePiecesPerSquare) {
                 currImage = possiblePieceImages.get(imageIndex);
@@ -242,11 +236,6 @@ public class BoardView {
         currSquare.setMessage(numPieces);
     }
 
-    private void handleBanks(BoardCell currSquare, boolean isUser) {
-        if (isUser) currSquare.updateCellFill("blue");
-        else currSquare.updateCellFill("grey");
-    }
-
     private void updatePossibleMoveImageOnSquare(BoardCell currSquare, boolean isPossibleMove) {
         if (isPossibleMove && !possibleMoveImage.equals("") && myController.userTurn()) {
             Image possibleMove = new Image(PIECES_RESOURCES + possibleMoveImage);
@@ -261,7 +250,6 @@ public class BoardView {
 
     private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         currSquare.updateImageOnSquare(playerImage);
-        //TODO: make sure that user can select their own pieces and count as piece selected
         if (squareClickType.equals("player")) {
             clickableCell(currSquare, r, c, gameStates, possibleMove);
         } else {
@@ -270,13 +258,11 @@ public class BoardView {
     }
 
     private void updateEmptyCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
-        //TODO: make sure Mancala user cannot click empty cell
         if (squareClickType.equals("empty")) {
             clickableCell(currSquare, r,c,gameStates, possibleMove);
         }
     }
 
-    //TODO: allow player cell to become clickable cell for Mancala - read in playerCellClickable from config?
     private void clickableCell(BoardCell currSquare, int r, int c, List<List<Integer>> gameStates, boolean possibleMove) {
         EventHandler<MouseEvent> userClick = e -> processUserClickOnSquare(currSquare,gameStates,r,c, possibleMove);
         currSquare.getShape().setOnMouseClicked(userClick);
