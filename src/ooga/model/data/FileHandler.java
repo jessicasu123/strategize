@@ -74,7 +74,7 @@ public interface FileHandler {
     int getSelfNumObjectsToCompare();
 
     boolean convertToEmptyState();
-    boolean getPromotionRowForPlayer1();
+    int getPromotionRowForPlayer(int player);
     Map<Integer,String> getSpecialStateColorMapping(int i);
 
 

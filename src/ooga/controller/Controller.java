@@ -101,8 +101,7 @@ public class Controller implements ControllerFramework {
         boolean convertToEmptyState = myFileHandler.convertToEmptyState();
 
         List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(player);
-        boolean isPlayer1PromotionLastRow = myFileHandler.getPromotionRowForPlayer1();
-        int promotionRow = getPromotionRow(isPlayer1PromotionLastRow);
+        int promotionRow = myFileHandler.getPromotionRowForPlayer(player);
         ConvertableNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
         for(String moveTypeName: moveTypeNames){
             MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,
@@ -110,11 +109,6 @@ public class Controller implements ControllerFramework {
             moveTypes.add(move);
         }
         return moveTypes;
-    }
-
-    //TODO: get promotion row based on bool value
-    private int getPromotionRow(boolean isPlayer1PromotionLastRow) {
-        return 0;
     }
 
     private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates) {
