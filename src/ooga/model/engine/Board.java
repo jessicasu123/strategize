@@ -28,8 +28,7 @@ public class Board implements BoardFramework{
     private int numRows;
     private int numCols;
     private boolean doesTurnChange;
-    private List<String> myNeighborhoods;
-    private NeighborhoodFactory neighborFactory;
+    private List<Neighborhood> myNeighborhoods;
 
     /**
      * Constructor to create a Board object.
@@ -37,13 +36,12 @@ public class Board implements BoardFramework{
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
     public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                 List<List<Integer>> objectConfiguration, List<String> neighborhoods) {
+                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods) {
         myGamePieces = new ArrayList<>();
         myStartingConfiguration = startingConfiguration;
         myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
         myObjectConfiguration = objectConfiguration;
-        neighborFactory = new NeighborhoodFactory();
         createBoardFromStartingConfig();
     }
 
@@ -103,14 +101,9 @@ public class Board implements BoardFramework{
 
     private List<Coordinate> getNeighborCoordinates(int pieceRow, int pieceCol) {
         List<Coordinate> allCoords = new ArrayList<>();
-        for (String neighbor: myNeighborhoods) {
-            try {
-                Neighborhood neighborhood = neighborFactory.createNeighborhood(neighbor, numRows, numCols);
-                List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
-                allCoords.addAll(neighbors);
-            } catch (InvalidNeighborhoodException e) {
-                System.out.println(e.getMessage());
-            }
+        for (Neighborhood neighborhood: myNeighborhoods) {
+            List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
+            allCoords.addAll(neighbors);
         }
         return allCoords;
     }

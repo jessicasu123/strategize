@@ -1,7 +1,6 @@
 package ooga.model.engine.pieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.exceptions.InvalidGameTypeException;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class GamePieceFactory {
         myAgentDirection = agentDirection;
     }
 
-    public GamePiece createGamePiece(int state, Coordinate position, int numPieces){
+    public GamePiece createGamePiece(int state, Coordinate position, int numPieces) throws Exception{
         int regularState = 0;
         int direction = 0;
         if(myUserStates.contains(state)){
@@ -48,7 +47,8 @@ public class GamePieceFactory {
             case "Mancala":
                 return createMancalaGamePiece(state, position, numPieces, direction);
             default:
-                throw new InvalidGameTypeException(myGameType + " is not a supported game type.");
+                throw new Exception();
+                //throw new InvalidGameTypeException(myGameType + " is not a supported game type.");
         }
 
     }
