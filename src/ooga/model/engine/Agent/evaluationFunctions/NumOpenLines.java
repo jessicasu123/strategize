@@ -1,14 +1,17 @@
 package ooga.model.engine.Agent.evaluationFunctions;
 
+import ooga.model.engine.Neighborhood.DiagonalNeighborhood;
+import ooga.model.engine.Neighborhood.VerticalNeighborhood;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NumOpenLines implements EvaluationFunction {
     private int myInARow;
-    private int ROWS = 6;
-    private int COLS = 7;
     private final int myStateEvalFor;
     private final int myOpponentStateEvalFor;
+    private DiagonalNeighborhood calculateDiagonals;
+    private VerticalNeighborhood calculateColumns;
 
     public NumOpenLines(int stateIndex, List<Integer> maxStates, List<Integer> minStates, int inaRow){
         myStateEvalFor = maxStates.get(stateIndex);
@@ -51,14 +54,19 @@ public class NumOpenLines implements EvaluationFunction {
     }
 
     private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        boolean isSquare = boardStateInfo.size()==boardStateInfo.get(0).size();
-        if (isSquare) {
-            return getDiagForSquareGrid(boardStateInfo);
-        } else {
-            return getDiagForRectangularGrid(boardStateInfo);
-        }
+        //boolean isSquare = boardStateInfo.size()==boardStateInfo.get(0).size();
+        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.size(),
+                boardStateInfo.get(0).size());
+        return calculateDiagonals.getAllDiagonals(boardStateInfo,
+                myInARow);
+//        if (isSquare) {
+//            return getDiagForSquareGrid(boardStateInfo);
+//        } else {
+//            return getDiagForRectangularGrid(boardStateInfo);
+//        }
     }
 
+    //TODO: delete if dependency on neighborhood is ok
     private List<List<Integer>> getDiagForSquareGrid(List<List<Integer>> boardStateInfo) {
         List<Integer> leftDiag = new ArrayList<>();
         List<Integer> rightDiag = new ArrayList<>();
@@ -69,6 +77,7 @@ public class NumOpenLines implements EvaluationFunction {
         return new ArrayList<>(List.of(leftDiag, rightDiag));
     }
 
+    //TODO: delete if dependency on neighborhood is ok
     private List<List<Integer>> getDiagForRectangularGrid(List<List<Integer>> boardStateInfo) {
         List<List<Integer>> alldiag = new ArrayList<List<Integer>>();
         int rows = boardStateInfo.size();
@@ -91,14 +100,17 @@ public class NumOpenLines implements EvaluationFunction {
 
 
     private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
-        List<List<Integer>> allCols = new ArrayList<>();
-        for(int i = 0; i < boardStateInfo.get(0).size(); i++) {
-            List<Integer> col = new ArrayList<>();
-            for (List<Integer> row : boardStateInfo) {
-                col.add(row.get(i));
-            }
-            allCols.add(col);
-        }
-        return allCols;
+        calculateColumns = new VerticalNeighborhood(boardStateInfo.size(),
+                boardStateInfo.get(0).size());
+        return calculateColumns.getAllVerticals(boardStateInfo);
+//        List<List<Integer>> allCols = new ArrayList<>();
+//        for(int i = 0; i < boardStateInfo.get(0).size(); i++) {
+//            List<Integer> col = new ArrayList<>();
+//            for (List<Integer> row : boardStateInfo) {
+//                col.add(row.get(i));
+//            }
+//            allCols.add(col);
+//        }
+//        return allCols;
     }
 }

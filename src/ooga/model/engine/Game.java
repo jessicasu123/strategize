@@ -19,8 +19,6 @@ public class Game implements GameFramework{
     private List<Integer> myAgentStates;
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
-    //private int numMovesStatus;
-
 
     //TODO: currently throwing exception from agent factory, idk where we want to do this
     //TODO: pass in FileHandler instead, have that return the gameType, startingConfig, and neighborhood

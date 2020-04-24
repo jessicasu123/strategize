@@ -152,6 +152,11 @@ public class GameView {
         VBox elements = new VBox(SPACING);
         elements.getChildren().addAll(statusPanel.createStatusPanel(userImage,agentImage),
                 grid.getGridContainer(),navPanel.createNavigationBar());
+        if (myController.hasMultiplePiecesPerSquare()) {
+            statusPanel.updateStatusBarForMultiPiecePlayers(
+                    myController.getSpecialStateColorMapping().get(myController.getUserStateInfo().get(1)),
+                    myController.getSpecialStateColorMapping().get(myController.getAgentStateInfo().get(1)));
+        }
         return elements;
     }
 
@@ -210,7 +215,6 @@ public class GameView {
         myController.saveANewFile(save.getFileName(), myController.getStartingProperties());
     }
 
-
     private void backToMenu() throws FileNotFoundException {
         if (gameEnd != null) {
             gameEnd.close();
@@ -220,8 +224,6 @@ public class GameView {
     }
 
     private void showRules() { rules.display(); }
-
-    private void showSocialCenter() {System.out.println("SOCIAL CENTER");}
 
     private void customize() {
         customizePopUp.display();
