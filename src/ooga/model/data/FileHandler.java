@@ -75,6 +75,7 @@ public interface FileHandler {
 
     boolean convertToEmptyState();
     boolean getPromotionRowForPlayer1();
+    Map<Integer,String> getSpecialStateColorMapping(int i);
 
 
 }

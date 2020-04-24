@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import ooga.model.engine.Game;
 import ooga.view.components.GameIcon;
+import javafx.scene.effect.ColorInput;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -107,6 +109,14 @@ public class StatusPanel {
         return scoreField;
     }
 
+    public void updateStatusBarForMultiPiecePlayers(String userColor, String opponentColor) {
+        Bounds bound = userIcon.getBoundsInLocal();
+        userIcon.setEffect(new ColorInput(bound.getMinX(), bound.getMinY(),
+                bound.getWidth(), bound.getHeight(), Color.valueOf(userColor)));
+        opponentIcon.setEffect(new ColorInput(bound.getMinX(), bound.getMinY(),
+                bound.getWidth(), bound.getHeight(), Color.valueOf(opponentColor)));
+    }
+
     /**
      * Allows another view class to change the text color of the labels.
      * Useful when changing to a different mode (light or dark mode).
@@ -125,9 +135,8 @@ public class StatusPanel {
         topButtons.setAlignment(Pos.TOP_CENTER);
         JSONObject buttonIcons = gameScreenData.getJSONObject("Icons").getJSONObject("ButtonIcons");
         Button settings = setUpGameIconButton(buttonIcons,"settings");
-        Button chat = setUpGameIconButton(buttonIcons,"chat");
         Button help = setUpGameIconButton(buttonIcons,"help");
-        topButtons.getChildren().addAll(help, chat, settings);
+        topButtons.getChildren().addAll(help,settings);
         return topButtons;
     }
 

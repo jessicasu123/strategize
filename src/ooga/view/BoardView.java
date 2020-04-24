@@ -40,6 +40,7 @@ public class BoardView {
     private boolean hasSelectedSquare;
     public static final int STATE_ID_POS = 0;
     private Map<Integer, List<Image>> myStateToImageMapping;
+    private Map<Integer, String> mySpecialStateToColorMapping;
     private Map<Integer, String> stateToFileMapping;
     private List<Integer> myUser;
     private List<Integer> myAgent;
@@ -63,7 +64,6 @@ public class BoardView {
         for(Map.Entry<Integer, String> entry: stateToFileMapping.entrySet()){
             List<String> images = List.of(entry.getValue().split(","));
             myStateToImageMapping.put(entry.getKey(), convertStringToImages(images));
-
         }
     }
 
@@ -82,7 +82,7 @@ public class BoardView {
         possibleMoveImage =  myController.getStartingProperties().get("possibleMove");
         multiplePiecesPerSquare = myController.hasMultiplePiecesPerSquare();
         squareClickType = myController.getStartingProperties().get("SquareClickType");
-
+        mySpecialStateToColorMapping = myController.getSpecialStateColorMapping();
     }
     /**
      * @return - the container holding the grid where
@@ -212,11 +212,15 @@ public class BoardView {
             if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
 
-        //TODO: find better way to do this
-        if (multiplePiecesPerSquare &&
-                (myUser.get(myUser.size()-1)==currGameState || myAgent.get(myAgent.size()-1)==currGameState)) {
-            handleBanks(currSquare, myUser.get(myUser.size()-1)==currGameState);
+        if (mySpecialStateToColorMapping.keySet().contains(currGameState)) {
+            currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
+
+//        //TODO: find better way to do this
+//        if (multiplePiecesPerSquare &&
+//                (myUser.get(myUser.size()-1)==currGameState || myAgent.get(myAgent.size()-1)==currGameState)) {
+//            handleBanks(currSquare, myUser.get(myUser.size()-1)==currGameState);
+//        }
 
         for (int i = 0; i < numPieces;i++) {
             if (multiplePiecesPerSquare) {

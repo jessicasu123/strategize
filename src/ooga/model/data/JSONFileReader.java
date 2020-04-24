@@ -182,12 +182,6 @@ public class JSONFileReader implements FileHandler {
 
     public List<String> getEvaluationFunctions(){
         return convertJSONArrayToStringList(gameArrayProperties.get("EvaluationFunctions"));
-//        List<String> evalFunctions = new ArrayList<>();
-//        JSONArray allEvals = gameArrayProperties.get("EvaluationFunctions");
-//        for(int i = 0; i < allEvals.length(); i++){
-//            evalFunctions.add(allEvals.getString(i));
-//        }
-//        return evalFunctions;
     }
 
     public int getSpecialPieceIndex(){
@@ -231,6 +225,16 @@ public class JSONFileReader implements FileHandler {
             stateImageMapping.put(states.get(j), imageInfo.getString(j));
         }
         return stateImageMapping;
+    }
+
+    public Map<Integer, String> getSpecialStateColorMapping(int i) {
+        List<Integer> states = getPlayerStateInfo(i);
+        Map<Integer,String> specialStateColorMapping = new HashMap<>();
+        if (states.size()>1) {
+            JSONArray colorInfo = gameArrayProperties.get("Player" + i + "Colors");
+            specialStateColorMapping.put(states.get(states.size()-1), colorInfo.getString(colorInfo.length()-1));
+        }
+        return specialStateColorMapping;
     }
 
     /**
@@ -369,10 +373,9 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties;
     }
 
-    //TODO: user can also override images
     private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig) {
         if (gameStringProperties.keySet().contains(searchKey)) {
-            if (key.equals("InitialConfig")) { //user overridden config
+            if (key.equals("InitialConfig")) {
                 writeTo.put(key,configAsString(currentConfig));
             } else if (key.equals("Default") && (!boardDimensions.equals(gameStringProperties.get(key)))) {
                     writeTo.put(key, boardDimensions);

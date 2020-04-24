@@ -215,6 +215,12 @@ public class Controller implements ControllerFramework {
         }
     }
 
+    public Map<Integer,String> getSpecialStateColorMapping() {
+        Map<Integer,String> specialStateColorMap = myFileHandler.getSpecialStateColorMapping(1);
+        specialStateColorMap.putAll(myFileHandler.getSpecialStateColorMapping(2));
+        return specialStateColorMap;
+    }
+
     public Map<Integer, String> getStateImageMapping(){
         return myStateToImageMapping;
     }

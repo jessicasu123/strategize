@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
@@ -146,17 +147,22 @@ public class GameSetupOptions {
 
     private RadioButton createPlayerRadioButton(ToggleGroup group, String player) {
         int iconSize = WIDTH/15;
+        boolean hasMultiplePieces = gameFileData.getBoolean("MultiplePiecesPerSquare");
         String imageName = gameFileData.getJSONObject(player).getJSONArray("Images").getString(0).split(",")[0];
         Image playerImage = new Image(PIECE_ICON_RESOURCES + imageName, iconSize, iconSize, true, true);
         RadioButton playerButton = new RadioButton(player);
-        playerButton.setGraphic(new ImageView(playerImage));
+        if (! hasMultiplePieces) {
+            playerButton.setGraphic(new ImageView(playerImage));
+        } else {
+            String colorName = gameFileData.getJSONObject(player).getJSONArray("Colors").getString(1);
+            playerButton.setStyle("-fx-mark-color: " + colorName); //TODO: somehow put this in CSS
+        }
         playerButton.setToggleGroup(group);
         playerButton.setId(player);
         return playerButton;
     }
 
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
-        //JSONObject board = gameFileData.getJSONObject("Board");
         JSONArray boardArray = gameFileData.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
         String label = labelText.getString("BoardSizeText");
