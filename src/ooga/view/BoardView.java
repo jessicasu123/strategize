@@ -312,7 +312,7 @@ public class BoardView {
 
     private void handlePieceSelected(int r, int c, Image img) {
         if(piecesMove || squareClickType.equals(AGENT_CLICK_TYPE)){
-            if(hasSelectPiece){
+            if(hasSelectPiece && piecesMove){
                 movePieceBackToOriginalSpot(img);
             }
             hasSelectPiece = true;
