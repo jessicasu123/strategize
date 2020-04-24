@@ -47,6 +47,7 @@ public class Game implements GameFramework{
         myAgentPlayer = new AgentPlayerInterface(myAgentStates, myAgent, myUserStates);
         noMovesForUser = false;
         noMovesForAgent = false;
+        playerPass = "";
     }
 
     /**

@@ -19,7 +19,8 @@ public class ForceMoveAgain implements MoveType{
                                  int playerState, int direction) {
         List<GamePiece> piecesChanged = myPiecesChangedFinder.findNeighborsToConvert(moving.getPosition(),endCoordinateInfo,
                 moving.getNumObjects(),playerState,direction,neighbors);
-        if(myPlayerStates.contains(piecesChanged.get(piecesChanged.size() - 1).getState())){
+        int stateLandedIn = piecesChanged.get(piecesChanged.size() - 1).getState();
+        if(myPlayerStates.contains(stateLandedIn) && stateLandedIn != playerState){
             moving.changeTurn(false);
         }else{
             moving.changeTurn(true);

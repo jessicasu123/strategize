@@ -122,8 +122,10 @@ public interface FileHandler {
     int getNeighborNumObjectsToCompare();
     int getSelfNumObjectsToCompare();
     boolean convertToEmptyState();
-    boolean getPromotionRowForPlayer1();
+
     boolean shouldCheckCurrConfig();
+
+    int getPromotionRowForPlayer(int player);
 
 
 }

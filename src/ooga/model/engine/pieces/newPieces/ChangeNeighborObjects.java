@@ -5,16 +5,14 @@ import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleN
 
 import java.util.List;
 
+
 public class ChangeNeighborObjects implements MoveType {
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
-    private boolean doDivideObjects;
 
     /**
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
-     * @param divideObjects - boolean to indicate whether to divide objects among neighbors
      */
-    public ChangeNeighborObjects(ConvertibleNeighborFinder convertibleNeighborFinder, boolean divideObjects) {
-        doDivideObjects = divideObjects;
+    public ChangeNeighborObjects(ConvertibleNeighborFinder convertibleNeighborFinder) {
         myNeighborhoodConverterFinder = convertibleNeighborFinder;
     }
 
@@ -23,9 +21,7 @@ public class ChangeNeighborObjects implements MoveType {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(selfPiece.getPosition(),
                 endCoordinateInfo, selfPiece.getNumObjects(), playerState,direction, neighbors);
         int objectsToGive = selfPiece.getNumObjects();
-        if (doDivideObjects) {
-            objectsToGive = objectsToGive/neighbors.size();
-        }
+        objectsToGive = objectsToGive/neighborsToConvert.size();
         for (GamePiece neighbor: neighborsToConvert) {
             neighbor.incrementNumObjects(objectsToGive);
         }

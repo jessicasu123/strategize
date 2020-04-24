@@ -67,6 +67,10 @@ public abstract class GamePopUp {
         popUpScreenData = new JSONObject(token);
     }
 
+    public Popup getPopUp() {
+        return popUp;
+    }
+
     /**
      * Force closes the pop-up
      */

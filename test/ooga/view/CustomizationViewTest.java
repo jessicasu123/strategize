@@ -34,8 +34,8 @@ public class CustomizationViewTest extends DukeApplicationTest {
                 "X.png", "O.png", "white", gameButtonManager);
         customizationPopUp.display();
 
-        userChoice = lookup("#PlayerImage").queryComboBox();
-        opponentChoice = lookup("#OpponentImage").queryComboBox();
+        userChoice = lookup("#ChoosePlayer").queryComboBox();
+        opponentChoice = lookup("#ChooseOpponent").queryComboBox();
         colorChoice = lookup("#Color").queryComboBox();
 
     }
