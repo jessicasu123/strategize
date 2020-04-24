@@ -1,7 +1,9 @@
 {
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
-    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","8 x 2", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Mancala",
 
@@ -13,7 +15,11 @@
 
   "SelfMoveChecks": ["SelfPieceCheck", "NumObjectsCheck"],
 
+  "SelfNumObjectsToCompare": 0,
+
   "NeighborMoveChecks": [],
+
+  "NeighborNumObjectsToCompare": 0,
 
   "MoveTypes": ["ForceMoveAgain","ChangeNeighborObjects", "ClearObjects"],
 
@@ -63,19 +69,23 @@
     "BoardWeights": "0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction", "PromotionRow"],
 
   "Player1": {
     "States": [1, 2],
+    "StatesToIgnore": [0,4],
+    "Direction": [1],
+    "PromotionRow": 0,
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
-    "StartingPieces": "4",
     "Colors": ["white", "blue"]
   },
 
   "Player2": {
     "States": [3, 4],
+    "StatesToIgnore": [0,2],
+    "Direction": [-1],
+    "PromotionRow": 0,
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
-    "StartingPieces": "4",
     "Colors": ["white", "grey"]
   },
 
