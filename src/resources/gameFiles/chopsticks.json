@@ -1,7 +1,9 @@
 {
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SpecialPieceIndex", "EmptyState",
-    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow", "EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare",
+    "SquareClickOptions","SquareClickType", "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1",
+    "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Chopsticks",
 
@@ -10,6 +12,22 @@
   "WinType": "NoPiecesForOpponent",
 
   "EvaluationFunctions": ["MorePieces"],
+
+  "SelfMoveChecks": ["CheckOwnPiece", "CheckNumObjects"],
+
+  "SelfNumObjectsToCompare": 1,
+
+  "NeighborMoveChecks": ["CheckNumObjects", "CheckOpponentPiece"],
+
+  "NeighborNumObjectsToCompare": 5,
+
+  "ConvertToEmptyState": false,
+
+  "Player1PromotionIsLastRow": false,
+
+  "MoveTypes": ["ChangeNeighborObjects", "ClearObjects"],
+
+  "NeighborConverterTypes": ["FindConvertibleNeighborAtEndCoord"],
 
   "SpecialPieceIndex": 0,
 
