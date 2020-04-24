@@ -11,10 +11,8 @@ public class ChangeNeighborObjects implements MoveType {
 
     /**
      * @param convertableNeighborFinder - finds all the neighbors that need to be converted
-     * @param divideObjects - boolean to indicate whether to divide objects among neighbors
      */
-    public ChangeNeighborObjects(ConvertableNeighborFinder convertableNeighborFinder, boolean divideObjects) {
-        doDivideObjects = divideObjects;
+    public ChangeNeighborObjects(ConvertableNeighborFinder convertableNeighborFinder) {
         myNeighborhoodConverterFinder = convertableNeighborFinder;
     }
 
@@ -23,9 +21,7 @@ public class ChangeNeighborObjects implements MoveType {
         List<GamePiece> neighborsToConvert = myNeighborhoodConverterFinder.findNeighborsToConvert(selfPiece.getPosition(),
                 endCoordinateInfo, selfPiece.getNumObjects(), playerState,direction, neighbors);
         int objectsToGive = selfPiece.getNumObjects();
-        if (doDivideObjects) {
-            objectsToGive = objectsToGive/neighbors.size();
-        }
+        objectsToGive = objectsToGive/neighborsToConvert.size();
         for (GamePiece neighbor: neighborsToConvert) {
             neighbor.incrementNumObjects(objectsToGive);
         }

@@ -77,10 +77,10 @@ class ForceMoveAgainTest {
     @Test
     void completeMoveTypeEndsInNormalPocket() {
         forceMove1.completeMoveType(bottomSquare1,coord11,allPiece,1,1);
-        assertFalse(bottomSquare1.changeTurnAfterMove());
+        assertTrue(bottomSquare1.changeTurnAfterMove());
 
         forceMove2.completeMoveType(topSquare6,coord06,allPiece,3,-1);
-        assertFalse(topSquare6.changeTurnAfterMove());
+        assertTrue(topSquare6.changeTurnAfterMove());
     }
     @Test
     void completeMoveTypeEndsInOpponentSquare() {

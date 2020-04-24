@@ -33,13 +33,13 @@ class SpecialCaptureTest {
     GamePiece empty1= new GamePiece(0,coord04,0, noDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     GamePiece empty2 = new GamePiece(0,coord10,0, noDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
-    GamePiece topSquare1 = new GamePiece(3,coord01, 0,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece topSquare1 = new GamePiece(3,coord01, 1,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     GamePiece topSquare2 = new GamePiece(3,coord02, 1,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     GamePiece topSquare3 = new GamePiece(3,coord03, 4,negDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     GamePiece bottomSquare1 = new GamePiece(1,coord11, 2,posDir, new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     GamePiece bottomSquare2 = new GamePiece(1,coord12, 4,posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-    GamePiece bottomSquare3 = new GamePiece(1,coord13,0, posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+    GamePiece bottomSquare3 = new GamePiece(1,coord13,1, posDir,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
     List<GamePiece> allPiece = new ArrayList<>(List.of(goal1,goal2,empty1,empty2,topSquare1,topSquare2,topSquare3,
             bottomSquare1,bottomSquare2,bottomSquare3));
