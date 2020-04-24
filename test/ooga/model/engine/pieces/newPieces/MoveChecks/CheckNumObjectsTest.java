@@ -24,14 +24,14 @@ class CheckNumObjectsTest {
     List<GamePiece> neighbors = new ArrayList<>(List.of(pieceObj1, pieceObj2));
 
     @Test
-    void isConditionMetTrue() {
+    void conditionMetTest() {
         assertTrue(checkNumObjects0.isConditionMet(c, pieceObj1, neighbors, 1, directions));
         assertTrue(checkNumObjects1.isConditionMet(c, pieceObj2, neighbors, 1, directions));
         assertTrue(checkNumObjects5.isConditionMet(c, pieceObj6, neighbors, 1, directions));
     }
 
     @Test
-    void isConditionMetFalse() {
+    void conditionNotMetTest() {
         assertFalse(checkNumObjects0.isConditionMet(c, pieceObj0, neighbors, 1, directions));
         assertFalse(checkNumObjects5.isConditionMet(c, pieceObj5, neighbors, 1, directions));
         assertFalse(checkNumObjects1.isConditionMet(c, pieceObj0, neighbors, 1, directions));
