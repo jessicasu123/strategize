@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TicTacToeIntegrationTest {
     List<Integer> posDirection = new ArrayList<>(List.of(1));
-    Coordinate emptyCoord = new Coordinate(0,1);
+    Coordinate emptyCoord = new Coordinate(1,1);
     Coordinate xCoord = new Coordinate(0,0);
     Coordinate oCoord = new Coordinate(0,2);
     GamePiece emptyPiece = new GamePiece(0, emptyCoord,1,posDirection,new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
