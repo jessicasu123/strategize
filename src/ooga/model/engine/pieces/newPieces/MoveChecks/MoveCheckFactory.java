@@ -9,6 +9,15 @@ import java.util.List;
  * MoveCheckType specified in the game configuration file.
  */
 public class MoveCheckFactory {
+    /**
+     * @param moveCheckType - the name of the move check
+     * @param emptyState - the empty state
+     * @param playerStates - all of the states of the player whose move check this is
+     * @param numObjectsToCompare - the minimum number of objects a piece needs to have to move
+     * @param immovableState - the state that is not allowed to move
+     * @return a move check based on the parameters
+     * @throws InvalidMoveCheckException - if this program doesn't support this move check then it throws an exception
+     */
     public MoveCheck createMoveCheck(String moveCheckType, int emptyState, List<Integer> playerStates, int numObjectsToCompare,
                                      int immovableState) throws InvalidMoveCheckException {
         switch(moveCheckType){

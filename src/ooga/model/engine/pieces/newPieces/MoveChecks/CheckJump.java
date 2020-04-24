@@ -21,10 +21,10 @@ public class CheckJump implements MoveCheck {
 
     @Override
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors,
-                                  int state, List<Integer> directions) {
+                                  int player, List<Integer> directions) {
         boolean patternMet = true;
         List<GamePiece> piecesBetween = myPiecesInBetween.findNeighborsToConvert(startingLocation,
-                checking.getPosition(),checking.getNumObjects(),state,directions.get(0),neighbors);
+                checking.getPosition(),checking.getNumObjects(), player,directions.get(0),neighbors);
         Coordinate startCheckLocation = findStartingLocation(piecesBetween,startingLocation,checking);
         int numPiecesToCheck = piecesBetween.size();
         if(numPiecesToCheck % 2 == 0){
@@ -34,7 +34,7 @@ public class CheckJump implements MoveCheck {
             boolean patternMetSoFar = pathMeetsPattern(piecesBetween,startCheckLocation,checking,i);
             patternMet = patternMet && patternMetSoFar;
             piecesBetween = myPiecesInBetween.findNeighborsToConvert(startCheckLocation,checking.getPosition(),
-                    checking.getNumObjects(), state,directions.get(0),piecesBetween);
+                    checking.getNumObjects(), player,directions.get(0),piecesBetween);
             startCheckLocation = findStartingLocation(piecesBetween,startCheckLocation,checking);
         }
 

@@ -14,7 +14,7 @@ public class CheckStep implements MoveCheck {
     }
 
     @Override
-    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int state, List<Integer> directions) {
+    public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions) {
         return checkStepRow(startingLocation, checking, directions) && checkStepCol(startingLocation, checking)
                 && checking.getState() == myEmptyState;
     }
