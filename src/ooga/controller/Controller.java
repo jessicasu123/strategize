@@ -44,103 +44,96 @@ public class Controller implements ControllerFramework {
     private List<Integer> myAgentPlayerInfo;
     private Map<Integer, String> myStateToImageMapping;
     private GamePieceCreator GamePieceCreator;
+    private int emptyState;
 
-    public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidGameTypeException, InvalidFileFormatException {
+    public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidGameTypeException, InvalidFileFormatException, Exception {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName, dimensions);
         myFileHandler.parseFile();
         userIsPlayer1 = userID.equals("Player1");
         userTurn = userIsPlayer1;
+        createUserAndAgentPlayers();
         myStateToImageMapping = new HashMap<>();
         setPlayerInformation();
+
+        emptyState = myFileHandler.getEmptyState();
         List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
         myGamePieces = createGamePieceFactory();
         Agent gameAgent = createAgent(startingConfiguration);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
+
+        makeGamePieceCreator();
         myGame = new Game(myGamePieces, startingConfiguration, objectConfig, myFileHandler.getNeighborhood(), myUserPlayerInfo,
                 myAgentPlayerInfo, userIsPlayer1, gameAgent);
     }
 
-    private void makeGamePieceCreator() throws Exception {
+    private void createUserAndAgentPlayers() throws Exception {
         if(userIsPlayer1){
-            makeUserPlayer(1);
-            makeAgentPlayer(2);
+            userPlayer = makePlayer(1);
+            agentPlayer = makePlayer(2);
         }else{
-            makeUserPlayer(2);
-            makeAgentPlayer(1);
+            userPlayer = makePlayer(2);
+            agentPlayer = makePlayer(1);
         }
+    }
+
+    private void makeGamePieceCreator() {
         GamePieceCreator = new GamePieceCreator(userPlayer, agentPlayer);
     }
 
-
-    private void makeUserPlayer(int player) throws Exception {
+    private Player makePlayer(int player) throws Exception {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
-        List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(player);
-        List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(player);
-        List<MoveType> moveTypes = createMoveTypesForPLayer(player);
+        List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates);
+        List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(playerStates);
+        List<MoveType> moveTypes = createMoveTypesForPLayer(player, playerStates);
         List<Integer> directions = myFileHandler.getDirectionForPlayer(player);
-        userPlayer = new Player(playerStates, directions, selfMoveChecks, neighborMoveChecks, moveTypes, userIsPlayer1);
-    }
-
-    private void makeAgentPlayer(int player) throws Exception {
-        List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
-        List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(player);
-        List<MoveCheck> neighborMoveChecks = createNeighborMoveCheckForPlayer(player);
-        List<MoveType> moveTypes = createMoveTypesForPLayer(player);
-        List<Integer> directions = myFileHandler.getDirectionForPlayer(player);
-        agentPlayer = new Player(playerStates, directions, selfMoveChecks, neighborMoveChecks, moveTypes, !userIsPlayer1);
+        boolean isPlayer1 = (userIsPlayer1 && player==1) || (!userIsPlayer1 && player==2);
+        return new Player(playerStates, directions, selfMoveChecks,
+                neighborMoveChecks, moveTypes,isPlayer1);
     }
 
 
-    private ConvertableNeighborFinder createConvertableNeighborFinderForPlayer(int i){
+    private ConvertableNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore){
         String finderType = myFileHandler.getConverterTypes();
-        List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(i);
-        return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, statesToIgnore);
+        return new ConvertableNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
-    private List<MoveType> createMoveTypesForPLayer(int i) throws Exception {
+    private List<MoveType> createMoveTypesForPLayer(int player, List<Integer> playerStates) throws Exception {
         List<MoveType> moveTypes = new ArrayList<>();
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
-        int emptyState = myFileHandler.getEmptyState();
         boolean convertToEmptyState = myFileHandler.convertToEmptyState();
-        List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(i);
-        int promotionRow = myFileHandler.getPromotionRowForPlayer(i);
-        List<Integer> playerStates = myFileHandler.getPlayerStateInfo(i);
-        ConvertableNeighborFinder neighborFinder = createConvertableNeighborFinderForPlayer(i);
+        List<Integer> statesToIgnore = myFileHandler.getStatesToIgnoreForPlayer(player);
+        int promotionRow = myFileHandler.getPromotionRowForPlayer(player);
+        ConvertableNeighborFinder neighborFinder = createConvertibleNeighborFinderForPlayer(statesToIgnore);
         for(String moveTypeName: moveTypeNames){
-            MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,convertToEmptyState,statesToIgnore,promotionRow,playerStates);
+            MoveType move = new MoveTypeFactory().createMoveType(moveTypeName,neighborFinder,emptyState,
+                    convertToEmptyState,statesToIgnore,promotionRow,playerStates);
             moveTypes.add(move);
         }
 
         return moveTypes;
     }
 
-    private List<MoveCheck> createSelfMoveCheckForPlayer(int i) throws Exception {
-        List<MoveCheck> moveChecks = new ArrayList<>();
+    private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates) throws Exception {
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
-        int emptyState = myFileHandler.getEmptyState();
-        List<Integer> playerStates = myFileHandler.getPlayerStateInfo(i);
-        int objToCompare = myFileHandler.getSelfNumObjectsToCompare();
-        for(String moveCheckName: selfMoveCheck){
-            MoveCheck moveCheck = new MoveCheckFactory().createMoveCheck(moveCheckName,emptyState,playerStates,objToCompare);
-            moveChecks.add(moveCheck);
-        }
-        return moveChecks;
+        return createMoveCheck(selfMoveCheck, playerStates);
     }
 
-    private List<MoveCheck> createNeighborMoveCheckForPlayer(int i) throws Exception {
+    private List<MoveCheck> createMoveCheck(List<String> moveCheckNames, List<Integer> playerStates) throws Exception {
         List<MoveCheck> moveChecks = new ArrayList<>();
-        List<String> selfMoveCheck = myFileHandler.getNeighborMoveChecks();
-        int emptyState = myFileHandler.getEmptyState();
-        List<Integer> playerStates = myFileHandler.getPlayerStateInfo(i);
-        int objToCompare = myFileHandler.getNeighborNumObjectsToCompare();
-        for(String moveCheckName: selfMoveCheck){
-            MoveCheck moveCheck = new MoveCheckFactory().createMoveCheck(moveCheckName,emptyState,playerStates,objToCompare);
+        int objToCompare = myFileHandler.getSelfNumObjectsToCompare();
+        for (String moveCheckName: moveCheckNames) {
+            MoveCheck moveCheck = new MoveCheckFactory().createMoveCheck(moveCheckName,emptyState,
+                    playerStates,objToCompare);
             moveChecks.add(moveCheck);
         }
         return moveChecks;
     }
 
+    private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates) throws Exception {
+        List<String> neighborMoveChecks = myFileHandler.getNeighborMoveChecks();
+        return createMoveCheck(neighborMoveChecks, playerStates);
+    }
 
     private Agent createAgent(List<List<Integer>> startingConfig){
         int winValue = myFileHandler.getWinValue();
@@ -152,9 +145,9 @@ public class Controller implements ControllerFramework {
 
     private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) {
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
-        int userDirection;
-        int agentDirection;
-        if(userIsPlayer1){
+        int userDirection = userPlayer.getDirections().get(0);
+        int agentDirection = agentPlayer.getDirections().get(0);
+        if(userIsPlayer1){ //TODO: remove once FileHandler gets directions from file
             userDirection = myFileHandler.player1Direction();
             agentDirection = myFileHandler.player2Direction();
         }else{
@@ -176,7 +169,6 @@ public class Controller implements ControllerFramework {
 
     private WinType createWinType(int winValue, List<List<Integer>> startingConfig){
         String winTypeStr = myFileHandler.getWinType();
-        int emptyState = myFileHandler.getEmptyState();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
         return new WinTypeFactory().createWinType(winTypeStr, emptyState,specialPieceIndex, winValue, checkCurrConfig, startingConfig);
@@ -184,7 +176,6 @@ public class Controller implements ControllerFramework {
 
     private GamePieceFactory createGamePieceFactory(){
         String gameType = myFileHandler.getGameType();
-        int emptyState = myFileHandler.getEmptyState();
         int userDirection;
         int agentDirection;
         if(userIsPlayer1){
@@ -226,10 +217,12 @@ public class Controller implements ControllerFramework {
     }
 
     public List<Integer> getUserStateInfo(){
+        //return Collections.unmodifiableList(userPlayer.getPlayerStates());
         return Collections.unmodifiableList(myUserPlayerInfo);
     }
 
     public List<Integer> getAgentStateInfo(){
+        //return Collections.unmodifiableList(agentPlayer.getPlayerStates()); 
         return Collections.unmodifiableList(myAgentPlayerInfo);
     }
 
@@ -300,8 +293,6 @@ public class Controller implements ControllerFramework {
     public String getGameFileName() {
         return gameFileName;
     }
-
-
     @Override
     public boolean isGameOver() {
         return myGame.getEndGameStatus() > 0;
@@ -312,7 +303,8 @@ public class Controller implements ControllerFramework {
         return myGame.getEndGameStatus();
     }
 
-    public List<List<Integer>> getPossibleMovesForView() { return myGame.possibleMovesForView(); }
+    public List<List<Integer>> getPossibleMovesForView() {
+        return myGame.possibleMovesForView(); }
 
     public int getVisualRowsPerSquare() {
         return myFileHandler.getNumRowsPerSquare();
