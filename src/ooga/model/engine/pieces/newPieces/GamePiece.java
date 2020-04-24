@@ -89,9 +89,7 @@ public class GamePiece {
             boolean neighborConditionsMet = false;
             for (MoveCheck check : myNeighborMoveChecks) {
                 boolean isCheckMet = check.isConditionMet(myPosition, neighbor, neighbors, playerID, myDirections);
-                // TODO: for state, should this be taking neighbor state or myState or playerID?
                 neighborConditionsMet = neighborConditionsMet || isCheckMet;
-
             }
             if (neighborConditionsMet) {
                 possibleMoves.add(neighbor.getPosition());
