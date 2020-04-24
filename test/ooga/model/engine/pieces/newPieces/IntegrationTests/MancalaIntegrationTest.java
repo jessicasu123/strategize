@@ -31,8 +31,8 @@ public class MancalaIntegrationTest {
     MoveType forceMoveAgainPlayer2 = new ForceMoveAgain(player2,player2Finder);
     MoveType specialCapturePlayer1 = new SpecialCapture(player1,player1Finder);
     MoveType specialCapturePlayer2 = new SpecialCapture(player2,player2Finder);
-    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjects(player1Finder);
-    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjects(player2Finder);
+    MoveType changeNeighborsPlayer1 = new ChangeNeighborObjects(player1Finder, false);
+    MoveType changeNeighborsPlayer2 = new ChangeNeighborObjects(player2Finder, false);
     MoveType clear = new ClearObjects();
 
     List<MoveCheck> selfMoveCheckPlayer1 = new ArrayList<>(List.of(ownPiecePlayer1, immovablePlayer1, numObjectsCheck));

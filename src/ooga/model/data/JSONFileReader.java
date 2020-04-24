@@ -135,6 +135,11 @@ public class JSONFileReader implements FileHandler {
     }
 
     @Override
+    public boolean getOnlyChangeOpponent() {
+        return gameBoolProperties.get("OnlyChangeOpponent");
+    }
+
+    @Override
     public int getNumRowsPerSquare() {
         return gameIntProperties.get("NumVisualRowsPerSquare");
     }

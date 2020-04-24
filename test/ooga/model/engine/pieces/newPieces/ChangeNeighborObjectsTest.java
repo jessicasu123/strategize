@@ -21,7 +21,7 @@ class ChangeNeighborObjectsTest {
     GamePiece piece2 = new GamePiece(2, c2,1, directions, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
     FindConvertibleNeighborAtEndCoord neighborAtEndCoordConverter = new FindConvertibleNeighborAtEndCoord();
-    ChangeNeighborObjects changeSingleNeighborObjects = new ChangeNeighborObjects(neighborAtEndCoordConverter);
+    ChangeNeighborObjects changeSingleNeighborObjects = new ChangeNeighborObjects(neighborAtEndCoordConverter, true);
 
     List<GamePiece> neighbors = new ArrayList<>(List.of(piece1, piece2));
 
@@ -73,7 +73,7 @@ class ChangeNeighborObjectsTest {
 
     List<Integer> toIgnore = new ArrayList<>(List.of(0,4));
     ConvertibleNeighborFinder neighborsUntilNoObjects = new FindNeighborsUntilNoObjects(toIgnore);
-    ChangeNeighborObjects changeMultipleNeighborObjects = new ChangeNeighborObjects(neighborsUntilNoObjects);
+    ChangeNeighborObjects changeMultipleNeighborObjects = new ChangeNeighborObjects(neighborsUntilNoObjects, false);
 
 
     @Test

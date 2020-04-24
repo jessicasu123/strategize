@@ -24,7 +24,7 @@ public class MoveTypeFactory {
      * @throws InvalidMoveTypeException - if this program doesn't support this move type then it throws an exception
      */
     public MoveType createMoveType(String moveTypeName, ConvertibleNeighborFinder converter, int emptyState, boolean convertToEmptyState,
-                                   int promotionRow, List<Integer> playerStates) throws InvalidMoveTypeException {
+                                   int promotionRow, List<Integer> playerStates, boolean onlyChangeOpponent) throws InvalidMoveTypeException {
         switch(moveTypeName){
             case "PositionMove":
                 return new PositionMove();
@@ -37,7 +37,7 @@ public class MoveTypeFactory {
             case "SpecialCapture":
                 return new SpecialCapture(playerStates, converter);
             case "ChangeNeighborObjects":
-                return new ChangeNeighborObjects(converter);
+                return new ChangeNeighborObjects(converter, onlyChangeOpponent);
             case "ChangeOpponentPieces":
                 return new ChangeOpponentPieces(converter, convertToEmptyState, emptyState);
             case "ChangeToNewState":
