@@ -2,8 +2,12 @@ package ooga.model.Data;
 
 import ooga.model.data.JSONFileReader;
 import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
+import ooga.model.engine.Agent.winTypes.WinTypeFactory;
+import ooga.model.engine.exceptions.InvalidConvertibleNeighborFinderException;
 import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.engine.exceptions.InvalidWinTypeException;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinderFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -77,4 +81,23 @@ public class BadDataTest {
                         new ArrayList<>(), new ArrayList<>(),0,0,0, true,
                         new ArrayList<>()));
     }
+    @Test
+    void testInvalidWinType(){
+        String badWinType = "badData/invalidWinType.json";
+        JSONFileReader file = new JSONFileReader(badWinType, "3 x 3");
+        file.parseFile();
+        String win = file.getWinType();
+        assertThrows(InvalidWinTypeException.class, () -> new WinTypeFactory().createWinType(win,0,
+                0,0, true,new ArrayList<>()));
+    }
+    @Test
+    void testInvalidConvertibleNeighborFinder(){
+        String badFinderType = "badData/invalidConvertibleNeighborFinder.json";
+        JSONFileReader file = new JSONFileReader(badFinderType, "3 x 3");
+        file.parseFile();
+        String finder = file.getConverterType();
+        assertThrows(InvalidConvertibleNeighborFinderException.class, () -> new ConvertibleNeighborFinderFactory().
+                createNeighborhoodConverterFinder(finder, new ArrayList<>()));
+    }
+
 }
