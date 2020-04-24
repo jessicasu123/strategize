@@ -50,7 +50,7 @@ public class PositionWeights implements EvaluationFunction {
      * number if the min player's positions are better
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         return calculateWeightsPerPlayer(boardStateInfo, myStates, myDirection) -
                 calculateWeightsPerPlayer(boardStateInfo, myOpponentStates, myOpponentDirection);
     }

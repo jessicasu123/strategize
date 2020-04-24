@@ -20,7 +20,7 @@ public class NumOpenLines implements EvaluationFunction {
     }
 
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
         int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
         int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));

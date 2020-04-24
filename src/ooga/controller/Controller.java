@@ -240,12 +240,17 @@ public class Controller implements ControllerFramework {
 
     @Override
     public void playMove() throws InvalidMoveException {
-        if (!isPieceSelected) {
-            pieceSelected(squareSelectedX, squareSelectedY);
+        try {
+            if (!isPieceSelected) {
+                pieceSelected(squareSelectedX, squareSelectedY);
+            }
+            myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
+            isPieceSelected = false;
+            userTurn = myGame.isUserTurn();
+        }catch(Exception e){
+            isPieceSelected = false;
+            throw e;
         }
-        myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
-        isPieceSelected = false;
-        userTurn = myGame.isUserTurn();
     }
 
     @Override

@@ -119,7 +119,7 @@ public class Game implements GameFramework{
     public int getEndGameStatus() {
         int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         boolean noMovesLeft = numMovesStatus == 0;
-        int result = myAgent.findGameWinner(myBoard.getStateInfo(), noMovesLeft);
+        int result = myAgent.findGameWinner(myBoard.getStateInfo(),myBoard.getObjectInfo(), noMovesLeft);
         if (result == 0 && noMovesLeft) { return 3; }
         return result;
     }

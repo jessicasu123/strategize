@@ -109,8 +109,6 @@ public interface FileHandler {
     int getWinValue();
     List<List<Integer>> getBoardWeights();
     int getEmptyState();
-    int player1Direction();
-    int player2Direction();
     boolean doPiecesMove();
     String getGameType();
     List<Integer> getStatesToIgnoreForPlayer(int i);

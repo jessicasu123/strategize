@@ -27,7 +27,7 @@ public class NoPiecesForOpponent implements WinType {
      * @return whether opponent states (states other than the players and the empty state) are on the board
      */
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         int numOfOpponentsPieces = 0;
         for(List<Integer> row: boardStateInfo){
             for(int state : row){

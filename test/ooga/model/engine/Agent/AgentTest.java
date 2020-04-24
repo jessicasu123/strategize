@@ -41,7 +41,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(0,checkersAgent.evaluateCurrentGameState(boardConfig,noMovesLeft));
+        assertEquals(0,checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
     }
 
     @Test
@@ -52,7 +52,7 @@ class AgentTest {
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
 
-        assertEquals(1 + (-2 + -2 - -2), checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals(1 + (-2 + -2 - -2), checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
 
 
         row1 = new ArrayList<>(List.of(0,0,1,0));
@@ -60,7 +60,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,3,0,3));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-1 + (2 + 2 - 2),checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals(-1 + (2 + 2 - 2),checkersAgent.evaluateCurrentGameState(boardConfig, boardConfig,noMovesLeft));
 
     }
     @Test
@@ -70,7 +70,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((1+1) - (-2 + -2), checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals((1+1) - (-2 + -2), checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
 
         //test better position for pawns for min
         row1 = new ArrayList<>(List.of(1,0,1,0));
@@ -78,7 +78,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-2+-2) - (1 + 1), checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals((-2+-2) - (1 + 1), checkersAgent.evaluateCurrentGameState(boardConfig, boardConfig,noMovesLeft));
     }
 
     @Test
@@ -89,7 +89,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,3,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,4,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-1 * ((2 + 2) - (2 + 4))),checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals((-1 * ((2 + 2) - (2 + 4))),checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
 
         //test min king has lower distance
         row1 = new ArrayList<>(List.of(0,0,2,0));
@@ -97,7 +97,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,4,0));
         row4 = new ArrayList<>(List.of(0,3,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-1 * ((2 + 4) - (2 + 2))),checkersAgent.evaluateCurrentGameState(boardConfig, noMovesLeft));
+        assertEquals((-1 * ((2 + 4) - (2 + 2))),checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
 
     }
     @Test
@@ -107,7 +107,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(checkersAgent.isGameWon(boardConfig,noMovesLeft));
+        assertFalse(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
 
     }
 
@@ -118,7 +118,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(checkersAgent.isGameWon(boardConfig,noMovesLeft));
+        assertTrue(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
     }
 
     @Test
@@ -128,7 +128,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(checkersAgent.isGameWon(boardConfig,noMovesLeft));
+        assertTrue(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
     }
 
     @Test
@@ -138,7 +138,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(0, checkersAgent.findGameWinner(boardConfig,noMovesLeft));
+        assertEquals(0, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
     }
 
     @Test
@@ -148,7 +148,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(1, checkersAgent.findGameWinner(boardConfig,noMovesLeft));
+        assertEquals(1, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
     }
 
     @Test
@@ -158,6 +158,6 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(3, checkersAgent.findGameWinner(boardConfig,noMovesLeft));
+        assertEquals(3, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
     }
 }

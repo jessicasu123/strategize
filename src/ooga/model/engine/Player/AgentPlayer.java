@@ -75,8 +75,8 @@ public class AgentPlayer{
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myAlpha = alpha;
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft) || noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft) || noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMaxVal = Integer.MIN_VALUE;
 
@@ -103,8 +103,8 @@ public class AgentPlayer{
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
         int myBeta = beta;
         boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(), noMovesLeft)|| noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(), noMovesLeft);
+        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft)|| noMovesLeft){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMinVal = Integer.MAX_VALUE;
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponentStates).entrySet()) {
