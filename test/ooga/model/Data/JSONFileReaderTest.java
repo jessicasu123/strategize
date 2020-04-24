@@ -172,15 +172,6 @@ class JSONFileReaderTest {
         assertEquals(0, fr.getEmptyState());
     }
 
-    @Test
-    void player1DirectionTest(){
-        assertEquals(-1, fr.player1Direction());
-    }
-
-    @Test
-    void player2DirectionTest(){
-        assertEquals(1, fr.player2Direction());
-    }
 
     @Test
     void doPiecesMoveTest(){

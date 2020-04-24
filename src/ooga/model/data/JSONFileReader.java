@@ -20,8 +20,9 @@ import org.json.JSONObject;
 
 public class JSONFileReader implements FileHandler {
 
-    public static final int POS_DIRECTION = 1;
     public static final String ERROR_MESSAGE = "file not formatted properly";
+    public static final int PLAYER1 = 1;
+    public static final int PLAYER2 = 2;
     private String gameFileName;
     public static Map<String, String> gameStringProperties;
     public static Map<String, Integer> gameIntProperties;
@@ -123,7 +124,7 @@ public class JSONFileReader implements FileHandler {
     public int getPromotionRowForPlayer(int player) {
         boolean player1PromotionIsLastRow = gameBoolProperties.get("Player1PromotionIsLastRow");
         int lastRow = Integer.parseInt(gameStringProperties.get("Height"));
-        if((player == 1 && player1PromotionIsLastRow) || (player == 2 && !player1PromotionIsLastRow)){
+        if((player == PLAYER1 && player1PromotionIsLastRow) || (player == PLAYER2 && !player1PromotionIsLastRow)){
             return lastRow;
         }
         return 0;
@@ -182,6 +183,7 @@ public class JSONFileReader implements FileHandler {
         String boardObjectStr = gameStringProperties.get("ObjectConfig");
         return parseJSONConfiguration(boardObjectStr);
     }
+
     public int getWinValue(){
         return gameIntProperties.get("WinValue");
     }
@@ -202,23 +204,6 @@ public class JSONFileReader implements FileHandler {
         return gameIntProperties.get("EmptyState");
     }
 
-    public int player1Direction(){
-       boolean player1PosDirection = gameBoolProperties.get("Player1PosDirection");
-       if(player1PosDirection){
-           return POS_DIRECTION;
-       }else{
-           return -POS_DIRECTION;
-       }
-    }
-
-    public int player2Direction(){
-        boolean player1PosDirection = gameBoolProperties.get("Player1PosDirection");
-        if(player1PosDirection){
-            return -POS_DIRECTION;
-        }else{
-            return POS_DIRECTION;
-        }
-    }
     public boolean doPiecesMove(){
         return gameBoolProperties.get("PiecesMove");
     }
@@ -240,7 +225,7 @@ public class JSONFileReader implements FileHandler {
     public Map<Integer, String> getSpecialStateColorMapping(int i) {
         List<Integer> states = getPlayerStateInfo(i);
         Map<Integer,String> specialStateColorMapping = new HashMap<>();
-        if (states.size()>1) {
+        if (states.size() > 1) {
             JSONArray colorInfo = gameArrayProperties.get("Player" + i + "Colors");
             specialStateColorMapping.put(states.get(states.size()-1), colorInfo.getString(colorInfo.length()-1));
         }
@@ -304,36 +289,28 @@ public class JSONFileReader implements FileHandler {
     }
 
     private void parseData(){
-        try {
-            for (String key : gameData.keySet()) {
-                Object value = gameData.get(key);
-                if (value.getClass().equals(JSONObject.class)) {
-                    JSONObject nestedObject = gameData.getJSONObject(key);
-                    parseNestedData(key, nestedObject);
-                } else {
-                    getBasicValues(gameData, key, key, value);
-                }
+        for (String key : gameData.keySet()) {
+            Object value = gameData.get(key);
+            if (value.getClass().equals(JSONObject.class)) {
+                JSONObject nestedObject = gameData.getJSONObject(key);
+                parseNestedData(key, nestedObject);
+            } else {
+                getBasicValues(gameData, key, key, value);
             }
-            validateData();
-        }catch(Exception e){
-            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
+        validateData();
     }
 
     private void parseNestedData(String key, JSONObject nestedObject) {
-        try {
-            for (String nestedKey : nestedObject.keySet()) {
-                Object value = nestedObject.get(nestedKey);
-                String newKey = nestedKey;
-                if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
-                    if (key.contains("Player")) {
-                        newKey = key + nestedKey;
-                    }
-                    getBasicValues(nestedObject, nestedKey, newKey, value);
+        for (String nestedKey : nestedObject.keySet()) {
+            Object value = nestedObject.get(nestedKey);
+            String newKey = nestedKey;
+            if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
+                if (key.contains("Player")) {
+                    newKey = key + nestedKey;
                 }
+                getBasicValues(nestedObject, nestedKey, newKey, value);
             }
-        }catch(Exception e){
-            System.out.println(e.getLocalizedMessage() + " " + e.getCause());
         }
     }
 
@@ -351,12 +328,15 @@ public class JSONFileReader implements FileHandler {
 
     private void validateData(){
         if(checkBoardDimensions() || checkBoardWeightDimensions() || checkImageLengths() ||
-                checkPlayerAndImageStatesSameLength() || checkPlayerStatesSameLength() || checkerBoardObjectDimensions()){
+                checkPlayerAndImageStatesSameLength() || checkPlayerStatesSameLength() ||
+                checkBoardObjectDimensions() || checkAtLeastOneDirection()){
             throw new InvalidFileFormatException(ERROR_MESSAGE);
         }
     }
-
-    private boolean checkerBoardObjectDimensions(){
+    private boolean checkAtLeastOneDirection(){
+        return getDirectionForPlayer(PLAYER1).size() <= 0 && getDirectionForPlayer(PLAYER2).size() <= 0;
+    }
+    private boolean checkBoardObjectDimensions(){
         return Integer.parseInt(gameStringProperties.get("Width")) != getObjectConfig().get(0).size() ||
                 Integer.parseInt(gameStringProperties.get("Height")) != getObjectConfig().size();
     }
