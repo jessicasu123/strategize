@@ -5,8 +5,16 @@ import ooga.model.engine.exceptions.InvalidFileFormatException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class BadDataTest {
+    private String goodFile = "tic-tac-toe.json";
     private String badInitialConfig = "initialConfigNotMatchBoardDimensions.json";
+    private String badObjectConfig = "objectConfigNotMatchBoardDimensions.json";
 
+
+    @Test
+    void testGoodConfig(){
+        JSONFileReader good = new JSONFileReader(goodFile, "3 x 3");
+        assertDoesNotThrow(() -> good.parseFile());
+    }
     @Test
     void testBadInitialConfig(){
         JSONFileReader notEnoughRows = new JSONFileReader(badInitialConfig, "3 x 3");
@@ -16,6 +24,18 @@ public class BadDataTest {
         assertThrows(InvalidFileFormatException.class,() -> notEnoughCols.parseFile());
 
         JSONFileReader oneMissingInput = new JSONFileReader(badInitialConfig, "5 x 5");
+        assertThrows(InvalidFileFormatException.class,() -> oneMissingInput.parseFile());
+    }
+
+    @Test
+    void testBadObjectConfig(){
+        JSONFileReader notEnoughRows = new JSONFileReader(badObjectConfig, "3 x 3");
+        assertThrows(InvalidFileFormatException.class,() -> notEnoughRows.parseFile());
+
+        JSONFileReader notEnoughCols = new JSONFileReader(badObjectConfig, "4 x 4");
+        assertThrows(InvalidFileFormatException.class,() -> notEnoughCols.parseFile());
+
+        JSONFileReader oneMissingInput = new JSONFileReader(badObjectConfig, "5 x 5");
         assertThrows(InvalidFileFormatException.class,() -> oneMissingInput.parseFile());
     }
 }
