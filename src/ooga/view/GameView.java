@@ -41,6 +41,8 @@ public class GameView {
     public static final String DARK_MODE_STYLE = "darkMode";
     public static final String DARK_MODE_TEXT_COLOR = "white";
     public static final String LIGHT_MODE_TEXT_COLOR = "black";
+    public static final String USER_PASS = "user";
+    public static final String AGENT_PASS = "agent";
     public static final int PANE_HEIGHT = 350;
     public static final int START_DIM = 500;
     public static final int SPACING = 40;
@@ -251,11 +253,11 @@ public class GameView {
         }
     }
 
-    //TODO: allow agent to keep going if it's still their turn
     private void makeMove(){
         try {
             if (didPass) {
-                gameButtonManager.resetButtonText("MAKEMOVE", "MAKE MOVE");
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("MakeMoveText"));
                 didPass = false;
             }
             if (gameInProgress && myController.userTurn()) {
@@ -282,10 +284,12 @@ public class GameView {
     private void checkPass(boolean isBeforeUserTurn) {
         String playerPassed = myController.playerPass();
         if (gameInProgress && (!playerPassed.equals(""))) {
-            if (playerPassed.equals("user") && isBeforeUserTurn) {
-                gameButtonManager.resetButtonText("MAKEMOVE", "PASS");
-            } else if (playerPassed.equals("agent") && !isBeforeUserTurn){
-                gameButtonManager.resetButtonText("MAKEMOVE", "GO AGAIN");
+            if (playerPassed.equals(USER_PASS) && isBeforeUserTurn) {
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("PassText"));
+            } else if (playerPassed.equals(AGENT_PASS) && !isBeforeUserTurn){
+                gameButtonManager.resetButtonText("MAKEMOVE",
+                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("GoAgainText"));
             }
             didPass = true;
         }

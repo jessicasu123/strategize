@@ -23,7 +23,10 @@
       "Save": "save"
     },
     "MakeMoveButton": {
-      "MAKE MOVE": "makeMove"
+      "MAKE MOVE": "makeMove",
+      "PassText": "PASS",
+      "GoAgainText": "GO AGAIN",
+      "MakeMoveText": "MAKE MOVE"
     }
   },
   "AlertInfo": ["Error", "File Not Formatted Correctly", "Please Fix and Try Again"]

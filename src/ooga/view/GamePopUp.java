@@ -15,6 +15,8 @@ import java.io.FileReader;
  * This class is responsible for displaying a pop up on top of the current view
  * and will automatically close if the user clicks anywhere outside
  * the pop up screen.
+ *
+ * @author: Jessica Su
  */
 public abstract class GamePopUp {
     public static final String DEFAULT_RESOURCES = "src/resources/";
@@ -22,6 +24,11 @@ public abstract class GamePopUp {
     public static final String STYLESHEET = DEFAULT_VIEW_RESOURCES + "style.css";
     public static final String PIECES_RESOURCES = DEFAULT_VIEW_RESOURCES + "images/pieces/";
     public static final int SPACING = 40;
+    public static final double WIDTH_MULTIPLY_FACTOR = 2.0/3.0;
+    public static final double HEIGHT_MULTIPLY_FACTOR = 4.0/5.0;
+    public static final double X_OFFSET_FACTOR = 3.0;
+    public static final double Y_OFFSET_FACTOR = 2.0;
+
 
 
     protected double popUpWidth;
@@ -39,14 +46,13 @@ public abstract class GamePopUp {
     public GamePopUp(Stage stage, int width, int height, String fileName, GameButtonManager gameButtonManager) {
         displayStage = stage;
 
-        //TODO: figure out way to let subclasses decide width and height
-        popUpWidth = width * (2.0/3.0);
-        popUpHeight = height * (4.0/5.0);
+        popUpWidth = width * WIDTH_MULTIPLY_FACTOR;
+        popUpHeight = height * HEIGHT_MULTIPLY_FACTOR;
 
-        xOffset = (width - popUpWidth)/3.0;
-        yOffset = (height - popUpHeight)/2.0;
+        xOffset = (width - popUpWidth)/X_OFFSET_FACTOR;
+        yOffset = (height - popUpHeight)/Y_OFFSET_FACTOR;
+
         popUpFile = DEFAULT_RESOURCES + fileName;
-
         popUpGameButtonManager = gameButtonManager;
     }
 
@@ -96,15 +102,6 @@ public abstract class GamePopUp {
         myPopUpContents.setMinHeight(popUpHeight);
     }
 
-    /**
-     * Creates a horizontal container that many types of pop-ups might have.
-     * @return - horizontal container with padding and spacing.
-     */
-    protected HBox createHorizontalContainer() {
-        HBox container = new HBox();
-        container.setPadding(new Insets(20,SPACING/2,0,SPACING/2));
-        container.setSpacing(SPACING-10);
-        return container;
-    }
+
 
 }

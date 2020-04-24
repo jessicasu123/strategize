@@ -9,10 +9,19 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for creating a board cell
+ * that can hold multiple pieces.
+ * This is especially relevant for games such as Mancala
+ * and Chopsticks.
+ *
+ * @author: Jessica Su
+ */
 public class MultiPieceBoardCell extends BoardCell{
 
     public static final int DEFAULT_PIECE_SIZE = 20;
-
+    public static final String BACKGROUND_COLOR_STYLING = "-fx-background-color: ";
+    public static final String BORDER_COLOR_STYLING = "-fx-border-color: ";
     private double pieceWidth;
     private double pieceHeight;
     private List<Double> pieceXPositions;
@@ -21,9 +30,17 @@ public class MultiPieceBoardCell extends BoardCell{
     private int positionIndex;
     private int numRowsPerSquare;
     private int numPiecesPerRow;
-
     private Pane myCellPane;
 
+    /**
+     * Constructor for MultiPieceBoardCell.
+     * @param cellWidth - width of cell
+     * @param cellHeight - height of cell
+     * @param numVisualRows - number of visual rows. This will be useful
+     *                      when calculating a fixed set of positions
+     *                      where the images should appear.
+     * @param maxObjects - maximum number of objects that the cell can hold.
+     */
     public MultiPieceBoardCell(double cellWidth, double cellHeight,
                                int numVisualRows, int maxObjects) {
         super(cellWidth, cellHeight);
@@ -38,16 +55,23 @@ public class MultiPieceBoardCell extends BoardCell{
         createPiecePositions();
     }
 
-
+    /**
+     * Creates a pane that represents the cell.
+     * @return - Pane on which multiple images can be added
+     */
     @Override
     public Node createCell() {
         myCellPane = new Pane();
         myCellPane.setMinWidth(getCellWidth());
         myCellPane.setMinHeight(getCellHeight());
-
         return myCellPane;
     }
 
+    /**
+     * Allows the user to hover over a multi-piece cell and see
+     * how many pieces it holds.
+     * @param message
+     */
     @Override
     public void setMessage(int message) {
         myCellPane.setOnMouseEntered(e -> createHoverMessage(message));
@@ -59,6 +83,13 @@ public class MultiPieceBoardCell extends BoardCell{
         Tooltip.install(myCellPane, tooltip);
     }
 
+    /**
+     * Updates the image on the cell. For a multi-piece board cell,
+     * the image must be placed in a specified position on a pane.
+     * This method will be called as many times as the number of pieces
+     * that the cell needs to show.
+     * @param image - the image to update the cell with.
+     */
     @Override
     public void updateImageOnSquare(Image image) {
         if (positionIndex==totalPiecesPerSquare) positionIndex = 0;
@@ -72,16 +103,32 @@ public class MultiPieceBoardCell extends BoardCell{
         positionIndex++;
     }
 
+    /**
+     * Allows a different class to choose the position
+     * of an image by choosing an index from which
+     * to access the list of x positions/y positions
+     * generated in this class.
+     * @param newIndex - the index at which to get the
+     *                 position from the x positions/y positions list.
+     */
     @Override
     public void setImagePositionIndex(int newIndex) {
         positionIndex = newIndex;
     }
 
+    /**
+     * Updates the cell fill without changing the
+     * border color.
+     * @param color - the color to set the cell to
+     */
     @Override
     public void updateCellFill(String color) {
-        myCellPane.setStyle("-fx-background-color: " + color);
+        myCellPane.setStyle(BACKGROUND_COLOR_STYLING + color);
     }
 
+    /**
+     * Clears the contents of the cell.
+     */
     @Override
     public void clearFill(String color) {
         if (myCellPane.getChildren().size()!=0) {
@@ -89,15 +136,20 @@ public class MultiPieceBoardCell extends BoardCell{
         }
     }
 
+    /**
+     * Sets the style of the board cell by updating the fill
+     * and creating a border of a certain color.
+     * @param boardColor - color of the cell
+     * @param boardOutline - outline of the cell
+     */
     @Override
     public void setStyle(String boardColor, String boardOutline) {
         updateCellFill(boardColor);
-        myCellPane.setStyle("-fx-border-color: " + boardOutline);
+        myCellPane.setStyle(BORDER_COLOR_STYLING + boardOutline);
     }
 
     public void createPiecePositions() {
         createSetPositions();
-        //createRandomPositions();
     }
 
     private void createSetPositions() {
@@ -112,7 +164,6 @@ public class MultiPieceBoardCell extends BoardCell{
             currXPos = 0;
             currYPos += pieceHeight;
         }
-
     }
 
     private void createRandomPositions() {
