@@ -1,6 +1,7 @@
 {
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
-    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex", "EmptyState",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow", "EmptyState",
     "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
     "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
@@ -20,6 +21,10 @@
   "NeighborMoveChecks": [],
 
   "NeighborNumObjectsToCompare": 0,
+
+  "ConvertToEmptyState": false,
+
+  "Player1PromotionIsLastRow": false,
 
   "MoveTypes": ["ForceMoveAgain","ChangeNeighborObjects", "ClearObjects"],
 
@@ -69,13 +74,12 @@
     "BoardWeights": "0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0"
   },
 
-  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction", "PromotionRow"],
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore", "Direction"],
 
   "Player1": {
     "States": [1, 2],
     "StatesToIgnore": [0,4],
     "Direction": [1],
-    "PromotionRow": 0,
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "Colors": ["white", "blue"]
   },
@@ -84,7 +88,6 @@
     "States": [3, 4],
     "StatesToIgnore": [0,2],
     "Direction": [-1],
-    "PromotionRow": 0,
     "Images": ["orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png", "orangeCircle.png,tealCircle.png,yellowCircle.png,redCircle.png"],
     "Colors": ["white", "grey"]
   },
