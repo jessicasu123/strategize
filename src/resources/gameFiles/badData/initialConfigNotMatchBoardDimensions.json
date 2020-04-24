@@ -1,0 +1,109 @@
+{
+
+  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+    "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
+    "Player1PromotionIsLastRow","EmptyState",
+    "PiecesMove",  "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
+    "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4", "5 x 5", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+
+  "Gametype": "Tic-Tac-Toe",
+
+  "Neighborhood": "",
+
+  "WinType": "ConsecutivePieces",
+
+  "EvaluationFunctions": ["NumOpenLines"],
+
+  "SelfMoveChecks": ["EmptyStateCheck"],
+
+  "SelfNumObjectsToCompare": 0,
+
+  "NeighborMoveChecks": [],
+
+  "NeighborNumObjectsToCompare": 0,
+
+  "ConvertToEmptyState": true,
+
+  "Player1PromotionIsLastRow": false,
+
+  "MoveTypes": ["ChangeToNewStateMove"],
+
+  "NeighborConverterType": "",
+
+  "SpecialPieceIndex": 0,
+
+  "EmptyState": 0,
+
+  "PiecesMove": false,
+
+  "CheckCurrConfig": true,
+
+  "MultiplePiecesPerSquare": false,
+
+  "NumVisualRowsPerSquare": 1,
+
+  "MaxNumObjectsPerSquare": 1,
+
+  "SquareClickOptions": ["empty", "player", "agent"],
+
+  "SquareClickType": "empty",
+
+  "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],
+
+  "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
+
+  "Default": "3 x 3",
+
+  "3 x 3": {
+    "Height": "3",
+    "Width": "3",
+    "InitialConfig": "0,0,0;0,0,0",
+    "ObjectConfig": "1,1,1;1,1,1;1,1,1",
+    "BoardWeights": "0,0,0;0,0,0;0,0,0",
+    "WinValue": 3
+  },
+  "4 x 4": {
+    "Height": "4",
+    "Width": "4",
+    "InitialConfig": "0,0,0;0,0,0;0,0,0;0,0,0",
+    "ObjectConfig": "1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1",
+    "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
+    "WinValue": 4
+  },
+  "5 x 5": {
+    "Height": "5",
+    "Width": "5",
+    "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0",
+    "ObjectConfig": "1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1",
+    "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+    "WinValue": 5
+  },
+
+  "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],
+
+  "Player1": {
+    "States": [1],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [0],
+    "Images": ["X.png"],
+    "Colors": ["white"]
+  },
+
+  "Player2": {
+    "States": [2],
+    "StatesToIgnore": [],
+    "ImmovableState": -1,
+    "Direction": [0],
+    "Images": ["O.png"],
+    "Colors": ["white"]
+  },
+
+  "possibleMove": "",
+
+  "Rules": ["Place piece in any open spot on the grid. Alternate turns with opponent.", "Prevent opponent from getting 3 in a row (horizontal, vertical, diagonal).", "First one to get 3 in a row wins!", "If nobody gets 3 in a row, a tie is called."]
+
+
+
+}
