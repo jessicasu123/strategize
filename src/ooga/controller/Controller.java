@@ -215,7 +215,7 @@ public class Controller implements ControllerFramework {
 
     @Override
     public void saveANewFile(String fileName, Map<String, String> startingProperties){
-        myFileHandler.saveToFile(fileName, startingProperties, myGame.getVisualInfo());
+        myFileHandler.saveToFile(fileName, myGame.getVisualInfo(), myGame.getObjectInfo());
     }
 
     public boolean hasMultiplePiecesPerSquare() {return myFileHandler.hasMultiplePiecesPerSquare();}

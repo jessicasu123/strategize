@@ -4,7 +4,7 @@
     "Player1PromotionIsLastRow", "EmptyState",
     "PiecesMove", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","8 x 8", "6 x 6", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+    "DimensionOptions", "BoardKeys", "Default","2 x 6", "2 x 8", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Mancala",
 
@@ -48,13 +48,13 @@
 
   "SquareClickType": "player",
 
-  "DimensionOptions": [ "6 x 2", "8 x 2" ],
+  "DimensionOptions": [ "2 x 6", "2 x 8" ],
 
   "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
 
-  "Default": "6 x 2",
+  "Default": "2 x 6",
 
-  "6 x 2": {
+  "2 x 6": {
     "Height": "2",
     "Width": "8",
     "InitialConfig": "4,3,3,3,3,3,3,0;0,1,1,1,1,1,1,2",
@@ -63,7 +63,7 @@
     "BoardWeights": "0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0"
   },
 
-  "8 x 2": {
+  "2 x 8": {
     "Height": "2",
     "Width": "10",
     "InitialConfig": "4,3,3,3,3,3,3,3,3,0;0,1,1,1,1,1,1,1,1,2",
