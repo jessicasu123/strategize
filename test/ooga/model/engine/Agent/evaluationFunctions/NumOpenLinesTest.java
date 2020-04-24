@@ -24,7 +24,7 @@ class NumOpenLinesTest {
         List<Integer> minstates = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         List<Integer> maxstates = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         NumOpenLines numopen = new NumOpenLines(stateIndex, maxstates,minstates,4);
-        assertEquals(0, numopen.evaluate(boardconfig, false));
+        assertEquals(0, numopen.evaluate(boardconfig,boardconfig, false));
 
     }
 
@@ -39,7 +39,7 @@ class NumOpenLinesTest {
         List<Integer> minstates = new ArrayList<>(List.of(0,0,0));
         List<Integer> maxstates = new ArrayList<>(List.of(1,0,0));
         NumOpenLines numopen = new NumOpenLines(stateIndex, maxstates,minstates,3);
-        assertEquals(2, numopen.evaluate(boardconfig, true));
+        assertEquals(2, numopen.evaluate(boardconfig,boardconfig, true));
 
     }
 }

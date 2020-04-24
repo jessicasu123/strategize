@@ -16,7 +16,7 @@ public class ConsecutivePieces implements WinType {
     }
 
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo, boolean noMovesLeft) {
+    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         List<List<Integer>> rows = boardStateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);

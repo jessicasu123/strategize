@@ -11,7 +11,6 @@ public class Agent {
     private List<Integer> myAgentStates;
     private List<Integer> myUserStates;
 
-    //TODO give weights to evals?
     public Agent(WinType winType, List<EvaluationFunction> evals, List<Integer> agentStates, List<Integer> userStates){
         myWinType = winType;
         myEvals = evals;
@@ -19,27 +18,27 @@ public class Agent {
         myUserStates = userStates;
     }
 
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo, boolean noMovesLeft){
-        if(myWinType.isWin(myAgentStates, boardStateInfo, noMovesLeft)){
+    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+        if(myWinType.isWin(myAgentStates, boardStateInfo, objectInfo,noMovesLeft)){
             return Integer.MAX_VALUE;
-        }else if(myWinType.isWin(myUserStates, boardStateInfo, noMovesLeft)){
+        }else if(myWinType.isWin(myUserStates, boardStateInfo, objectInfo,noMovesLeft)){
             return Integer.MIN_VALUE;
         }
         int evaluation = 0;
         for(EvaluationFunction evalFunc: myEvals){
-            evaluation += evalFunc.evaluate(boardStateInfo, noMovesLeft);
+            evaluation += evalFunc.evaluate(boardStateInfo,objectInfo, noMovesLeft);
         }
         return evaluation;
     }
 
-    public boolean isGameWon(List<List<Integer>> boardStateInfo, boolean noMovesLeft){
-        return myWinType.isWin(myAgentStates, boardStateInfo, noMovesLeft) ||
-                myWinType.isWin(myUserStates, boardStateInfo, noMovesLeft);
+    public boolean isGameWon(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+        return myWinType.isWin(myAgentStates, boardStateInfo,objectInfo, noMovesLeft) ||
+                myWinType.isWin(myUserStates, boardStateInfo,objectInfo, noMovesLeft);
     }
 
-    public int findGameWinner(List<List<Integer>> boardStateInfo, boolean noMovesLeft){
-        if(isGameWon(boardStateInfo, noMovesLeft)){
-            if(myWinType.isWin(myAgentStates, boardStateInfo, noMovesLeft)){
+    public int findGameWinner(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+        if(isGameWon(boardStateInfo,objectInfo, noMovesLeft)){
+            if(myWinType.isWin(myAgentStates, boardStateInfo, objectInfo,noMovesLeft)){
                 return myAgentStates.get(0);
             }
             else {

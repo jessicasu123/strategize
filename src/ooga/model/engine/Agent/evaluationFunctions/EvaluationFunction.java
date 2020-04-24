@@ -21,5 +21,5 @@ public interface EvaluationFunction {
      * @param noMovesLeft - boolean that represents if there are moves left
      * @return an integer that represents the evaluation of a certain move
      */
-    int evaluate(List<List<Integer>> boardStateInfo, boolean noMovesLeft);
+    int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft);
 }
