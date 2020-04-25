@@ -1,7 +1,7 @@
 final
 ====
 
-This project implements a player for multiple related games.
+This project creates a JavaFX GUI that allows a user to play a variety of different strategy games (Tic-Tac-Toe, Connect4, Othello, Checkers, Mancala, Chopsticks) against an artificial player. 
 
 Names: Brian Li (bl195), Holly Ansel (haa20), Jessica Su (js803), Sanya Kochhar (sk489) 
 
@@ -116,7 +116,7 @@ The game starts when you run the **Main** class. A screen with all the game opti
     * Contains 3 different dimensions to choose from: 3x3, 4x4, 5x5 
     * For each dimension, the number to get in a row increases (3x3 requires 3 in a row to win, 4x4 requires 4 in row, 5x5 is 5 in a row) 
 * Mancala.json 
-    * Besides the initial configuration of player states (ex. 0 for empty, 1 for player 1, 2 for player), the object configuration is especially relevant because each Mancala cell holds more than one object 
+    * Besides the initial configuration of player states (ex. 0 for empty, 1 for player 1, 2 for player 2), the object configuration is especially relevant because each Mancala cell holds more than one object 
     * Because it requires multi-piece cells in the view, the config file indicates how many maximum pieces can be displayed in a cell 
     * The special states in Mancala also represent the player banks, which are different colors for each player but also collect pieces 
 
