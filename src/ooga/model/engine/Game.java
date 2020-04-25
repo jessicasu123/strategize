@@ -27,6 +27,9 @@ public class Game implements GameFramework{
     private static final int ID_STATE_POS = 0;
     public static final String USER_PASS = "user";
     public static final String AGENT_PASS = "agent";
+    public static final int NO_MOVES_FOR_USER = 1;
+    public static final int NO_MOVES_FOR_AGENT = 2;
+    public static final int TIE = 3;
     private Board myBoard;
     private Agent myAgent;
     private AgentPlayer myAgentPlayer;
@@ -83,8 +86,8 @@ public class Game implements GameFramework{
             isUserTurn = !isUserTurn;
         }
         int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
-        noMovesForUser = numMovesStatus == 1;
-        noMovesForAgent = numMovesStatus == 2;
+        noMovesForUser = numMovesStatus == NO_MOVES_FOR_USER;
+        noMovesForAgent = numMovesStatus == NO_MOVES_FOR_AGENT;
         if (noMovesForUser) playerPass = USER_PASS;
         if (noMovesForAgent) playerPass = AGENT_PASS;
     }
@@ -135,7 +138,7 @@ public class Game implements GameFramework{
         int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         boolean noMovesLeft = numMovesStatus == 0;
         int result = myAgent.findGameWinner(myBoard.getStateInfo(),myBoard.getObjectInfo(), noMovesLeft);
-        if (result == 0 && noMovesLeft) { return 3; }
+        if (result == 0 && noMovesLeft) { return TIE; }
         return result;
     }
 

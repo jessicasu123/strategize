@@ -313,7 +313,7 @@ public class Controller implements ControllerFramework {
      * Communicates file saving actions from the view to the filehandler to pass in the
      * game file name and configuration being saved
      * @param fileName - the String the user indicates they want the file to be saved as
-     * @param startingProperties
+     * @param startingProperties - starting properties
      */
     @Override
     public void saveANewFile(String fileName, Map<String, String> startingProperties){

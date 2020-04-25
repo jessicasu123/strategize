@@ -19,6 +19,9 @@ import java.util.*;
 public class Board implements BoardFramework{
     public static final String STATE_INFO_IDENTIFIER = "state";
     public static final String OBJECT_INFO_IDENTIFIER = "object";
+    public static final int NO_MOVES_PLAYER1 = 1;
+    public static final int NO_MOVES_PLAYER2 = 2;
+    public static final int BOTH_PLAYERS_HAVE_MOVES = 3;
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
     private List<List<Integer>> myObjectConfiguration;
@@ -78,9 +81,9 @@ public class Board implements BoardFramework{
         boolean noMovesForPlayer1 = checkEmptyMovesForPlayer(userStates);
         boolean noMovesForPlayer2 = checkEmptyMovesForPlayer(agentStates);
         if (noMovesForPlayer1 && noMovesForPlayer2) return 0;
-        else if (noMovesForPlayer1) return 1;
-        else if (noMovesForPlayer2) return 2;
-        else return 3;
+        else if (noMovesForPlayer1) return NO_MOVES_PLAYER1;
+        else if (noMovesForPlayer2) return NO_MOVES_PLAYER2;
+        else return BOTH_PLAYERS_HAVE_MOVES;
     }
 
     private boolean checkEmptyMovesForPlayer(List<Integer> playerStates) {
