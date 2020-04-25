@@ -37,6 +37,17 @@ public class Game implements GameFramework{
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
 
+    /**
+     * Constructor for Game
+     * @param gamePieces - the object that will create all the Game Pieces according to a type specified in the config file
+     * @param startingConfiguration - the starting configuration of states from the config file
+     * @param objectConfiguration - the configuration of number of objects at each row, col position
+     * @param neighborhoods - the types of neighborhoods that the pieces in this game will need to consider
+     * @param userPlayerInfo - all the information for the user player (ex. states)
+     * @param agentPlayerInfo - all the information for the agent player (ex. states)
+     * @param agent - will perform the AI calculation with minimax function
+     * @param emptyState - the integer representing the empty state
+     */
     public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
                 PlayerInfoHolder agentPlayerInfo, Agent agent, int emptyState) {
@@ -58,6 +69,7 @@ public class Game implements GameFramework{
      *  and must pass
      * @param moveCoordinates - the start and end coordinates of the user's move
      */
+    @Override
     public void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         playerPass = "";
         if(isUserTurn && !noMovesForUser){
@@ -81,6 +93,7 @@ public class Game implements GameFramework{
      *  - passes along the information about which player passed (either user or agent)
      *  - returns "user" if used passed, "agent" if agent passed, and "" if neither passed
      */
+    @Override
     public String whichPlayerPassed() { return playerPass; }
 
 
@@ -90,6 +103,7 @@ public class Game implements GameFramework{
      *  - true if it's the user's turn, false if it's the agent's turn
      *  - used by the view to update the board appearance accordingly
      */
+    @Override
     public boolean isUserTurn(){
         return isUserTurn;
     }

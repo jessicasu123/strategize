@@ -12,6 +12,9 @@ import java.util.List;
  * The criteria for an opponent being flipped is that there is
  * at least one opponent piece between an empty spot and another player piece.
  *
+ * This will be used when checking the validity of a move that requires flipping
+ * neighbors and when the move of flipping neighbors is actually executed.
+ *
  * @author Jessica Su
  */
 public class FlippableNeighborFinder implements ConvertibleNeighborFinder {

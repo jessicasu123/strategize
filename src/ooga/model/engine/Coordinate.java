@@ -8,6 +8,11 @@ public class Coordinate implements CoordinateFramework, Comparable<Coordinate>{
     private int row;
     private int col;
 
+    /**
+     * Constructor for coordinate
+     * @param startRow - row position
+     * @param startCol - column position
+     */
     public Coordinate (int startRow, int startCol) {
         row = startRow;
         col = startCol;
