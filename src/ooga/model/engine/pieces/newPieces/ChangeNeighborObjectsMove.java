@@ -11,7 +11,7 @@ public class ChangeNeighborObjectsMove implements MoveType {
     private boolean onlyChangeOpponent;
 
     /**
-     * Responsible for evenly giving the number of objects in the current piece between neighbor pieces
+     * MoveTyope responsible for evenly giving the number of objects in the current piece between neighbor pieces
      * as found by the convertibleNeighborFinder. The number of piece own objects are not decremented
      * @author Sanya Kochhar
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted

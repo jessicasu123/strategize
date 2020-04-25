@@ -13,11 +13,12 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 
 /**
- * Responsible for allowing the user to customize the piece images
- * for both his/her player and the opponent's player.
- * These customization selections are finalized when the user
- * clicks on the "SET PREFERENCES" button and reflected
- * in the view.
+ * Responsible for generating a popup when a game ends to:
+ *  - display the game end status (win/loss/tie)
+ *  - allow the user to play again
+ *  - allow the user to return to setup
+ *  - allow the user to return to the main menu
+ * @author Sanya Kochhar
  */
 public class EndPopUp extends GamePopUp{
 
@@ -36,9 +37,7 @@ public class EndPopUp extends GamePopUp{
     }
 
     /**
-     * For the CustomizationPopUp, the content includes the ability
-     * to customize the pieces for the player and opponent,
-     * as well as options to change the color of the Grid background.
+     * The popup contents contain the win status and graphic as well as navigation buttons
      */
     @Override
     protected void createPopUpContents() {
@@ -51,7 +50,6 @@ public class EndPopUp extends GamePopUp{
         myPopUpContents.getChildren().add(gameEndContents);
 
     }
-
 
     private VBox createEndMessaging() {
         VBox endMessaging = new VBox();

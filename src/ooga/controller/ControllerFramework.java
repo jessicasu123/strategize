@@ -43,19 +43,19 @@ public interface ControllerFramework {
      * METHOD PURPOSE:
      *  - stores the piece selected that the user wants to move in an instance variable
      *  - this keeps track of the information from the user's action on the view
-     * @param x - x coordinate of piece selected
-     * @param y - y coordinate of piece selected
+     * @param row - row coordinate of piece selected
+     * @param col - column coordinate of piece selected
      */
-    void pieceSelected(int x, int y);
+    void pieceSelected(int row, int col);
 
     /**
      * METHOD PURPOSE:
      *  -stores the square selected that the user wants to move the piece to in an instance variable
      *  - this keeps track of the information from the user's action on the view
-     *  @param x - x coordinate of square selected
-     *  @param y - y coordinate of square selected
+     *  @param row - row coordinate of square selected
+     *  @param col - column coordinate of square selected
      */
-    void squareSelected(int x, int y);
+    void squareSelected(int row, int col);
 
     /**
      * METHOD PURPOSE:

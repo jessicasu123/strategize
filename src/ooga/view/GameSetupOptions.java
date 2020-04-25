@@ -25,6 +25,7 @@ import java.util.ArrayList;
  * This class allows a user to make selections such choosing to play as player 1
  * or player 2, change board dimensions, etc. before starting the game.
  * It is also responsible for creating the Controller and passing it to GameView
+ * @author Sanya Kochhar
  */
 
 public class GameSetupOptions {

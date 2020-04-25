@@ -12,6 +12,9 @@ public class PieceAtMaxObjectsMove implements MoveType {
 
 
     /**
+     * MoveType to set a piece to the empty state and remove all its objects if it reaches
+     * its maximum object capacity
+     * @author Sanya Kochhar
      * @param maxObjects - max number of objects piece can hold without being converted to empty state
      */
     public PieceAtMaxObjectsMove(int maxObjects, int emptyState, ConvertibleNeighborFinder convertibleNeighborFinder) {
@@ -40,7 +43,5 @@ public class PieceAtMaxObjectsMove implements MoveType {
             }
         }
     }
-
-
 
 }

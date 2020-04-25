@@ -9,6 +9,7 @@ import java.util.List;
 public class NeighborAtEndCoordinateFinder implements ConvertibleNeighborFinder {
     /**
      * Given a list of all of the neighbors and an end coordinate, finds the piece at that end coordinate
+     * @author Sanya Kochhar
      */
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
