@@ -4,7 +4,10 @@ import ooga.model.engine.Coordinate;
 import ooga.model.engine.player.PlayerInfoHolder;
 import ooga.model.engine.pieces.moveChecks.MoveCheck;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Stores all of the information needed to create a game piece for each player
@@ -20,8 +23,6 @@ public class GamePieceCreator {
     private List<MoveCheck> myAgentNeighborMoveChecks;
     private List<MoveType> myAgentMoveTypes;
     private List<Integer> myUserStates;
-    private List<Integer> myAgentStates;
-
     /**
      * Stores all of the information needed to create each players pieces
      * @param userPlayerInfoHolder - the user player of the program
@@ -37,7 +38,6 @@ public class GamePieceCreator {
         myAgentNeighborMoveChecks = agentPlayerInfoHolder.getNeighborMoveChecks();
         myAgentMoveTypes = agentPlayerInfoHolder.getMoveTypes();
         myUserStates = userPlayerInfoHolder.getPlayerStates();
-        myAgentStates = agentPlayerInfoHolder.getPlayerStates();
     }
 
     /**
@@ -49,9 +49,10 @@ public class GamePieceCreator {
      */
     public GamePiece createGamePiece(int state, Coordinate position, int numObjects){
         if(myUserStates.contains(state)) {
-            return new GamePiece(state, position, numObjects, myUserDirections, myUserMoveChecks, myUserNeighborMoveChecks, myUserMoveTypes);
+            return new GamePiece(state, position, numObjects, new ArrayList<>(myUserDirections), myUserMoveChecks, myUserNeighborMoveChecks, myUserMoveTypes);
         }else{
-            return new GamePiece(state, position, numObjects, myAgentDirections, myAgentMoveChecks, myAgentNeighborMoveChecks, myAgentMoveTypes);
+            return new GamePiece(state, position, numObjects, new ArrayList<>(myAgentDirections), myAgentMoveChecks, myAgentNeighborMoveChecks, myAgentMoveTypes);
         }
+
     }
 }

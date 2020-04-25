@@ -38,9 +38,9 @@ public interface FileHandler {
      */
     void saveToFile(String fileName, List<List<Integer>> configurationInfo, List<List<Integer>> objectConfigInfo);
 
-    @Deprecated
-    //void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
-
+    /*@deprecated
+    /void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
+    */
     /**
      * METHOD PURPOSE:
      * - gets a list of all the neighborhood types a certain game piece
@@ -106,27 +106,116 @@ public interface FileHandler {
      */
     Map<Integer,String> getSpecialStateColorMapping(int i);
 
+    /**
+     * @return the index of the special piece (a piece with added/different functionality)
+     */
     int getSpecialPieceIndex();
+
+    /**
+     * @return a list of the names of all of the evaluation functions to use
+     */
     List<String> getEvaluationFunctions();
+
+    /**
+     * @return the name of the win type that should be used
+     */
     String getWinType();
+
+    /**
+     * @return the value needed to win (number pieces in a row, number of pieces collected"
+     */
     int getWinValue();
+
+    /**
+     * @return a nested list of the boardweights
+     */
     List<List<Integer>> getBoardWeights();
+
+    /**
+     * @return the empty state of the board
+     */
     int getEmptyState();
+
+    /**
+     * @return whether pieces move positions
+     */
     boolean doPiecesMove();
+
+    /**
+     * @return gametype in string form
+     */
     String getGameType();
+
+    /**
+     * @param i - Player ID number
+     * @return - List of states for the specific player to ignore
+     */
     List<Integer> getStatesToIgnoreForPlayer(int i);
+
+    /**
+     * @return Neighborhood Converter Type String
+     */
     String getConverterType();
+
+    /**
+     * @return List of MoveChecks
+     */
     List<String> getSelfMoveChecks();
+
+    /**
+     * @return List of Neighbor MoveChecks
+     */
     List<String> getNeighborMoveChecks();
+
+    /**
+     * @return List of MoveTypes
+     */
     List<String> getMoveTypes();
+
+    /**
+     * @return List of Directions based on player ID
+     */
     List<Integer> getDirectionForPlayer(int i);
+
+    /**
+     * @return the number of object to compare when checking a neighbor
+     */
     int getNeighborNumObjectsToCompare();
+
+    /**
+     * @return the number of object to compare when checking self
+     */
     int getSelfNumObjectsToCompare();
+
+    /**
+     * @return whether or not when converting the state of a piece it should be converted to the empty state
+     */
     boolean convertToEmptyState();
+
+    /**
+     * @return if should check the current config
+     */
     boolean shouldCheckCurrConfig();
+
+    /**
+     * @param player - PlayerID int
+     * @return - the row number for promotion for a specific playerID
+     */
     int getPromotionRowForPlayer(int player);
+
+    /**
+     * @param player - PlayerID int
+     * @return - the immovable state for a specific playerID
+     */
     int getImmovableStateForPlayer(int player);
 
+    /**
+     * @return whether the only state that should be changed on a move is your opponents
+     */
     boolean getOnlyChangeOpponent();
+
+    /**
+     * @return gets the click type of a square for the front end
+     */
     List<String> getSquareClickTypes();
 }

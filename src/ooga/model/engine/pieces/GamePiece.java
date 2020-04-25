@@ -15,7 +15,7 @@ import java.util.List;
  *  such as the state, position, and number of objects
  *  - There are also protected methods that allow the move types to set the different components of the game piece
  *  while still maintaining encapsulation to the rest of the program
- *
+ * @author Sanya Kochhar, Holly Ansel
  */
 public class GamePiece {
     public static final int MAIN_DIRECTION_INDEX = 0;
@@ -183,6 +183,15 @@ public class GamePiece {
         if(!myDirections.contains(newDirection)){
             myDirections.add(newDirection);
         }
+    }
+
+    /**
+     * @return a copy of this game piece with all of the values that it currently has
+     */
+    public GamePiece copy(){
+        Coordinate coordCopy = new Coordinate(myPosition.getRow(),myPosition.getCol());
+        return new GamePiece(myState,coordCopy,myObjects,new ArrayList<>(myDirections),
+                myMoveChecks,myNeighborMoveChecks,myMoveTypes);
     }
 
     /*

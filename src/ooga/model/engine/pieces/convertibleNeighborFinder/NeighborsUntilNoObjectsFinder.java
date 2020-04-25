@@ -39,16 +39,21 @@ public class NeighborsUntilNoObjectsFinder implements ConvertibleNeighborFinder 
                                                   int playerID, int direction, List<GamePiece> neighbors) {
         List<GamePiece> toConvert = new ArrayList<>();
         int currentXPos = currCoordinate.getRow();
-        int currentYPos = currCoordinate.getCol();
+        int currentYPos = currCoordinate.getCol() + direction;
         int objectCount = numObjects;
         while(objectCount > 0){
-            currentYPos += direction;
             objectCount = iterateOverRow(currentYPos, objectCount, direction, neighbors, toConvert, currentXPos);
+            currentYPos += numSpotsTraveled(numObjects, objectCount) * direction;
             direction *= REVERSE_DIRECTION;
             currentXPos = findNextRow(neighbors, currentXPos);
+            numObjects = objectCount;
         }
 
         return toConvert;
+    }
+
+    private int numSpotsTraveled(int numObjects, int objectCount) {
+        return numObjects - objectCount - 1;
     }
 
     private int findNextRow(List<GamePiece> neighbors, int currRow){

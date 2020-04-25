@@ -47,6 +47,18 @@ public class Board implements BoardFramework{
     }
 
     /**
+     * Creates a board using already created game pieces
+     * @param pieces - pieces to use to create the board with
+     * @param neighborhoods - the types of neighbors to consider while making a move on this board
+     * @param emptyState - the integer representing the empty state (ex. 0)
+     */
+    public Board(List<List<GamePiece>> pieces, List<Neighborhood> neighborhoods, int emptyState){
+        myGamePieces = pieces;
+        myNeighborhoods = neighborhoods;
+        myEmptyState = emptyState;
+    }
+
+    /**
      * Checks that there are no moves left for either the user player
      * or the agent player.
      *  returns 0 if there are no more moves for either player
@@ -257,7 +269,14 @@ public class Board implements BoardFramework{
      */
     @Override
     public BoardFramework copyBoard() {
-        return new Board(myGamePieceFactory, new ArrayList<>(this.getStateInfo()),new ArrayList<>(this.getObjectInfo()),
-                new ArrayList<>(this.myNeighborhoods), myEmptyState);
+        List<List<GamePiece>> pieceCopies= new ArrayList<>();
+        for(List<GamePiece> row: myGamePieces){
+            List<GamePiece> rowOfPieceCopies = new ArrayList<>();
+            for(GamePiece piece: row){
+                rowOfPieceCopies.add(piece.copy());
+            }
+            pieceCopies.add(rowOfPieceCopies);
+        }
+        return new Board(pieceCopies,new ArrayList<>(myNeighborhoods),myEmptyState);
     }
 }

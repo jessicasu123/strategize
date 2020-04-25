@@ -276,7 +276,6 @@ public class GameView {
             if (gameInProgress) {
                 completeAgentTurnAfterUsers();
             }
-
         }
     }
 
@@ -338,7 +337,7 @@ public class GameView {
             gameEnd = new EndPopUp(myStage, WIDTH, HEIGHT, ENDGAME_FILE, endStatus, gameButtonManager);
             gameEnd.display();
             addActionsToButtons(gameButtonManager.getButtonActionsMap());
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }

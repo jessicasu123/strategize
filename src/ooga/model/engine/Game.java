@@ -21,7 +21,7 @@ import java.util.Map;
  *  - holding a board object and Agent (which will allow the computer to calculate moves)
  *  - determining the game status (still continuing, win/loss, no moves left)
  *
- * @author Jessica Su
+ * @author Jessica Su, Holly Ansel
  */
 public class Game implements GameFramework{
     private static final int ID_STATE_POS = 0;

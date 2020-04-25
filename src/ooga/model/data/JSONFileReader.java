@@ -24,11 +24,10 @@ public class JSONFileReader implements FileHandler {
     public static final int PLAYER1 = 1;
     public static final int PLAYER2 = 2;
     private String gameFileName;
-    public static Map<String, String> gameStringProperties;
-    public static Map<String, Integer> gameIntProperties;
-    public static Map<String, Boolean> gameBoolProperties;
-    public static Map<String, JSONArray> gameArrayProperties;
-    private String configAsString;
+    private Map <String, String> gameStringProperties;
+    private Map<String, Integer> gameIntProperties;
+    private Map<String, Boolean> gameBoolProperties;
+    private Map<String, JSONArray> gameArrayProperties;
     public static final String DEFAULT_RESOURCES = "src/resources/gameFiles/";
     public static final String JSON_ENDING = ".json";
     private JSONObject gameData;
@@ -51,7 +50,7 @@ public class JSONFileReader implements FileHandler {
 
     /**
      * Creates FileReader and parses data or throws exception otherwise
-     * @throws InvalidFileFormatException
+     * @throws InvalidFileFormatException when a file does not have the appropriate info/isn't in the correct format
      */
     public void parseFile()throws InvalidFileFormatException{
         try {
@@ -82,7 +81,7 @@ public class JSONFileReader implements FileHandler {
     }
 
     /**
-     * @param jsonArray
+     * @param jsonArray - an array to be converted to list of strings
      * @return - List of Strings following JSONArray conversion
      */
     private List<String> convertJSONArrayToStringList(JSONArray jsonArray) {
@@ -94,7 +93,7 @@ public class JSONFileReader implements FileHandler {
     }
 
     /**
-     * @param jsonArray
+     * @param jsonArray - an array to convert to list of integers
      * @return - List of Integers following JSONArray conversion
      */
     private List<Integer> convertJSONArrayToIntegerList(JSONArray jsonArray) {
@@ -146,18 +145,25 @@ public class JSONFileReader implements FileHandler {
         return convertJSONArrayToIntegerList(gameArrayProperties.get("Player"+i+"Direction"));
     }
 
-
+    /**
+     * @return the number of object to compare when checking a neighbor
+     */
     @Override
     public int getNeighborNumObjectsToCompare() {
         return gameIntProperties.get("NeighborNumObjectsToCompare");
     }
 
-
+    /**
+     * @return the number of object to compare when checking self
+     */
     @Override
     public int getSelfNumObjectsToCompare() {
         return gameIntProperties.get("SelfNumObjectsToCompare");
     }
 
+    /**
+     * @return whether or not when converting the state of a piece it should be converted to the empty state
+     */
     @Override
     public boolean convertToEmptyState() {
         return gameBoolProperties.get("ConvertToEmptyState");
@@ -172,7 +178,7 @@ public class JSONFileReader implements FileHandler {
         boolean player1PromotionIsLastRow = gameBoolProperties.get("Player1PromotionIsLastRow");
         int lastRow = Integer.parseInt(gameStringProperties.get("Height"));
         if((player == PLAYER1 && player1PromotionIsLastRow) || (player == PLAYER2 && !player1PromotionIsLastRow)){
-            return lastRow;
+            return lastRow - 1;
         }
         return 0;
     }
@@ -186,16 +192,21 @@ public class JSONFileReader implements FileHandler {
         return gameIntProperties.get("Player" + player + "ImmovableState");
     }
 
+    /**
+     * @return whether the only state that should be changed on a move is your opponents
+     */
     @Override
     public boolean getOnlyChangeOpponent() {
         return gameBoolProperties.get("OnlyChangeOpponent");
     }
 
+    /**
+     * @return the number of rows that should be presented per each square
+     */
     @Override
     public int getNumRowsPerSquare() {
         return gameIntProperties.get("NumVisualRowsPerSquare");
     }
-
 
     /**
      * parses the configuration string and adds to the configuration 2-D List
@@ -246,26 +257,44 @@ public class JSONFileReader implements FileHandler {
         return parseJSONConfiguration(boardObjectStr);
     }
 
+    /**
+     * @return the value needed to win (number pieces in a row, number of pieces collected"
+     */
     public int getWinValue(){
         return gameIntProperties.get("WinValue");
     }
 
+    /**
+     * @return the name of the win type that should be used
+     */
     public String getWinType(){
         return gameStringProperties.get("WinType");
     }
 
+    /**
+     * @return a list of the names of all of the evaluation functions to use
+     */
     public List<String> getEvaluationFunctions(){
         return convertJSONArrayToStringList(gameArrayProperties.get("EvaluationFunctions"));
     }
 
+    /**
+     * @return the index of the special piece (a piece with added/different functionality)
+     */
     public int getSpecialPieceIndex(){
         return gameIntProperties.get("SpecialPieceIndex");
     }
 
+    /**
+     * @return the empty state of the board
+     */
     public int getEmptyState(){
         return gameIntProperties.get("EmptyState");
     }
 
+    /**
+     * @return whether pieces move positions
+     */
     public boolean doPiecesMove(){
         return gameBoolProperties.get("PiecesMove");
     }
@@ -303,18 +332,21 @@ public class JSONFileReader implements FileHandler {
      * @return configuration in string form
      */
     private String configAsString(List<List<Integer>> config){
-        configAsString = "";
+        StringBuilder configAsString = new StringBuilder();
         for (List<Integer> integers : config) {
             for (int j = 0; j < config.get(0).size(); j++) {
-                configAsString += Integer.toString(integers.get(j)) + ",";
+                configAsString.append(integers.get(j)).append(",");
             }
-            configAsString = configAsString.substring(0, configAsString.length() - 1);
-            configAsString += ";";
+            configAsString = new StringBuilder(configAsString.substring(0, configAsString.length() - 1));
+            configAsString.append(";");
         }
-        configAsString = configAsString.substring(0,configAsString.length()- 1);
-        return configAsString;
+        configAsString = new StringBuilder(configAsString.substring(0, configAsString.length() - 1));
+        return configAsString.toString();
     }
 
+    /**
+     * @return whether visually multiple pieces should be shown
+     */
     public boolean hasMultiplePiecesPerSquare() {return gameBoolProperties.get("MultiplePiecesPerSquare");}
 
     /**
@@ -324,6 +356,9 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties.get("Gametype");
     }
 
+    /**
+     * @return if should check the current config
+     */
     public boolean shouldCheckCurrConfig(){
         return gameBoolProperties.get("CheckCurrConfig");
     }
@@ -354,7 +389,7 @@ public class JSONFileReader implements FileHandler {
     }
 
     /**
-     * parses gameData based on its keySet
+     * gets the click type of a square for the front end
      */
     @Override
     public List<String> getSquareClickTypes() {
@@ -383,7 +418,7 @@ public class JSONFileReader implements FileHandler {
         for (String nestedKey : nestedObject.keySet()) {
             Object value = nestedObject.get(nestedKey);
             String newKey = nestedKey;
-            if (key.contains("Player") || key.equals(boardDimensions)) { //TODO: don't harcode?
+            if (key.contains("Player") || key.equals(boardDimensions)) {
                 if (key.contains("Player")) {
                     newKey = key + nestedKey;
                 }
@@ -396,7 +431,7 @@ public class JSONFileReader implements FileHandler {
      * @param data - JSONObject values being retreived from
      * @param key - key for Object
      * @param mapName - name of Hashmap that maps keys to objects
-     * @param value
+     * @param value - the object that is being given
      */
     private void getBasicValues(JSONObject data, String key, String mapName, Object value) {
         if (value.getClass().equals(String.class)) {
@@ -463,7 +498,7 @@ public class JSONFileReader implements FileHandler {
 
     private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig,
                                   List<List<Integer>> objectConfig) {
-        if (gameStringProperties.keySet().contains(searchKey)) {
+        if (gameStringProperties.containsKey(searchKey)) {
             if (key.equals("InitialConfig")) {
                 writeTo.put(key,configAsString(currentConfig));
             } else if (key.equals("ObjectConfig") && hasMultiplePiecesPerSquare()) {
@@ -475,11 +510,11 @@ public class JSONFileReader implements FileHandler {
                 writeTo.put(key, gameStringProperties.get(searchKey));
             }
         }
-        else if (gameBoolProperties.keySet().contains(searchKey)) {
+        else if (gameBoolProperties.containsKey(searchKey)) {
             writeTo.put(key, gameBoolProperties.get(searchKey));
-        } else if (gameArrayProperties.keySet().contains(searchKey)) {
+        } else if (gameArrayProperties.containsKey(searchKey)) {
             writeTo.put(key, gameArrayProperties.get(searchKey));
-        } else if (gameIntProperties.keySet().contains(searchKey)) {
+        } else if (gameIntProperties.containsKey(searchKey)) {
             writeTo.put(key, gameIntProperties.get(searchKey));
         }
     }
@@ -517,7 +552,7 @@ public class JSONFileReader implements FileHandler {
         JSONArray allKeys = gameArrayProperties.get("Keys");
         for (int i = 0; i < allKeys.length();i++) {
             String key = (String) allKeys.get(i);
-            if (key.equals(boardDimensions)) { //TODO: fix so that there's a mapping from nested keys to their inner values
+            if (key.equals(boardDimensions)) {
                 JSONObject nestedObject = writeNestedObject(key,"BoardKeys", configurationInfo, objectConfigurationInfo);
                 jsonFile.put(key, nestedObject);
             }
