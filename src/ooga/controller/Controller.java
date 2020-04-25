@@ -233,20 +233,41 @@ public class Controller implements ControllerFramework {
         }
     }
 
+    /**
+     * Gets a mapping of the special states to the colors that represent them.
+     * @return map with keys as special states and values as colors
+     */
+    @Override
     public Map<Integer,String> getSpecialStateColorMapping() {
         Map<Integer,String> specialStateColorMap = myFileHandler.getSpecialStateColorMapping(1);
         specialStateColorMap.putAll(myFileHandler.getSpecialStateColorMapping(2));
         return specialStateColorMap;
     }
 
+    /**
+     * Gets a mapping of the states for all players and the images
+     * that represent them.
+     * @return map with keys as states and values as images.
+     */
+    @Override
     public Map<Integer, String> getStateImageMapping(){
         return myStateToImageMapping;
     }
 
+    /**
+     * Gets the states that represent the user.
+     * @return list of integers representing the user states.
+     */
+    @Override
     public List<Integer> getUserStateInfo(){
         return Collections.unmodifiableList(myUserPlayerInfoHolder.getPlayerStates());
     }
 
+    /**
+     * Gets the states that represent the agent.
+     * @return list of integers representing the agent states.
+     */
+    @Override
     public List<Integer> getAgentStateInfo(){
         return Collections.unmodifiableList(myAgentPlayerInfoHolder.getPlayerStates());
     }
@@ -254,6 +275,7 @@ public class Controller implements ControllerFramework {
     /**
      * Resets game variables and creates a new game
      */
+    @Override
     public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
@@ -268,11 +290,13 @@ public class Controller implements ControllerFramework {
      * Queries the game if a player passes
      * @return ID of the player who passed
      */
+    @Override
     public String playerPass() {return myGame.whichPlayerPassed();}
 
     /**
      * Allows view and game to keep track of whose turn it is
      */
+    @Override
     public boolean userTurn(){
         return userTurn;
     }
@@ -280,6 +304,7 @@ public class Controller implements ControllerFramework {
     /**
      * Returns whether pieces have the ability to move based on the data specificaiton
      */
+    @Override
     public boolean doPiecesMove(){
         return myFileHandler.doPiecesMove();
     }
@@ -299,6 +324,7 @@ public class Controller implements ControllerFramework {
      * Allows the view to differentiate whether a piece can contain multiple
      * objects to be displayed by the view
      */
+    @Override
     public boolean hasMultiplePiecesPerSquare() {return myFileHandler.hasMultiplePiecesPerSquare();}
 
     /**
@@ -393,17 +419,34 @@ public class Controller implements ControllerFramework {
     /**
      * @return list of possible moves to be visually depicted by faint images on the BoardView
      */
+    @Override
     public List<List<Integer>> getPossibleMovesForView() {
         return myGame.possibleMovesForView(); }
 
+    /**
+     * Gets the number of rows per square that should be
+     * visually represented. Relevant for games with multi-piece cells.
+     * @return number of rows that the images should populate in the view
+     */
+    @Override
     public int getVisualRowsPerSquare() {
         return myFileHandler.getNumRowsPerSquare();
     }
 
+    /**
+     * @return the maximum number of pieces per square that the view can show
+     */
+    @Override
     public int getMaxPiecesPerSquare() {
         return myFileHandler.getMaxObjectsPerSquare();
     }
 
+    /**
+     * Gets the kind of squares (empty, player, opponent) that a user can click on
+     * during a certain game and have it registered as a valid move.
+     * @return a list of strings representing the supported square click types
+     */
+    @Override
     public List<String> getSquareClickTypes() { return myFileHandler.getSquareClickTypes(); }
 
 }

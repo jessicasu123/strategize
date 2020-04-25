@@ -185,4 +185,18 @@ public interface ControllerFramework {
      * @return List of all the types of squares in the view that the user can click on
      */
     List<String> getSquareClickTypes();
+
+    /**
+     * METHOD PURPOSE:
+     * Allows the view to differentiate whether a piece can contain multiple
+     * objects to be displayed by the view
+     */
+    boolean hasMultiplePiecesPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * Gets a mapping of the special states to the colors that represent them.
+     * @return map with keys as special states and values as colors
+     */
+    Map<Integer,String> getSpecialStateColorMapping();
 }
