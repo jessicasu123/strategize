@@ -3,13 +3,12 @@ package ooga.view;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.*;
-import org.json.simple.parser.ParseException;
+import ooga.model.exceptions.*;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import javafx.scene.control.Button;
 import java.util.*;
 import java.util.List;
@@ -31,7 +30,7 @@ public class GameViewTest extends DukeApplicationTest {
     private int numRows;
     private int numCols;
     List<List<Rectangle>> myBoardCells;
-    public GameViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
+    public GameViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidMoveTypeException {
         testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         myBoardCells = new ArrayList<>();
     }

@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.exceptions.InvalidFileFormatException;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.json.JSONObject;
@@ -34,6 +34,12 @@ public class JSONFileReader implements FileHandler {
     private JSONObject gameData;
     private String boardDimensions;
 
+    /**
+     * Default constructor for JSONFileReader
+     * @param file - filename for game
+     * @param dimensions - Game's dimensions
+     */
+
     public JSONFileReader(String file, String dimensions){
         gameFileName = file;
         boardDimensions = dimensions;
@@ -43,6 +49,10 @@ public class JSONFileReader implements FileHandler {
         gameArrayProperties = new HashMap<>();
     }
 
+    /**
+     * Creates FileReader and parses data or throws exception otherwise
+     * @throws InvalidFileFormatException
+     */
     public void parseFile()throws InvalidFileFormatException{
         try {
             FileReader br = new FileReader(DEFAULT_RESOURCES + gameFileName);
@@ -54,16 +64,27 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    /**
+     * @return maximum number of objects for each square on board for game
+     */
     @Override
     public int getMaxObjectsPerSquare() {
         return gameIntProperties.get("MaxNumObjectsPerSquare");
     }
 
+    /**
+     * @param i - Player ID number
+     * @return - List of states for the specific player to ignore
+     */
     @Override
     public List<Integer> getStatesToIgnoreForPlayer(int i) {
         return convertJSONArrayToIntegerList(gameArrayProperties.get("Player" + i + "StatesToIgnore"));
     }
 
+    /**
+     * @param jsonArray
+     * @return - List of Strings following JSONArray conversion
+     */
     private List<String> convertJSONArrayToStringList(JSONArray jsonArray) {
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length();i++) {
@@ -72,6 +93,10 @@ public class JSONFileReader implements FileHandler {
         return stringList;
     }
 
+    /**
+     * @param jsonArray
+     * @return - List of Integers following JSONArray conversion
+     */
     private List<Integer> convertJSONArrayToIntegerList(JSONArray jsonArray) {
         List<Integer> intList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length();i++) {
@@ -80,35 +105,53 @@ public class JSONFileReader implements FileHandler {
         return intList;
     }
 
+    /**
+     * @return Neighborhood Converter Type String
+     */
     @Override
     public String getConverterType() {
         return gameStringProperties.get("NeighborConverterType");
     }
 
+
+    /**
+     * @return List of MoveChecks
+     */
     @Override
     public List<String> getSelfMoveChecks() {
         return convertJSONArrayToStringList(gameArrayProperties.get("SelfMoveChecks"));
     }
 
+    /**
+     * @return List of Neighbor MoveChecks
+     */
     @Override
     public List<String> getNeighborMoveChecks() {
         return convertJSONArrayToStringList(gameArrayProperties.get("NeighborMoveChecks"));
     }
 
+    /**
+     * @return List of MoveTypes
+     */
     @Override
     public List<String> getMoveTypes() {
         return convertJSONArrayToStringList(gameArrayProperties.get("MoveTypes"));
     }
 
+    /**
+     * @return List of Directions based on player ID
+     */
     @Override
     public List<Integer> getDirectionForPlayer(int i) {
         return convertJSONArrayToIntegerList(gameArrayProperties.get("Player"+i+"Direction"));
     }
 
+
     @Override
     public int getNeighborNumObjectsToCompare() {
         return gameIntProperties.get("NeighborNumObjectsToCompare");
     }
+
 
     @Override
     public int getSelfNumObjectsToCompare() {
@@ -120,6 +163,10 @@ public class JSONFileReader implements FileHandler {
         return gameBoolProperties.get("ConvertToEmptyState");
     }
 
+    /**
+     * @param player - PlayerID int
+     * @return - the row number for promotion for a specific playerID
+     */
     @Override
     public int getPromotionRowForPlayer(int player) {
         boolean player1PromotionIsLastRow = gameBoolProperties.get("Player1PromotionIsLastRow");
@@ -130,6 +177,10 @@ public class JSONFileReader implements FileHandler {
         return 0;
     }
 
+    /**
+     * @param player - PlayerID int
+     * @return - the immovable state for a specific playerID
+     */
     @Override
     public int getImmovableStateForPlayer(int player) {
         return gameIntProperties.get("Player" + player + "ImmovableState");
@@ -179,11 +230,17 @@ public class JSONFileReader implements FileHandler {
 
     }
 
+    /**
+     * @return a nested list of the boardweights
+     */
     public List<List<Integer>> getBoardWeights(){
         String boardWeightStr = gameStringProperties.get("BoardWeights");
         return parseJSONConfiguration(boardWeightStr);
     }
 
+    /**
+     * @return a nested list of the Object configurations
+     */
     public List<List<Integer>> getObjectConfig(){
         String boardObjectStr = gameStringProperties.get("ObjectConfig");
         return parseJSONConfiguration(boardObjectStr);
@@ -212,8 +269,8 @@ public class JSONFileReader implements FileHandler {
     public boolean doPiecesMove(){
         return gameBoolProperties.get("PiecesMove");
     }
+
     /**
-     *
      * @param i - the player whose info are looking for
      * @return a map for the player where each state is mapped to the file name for the image
      */
@@ -227,6 +284,10 @@ public class JSONFileReader implements FileHandler {
         return stateImageMapping;
     }
 
+    /**
+     * @param i - the player whose special state value is being looked for
+     * @return a map for the special colors mapped to specific player states
+     */
     public Map<Integer, String> getSpecialStateColorMapping(int i) {
         List<Integer> states = getPlayerStateInfo(i);
         Map<Integer,String> specialStateColorMapping = new HashMap<>();
@@ -270,7 +331,6 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return neighborhood in string form
      */
-
     public List<String> getNeighborhood(){
         List<String> neighborhoodlist = new ArrayList<>();
         String neighbString = gameStringProperties.get("Neighborhood");
@@ -293,6 +353,14 @@ public class JSONFileReader implements FileHandler {
         return parseJSONConfiguration(gameStringProperties.get("InitialConfig"));
     }
 
+    /**
+     * parses gameData based on its keySet
+     */
+    @Override
+    public List<String> getSquareClickTypes() {
+        return convertJSONArrayToStringList(gameArrayProperties.get("SquareClickType"));
+    }
+
     private void parseData(){
         for (String key : gameData.keySet()) {
             Object value = gameData.get(key);
@@ -306,6 +374,11 @@ public class JSONFileReader implements FileHandler {
         validateData();
     }
 
+    /**
+     * @param key - key for JSONObject
+     * @param nestedObject
+     * Parses nested objects in the gameData
+     */
     private void parseNestedData(String key, JSONObject nestedObject) {
         for (String nestedKey : nestedObject.keySet()) {
             Object value = nestedObject.get(nestedKey);
@@ -319,6 +392,12 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    /**
+     * @param data - JSONObject values being retreived from
+     * @param key - key for Object
+     * @param mapName - name of Hashmap that maps keys to objects
+     * @param value
+     */
     private void getBasicValues(JSONObject data, String key, String mapName, Object value) {
         if (value.getClass().equals(String.class)) {
             gameStringProperties.put(mapName, data.getString(key));
@@ -331,6 +410,9 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    /**
+     * checks to see if board and player data is valid
+     */
     private void validateData(){
         if(checkBoardDimensions() || checkBoardWeightDimensions() || checkImageLengths() ||
                 checkPlayerAndImageStatesSameLength() || checkPlayerStatesSameLength() ||
@@ -338,9 +420,11 @@ public class JSONFileReader implements FileHandler {
             throw new InvalidFileFormatException(ERROR_MESSAGE);
         }
     }
+
     private boolean checkAtLeastOneDirection(){
         return getDirectionForPlayer(PLAYER1).size() <= 0 && getDirectionForPlayer(PLAYER2).size() <= 0;
     }
+
     private boolean checkBoardObjectDimensions(){
         return Integer.parseInt(gameStringProperties.get("Width")) != getObjectConfig().get(0).size() ||
                 Integer.parseInt(gameStringProperties.get("Height")) != getObjectConfig().size();
@@ -367,6 +451,7 @@ public class JSONFileReader implements FileHandler {
         return Integer.parseInt(gameStringProperties.get("Width")) != loadFileConfiguration().get(0).size() ||
         Integer.parseInt(gameStringProperties.get("Height")) != loadFileConfiguration().size();
     }
+
 
     /**
      * @return - a Hashmap that maps Game properties names
@@ -399,6 +484,13 @@ public class JSONFileReader implements FileHandler {
         }
     }
 
+    /**
+     * @param key - key for Object
+     * @param valuesList - String of game values
+     * @param config - nested list of game configuration
+     * @param objectInfo - nested list of object information
+     * @return a JSONObject containing the values
+     */
     private JSONObject writeNestedObject(String key, String valuesList, List<List<Integer>> config,
                                          List<List<Integer>> objectInfo) {
         JSONObject nestedObject = new JSONObject();

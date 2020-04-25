@@ -1,6 +1,6 @@
 package ooga.model.engine;
 
-import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.exceptions.InvalidMoveException;
 
 import java.util.List;
 import java.util.Map;

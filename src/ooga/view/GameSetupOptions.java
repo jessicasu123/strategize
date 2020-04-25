@@ -31,9 +31,8 @@ import java.util.ArrayList;
 public class GameSetupOptions {
     public static final int PADDING = 35;
     public static final int SPACING = 25;
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
-    public static final int START_DIM = 500;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 700;
     public static final String DEFAULT_FILE_RESOURCES = "src/resources/gameFiles/";
     public static final String DATAFILE = "src/resources/GameSetupOptions.json";
     public static final String PIECE_ICON_RESOURCES = "resources/images/pieces/";
@@ -161,7 +160,7 @@ public class GameSetupOptions {
         Button backToMenu = new GameButton().createGameButton(buttonText.getString("Menu"));
         backToMenu.setOnAction(event -> {
             StartView sv = new StartView(myStage);
-            sv.displayToStage(START_DIM,START_DIM);
+            sv.displayToStage(WIDTH,HEIGHT);
         });
         return backToMenu;
     }

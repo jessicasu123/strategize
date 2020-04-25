@@ -4,13 +4,11 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.*;
-import org.json.simple.parser.ParseException;
+import ooga.model.exceptions.*;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,7 @@ class EndPopUpTest extends DukeApplicationTest {
     private Button backToSetup;
     private Button backToMenu;
 
-    public EndPopUpTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
+    public EndPopUpTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidMoveTypeException {
         testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         gameButtonManager = new GameButtonManager();
     }

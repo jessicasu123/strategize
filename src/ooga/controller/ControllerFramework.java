@@ -1,12 +1,10 @@
 package ooga.controller;
 
-import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.exceptions.InvalidNeighborhoodException;
-import ooga.model.engine.exceptions.InvalidWinTypeException;
-import org.json.simple.parser.ParseException;
+import ooga.model.exceptions.InvalidEvaluationFunctionException;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.exceptions.InvalidNeighborhoodException;
+import ooga.model.exceptions.InvalidWinTypeException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +87,7 @@ public interface ControllerFramework {
      *  - lets the view know if the game is over based on the logic from the backend
      * @boolean if the game is over
      */
-    boolean isGameOver();
+    boolean gameOver();
 
     /**
      * METHOD PURPOSE:
@@ -170,4 +168,6 @@ public interface ControllerFramework {
      * @return - list of integers corresponding to the agent's states
      */
     List<Integer> getAgentStateInfo();
+
+    List<String> getSquareClickTypes();
 }

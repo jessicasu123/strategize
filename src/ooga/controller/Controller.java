@@ -3,22 +3,22 @@ package ooga.controller;
 import ooga.model.data.FileHandler;
 import ooga.model.data.JSONFileReader;
 import ooga.model.engine.*;
-import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
-import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
-import ooga.model.engine.Agent.winTypes.WinType;
-import ooga.model.engine.Agent.winTypes.WinTypeFactory;
-import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.Neighborhood.NeighborhoodFactory;
-import ooga.model.engine.Player.PlayerInfoHolder;
-import ooga.model.engine.exceptions.*;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinderFactory;
-import ooga.model.engine.pieces.newPieces.GamePieceCreator;
-import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
-import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheckFactory;
-import ooga.model.engine.pieces.newPieces.MoveType;
-import ooga.model.engine.pieces.newPieces.MoveTypeFactory;
+import ooga.model.engine.agent.Agent;
+import ooga.model.engine.agent.evaluationFunctions.EvaluationFunction;
+import ooga.model.engine.agent.evaluationFunctions.EvaluationFunctionFactory;
+import ooga.model.engine.agent.winTypes.WinType;
+import ooga.model.engine.agent.winTypes.WinTypeFactory;
+import ooga.model.engine.neighborhood.Neighborhood;
+import ooga.model.engine.neighborhood.NeighborhoodFactory;
+import ooga.model.engine.player.PlayerInfoHolder;
+import ooga.model.exceptions.*;
+import ooga.model.engine.pieces.convertibleNeighborFinder.ConvertibleNeighborFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.ConvertibleNeighborFinderFactory;
+import ooga.model.engine.pieces.GamePieceCreator;
+import ooga.model.engine.pieces.moveChecks.MoveCheck;
+import ooga.model.engine.pieces.moveChecks.MoveCheckFactory;
+import ooga.model.engine.pieces.MoveType;
+import ooga.model.engine.pieces.MoveTypeFactory;
 
 import java.util.*;
 
@@ -60,7 +60,7 @@ public class Controller implements ControllerFramework {
      * @throws InvalidWinTypeException if specified WinType does not exist
      * @throws InvalidConvertibleNeighborFinderException if specified ConvertibleNeighborFinder does not exist
      */
-    public Controller(String fileName, String userID, String dimensions) throws InvalidFileFormatException, InvalidNeighborhoodException, InvalidMoveCheckException, InvalidEvaluationFunctionException, InvalidWinTypeException, InvalidConvertibleNeighborFinderException {
+    public Controller(String fileName, String userID, String dimensions) throws InvalidFileFormatException, InvalidNeighborhoodException, InvalidMoveCheckException, InvalidEvaluationFunctionException, InvalidWinTypeException, InvalidConvertibleNeighborFinderException, InvalidMoveTypeException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName, dimensions);
         myFileHandler.parseFile();
@@ -90,7 +90,7 @@ public class Controller implements ControllerFramework {
     /**
      * Based on user selection, assigns the user and agent players to player 1 or 2
      */
-    private void createUserAndAgentPlayers() throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException {
+    private void createUserAndAgentPlayers() throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException, InvalidMoveTypeException {
         if(userIsPlayer1){
             myUserPlayerInfoHolder = makePlayer(1);
             myAgentPlayerInfoHolder = makePlayer(2);
@@ -107,7 +107,7 @@ public class Controller implements ControllerFramework {
         myGamePieceCreator = new GamePieceCreator(myUserPlayerInfoHolder, myAgentPlayerInfoHolder);
     }
 
-    private PlayerInfoHolder makePlayer(int player) throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException {
+    private PlayerInfoHolder makePlayer(int player) throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException, InvalidMoveTypeException {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
         int immovableState = myFileHandler.getImmovableStateForPlayer(player);
         List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates, immovableState);
@@ -378,7 +378,7 @@ public class Controller implements ControllerFramework {
      * @return true if the game has ended (win/loss/tie)
      */
     @Override
-    public boolean isGameOver() {
+    public boolean gameOver() {
         return myGame.getEndGameStatus() > 0;
     }
 
@@ -403,5 +403,7 @@ public class Controller implements ControllerFramework {
     public int getMaxPiecesPerSquare() {
         return myFileHandler.getMaxObjectsPerSquare();
     }
+
+    public List<String> getSquareClickTypes() { return myFileHandler.getSquareClickTypes(); }
 
 }

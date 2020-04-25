@@ -1,9 +1,9 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.GamePieceCreator;
+import ooga.model.engine.neighborhood.Neighborhood;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.GamePieceCreator;
 import java.util.*;
 
 /**
@@ -31,6 +31,9 @@ public class Board implements BoardFramework{
      * Constructor to create a Board object.
      * @param gamePieces - type of game (ex. tic-tac-toe, mancala, etc.)
      * @param startingConfiguration - the starting configuration read from the JSON file
+     * @param objectConfiguration - the number of objects at each row,col position
+     * @param neighborhoods - the types of neighbors to consider while making a move on this board
+     * @param emptyState - the integer representing the empty state (ex. 0)
      */
     public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
                  List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, int emptyState) {
@@ -54,6 +57,7 @@ public class Board implements BoardFramework{
      * @param agentStates - all the states that belong to the agent
      * @return boolean
      */
+    @Override
     public int checkNoMovesLeft(List<Integer> userStates, List<Integer> agentStates) {
         boolean noMovesForPlayer1 = checkEmptyMovesForPlayer(userStates);
         boolean noMovesForPlayer2 = checkEmptyMovesForPlayer(agentStates);

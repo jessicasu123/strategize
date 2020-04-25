@@ -1,7 +1,5 @@
 package ooga.model.engine;
 
-import ooga.model.engine.pieces.GamePiece;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

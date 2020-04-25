@@ -24,7 +24,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * @param cellHeight - the height of the cell
      */
     public SinglePieceBoardCell(int x, int y, double cellWidth, double cellHeight) {
-        super(cellWidth, cellHeight);
+        super(x,y,cellWidth, cellHeight);
         myShape.setId("cell" + x + y);
     }
 

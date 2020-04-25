@@ -7,10 +7,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.exceptions.InvalidNeighborhoodException;
-import ooga.model.engine.exceptions.InvalidWinTypeException;
+import ooga.model.exceptions.InvalidEvaluationFunctionException;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.exceptions.InvalidNeighborhoodException;
+import ooga.model.exceptions.InvalidWinTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameScene;
 import org.json.JSONObject;
@@ -33,7 +33,7 @@ import java.util.Map;
  * game instructions.
  * Upon clicking the settings icon, a CustomizationView is created.
  * Upon clicking save, a SaveView is created.
- * @author Brian Li, Holly Ansel
+ * @author Brian Li, Holly Ansel, Jessica Su
  */
 
 public class GameView {
@@ -49,7 +49,6 @@ public class GameView {
     public static final String USER_PASS = "user";
     public static final String AGENT_PASS = "agent";
     public static final int PANE_HEIGHT = 350;
-    public static final int START_DIM = 500;
     public static final int SPACING = 40;
     public static final double DELAY = 1.5;
     public static int WIDTH = 600;
@@ -228,7 +227,7 @@ public class GameView {
     }
     private void backToMenu() throws FileNotFoundException {
         StartView sv = new StartView(myStage);
-        sv.displayToStage(START_DIM,START_DIM);
+        sv.displayToStage(WIDTH,HEIGHT);
     }
 
     private void showRules() { rules.display(); }
@@ -316,7 +315,7 @@ public class GameView {
     }
 
     private void checkGameOver() {
-        if (myController.isGameOver()) {
+        if (myController.gameOver()) {
             gameInProgress = false;
             didPass = false;
             endGame(myController.gameWinner());

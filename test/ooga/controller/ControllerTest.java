@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.engine.exceptions.*;
+import ooga.model.exceptions.*;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class ControllerTest {
     Controller testController;
     Controller testController2;
 
-    ControllerTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
+    ControllerTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidMoveTypeException {
         testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         testController2 = new Controller("tic-tac-toe-test.json", "Player2", "3 x 3");
     }
@@ -92,7 +92,7 @@ class ControllerTest {
     void testIsGameOver() {
         testController.squareSelected(0,0);
         testController.playMove();
-        assertFalse(testController.isGameOver());
+        assertFalse(testController.gameOver());
         // TODO: add testcases for when the game has been won/has tied
     }
 
