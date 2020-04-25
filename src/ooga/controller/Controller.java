@@ -300,4 +300,6 @@ public class Controller implements ControllerFramework {
         return myFileHandler.getMaxObjectsPerSquare();
     }
 
+    public List<String> getSquareClickTypes() { return myFileHandler.getSquareClickTypes(); }
+
 }

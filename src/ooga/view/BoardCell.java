@@ -17,16 +17,26 @@ public abstract class BoardCell {
 
     private Node myShape;
 
+    private int myRow;
+    private int myCol;
+
     /**
      * Constructor for BoardCell.
      * @param cellWidth - width of the cell
      * @param cellHeight - height of the cell
      */
-    public BoardCell (double cellWidth, double cellHeight) {
+    public BoardCell (int x, int y, double cellWidth, double cellHeight) {
         myCellWidth = cellWidth;
         myCellHeight = cellHeight;
+        myRow = x;
+        myCol= y;
         myShape = createCell();
     }
+
+    public int getRow() {return myRow; }
+
+    public int getCol() {return myCol; }
+
 
     /**
      * Returns the Node that represents the board cell.

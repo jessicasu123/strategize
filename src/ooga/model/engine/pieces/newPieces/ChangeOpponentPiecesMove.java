@@ -5,6 +5,14 @@ import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleN
 
 import java.util.List;
 
+/**
+ * This class is responsible for changing the state of a series of
+ * opponents/neighbors, whether it's to the empty state or to the current player state.
+ * The neighbors are decided by a ConvertibleNeighborFinder object and passed
+ * in as a parameter.
+ *
+ * @author Jessica Su
+ */
 public class ChangeOpponentPiecesMove implements MoveType {
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
     private int myEmptyState;
@@ -22,12 +30,14 @@ public class ChangeOpponentPiecesMove implements MoveType {
 
 
     /**
-     * Finds all neighbors to possible convert using the neighborhood converter finder and
-     * based on the neighborhood converter type.
+     * Converts all the neighbors provided by neighborhood converter finder
+     * (based on the neighborhood converter type) to a specified new state.
+     *
      * @param moving - the current piece that is being considered
      * @param endCoordinateInfo - the end coordinate of where the piece is potentially moving to
      * @param neighbors - the list of neighbors
      * @param playerState - the current player ID
+     * @param direction - the direction of the player
      */
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {

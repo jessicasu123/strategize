@@ -12,6 +12,7 @@ import java.util.List;
  * This includes the information on diagonals around a specific piece, as well
  * as all the diagonals on the grid.
  *
+ * @author Jessica Su, Holly Ansel, Brian Li
  */
 public class DiagonalNeighborhood extends Neighborhood {
     public DiagonalNeighborhood(int rows, int cols) {
