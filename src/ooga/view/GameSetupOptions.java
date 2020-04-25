@@ -10,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.InvalidFileFormatException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;
@@ -67,7 +66,7 @@ public class GameSetupOptions {
         displayToStage();
     }
 
-    public void displayToStage(){
+    protected void displayToStage(){
         Scene startScene = makeSetupDisplay();
         myStage.setScene(startScene);
         myStage.show();
@@ -172,8 +171,6 @@ public class GameSetupOptions {
         dimensionDropdown = new GameDropDown();
         return dimensionDropdown.createDropDownContainer(position, options, prompt + gameFileData.getString("Default"), label);
     }
-
-
 
     private Button createStartButton(JSONObject buttonText) {
         Button start = new GameButton().createGameButton(buttonText.getString("Start"));

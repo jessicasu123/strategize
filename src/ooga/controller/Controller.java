@@ -82,7 +82,7 @@ public class Controller implements ControllerFramework {
         addPlayerStateImageInfoToMap(2);
     }
 
-    private void makeGamePieceCreator() throws InvalidMoveCheckException{
+    private void makeGamePieceCreator(){
         myGamePieceCreator = new GamePieceCreator(myUserPlayerInfoHolder, myAgentPlayerInfoHolder);
     }
 

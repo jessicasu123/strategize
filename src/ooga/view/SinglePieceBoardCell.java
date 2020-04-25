@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  * that holds a single image. The image will be automatically
  * scaled to take up the entire size of the cell.
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public class SinglePieceBoardCell extends BoardCell {
     private Rectangle myShape;
@@ -33,7 +33,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * @return - Node (rectangle) where a single image will fill the entire space.
      */
     @Override
-    public Node createCell() {
+    protected Node createCell() {
         myShape = new Rectangle(getCellWidth(), getCellHeight());
         return myShape;
     }
@@ -43,7 +43,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * @param image - the image to update the cell with.
      */
     @Override
-    public void updateImageOnSquare(Image image) {
+    protected void updateImageOnSquare(Image image) {
         myShape.setFill(new ImagePattern(image));
     }
 
@@ -52,7 +52,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * @param color - the color to set the cell to
      */
     @Override
-    public void updateCellFill(String color) {
+    protected void updateCellFill(String color) {
         myShape.setFill(Color.valueOf(color));
     }
 
@@ -61,7 +61,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * to another fill.
      */
     @Override
-    public void clearFill(String color) {
+    protected void clearFill(String color) {
         updateCellFill(color);
     }
 
@@ -71,7 +71,7 @@ public class SinglePieceBoardCell extends BoardCell {
      * @param boardOutline - outline of the cell
      */
     @Override
-    public void setStyle(String boardColor, String boardOutline) {
+    protected void setStyle(String boardColor, String boardOutline) {
         updateCellFill(boardColor);
         myShape.setStroke(Color.valueOf(boardOutline));
     }

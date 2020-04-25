@@ -1,7 +1,5 @@
 package ooga.view;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -16,7 +14,7 @@ import java.io.FileReader;
  * and will automatically close if the user clicks anywhere outside
  * the pop up screen.
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public abstract class GamePopUp {
     public static final String DEFAULT_RESOURCES = "src/resources/";
@@ -28,8 +26,6 @@ public abstract class GamePopUp {
     public static final double HEIGHT_MULTIPLY_FACTOR = 4.0/5.0;
     public static final double X_OFFSET_FACTOR = 3.0;
     public static final double Y_OFFSET_FACTOR = 2.0;
-
-
 
     protected double popUpWidth;
     protected double popUpHeight;
@@ -59,7 +55,7 @@ public abstract class GamePopUp {
     /**
      * Sets up a JSONObject to be able to read data relevant
      * to the pop-up screen (ex. names of buttons, labels, etc.)
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException - throws exception when data file needed can't be found
      */
     protected void setUpJSONReader() throws FileNotFoundException {
         FileReader br = new FileReader(popUpFile);
@@ -67,14 +63,14 @@ public abstract class GamePopUp {
         popUpScreenData = new JSONObject(token);
     }
 
-    public Popup getPopUp() {
+    protected Popup getPopUp() {
         return popUp;
     }
 
     /**
      * Force closes the pop-up
      */
-    public void close() {
+    protected void close() {
         popUp.hide();
     }
 
@@ -83,7 +79,7 @@ public abstract class GamePopUp {
      * Will be called by any other view class that needs to show
      * a pop up on TOP of the current view.
      */
-    public void display() {
+    protected void display() {
         popUp= new Popup();
         setUpPopUp();
         createPopUpContents();
@@ -96,7 +92,7 @@ public abstract class GamePopUp {
      * Displays the contents of the pop up. This will be specific to
      * each kind of pop-up, as each one has different information to display.
      */
-    public abstract void createPopUpContents();
+    protected abstract void createPopUpContents();
 
     private void setUpPopUp() {
         myPopUpContents = new Pane();
