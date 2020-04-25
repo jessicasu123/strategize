@@ -17,6 +17,8 @@ import java.util.*;
  * @author Jessica Su, Holly Ansel
  */
 public class Board implements BoardFramework{
+    public static final String STATE_INFO_IDENTIFIER = "state";
+    public static final String OBJECT_INFO_IDENTIFIER = "object";
     private List<List<GamePiece>> myGamePieces;
     private List<List<Integer>> myStartingConfiguration;
     private List<List<Integer>> myObjectConfiguration;
@@ -196,7 +198,7 @@ public class Board implements BoardFramework{
      */
     @Override
     public List<List<Integer>> getStateInfo() {
-        List<List<Integer>> currStateConfig = getVisualInfoFromPieces("state");
+        List<List<Integer>> currStateConfig = getVisualInfoFromPieces(STATE_INFO_IDENTIFIER);
         return Collections.unmodifiableList(currStateConfig);
     }
 
@@ -208,7 +210,7 @@ public class Board implements BoardFramework{
      */
     @Override
     public List<List<Integer>> getObjectInfo() {
-        List<List<Integer>> currObjectConfig = getVisualInfoFromPieces("object");
+        List<List<Integer>> currObjectConfig = getVisualInfoFromPieces(OBJECT_INFO_IDENTIFIER);
         return Collections.unmodifiableList(currObjectConfig);
     }
 
@@ -218,7 +220,7 @@ public class Board implements BoardFramework{
             List<Integer> rowObjects = new ArrayList<>();
             for (GamePiece gamePiece : row) {
                 int curr;
-                if (visualInfoType.equals("state")) {
+                if (visualInfoType.equals(STATE_INFO_IDENTIFIER)) {
                     curr = gamePiece.getState();
                 } else {
                     curr = gamePiece.getNumObjects();
