@@ -28,10 +28,6 @@ class ControllerTest {
         return config;
     }
 
-    @Test
-    void testSaveANewFile() {
-        // TODO: add once saving file feature has been added
-    }
 
     @Test
     void testGetStartingProperties() throws IOException, ParseException {
@@ -40,10 +36,6 @@ class ControllerTest {
         assertEquals("", gameProperties.get("Neighborhood"));
     }
 
-    @Test
-    void testPieceSelected() {
-        // TODO: add test once games like checkers with moving pieces have been added
-    }
 
     @Test
     void testSquareSelected() {
@@ -93,7 +85,6 @@ class ControllerTest {
         testController.squareSelected(0,0);
         testController.playMove();
         assertFalse(testController.gameOver());
-        // TODO: add testcases for when the game has been won/has tied
     }
 
     @Test
@@ -101,6 +92,5 @@ class ControllerTest {
         testController.squareSelected(0,1);
         testController.playMove();
         assertEquals(0, testController.gameWinner());
-        // TODO: add testcases for when the game has been won/has tied
     }
 }
