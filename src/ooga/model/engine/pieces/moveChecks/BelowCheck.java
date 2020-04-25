@@ -19,7 +19,7 @@ public class BelowCheck implements MoveCheck {
      * @param neighbors - list of gamepiece neighbors in column
      * @return the number of rows
      */
-    public int findNumRows(List<GamePiece> neighbors) {
+    private int findNumRows(List<GamePiece> neighbors) {
         int rowCount = 0;
         for (GamePiece g: neighbors) {
             if (g.getPosition().getCol()==myPiece.getPosition().getCol()) {
