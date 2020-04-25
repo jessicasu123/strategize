@@ -37,7 +37,7 @@ public class BoardView {
     public static final String DEFAULT_BOARD_COLOR = "white";
     public static final String DEFAULT_BOARD_OUTLINE = "black";
     public static final String POSSIBLE_MOVE_KEY = "possibleMove";
-    public static final String SQUARE_CLICK_KEY = "SquareClickType";
+    public static final String OWN_PLAYER_CLICK_TYPE = "own player";
 
     private List<List<BoardCell>> myBoardCells;
     private List<List<Integer>> gameStates;
@@ -61,7 +61,7 @@ public class BoardView {
     private List<Integer> myAgent;
     private String boardOutlineColor;
     private boolean multiplePiecesPerSquare;
-    private String squareClickType;
+    private List<String> squareClickType;
 
     /**
      * Constructor for BoardView.
@@ -104,7 +104,7 @@ public class BoardView {
         piecesMove = myController.doPiecesMove();
         possibleMoveImage =  myController.getStartingProperties().get(POSSIBLE_MOVE_KEY);
         multiplePiecesPerSquare = myController.hasMultiplePiecesPerSquare();
-        squareClickType = myController.getStartingProperties().get(SQUARE_CLICK_KEY);
+        squareClickType = myController.getSquareClickTypes();
         mySpecialStateToColorMapping = myController.getSpecialStateColorMapping();
     }
     /**
@@ -137,7 +137,7 @@ public class BoardView {
             for (int y = 0; y < boardCols; y++) {
                 BoardCell boardCell;
                 if (multiplePiecesPerSquare) {
-                    boardCell = new MultiPieceBoardCell(cellWidth, cellHeight,
+                    boardCell = new MultiPieceBoardCell(x,y,cellWidth, cellHeight,
                             myController.getVisualRowsPerSquare(),
                             myController.getMaxPiecesPerSquare());
                 } else {
@@ -176,7 +176,7 @@ public class BoardView {
 
     private void processUserClickOnSquare(BoardCell rect,int finalX, int finalY, boolean possibleMove) {
         Image img = findImageForSquare(gameStates);
-        if(hasSelectedSquare && squareClickType.equals(EMPTY_CLICK_TYPE)){
+        if(hasSelectedSquare && squareClickType.contains(EMPTY_CLICK_TYPE)){
             myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY).clearFill(boardColor);
             updatePossibleMoveImageOnSquare(myBoardCells.get(lastSquareSelectedX).get(lastSquareSelectedY), possibleMove);
         }
@@ -184,12 +184,12 @@ public class BoardView {
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
         if(hasSelectPiece){
-            if (! squareClickType.equals(AGENT_CLICK_TYPE)) { //TODO: fix so its not chopsticks specific
+            if (! squareClickType.contains(AGENT_CLICK_TYPE)) {
                 myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
                 rect.updateImageOnSquare(img);
             }
         }
-        if(!piecesMove && squareClickType.equals(EMPTY_CLICK_TYPE)){
+        if(!piecesMove && squareClickType.contains(EMPTY_CLICK_TYPE)){
             rect.updateImageOnSquare(img);
         }
 
@@ -235,7 +235,6 @@ public class BoardView {
             currImage = myStateToImageMapping.get(currGameState).get(STATE_ID_POS);
             if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
-
         if (mySpecialStateToColorMapping.keySet().contains(currGameState)) {
             currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
@@ -255,7 +254,7 @@ public class BoardView {
             boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
             updatePossibleMoveImageOnSquare(currSquare, isPossibleMove);
             if (myUser.contains(currGameState)) {
-                updatePlayerCell(currImage, currSquare, r, c, gameStates,isPossibleMove);
+                updatePlayerCell(currImage, currSquare, r, c, isPossibleMove);
             }
             else if(myAgent.contains(currGameState)) {
                 updateAgentCell(currImage, currSquare, r , c, isPossibleMove);
@@ -278,7 +277,7 @@ public class BoardView {
 
     private void updateAgentCell(Image playerImage, BoardCell currSquare, int r, int c, boolean possibleMove){
         currSquare.updateImageOnSquare(playerImage);
-        if (squareClickType.equals(AGENT_CLICK_TYPE)) {
+        if (squareClickType.contains(AGENT_CLICK_TYPE)) {
             clickableCell(currSquare, r, c, possibleMove);
         } else {
             currSquare.getShape().setOnMouseClicked(null);
@@ -287,18 +286,48 @@ public class BoardView {
     }
 
     private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c,
-                                  List<List<Integer>> gameStates, boolean possibleMove) {
+                                  boolean possibleMove) {
         currSquare.updateImageOnSquare(playerImage);
-        if (squareClickType.equals(PLAYER_CLICK_TYPE)) {
+        makePlayerCellClickable(playerImage, currSquare, r, c, possibleMove);
+    }
+
+    private void makePlayerCellClickable(Image playerImage, BoardCell currSquare, int r, int c,
+                                         boolean possibleMove) {
+        EventHandler<MouseEvent> pieceSelected = e -> handlePieceSelected(r,c, playerImage, possibleMove);
+        if (squareClickType.contains(PLAYER_CLICK_TYPE)) {
             clickableCell(currSquare, r, c,possibleMove);
-        } else {
-            currSquare.getShape().setOnMouseClicked(e -> handlePieceSelected(r,c, playerImage));
+        } else if (squareClickType.contains(OWN_PLAYER_CLICK_TYPE) && hasSelectPiece) {
+            currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, pieceSelected);
+            clickableCell(currSquare, r, c, possibleMove);
+        }
+        else {
+            currSquare.getShape().setOnMouseClicked(pieceSelected);
+        }
+    }
+
+    private List<BoardCell> findOtherOwnPlayerCells() {
+        List<BoardCell> otherPlayerCells = new ArrayList<>();
+        for (int r = 0; r < myBoardCells.size();r++) {
+            for (int c= 0; c < myBoardCells.get(0).size();c++) {
+                if (myUser.contains(gameStates.get(r).get(c))) {
+                    otherPlayerCells.add(myBoardCells.get(r).get(c));
+                }
+            }
+        }
+        return otherPlayerCells;
+    }
+
+    private void allowOtherOwnPlayerCellsToBeClicked(Image img, boolean possibleMove) {
+        List<BoardCell> otherPlayers = findOtherOwnPlayerCells();
+        for (int i = 0; i < otherPlayers.size();i++) {
+            makePlayerCellClickable(img, otherPlayers.get(i), otherPlayers.get(i).getRow(),
+                    otherPlayers.get(i).getCol(), possibleMove);
         }
     }
 
     private void updateEmptyCell(BoardCell currSquare, int r, int c,
                                  boolean possibleMove) {
-        if (squareClickType.equals(EMPTY_CLICK_TYPE)) {
+        if (squareClickType.contains(EMPTY_CLICK_TYPE)) {
             clickableCell(currSquare, r,c,possibleMove);
         }
     }
@@ -310,14 +339,17 @@ public class BoardView {
         currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);
     }
 
-    private void handlePieceSelected(int r, int c, Image img) {
-        if(piecesMove || squareClickType.equals(AGENT_CLICK_TYPE)){
-            if(hasSelectPiece){
+    private void handlePieceSelected(int r, int c, Image img, boolean possibleMove) {
+        if(piecesMove || squareClickType.contains(AGENT_CLICK_TYPE)){
+            if(hasSelectPiece && piecesMove){
                 movePieceBackToOriginalSpot(img);
             }
             hasSelectPiece = true;
             lastPieceSelectedX = r;
             lastPieceSelectedY = c;
+            if (squareClickType.contains(OWN_PLAYER_CLICK_TYPE)) {
+                allowOtherOwnPlayerCellsToBeClicked(img, possibleMove);
+            }
         }
     }
 

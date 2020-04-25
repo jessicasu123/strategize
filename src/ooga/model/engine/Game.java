@@ -98,6 +98,8 @@ public class Game implements GameFramework{
     private void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
+        System.out.println("start" + startCoord);
+        System.out.println("end" + endCoord);
         myBoard.makeMove(myUserStates.get(ID_STATE_POS), startCoord, endCoord);
     }
 

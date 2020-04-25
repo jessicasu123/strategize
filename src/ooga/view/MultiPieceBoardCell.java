@@ -41,9 +41,9 @@ public class MultiPieceBoardCell extends BoardCell{
      *                      where the images should appear.
      * @param maxObjects - maximum number of objects that the cell can hold.
      */
-    public MultiPieceBoardCell(double cellWidth, double cellHeight,
+    public MultiPieceBoardCell(int x, int y, double cellWidth, double cellHeight,
                                int numVisualRows, int maxObjects) {
-        super(cellWidth, cellHeight);
+        super(x,y,cellWidth, cellHeight);
         pieceXPositions = new ArrayList<>();
         pieceYPositions = new ArrayList<>();
         totalPiecesPerSquare = maxObjects;

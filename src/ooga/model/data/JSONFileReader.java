@@ -293,6 +293,11 @@ public class JSONFileReader implements FileHandler {
         return parseJSONConfiguration(gameStringProperties.get("InitialConfig"));
     }
 
+    @Override
+    public List<String> getSquareClickTypes() {
+        return convertJSONArrayToStringList(gameArrayProperties.get("SquareClickType"));
+    }
+
     private void parseData(){
         for (String key : gameData.keySet()) {
             Object value = gameData.get(key);
@@ -367,6 +372,7 @@ public class JSONFileReader implements FileHandler {
         return Integer.parseInt(gameStringProperties.get("Width")) != loadFileConfiguration().get(0).size() ||
         Integer.parseInt(gameStringProperties.get("Height")) != loadFileConfiguration().size();
     }
+
 
     /**
      * @return - a Hashmap that maps Game properties names

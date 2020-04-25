@@ -33,7 +33,6 @@ public class ChangeNeighborObjectsMove implements MoveType {
                 return;
             }
             neighbor.incrementNumObjects(objectsToGive);
-            System.out.println(neighbor.getNumObjects());
         }
     }
 
