@@ -154,7 +154,7 @@ public class MultiPieceBoardCell extends BoardCell{
 
     private void createSetPositions() {
         double currXPos = 0;
-        double currYPos = 0;
+        double currYPos = getCellHeight()*(1.0/4.0);
         for (int r = 0; r < numRowsPerSquare; r++) {
             for (int c = 0; c < numPiecesPerRow;c++) {
                 pieceXPositions.add(currXPos);

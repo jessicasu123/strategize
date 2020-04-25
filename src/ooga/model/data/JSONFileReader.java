@@ -517,7 +517,7 @@ public class JSONFileReader implements FileHandler {
         JSONArray allKeys = gameArrayProperties.get("Keys");
         for (int i = 0; i < allKeys.length();i++) {
             String key = (String) allKeys.get(i);
-            if (key.equals(boardDimensions)) { //TODO: fix so that there's a mapping from nested keys to their inner values
+            if (key.equals(boardDimensions)) {
                 JSONObject nestedObject = writeNestedObject(key,"BoardKeys", configurationInfo, objectConfigurationInfo);
                 jsonFile.put(key, nestedObject);
             }
