@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -203,7 +202,7 @@ public class StartView {
     }
 
     private ImageView setUpGameIcon(JSONObject game, int cols, double size) {
-        return new GameIcon().createGameIcon(GAME_ICON_RESOURCES+game.getString("GameIcon"),
+        return new GameIcon().createGameIcon(GAME_ICON_RESOURCES + game.getString("GameIcon"),
                 size / (cols * NUM_SIDES));
     }
 

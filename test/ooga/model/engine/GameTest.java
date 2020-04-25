@@ -68,13 +68,13 @@ public class GameTest {
     GamePieceCreator gamePieceCreator = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
     Game inProgressGame = new Game(gamePieceCreator, createTestConfig(startingConfig),objectConfig,
-            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
     Game noMovesLeftGame = new Game(gamePieceCreator, createTestConfig(noMovesConfig),objectConfig,
-            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
     Game player1WinGame = new Game(gamePieceCreator, createTestConfig(player1Win),objectConfig,
-            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
     Game player2WinGme = new Game(gamePieceCreator, createTestConfig(player2Win),objectConfig,
-            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent);
+            new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
 
     @Test
     void testMakeUserAndAgentMove() {

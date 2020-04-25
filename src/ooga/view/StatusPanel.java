@@ -54,7 +54,7 @@ public class StatusPanel {
      * @param playerImage - the new image that the player has chosen
      * @param opponentImage - the new image to represent the opponent(agent)
      */
-    public void updatePlayerIcons(String playerImage, String opponentImage) {
+    protected void updatePlayerIcons(String playerImage, String opponentImage) {
         userIcon.setImage(new Image(PIECES_RESOURCES + playerImage));
         opponentIcon.setImage(new Image(PIECES_RESOURCES + opponentImage));
     }
@@ -66,7 +66,7 @@ public class StatusPanel {
      * @param userWinCount new user win count
      * @param opponentWinCount new opponent win count
      */
-    public void updateWinnerCounts(int userWinCount, int opponentWinCount) {
+    protected void updateWinnerCounts(int userWinCount, int opponentWinCount) {
         userScore.setText(String.valueOf(userWinCount));
         opponentScore.setText(String.valueOf(opponentWinCount));
     }
@@ -74,7 +74,7 @@ public class StatusPanel {
     /**
      * @return VBox object containing top buttons and status bar
      */
-    public VBox createStatusPanel(String userImage, String agentImage){
+    protected VBox createStatusPanel(String userImage, String agentImage){
         VBox statusPanel = new VBox(SPACING);
         statusPanel.getChildren().addAll(createTopButtons(),
                 createStatusBar(userImage, agentImage));
@@ -109,7 +109,7 @@ public class StatusPanel {
         return scoreField;
     }
 
-    public void updateStatusBarForMultiPiecePlayers(String userColor, String opponentColor) {
+    protected void updateStatusBarForMultiPiecePlayers(String userColor, String opponentColor) {
         Bounds bound = userIcon.getBoundsInLocal();
         userIcon.setEffect(new ColorInput(bound.getMinX(), bound.getMinY(),
                 bound.getWidth(), bound.getHeight(), Color.valueOf(userColor)));
@@ -120,9 +120,9 @@ public class StatusPanel {
     /**
      * Allows another view class to change the text color of the labels.
      * Useful when changing to a different mode (light or dark mode).
-     * @param color
+     * @param color - name of the color to set to
      */
-    public void setLabelTextColor(String color) {
+    protected void setLabelTextColor(String color) {
         player.setTextFill(Color.valueOf(color));
         opponent.setTextFill(Color.valueOf(color));
     }
@@ -145,7 +145,7 @@ public class StatusPanel {
      * @param key - key object to get icon value
      * @return GameButton with desired properties
      */
-        private Button setUpGameIconButton(JSONObject game, String key) {
+    private Button setUpGameIconButton(JSONObject game, String key) {
         String[] buttonInfo = game.getString(key).split(",");
         String imgName = buttonInfo[0];
         String actionMethodName = buttonInfo[1];

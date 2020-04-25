@@ -52,11 +52,11 @@ public class BoardTest {
 
     GamePieceCreator gamePieceCreatorTicTacToe = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
-    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods);
+    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods,0);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods);
+    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods,0);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -85,7 +85,7 @@ public class BoardTest {
     Neighborhood diagonal = new DiagonalNeighborhood(8,8);
     List<Neighborhood> othelloNeighborhoods = List.of(horizontal, vertical, diagonal);
     List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
-    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods);
+    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods,0);
 
     @Test
     void testOthelloBoard() {
@@ -200,7 +200,7 @@ public class BoardTest {
         List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
         Neighborhood diagonal = new DiagonalNeighborhood(8,8);
         List<Neighborhood> checkersNeighborhoods = List.of(diagonal);
-       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods);
+       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods,0);
 
         Coordinate start = new Coordinate(1,2);
         Coordinate end = new Coordinate(2,3);
@@ -250,7 +250,7 @@ public class BoardTest {
         List<Neighborhood> mancalaNeighborhoods = List.of(all);
         List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
         List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
-        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods);
+        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods,0);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);

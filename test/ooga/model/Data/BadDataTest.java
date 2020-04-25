@@ -2,10 +2,18 @@ package ooga.model.Data;
 
 import ooga.model.data.JSONFileReader;
 import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
-import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
-import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.engine.Agent.winTypes.WinTypeFactory;
+import ooga.model.engine.Coordinate;
+import ooga.model.engine.Neighborhood.NeighborhoodFactory;
+import ooga.model.engine.exceptions.*;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
+import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinderFactory;
+import ooga.model.engine.pieces.newPieces.GamePiece;
+import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheckFactory;
+import ooga.model.engine.pieces.newPieces.MoveTypeFactory;
 import org.junit.jupiter.api.Test;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +21,83 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BadDataTest {
 
+
     @Test
     void testGoodConfig(){
         String goodFile = "tic-tac-toe.json";
         JSONFileReader good = new JSONFileReader(goodFile, "3 x 3");
         assertDoesNotThrow(good::parseFile);
     }
+
+    @Test
+    void testMissingParameter(){
+        String badFile = "badData/MissingParameter.json";
+        JSONFileReader missingParam = new JSONFileReader(badFile,"3 x 3");
+        assertThrows(InvalidFileFormatException.class, missingParam::parseFile);
+
+        missingParam = new JSONFileReader(badFile,"4 x 4");
+        assertThrows(InvalidFileFormatException.class, missingParam::parseFile);
+    }
+
+    @Test
+    void testNonSupportedMoveCheck(){
+        String badFile = "badData/nonSupportedMoveCheck.json";
+        JSONFileReader badmovecheck = new JSONFileReader(badFile,"3 x 3");
+
+        badmovecheck.parseFile();
+        String finder = badmovecheck.getConverterType();
+        assertThrows(InvalidMoveCheckException.class, () -> new MoveCheckFactory().
+                createMoveCheck(finder, 1,new ArrayList<>(),1,1));
+    }
+
+    @Test
+    void testNonSupportedMoveType(){
+        String badFile = "badData/nonSupportedMoveType.json";
+        JSONFileReader badmovetype = new JSONFileReader(badFile,"3 x 3");
+
+        badmovetype.parseFile();
+        String finder = badmovetype.getConverterType();
+        ConvertibleNeighborFinder cf = new ConvertibleNeighborFinder() {
+            @Override
+            public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects, int playerID, int direction, List<GamePiece> neighbors) {
+                return null;
+            }
+        };
+        assertThrows(InvalidMoveTypeException.class, () -> new MoveTypeFactory().createMoveType(finder,cf,1,true,1,new ArrayList<>(),false,1));
+    }
+
+    @Test
+    void testNonSupportedNeighborhoodType(){
+        String badFile = "badData/badNeighborhood.json";
+        JSONFileReader badmove = new JSONFileReader(badFile,"3 x 3");
+
+        badmove.parseFile();
+        assertThrows(InvalidNeighborhoodException.class, () -> new NeighborhoodFactory().
+                createNeighborhood("",3,3));
+    }
+
+    @Test
+    void testDirectionLength(){
+        String badInitialConfig = "badData/badDirectionLength.json";
+        JSONFileReader badlength = new JSONFileReader(badInitialConfig, "3 x 3");
+        assertThrows(InvalidFileFormatException.class, badlength::parseFile);
+
+        JSONFileReader badlength2 = new JSONFileReader(badInitialConfig, "4 x 4");
+        assertThrows(InvalidFileFormatException.class, badlength2::parseFile);
+    }
+
+    @Test
+    void testWrongInfo(){
+        String badInitialConfig = "badData/wrongInfo.json";
+        JSONFileReader badInfo = new JSONFileReader(badInitialConfig, "3 x 3");
+        assertThrows(InvalidFileFormatException.class, badInfo::parseFile);
+
+        JSONFileReader badInfo2 = new JSONFileReader(badInitialConfig, "4 x 4");
+        assertThrows(InvalidFileFormatException.class, badInfo2::parseFile);
+    }
+
+
+
     @Test
     void testBadInitialConfig(){
         String badInitialConfig = "badData/initialConfigNotMatchBoardDimensions.json";
@@ -77,4 +156,23 @@ public class BadDataTest {
                         new ArrayList<>(), new ArrayList<>(),0,0,0, true,
                         new ArrayList<>()));
     }
+    @Test
+    void testInvalidWinType(){
+        String badWinType = "badData/invalidWinType.json";
+        JSONFileReader file = new JSONFileReader(badWinType, "3 x 3");
+        file.parseFile();
+        String win = file.getWinType();
+        assertThrows(InvalidWinTypeException.class, () -> new WinTypeFactory().createWinType(win,0,
+                0,0, true,new ArrayList<>()));
+    }
+    @Test
+    void testInvalidConvertibleNeighborFinder(){
+        String badFinderType = "badData/invalidConvertibleNeighborFinder.json";
+        JSONFileReader file = new JSONFileReader(badFinderType, "3 x 3");
+        file.parseFile();
+        String finder = file.getConverterType();
+        assertThrows(InvalidConvertibleNeighborFinderException.class, () -> new ConvertibleNeighborFinderFactory().
+                createNeighborhoodConverterFinder(finder, new ArrayList<>()));
+    }
+
 }

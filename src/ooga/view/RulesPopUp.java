@@ -1,25 +1,14 @@
 package ooga.view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RulesPopUp extends GamePopUp {
     public static final int SPACING = 40;
@@ -34,7 +23,7 @@ public class RulesPopUp extends GamePopUp {
     }
 
     @Override
-    public void createPopUpContents() {
+    protected void createPopUpContents() {
         myPopUpContents.getChildren().add(createRules());
     }
 
@@ -46,7 +35,7 @@ public class RulesPopUp extends GamePopUp {
     }
 
     private VBox createRules(){
-        myRules = new ArrayList<String>();
+        myRules = new ArrayList<>();
         getList();
         VBox RuleView = new VBox(SPACING);
         RuleView.setAlignment(Pos.CENTER);
