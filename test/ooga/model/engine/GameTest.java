@@ -1,17 +1,16 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
-import ooga.model.engine.Agent.evaluationFunctions.NumOpenLines;
-import ooga.model.engine.Agent.winTypes.ConsecutivePieces;
-import ooga.model.engine.Agent.winTypes.WinType;
-import ooga.model.engine.Player.PlayerInfoHolder;
-import ooga.model.engine.pieces.GamePieceFactory;
-import ooga.model.engine.pieces.newPieces.ChangeToNewStateMove;
-import ooga.model.engine.pieces.newPieces.GamePieceCreator;
-import ooga.model.engine.pieces.newPieces.MoveChecks.EmptyStateCheck;
-import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
-import ooga.model.engine.pieces.newPieces.MoveType;
+import ooga.model.engine.agent.Agent;
+import ooga.model.engine.agent.evaluationFunctions.EvaluationFunction;
+import ooga.model.engine.agent.evaluationFunctions.NumOpenLines;
+import ooga.model.engine.agent.winTypes.ConsecutivePieces;
+import ooga.model.engine.agent.winTypes.WinType;
+import ooga.model.engine.player.PlayerInfoHolder;
+import ooga.model.engine.pieces.ChangeToNewStateMove;
+import ooga.model.engine.pieces.GamePieceCreator;
+import ooga.model.engine.pieces.moveChecks.EmptyStateCheck;
+import ooga.model.engine.pieces.moveChecks.MoveCheck;
+import ooga.model.engine.pieces.MoveType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,15 +1,14 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Neighborhood.*;
-import ooga.model.engine.Player.PlayerInfoHolder;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.GamePieceFactory;
-import ooga.model.engine.pieces.newPieces.*;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.FlippableNeighborFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsBetweenCoordinatesFinder;
-import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.NeighborsUntilNoObjectsFinder;
-import ooga.model.engine.pieces.newPieces.MoveChecks.*;
+import ooga.model.engine.neighborhood.*;
+import ooga.model.engine.player.PlayerInfoHolder;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.*;
+import ooga.model.engine.pieces.moveChecks.*;
+import ooga.model.engine.pieces.convertibleNeighborFinder.ConvertibleNeighborFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.FlippableNeighborFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsBetweenCoordinatesFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsUntilNoObjectsFinder;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

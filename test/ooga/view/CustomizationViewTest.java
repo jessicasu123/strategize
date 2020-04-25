@@ -3,13 +3,11 @@ package ooga.view;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.*;
-import org.json.simple.parser.ParseException;
+import ooga.model.exceptions.*;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +21,7 @@ public class CustomizationViewTest extends DukeApplicationTest {
     private CustomizationPopUp customizationPopUp;
     private GameButtonManager gameButtonManager;
 
-    public CustomizationViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
+    public CustomizationViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidMoveTypeException {
         testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
         gameButtonManager = new GameButtonManager();
     }

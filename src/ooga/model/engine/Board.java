@@ -1,9 +1,9 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.newPieces.GamePiece;
-import ooga.model.engine.pieces.newPieces.GamePieceCreator;
+import ooga.model.engine.neighborhood.Neighborhood;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.GamePieceCreator;
 import java.util.*;
 
 /**

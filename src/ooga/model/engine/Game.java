@@ -1,11 +1,11 @@
 package ooga.model.engine;
 
-import ooga.model.engine.Agent.Agent;
-import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.Player.AgentPlayer;
-import ooga.model.engine.Player.PlayerInfoHolder;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.pieces.newPieces.GamePieceCreator;
+import ooga.model.engine.agent.Agent;
+import ooga.model.engine.neighborhood.Neighborhood;
+import ooga.model.engine.player.AgentPlayer;
+import ooga.model.engine.player.PlayerInfoHolder;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.engine.pieces.GamePieceCreator;
 
 import java.util.List;
 import java.util.Map;

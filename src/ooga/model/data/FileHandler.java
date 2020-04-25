@@ -1,6 +1,6 @@
 package ooga.model.data;
 
-import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.exceptions.InvalidFileFormatException;
 import java.util.List;
 import java.util.Map;
 
