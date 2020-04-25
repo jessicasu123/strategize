@@ -12,7 +12,6 @@ import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.*;
-import ooga.model.engine.pieces.GamePieceFactory;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinder;
 import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleNeighborFinderFactory;
 import ooga.model.engine.pieces.newPieces.GamePieceCreator;
@@ -20,9 +19,7 @@ import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheck;
 import ooga.model.engine.pieces.newPieces.MoveChecks.MoveCheckFactory;
 import ooga.model.engine.pieces.newPieces.MoveType;
 import ooga.model.engine.pieces.newPieces.MoveTypeFactory;
-import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -38,10 +35,10 @@ public class Controller implements ControllerFramework {
     private GameFramework myGame;
     private FileHandler myFileHandler;
     private boolean isPieceSelected;
-    private int pieceSelectedX;
-    private int pieceSelectedY;
-    private int squareSelectedX;
-    private int squareSelectedY;
+    private int pieceSelectedRow;
+    private int pieceSelectedCol;
+    private int squareSelectedRow;
+    private int squareSelectedCol;
     private String gameFileName;
     private boolean userIsPlayer1;
     private boolean userTurn;
@@ -260,55 +257,93 @@ public class Controller implements ControllerFramework {
     public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
+        List<List<Integer>> startingConfig = myFileHandler.loadFileConfiguration();
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-        List<List<Integer>> startConfig = myFileHandler.loadFileConfiguration();
-        List<Neighborhood> allNeighborhoods = createNeighborhoods(startConfig.size(), startConfig.get(0).size());
-        myGame = new Game(myGamePieceCreator, startConfig, objectConfig, allNeighborhoods,
-                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()), emptyState);
+        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfig.size(), startingConfig.get(0).size());
+        myGame = new Game(myGamePieceCreator, startingConfig, objectConfig, allNeighborhoods, myUserPlayerInfoHolder,
+                myAgentPlayerInfoHolder, createAgent(startingConfig), emptyState);
     }
 
+    /**
+     * Queries the game if a player passes
+     * @return ID of the player who passed
+     */
     public String playerPass() {return myGame.whichPlayerPassed();}
 
+    /**
+     * Allows view and game to keep track of whose turn it is
+     */
     public boolean userTurn(){
         return userTurn;
     }
 
+    /**
+     * Returns whether pieces have the ability to move based on the data specificaiton
+     */
     public boolean doPiecesMove(){
         return myFileHandler.doPiecesMove();
     }
 
+    /**
+     * Communicates file saving actions from the view to the filehandler to pass in the
+     * game file name and configuration being saved
+     * @param fileName - the String the user indicates they want the file to be saved as
+     * @param startingProperties
+     */
     @Override
     public void saveANewFile(String fileName, Map<String, String> startingProperties){
         myFileHandler.saveToFile(fileName, myGame.getVisualInfo(), myGame.getObjectInfo());
     }
 
+    /**
+     * Allows the view to differentiate whether a piece can contain multiple
+     * objects to be displayed by the view
+     */
     public boolean hasMultiplePiecesPerSquare() {return myFileHandler.hasMultiplePiecesPerSquare();}
 
+    /**
+     * Queries the fileHandler for starting properties
+     */
     @Override
     public Map<String,String> getStartingProperties(){
         return myFileHandler.loadFileProperties();
     }
 
+    /**
+     * Keeps track of the piece selected by the user on the GUI
+     * @param row - row coordinate of piece selected
+     * @param col - column coordinate of piece selected
+     */
     @Override
-    public void pieceSelected(int x, int y) {
+    public void pieceSelected(int row, int col) {
         isPieceSelected = true;
-        pieceSelectedX = x;
-        pieceSelectedY = y;
+        pieceSelectedRow = row;
+        pieceSelectedCol = col;
     }
 
+    /**
+     * Keeps track of the square selected by the user if
+     * the game involves selected a piece to move as well
+     * as a destination square to impact
+     * @param row - row coordinate of square selected
+     * @param col - column coordinate of square selected
+     */
     @Override
-    public void squareSelected(int x, int y) {
-        squareSelectedX = x;
-        squareSelectedY = y;
+    public void squareSelected(int row, int col) {
+        squareSelectedRow = row;
+        squareSelectedCol = col;
     }
 
+    /**
+     * Is called by the Make Move button in GameView to make the move on the back-end
+     */
     @Override
     public void playMove() throws InvalidMoveException {
         try {
             if (!isPieceSelected) {
-                pieceSelected(squareSelectedX, squareSelectedY);
+                pieceSelected(squareSelectedRow, squareSelectedCol);
             }
-            myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedX, pieceSelectedY, squareSelectedX, squareSelectedY)));
+            myGame.makeGameMove(new ArrayList<>(List.of(pieceSelectedRow, pieceSelectedCol, squareSelectedRow, squareSelectedCol)));
             isPieceSelected = false;
             userTurn = myGame.isUserTurn();
         }catch(Exception e){
@@ -317,28 +352,47 @@ public class Controller implements ControllerFramework {
         }
     }
 
+    /**
+     * @return configuration of board that is to be represented on screen
+     */
     @Override
     public List<List<Integer>> getGameVisualInfo() {
         return myGame.getVisualInfo();
     }
 
+    /**
+     * @return configuration of objects on the board
+     */
     @Override
     public List<List<Integer>> getNumPiecesVisualInfo() { return myGame.getObjectInfo();}
 
+    /**
+     * @return name of game file
+     */
     @Override
     public String getGameFileName() {
         return gameFileName;
     }
+
+    /**
+     * @return true if the game has ended (win/loss/tie)
+     */
     @Override
     public boolean isGameOver() {
         return myGame.getEndGameStatus() > 0;
     }
 
+    /**
+     * Used to check who won the game to be reflected by the View
+     */
     @Override
     public int gameWinner() {
         return myGame.getEndGameStatus();
     }
 
+    /**
+     * @return list of possible moves to be visually depicted by faint images on the BoardView
+     */
     public List<List<Integer>> getPossibleMovesForView() {
         return myGame.possibleMovesForView(); }
 
