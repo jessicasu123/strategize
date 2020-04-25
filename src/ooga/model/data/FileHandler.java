@@ -1,6 +1,6 @@
 package ooga.model.data;
 
-import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.exceptions.InvalidFileFormatException;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +37,9 @@ public interface FileHandler {
      * @param configurationInfo  - the board configuration to save to the file
      */
     void saveToFile(String fileName, List<List<Integer>> configurationInfo, List<List<Integer>> objectConfigInfo);
+
+    @Deprecated
+    //void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
 
     /**
      * METHOD PURPOSE:

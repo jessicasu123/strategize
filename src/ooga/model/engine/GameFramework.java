@@ -1,6 +1,6 @@
 package ooga.model.engine;
 
-import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.exceptions.InvalidMoveException;
 
 import java.util.List;
 
@@ -49,6 +49,14 @@ public interface GameFramework {
      * @param moveCoordinates - the start and end coordinates of the user's move
      */
     void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+
+    /*
+     * @deprecated void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+     */
+
+    /*
+     * @deprecated void makeAgentMove() throws InvalidMoveException;
+     */
 
     /**
      * METHOD PURPOSE:

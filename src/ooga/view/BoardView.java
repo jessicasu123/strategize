@@ -378,7 +378,7 @@ public class BoardView {
      * makes a move for the agent on the board
      */
     protected void makeAgentMove(){
-        if(!myController.userTurn() && !myController.isGameOver()){
+        if(!myController.userTurn() && !myController.gameOver()){
             myController.playMove();
             PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
             wait.setOnFinished(e -> {

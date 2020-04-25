@@ -1,12 +1,10 @@
 package ooga.controller;
 
-import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
-import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.exceptions.InvalidNeighborhoodException;
-import ooga.model.engine.exceptions.InvalidWinTypeException;
-import org.json.simple.parser.ParseException;
+import ooga.model.exceptions.InvalidEvaluationFunctionException;
+import ooga.model.exceptions.InvalidMoveException;
+import ooga.model.exceptions.InvalidNeighborhoodException;
+import ooga.model.exceptions.InvalidWinTypeException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +63,9 @@ public interface ControllerFramework {
      */
     void playMove() throws InvalidMoveException;
 
+    /*
+     * @deprecated void haveAgentMove() throws InvalidMoveException;
+     */
 
     /**
      * METHOD PURPOSE:
@@ -80,16 +81,20 @@ public interface ControllerFramework {
      * -returns the name of the JSON config file for the game currently running on a view.
      * -enables a certain view to go back to the game set up options screen to
      * restart a game.
-     * @return
+     * @return the name of the file
      */
     String getGameFileName();
+
+    /*
+     * @deprecated int getUserNumber();
+     */
 
     /**
      * METHOD PURPOSE:
      *  - lets the view know if the game is over based on the logic from the backend
-     * @boolean if the game is over
+     * @return  if the game is over
      */
-    boolean isGameOver();
+    boolean gameOver();
 
     /**
      * METHOD PURPOSE:

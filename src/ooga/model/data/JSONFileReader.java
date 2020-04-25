@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import ooga.model.engine.exceptions.InvalidFileFormatException;
+import ooga.model.exceptions.InvalidFileFormatException;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.json.JSONObject;

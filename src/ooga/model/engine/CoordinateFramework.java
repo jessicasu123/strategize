@@ -11,6 +11,10 @@ public interface CoordinateFramework {
      */
     int getRow();
 
+    /*
+     * @deprecated int getXCoord();
+     */
+
     /**
      * METHOD PURPOSE:
      *  - get the column coordinate to know the position
@@ -18,6 +22,9 @@ public interface CoordinateFramework {
      */
     int getCol();
 
+    /*
+     * @deprecated int getYCoord();
+     */
 
     /**
      * METHOD PURPOSE:
