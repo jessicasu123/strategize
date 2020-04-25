@@ -342,4 +342,8 @@ public class GameView {
             new ErrorAlerts(gameScreenData.getJSONArray("AlertInfo"));
         }
     }
+
+    /*
+     * @deprecated void update();
+     */
 }

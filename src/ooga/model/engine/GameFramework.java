@@ -50,6 +50,14 @@ public interface GameFramework {
      */
     void makeGameMove(List<Integer> moveCoordinates) throws InvalidMoveException;
 
+    /*
+     * @deprecated void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException;
+     */
+
+    /*
+     * @deprecated void makeAgentMove() throws InvalidMoveException;
+     */
+
     /**
      * METHOD PURPOSE:
      *  - passes along the visual state info about which PLAYER is in which position

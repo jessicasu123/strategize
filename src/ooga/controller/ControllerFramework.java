@@ -63,6 +63,9 @@ public interface ControllerFramework {
      */
     void playMove() throws InvalidMoveException;
 
+    /*
+     * @deprecated void haveAgentMove() throws InvalidMoveException;
+     */
 
     /**
      * METHOD PURPOSE:
@@ -78,14 +81,18 @@ public interface ControllerFramework {
      * -returns the name of the JSON config file for the game currently running on a view.
      * -enables a certain view to go back to the game set up options screen to
      * restart a game.
-     * @return
+     * @return the name of the file
      */
     String getGameFileName();
+
+    /*
+     * @deprecated int getUserNumber();
+     */
 
     /**
      * METHOD PURPOSE:
      *  - lets the view know if the game is over based on the logic from the backend
-     * @boolean if the game is over
+     * @return  if the game is over
      */
     boolean gameOver();
 

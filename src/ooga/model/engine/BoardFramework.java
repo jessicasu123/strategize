@@ -23,6 +23,9 @@ public interface BoardFramework {
      */
     Map<Coordinate, List<Coordinate>> getAllLegalMoves(List<Integer> playerStates);
 
+    /*
+     * @deprecated Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player);
+     */
 
     /**
      * METHOD PURPOSE:
@@ -35,6 +38,10 @@ public interface BoardFramework {
      *                      is happening)
      */
     void makeMove(int player, Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
+
+    /*
+     * @deprecated void makeMove(Coordinate startCoordinate, Coordinate endCoordinate) throws InvalidMoveException;
+     */
 
     /**
      * METHOD PURPOSE:
@@ -74,6 +81,10 @@ public interface BoardFramework {
     List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates);
 
     boolean changeTurns();
+
+    /*
+     * @deprecated  int evaluateBoard(int player);
+     */
 
 
 
