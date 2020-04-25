@@ -16,6 +16,7 @@ import java.util.List;
  *  - There are also protected methods that allow the move types to set the different components of the game piece
  *  while still maintaining encapsulation to the rest of the program
  *
+ * @author Sanya Kochhar
  */
 public class GamePiece {
     public static final int MAIN_DIRECTION_INDEX = 0;

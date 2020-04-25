@@ -5,6 +5,11 @@ import ooga.model.engine.pieces.GamePiece;
 
 import java.util.List;
 
+/**
+ * MoveCheck to determine whether a piece being checked is a player piece,
+ * i.e., not an empty state
+ * @author Sanya Kochhar
+ */
 public class NotEmptyStateCheck implements MoveCheck{
 
     private int myEmptyState;

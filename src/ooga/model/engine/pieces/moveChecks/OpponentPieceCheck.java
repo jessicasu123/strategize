@@ -5,6 +5,10 @@ import ooga.model.engine.pieces.GamePiece;
 
 import java.util.List;
 
+/**
+ * MoveCheck to determine whether the piece belongs to the opponent
+ * @author Sanya Kochhar
+ */
 public class OpponentPieceCheck implements MoveCheck{
 
     private int myEmptyState;
