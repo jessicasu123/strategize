@@ -13,9 +13,6 @@
   "Text": {
     "LabelText": {
       "Title": "Select Game Preferences",
-      "SelectOpponent": "Select Opponent:",
-      "VsComputer": "vs. Computer",
-      "VsPlayer": "vs. Player",
       "SelectPlayer": "Select Your Player:",
       "Player1": "Player1",
       "Player2": "Player2",
