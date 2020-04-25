@@ -2,10 +2,7 @@ package ooga;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import ooga.view.GameView;
 import ooga.view.StartView;
-
-import java.io.FileNotFoundException;
 
 
 /**
@@ -16,13 +13,13 @@ public class Main extends Application {
 
     /**
      * Initializes display.
-     * @param stage
+     * @param stage - stage to display to
      */
     @Override
     public void start(Stage stage){
 
         StartView startScreen = new StartView(stage);
-        startScreen.displayToStage(500,500);
+        startScreen.displayToStage(600,700);
 
     }
 

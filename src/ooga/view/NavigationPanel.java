@@ -33,7 +33,7 @@ public class NavigationPanel {
      * creates a navigation bar of control buttons (restart, back to menu, save, make move)
      * @return VBox object containing buttons that allow user to control game
      */
-    public VBox createNavigationBar(){
+    protected VBox createNavigationBar(){
         VBox GridContainer = new VBox(PADDING);
         HBox navcontainer = new HBox(SPACING);
         HBox movecontainer = new HBox(SPACING);

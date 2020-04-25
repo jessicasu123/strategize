@@ -41,7 +41,7 @@ public class EndPopUp extends GamePopUp{
      * as well as options to change the color of the Grid background.
      */
     @Override
-    public void createPopUpContents() {
+    protected void createPopUpContents() {
         VBox gameEndContents = new VBox();
         gameEndContents.setSpacing(SPACING);
         gameEndContents.setPadding(new Insets(40,SPACING/2.0,0,SPACING/2.0));

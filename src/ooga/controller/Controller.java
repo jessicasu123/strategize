@@ -58,7 +58,7 @@ public class Controller implements ControllerFramework {
         List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfiguration.size(), startingConfiguration.get(0).size());
         makeGamePieceCreator();
         myGame = new Game(myGamePieceCreator, startingConfiguration, objectConfig, allNeighborhoods, myUserPlayerInfoHolder,
-                myAgentPlayerInfoHolder, gameAgent);
+                myAgentPlayerInfoHolder, gameAgent, emptyState);
     }
 
     private List<Neighborhood> createNeighborhoods(int numRows, int numCols) throws InvalidNeighborhoodException {
@@ -82,7 +82,7 @@ public class Controller implements ControllerFramework {
         addPlayerStateImageInfoToMap(2);
     }
 
-    private void makeGamePieceCreator() throws InvalidMoveCheckException{
+    private void makeGamePieceCreator(){
         myGamePieceCreator = new GamePieceCreator(myUserPlayerInfoHolder, myAgentPlayerInfoHolder);
     }
 
@@ -214,7 +214,7 @@ public class Controller implements ControllerFramework {
         List<List<Integer>> startConfig = myFileHandler.loadFileConfiguration();
         List<Neighborhood> allNeighborhoods = createNeighborhoods(startConfig.size(), startConfig.get(0).size());
         myGame = new Game(myGamePieceCreator, startConfig, objectConfig, allNeighborhoods,
-                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()));
+                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()), emptyState);
     }
 
     public String playerPass() {return myGame.whichPlayerPassed();}

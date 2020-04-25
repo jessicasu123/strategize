@@ -37,11 +37,10 @@ public class Game implements GameFramework{
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
 
-
     public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
-                PlayerInfoHolder agentPlayerInfo, Agent agent) {
-        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
+                PlayerInfoHolder agentPlayerInfo, Agent agent, int emptyState) {
+        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods, emptyState);
         myUserStates = userPlayerInfo.getPlayerStates();
         myAgentStates = agentPlayerInfo.getPlayerStates();
         isUserTurn = userPlayerInfo.isPlayer1();

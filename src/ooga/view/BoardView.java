@@ -21,7 +21,7 @@ import java.util.Map;
  * player and opponent moves, as well as updating the visual
  * appearance of the board after a move.
  *
- * @author: Brian Li, Holly Ansel, Jessica Su
+ * @author Brian Li, Holly Ansel, Jessica Su
  */
 public class BoardView {
     public static final String PIECES_RESOURCES = "resources/images/pieces/";
@@ -56,7 +56,6 @@ public class BoardView {
     private boolean hasSelectedSquare;
     private Map<Integer, List<Image>> myStateToImageMapping;
     private Map<Integer, String> mySpecialStateToColorMapping;
-    private Map<Integer, String> stateToFileMapping;
     private List<Integer> myUser;
     private List<Integer> myAgent;
     private String boardOutlineColor;
@@ -83,7 +82,7 @@ public class BoardView {
 
     }
     private void initializeStateImageMapping(){
-        stateToFileMapping = myController.getStateImageMapping();
+        Map<Integer, String> stateToFileMapping = myController.getStateImageMapping();
         for(Map.Entry<Integer, String> entry: stateToFileMapping.entrySet()){
             List<String> images = List.of(entry.getValue().split(","));
             myStateToImageMapping.put(entry.getKey(), convertStringToImages(images));
@@ -111,7 +110,7 @@ public class BoardView {
      * @return - the container holding the grid where
      * the game will be played
      */
-    public VBox getGridContainer() {
+    protected VBox getGridContainer() {
         return myBoard;
     }
 
@@ -236,7 +235,7 @@ public class BoardView {
             if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
 
-        if (mySpecialStateToColorMapping.keySet().contains(currGameState)) {
+        if (mySpecialStateToColorMapping.containsKey(currGameState)) {
             currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
 
@@ -255,7 +254,7 @@ public class BoardView {
             boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
             updatePossibleMoveImageOnSquare(currSquare, isPossibleMove);
             if (myUser.contains(currGameState)) {
-                updatePlayerCell(currImage, currSquare, r, c, gameStates,isPossibleMove);
+                updatePlayerCell(currImage, currSquare, r, c, isPossibleMove);
             }
             else if(myAgent.contains(currGameState)) {
                 updateAgentCell(currImage, currSquare, r , c, isPossibleMove);
@@ -286,8 +285,7 @@ public class BoardView {
 
     }
 
-    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c,
-                                  List<List<Integer>> gameStates, boolean possibleMove) {
+    private void updatePlayerCell(Image playerImage, BoardCell currSquare, int r, int c, boolean possibleMove) {
         currSquare.updateImageOnSquare(playerImage);
         if (squareClickType.equals(PLAYER_CLICK_TYPE)) {
             clickableCell(currSquare, r, c,possibleMove);
