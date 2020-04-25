@@ -1,9 +1,10 @@
 {
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
-    "Player1PromotionIsLastRow", "OnlyChangeOpponent","EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare",
-    "SquareClickOptions","SquareClickType", "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys","Player1",
-    "Player2", "possibleMove", "Rules"],
+    "Player1PromotionIsLastRow","OnlyChangeOpponent","EmptyState", "PiecesMove", "Player1PosDirection", "CheckCurrConfig",
+    "MultiplePiecesPerSquare", "ConvertToEmptyState", "NumVisualRowsPerSquare","MaxNumObjectsPerSquare",
+    "SquareClickOptions","SquareClickType", "DimensionOptions", "BoardKeys", "Default","2 x 2","PlayerKeys",
+    "Player1", "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Chopsticks",
 
@@ -87,10 +88,10 @@
   "possibleMove": "",
 
   "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.",
-            "Next, click on an opponents square to add your chopstick count to their hand. Press play move",
-            "When a hand reaches 5 chopsticks, it dies",
-            "If a hand exceeds 5 chopsticks, sum of sticks minus 5 sticks remain",
-            "If you have no sticks on one hand and >= 2 in the other, you can click your hand to split\n it and revive the empty hand",
+            "Next, click on an opponents square to add as many chopsticks\n as you have to their hand.",
+            "Alternatively, if you have a second live hand,\nyou can click on it to redistribute your chopsticks.",
+            "Press play move.",
+            "When a hand reaches 5 chopsticks, it dies.",
             "The player who has two empty hands loses."]
 
 }

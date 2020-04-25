@@ -41,19 +41,19 @@ public interface ControllerFramework {
      * METHOD PURPOSE:
      *  - stores the piece selected that the user wants to move in an instance variable
      *  - this keeps track of the information from the user's action on the view
-     * @param x - x coordinate of piece selected
-     * @param y - y coordinate of piece selected
+     * @param row - row coordinate of piece selected
+     * @param col - column coordinate of piece selected
      */
-    void pieceSelected(int x, int y);
+    void pieceSelected(int row, int col);
 
     /**
      * METHOD PURPOSE:
      *  -stores the square selected that the user wants to move the piece to in an instance variable
      *  - this keeps track of the information from the user's action on the view
-     *  @param x - x coordinate of square selected
-     *  @param y - y coordinate of square selected
+     *  @param row - row coordinate of square selected
+     *  @param col - column coordinate of square selected
      */
-    void squareSelected(int x, int y);
+    void squareSelected(int row, int col);
 
     /**
      * METHOD PURPOSE:
@@ -176,5 +176,27 @@ public interface ControllerFramework {
      */
     List<Integer> getAgentStateInfo();
 
+    /**
+     * METHOD PURPOSE:
+     * - gets the types of squares that can be clicked on in the view
+     * and considered a "move".
+     * - useful to differentiate between games where only empty cells
+     * can be clicked vs. games where player cells can be clicked
+     * @return List of all the types of squares in the view that the user can click on
+     */
     List<String> getSquareClickTypes();
+
+    /**
+     * METHOD PURPOSE:
+     * Allows the view to differentiate whether a piece can contain multiple
+     * objects to be displayed by the view
+     */
+    boolean hasMultiplePiecesPerSquare();
+
+    /**
+     * METHOD PURPOSE:
+     * Gets a mapping of the special states to the colors that represent them.
+     * @return map with keys as special states and values as colors
+     */
+    Map<Integer,String> getSpecialStateColorMapping();
 }

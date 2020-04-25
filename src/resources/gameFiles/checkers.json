@@ -95,7 +95,7 @@
 
   "possibleMove": "greyOutlineCircle.png",
 
-  "Rules":["Select one of your pieces", "To move your piece you can click on a square that does not have any other pieces", "Your piece can move one diagonal step forward or you can perform a jump", "A jump is when your opponents piece is on a forward adjacent diagonal to your piece and the other side is an empty square", "Performing a jump captures your opponent's piece and you can perform multiple in one turn (double jump)", "Getting your piece to the opposite side of the board promotes it to a king, allowing it to move both forwards and backwards", "The goal is to capture all of your opponent's pieces"]
+  "Rules":["Select one of your pieces.", "To move your piece you can click on a square\nthat does not have any other pieces.", "Your piece can move one diagonal step forward\nor you can perform a jump.", "A jump is when your opponents piece is on a forward adjacent diagonal\n to your piece and the other side is an empty square.", "Performing a jump captures your opponent's piece\nand you can perform multiple in one turn (double jump).", "Getting your piece to the opposite side of the board promotes it\n to a king, allowing it to move both forwards and backwards.", "The goal is to capture all of your opponent's pieces."]
 
 
 

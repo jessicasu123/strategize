@@ -24,7 +24,7 @@ class EndPopUpTest extends DukeApplicationTest {
     private Button backToMenu;
 
     public EndPopUpTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidMoveTypeException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
+        testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         gameButtonManager = new GameButtonManager();
     }
 

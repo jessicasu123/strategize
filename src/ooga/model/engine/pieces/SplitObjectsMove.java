@@ -11,6 +11,12 @@ public class SplitObjectsMove implements MoveType {
     private int myEmptyState;
 
     /**
+     * MoveType to split the current piece's objects between itself and the neighbor
+     * specified by an endCoordinate that belongs to the same player.
+     *  - If the piece has an even number of pieces, they are split evenly
+     *  - If the piece has an odd number of pieces, one pieces is given to the other player
+     *  - If the piece has no pieces left after the split, it becomes an empty state
+     * @author Sanya Kochhar
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
      */
     public SplitObjectsMove(ConvertibleNeighborFinder convertibleNeighborFinder, int emptyState) {
@@ -41,6 +47,5 @@ public class SplitObjectsMove implements MoveType {
             neighborPiece.incrementNumObjects(1);
         }
     }
-
 
 }

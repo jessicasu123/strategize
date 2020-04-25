@@ -19,7 +19,7 @@ public class WinTypeFactory {
      * @return WinType object matching the specified string identifier from a config file
      */
     public WinType createWinType(String winType, int emptyState, int stateIndex, int winValue, boolean checkCurrConfig,
-                                 List<List<Integer>> initialConfig) throws InvalidWinTypeException {
+                                                                  List<List<Integer>> initialConfig) throws InvalidWinTypeException {
         switch (winType) {
             case "ConsecutivePieces":
                 return new ConsecutivePieces(winValue);

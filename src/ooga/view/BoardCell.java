@@ -22,6 +22,8 @@ public abstract class BoardCell {
 
     /**
      * Constructor for BoardCell.
+     * @param x - the row position
+     * @oaram y - the column position
      * @param cellWidth - width of the cell
      * @param cellHeight - height of the cell
      */

@@ -182,11 +182,9 @@ public class BoardView {
         hasSelectedSquare = true;
         lastSquareSelectedX = finalX;
         lastSquareSelectedY = finalY;
-        if(hasSelectPiece){
-            if (! squareClickType.contains(AGENT_CLICK_TYPE)) {
-                myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
-                rect.updateImageOnSquare(img);
-            }
+        if(hasSelectPiece && ! squareClickType.contains(AGENT_CLICK_TYPE)){
+            myBoardCells.get(lastPieceSelectedX).get(lastPieceSelectedY).clearFill(boardColor);
+            rect.updateImageOnSquare(img);
         }
         if(!piecesMove && squareClickType.contains(EMPTY_CLICK_TYPE)){
             rect.updateImageOnSquare(img);

@@ -17,6 +17,11 @@ public abstract class Neighborhood {
     protected int numRows;
     protected int numCols;
 
+    /**
+     * Constructor for Neighborhood.
+     * @param rows - the number of rows in the Board where neighborhoods needs to be calculated
+     * @param cols- the number of columns in the Board where neighborhoods needs to be calculated
+     */
     public Neighborhood(int rows, int cols) {
         allCoordinates = new ArrayList<>();
         numRows = rows;

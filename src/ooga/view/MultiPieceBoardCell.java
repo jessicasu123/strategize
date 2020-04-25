@@ -34,6 +34,8 @@ public class MultiPieceBoardCell extends BoardCell{
 
     /**
      * Constructor for MultiPieceBoardCell.
+     * @param x - the row position
+     * @param y - the column position
      * @param cellWidth - width of cell
      * @param cellHeight - height of cell
      * @param numVisualRows - number of visual rows. This will be useful
@@ -154,7 +156,7 @@ public class MultiPieceBoardCell extends BoardCell{
 
     private void createSetPositions() {
         double currXPos = 0;
-        double currYPos = 0;
+        double currYPos = getCellHeight()*(1.0/4.0);
         for (int r = 0; r < numRowsPerSquare; r++) {
             for (int c = 0; c < numPiecesPerRow;c++) {
                 pieceXPositions.add(currXPos);
