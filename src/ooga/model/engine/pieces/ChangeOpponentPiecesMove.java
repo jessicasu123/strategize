@@ -20,7 +20,8 @@ public class ChangeOpponentPiecesMove implements MoveType {
 
     /**
      * @param convertibleNeighborFinder - finds all the neighbors that need to be converted
-
+     * @param convertToEmptyState - boolean to decide whether to convert to the empty state or not
+     * @param emptyState - the integer that specifies the empty state
      */
     public ChangeOpponentPiecesMove(ConvertibleNeighborFinder convertibleNeighborFinder, boolean convertToEmptyState, int emptyState) {
         myEmptyState = emptyState;

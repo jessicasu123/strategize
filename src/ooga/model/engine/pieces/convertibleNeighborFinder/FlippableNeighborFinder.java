@@ -63,6 +63,9 @@ public class FlippableNeighborFinder implements ConvertibleNeighborFinder {
     /**
      * Used by AllFlippableDirectionsCheck. The logic of checking that there is at least 1 out of 8
      * valid directions to flip and actually flipping all the neighbors is essentially the same.
+     * @param  currRowPos - the current row position of the piece whose neighbors are being checked
+     * @param currColPos - the current col position of the piece whose neighbors are being checked
+     * @param myPlayerID - the integer representing the ID of the player
      * @param rowOffset - the amount to add to the current row to find the row coordinate of the NEIGHBOR
      * @param colOffset - the amount to add to the current col to find the col coordinate of the NEIGHBOR
      * @param neighbors - the list of all the neighbors

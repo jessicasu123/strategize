@@ -29,7 +29,9 @@ public class Board implements BoardFramework{
 
     /**
      * Constructor to create a Board object.
-     * @param gamePieces - type of game (ex. tic-tac-toe, mancala, etc.)
+     * @param gamePieces - a GamePieceCreator object, which is responsible for storing all the
+     *                   information (ex. move types, move checks, user states, agent states, etc.)
+     *                   needed to create the game pieces and can be called on to create those pieces
      * @param startingConfiguration - the starting configuration read from the JSON file
      * @param objectConfiguration - the number of objects at each row,col position
      * @param neighborhoods - the types of neighbors to consider while making a move on this board

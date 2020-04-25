@@ -39,12 +39,13 @@ public class Game implements GameFramework{
 
     /**
      * Constructor for Game
-     * @param gamePieces - the object that will create all the Game Pieces according to a type specified in the config file
+     * @param gamePieces - the object that holds the information about the game pieces for a particular game
+     *                   according the information specified in the config file
      * @param startingConfiguration - the starting configuration of states from the config file
      * @param objectConfiguration - the configuration of number of objects at each row, col position
      * @param neighborhoods - the types of neighborhoods that the pieces in this game will need to consider
-     * @param userPlayerInfo - all the information for the user player (ex. states)
-     * @param agentPlayerInfo - all the information for the agent player (ex. states)
+     * @param userPlayerInfo - all the information for the user player (ex. states, directions, move types, etc. )
+     * @param agentPlayerInfo - all the information for the agent player (ex. states, directions, move types, etc. )
      * @param agent - will perform the AI calculation with minimax function
      * @param emptyState - the integer representing the empty state
      */

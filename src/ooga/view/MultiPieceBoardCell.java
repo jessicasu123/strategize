@@ -34,6 +34,8 @@ public class MultiPieceBoardCell extends BoardCell{
 
     /**
      * Constructor for MultiPieceBoardCell.
+     * @param x - the row position
+     * @param y - the column position
      * @param cellWidth - width of cell
      * @param cellHeight - height of cell
      * @param numVisualRows - number of visual rows. This will be useful

@@ -39,6 +39,14 @@ public abstract class GamePopUp {
     private Stage displayStage;
     private Popup popUp;
 
+    /**
+     * Constructor for GamePopUp
+     * @param stage - the Stage where the GamePopUp will be displayed
+     * @param width - the width of the Stage
+     * @param height - the height of the Stage
+     * @param fileName - the name of the file that has relevant information to be displayed on the pop up
+     * @param gameButtonManager - the GameButtonManager object that helps manage game buttons
+     */
     public GamePopUp(Stage stage, int width, int height, String fileName, GameButtonManager gameButtonManager) {
         displayStage = stage;
 
