@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * This class acts to hold all of the information associated with a player
+ * @author all
  */
 public class PlayerInfoHolder {
     private List<Integer> myPlayerStates;

@@ -18,6 +18,7 @@ import java.util.Map;
  *      based on the evaluation from the agent
  *      - it uses minimax with alpha-beta pruning to allow for increased efficiency and thus enabling it to
  *      have a higher branching factor
+ * @author Holly Ansel
  */
 public class AgentPlayer{
     public static final int ID_STATE = 0;
@@ -46,7 +47,6 @@ public class AgentPlayer{
      * @param gameAgent - the AI agent for this type of game
      * @param opponentStates - the states of the pieces that belong to the opponent
      */
-    //TODO: take in search depth from data
     public AgentPlayer(List<Integer> states, Agent gameAgent, List<Integer> opponentStates, int searchDepth){
         myStates = states;
         myAgent = gameAgent;
@@ -73,10 +73,8 @@ public class AgentPlayer{
     }
 
     private int getMaxPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
-        int myAlpha = alpha;
-        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft) || noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
+        if(endOfSearch(depth, boardCopy)){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft(boardCopy));
         }
         int currMaxVal = Integer.MIN_VALUE;
 
@@ -84,7 +82,7 @@ public class AgentPlayer{
             for(Coordinate moveTo: moves.getValue()){
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
                 testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
-                int curr = getMinPlayerMove(testMoveBoard, depth, myAlpha, beta);
+                int curr = getMinPlayerMove(testMoveBoard, depth, alpha, beta);
                 currMaxVal = Math.max(currMaxVal, curr);
                 if(depth == 0){
                     moveMappings.put(curr, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
@@ -92,34 +90,38 @@ public class AgentPlayer{
                 if(currMaxVal > beta){
                     return currMaxVal;
                 }
-                myAlpha = Math.max(currMaxVal, myAlpha);
-
+                alpha = Math.max(currMaxVal, alpha);
             }
         }
 
         return currMaxVal;
     }
+    private boolean noMovesLeft(BoardFramework boardCopy){
+        return boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
+    }
+    private boolean endOfSearch(int depth, BoardFramework boardCopy){
+        boolean noMovesLeft = noMovesLeft(boardCopy);
+        return depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft)
+                || noMovesLeft;
+    }
 
     private int getMinPlayerMove(BoardFramework boardCopy, int depth, int alpha, int beta) throws InvalidMoveException {
-        int myBeta = beta;
-        boolean noMovesLeft = boardCopy.checkNoMovesLeft(myStates, myOpponentStates) == 0;
-        if(depth >= mySearchDepth || myAgent.isGameWon(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft)|| noMovesLeft){
-            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
+        if(endOfSearch(depth, boardCopy)){
+            return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft(boardCopy));
         }
         int currMinVal = Integer.MAX_VALUE;
         for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponentStates).entrySet()) {
             for (Coordinate moveTo : moves.getValue()) {
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
                 testMoveBoard.makeMove(myOpponentID, moves.getKey(), moveTo);
-                int curr = getMaxPlayerMove(testMoveBoard, depth + 1, alpha, myBeta);
+                int curr = getMaxPlayerMove(testMoveBoard, depth + 1, alpha, beta);
                 currMinVal = Math.min(currMinVal, curr);
                 if(currMinVal < alpha){
                     return currMinVal;
                 }
-                myBeta = Math.min(currMinVal, myBeta);
+                beta = Math.min(currMinVal, beta);
             }
         }
-
         return currMinVal;
     }
 
