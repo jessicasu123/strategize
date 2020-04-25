@@ -176,5 +176,13 @@ public interface ControllerFramework {
      */
     List<Integer> getAgentStateInfo();
 
+    /**
+     * METHOD PURPOSE:
+     * - gets the types of squares that can be clicked on in the view
+     * and considered a "move".
+     * - useful to differentiate between games where only empty cells
+     * can be clicked vs. games where player cells can be clicked
+     * @return List of all the types of squares in the view that the user can click on
+     */
     List<String> getSquareClickTypes();
 }
