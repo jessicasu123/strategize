@@ -25,6 +25,14 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * This class is the controller that facilitates communication between the
+ * data files, the model and the view. It uses data extracted by the
+ * JSON file handler to pass initializing information to the various
+ * game components and is queried about game status changes by the board.
+ *
+ * @author Sanya Kochhar
+ */
 
 public class Controller implements ControllerFramework {
     private GameFramework myGame;
@@ -43,7 +51,19 @@ public class Controller implements ControllerFramework {
     private GamePieceCreator myGamePieceCreator;
     private int emptyState;
 
-    public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidFileFormatException, InvalidNeighborhoodException, InvalidMoveCheckException, InvalidEvaluationFunctionException, InvalidWinTypeException, InvalidConvertibleNeighborFinderException {
+    /**
+     * Contructor to create a Controller object
+     * @param fileName of the game selected by the user
+     * @param userID of the player selected by the user
+     * @param dimensions of the board chosen by the user
+     * @throws InvalidFileFormatException when file does not match jsonFileReader specifications
+     * @throws InvalidNeighborhoodException if specified neighbor type does not exist
+     * @throws InvalidMoveCheckException if specified MoveCheck does not exist
+     * @throws InvalidEvaluationFunctionException if specified EvaluationFunction does not exist
+     * @throws InvalidWinTypeException if specified WinType does not exist
+     * @throws InvalidConvertibleNeighborFinderException if specified ConvertibleNeighborFinder does not exist
+     */
+    public Controller(String fileName, String userID, String dimensions) throws InvalidFileFormatException, InvalidNeighborhoodException, InvalidMoveCheckException, InvalidEvaluationFunctionException, InvalidWinTypeException, InvalidConvertibleNeighborFinderException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName, dimensions);
         myFileHandler.parseFile();
@@ -69,6 +89,10 @@ public class Controller implements ControllerFramework {
         }
         return neighborhoods;
     }
+
+    /**
+     * Based on user selection, assigns the user and agent players to player 1 or 2
+     */
     private void createUserAndAgentPlayers() throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException {
         if(userIsPlayer1){
             myUserPlayerInfoHolder = makePlayer(1);
@@ -98,11 +122,20 @@ public class Controller implements ControllerFramework {
                 neighborMoveChecks, moveTypes,isPlayer1);
     }
 
+    /**
+     * Creates a ConvertibleNeighborFinder based on specification from the data file
+     */
     private ConvertibleNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore) throws InvalidConvertibleNeighborFinderException{
         String finderType = myFileHandler.getConverterType();
         return new ConvertibleNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
+    /**
+     * Creates various MoveTypes specified in the game data file based on player selected
+     * @param player for whom MoveTypes are being created
+     * @param playerStates used by specific MoveTypes to consider a player's alternate states
+     * @return a list of MoveTypes
+     */
     private List<MoveType> createMoveTypesForPlayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException, InvalidConvertibleNeighborFinderException {
         List<MoveType> moveTypes = new ArrayList<>();
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
@@ -122,6 +155,9 @@ public class Controller implements ControllerFramework {
         return moveTypes;
     }
 
+    /**
+     * Call to creates MoveChecks the piece must perform on itself to calculate potential valid moves
+     */
     private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
         return createMoveCheck(selfMoveCheck, playerStates, immovableState);
@@ -138,11 +174,17 @@ public class Controller implements ControllerFramework {
         return moveChecks;
     }
 
+    /**
+     * Call to create MoveChecks the piece must perform in its neighbors to calculate potential valid moves
+     */
     private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> neighborMoveChecks = myFileHandler.getNeighborMoveChecks();
         return createMoveCheck(neighborMoveChecks, playerStates, immovableState);
     }
 
+    /**
+     * Creates the agent to carry out evaluations on the game state and potential moves
+     */
     private Agent createAgent(List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException, InvalidWinTypeException {
         int winValue = myFileHandler.getWinValue();
         WinType winType = createWinType(winValue, startingConfig);
@@ -153,6 +195,9 @@ public class Controller implements ControllerFramework {
 
     }
 
+    /**
+     * Creates the evaluation functions that compose the agent, as specified in the game data file
+     */
     private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException{
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         int userDirection = myUserPlayerInfoHolder.getDirections().get(0);
@@ -173,6 +218,10 @@ public class Controller implements ControllerFramework {
         return allEvals;
     }
 
+    /**
+     * Creates the WinTypes to be used by the agent to evaluate win status,
+     * as specified in the data file
+     */
     private WinType createWinType(int winValue, List<List<Integer>> startingConfig) throws InvalidWinTypeException{
         String winTypeStr = myFileHandler.getWinType();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
@@ -205,11 +254,12 @@ public class Controller implements ControllerFramework {
         return Collections.unmodifiableList(myAgentPlayerInfoHolder.getPlayerStates());
     }
 
+    /**
+     * Resets game variables and creates a new game
+     */
     public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
-//        squareSelected(-1,-1);
-//        squareSelected(-1, -1);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
         List<List<Integer>> startConfig = myFileHandler.loadFileConfiguration();
         List<Neighborhood> allNeighborhoods = createNeighborhoods(startConfig.size(), startConfig.get(0).size());

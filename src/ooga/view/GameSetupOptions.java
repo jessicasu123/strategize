@@ -41,7 +41,6 @@ public class GameSetupOptions {
     private String gameFileName;
     private JSONObject setupData;
     private String userPlayerID;
-    private String opponent;
     private GameDropDown dimensionDropdown;
 
 
@@ -147,7 +146,7 @@ public class GameSetupOptions {
         start.setOnAction(e -> {
             try {
                 String chosenDimension = getChosenDimension();
-                Controller c = new Controller(gameFileName, userPlayerID, opponent, chosenDimension);
+                Controller c = new Controller(gameFileName, userPlayerID, chosenDimension);
                 new GameView(myStage, c);
             } catch(Exception ex){
                 new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());

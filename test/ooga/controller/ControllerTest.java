@@ -16,8 +16,8 @@ class ControllerTest {
     Controller testController2;
 
     ControllerTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
-        testController2 = new Controller("tic-tac-toe-test.json", "Player2", "Computer", "3 x 3");
+        testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
+        testController2 = new Controller("tic-tac-toe-test.json", "Player2", "3 x 3");
     }
 
     public List<List<Integer>> createTestConfig(Integer[][] testConfig) {

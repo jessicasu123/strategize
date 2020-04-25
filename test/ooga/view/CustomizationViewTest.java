@@ -24,7 +24,7 @@ public class CustomizationViewTest extends DukeApplicationTest {
     private GameButtonManager gameButtonManager;
 
     public CustomizationViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
+        testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         gameButtonManager = new GameButtonManager();
     }
     @Override

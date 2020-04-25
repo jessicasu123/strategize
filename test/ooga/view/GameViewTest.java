@@ -32,7 +32,7 @@ public class GameViewTest extends DukeApplicationTest {
     private int numCols;
     List<List<Rectangle>> myBoardCells;
     public GameViewTest() throws InvalidNeighborhoodException, InvalidConvertibleNeighborFinderException, InvalidMoveCheckException, InvalidWinTypeException, InvalidEvaluationFunctionException {
-        testController = new Controller("tic-tac-toe.json", "Player1", "Computer", "3 x 3");
+        testController = new Controller("tic-tac-toe.json", "Player1", "3 x 3");
         myBoardCells = new ArrayList<>();
     }
 
