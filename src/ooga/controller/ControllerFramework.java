@@ -168,4 +168,6 @@ public interface ControllerFramework {
      * @return - list of integers corresponding to the agent's states
      */
     List<Integer> getAgentStateInfo();
+
+    List<String> getSquareClickTypes();
 }

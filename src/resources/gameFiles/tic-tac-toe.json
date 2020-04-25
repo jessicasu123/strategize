@@ -47,9 +47,9 @@
 
   "MaxNumObjectsPerSquare": 1,
 
-  "SquareClickOptions": ["empty", "player", "agent"],
+  "SquareClickOptions": ["empty", "player", "agent", "own player"],
 
-  "SquareClickType": "empty",
+  "SquareClickType": ["empty"],
 
   "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],
 
@@ -62,24 +62,24 @@
     "Width": "3",
     "InitialConfig": "0,0,0;0,0,0;0,0,0",
     "ObjectConfig": "1,1,1;1,1,1;1,1,1",
-    "BoardWeights": "0,0,0;0,0,0;0,0,0",
-    "WinValue": 3
+    "WinValue": 3,
+    "BoardWeights": "0,0,0;0,0,0;0,0,0"
   },
   "4 x 4": {
     "Height": "4",
     "Width": "4",
     "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
     "ObjectConfig": "1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1",
-    "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
-    "WinValue": 4
+    "WinValue": 4,
+    "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0"
   },
   "5 x 5": {
     "Height": "5",
     "Width": "5",
     "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
     "ObjectConfig": "1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1",
-    "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
-    "WinValue": 5
+    "WinValue": 5,
+    "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0"
   },
 
   "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],

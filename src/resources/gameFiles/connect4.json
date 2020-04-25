@@ -46,9 +46,9 @@
 
   "MaxNumObjectsPerSquare": 1,
 
-  "SquareClickOptions": ["empty", "player", "agent"],
+  "SquareClickOptions": ["empty", "player", "agent", "own player"],
 
-  "SquareClickType": "empty",
+  "SquareClickType": ["empty"],
 
   "DimensionOptions": ["6 x 7", "7 x 8"],
 

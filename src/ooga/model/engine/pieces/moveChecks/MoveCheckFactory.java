@@ -39,6 +39,8 @@ public class MoveCheckFactory {
                 return new OpponentPieceCheck(emptyState,playerStates);
             case "OwnPieceCheck":
                 return new OwnPieceCheck(playerStates);
+            case "NotEmptyStateCheck":
+                return new NotEmptyStateCheck(emptyState);
             default:
                 throw new InvalidMoveCheckException(moveCheckType + " is not a valid move check type.");
         }

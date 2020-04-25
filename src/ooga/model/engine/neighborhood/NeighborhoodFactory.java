@@ -5,6 +5,8 @@ import ooga.model.exceptions.InvalidNeighborhoodException;
 /**
  * This class is responsible for creating different types of
  * neighborhood objects, following the factory pattern.
+ *
+ * @author Jessica Su
  */
 public class NeighborhoodFactory {
     /**

@@ -32,7 +32,7 @@ public class MorePieces implements EvaluationFunction{
         if (checkCurrConfig) {
             return myEvalCoords.size() - opponentEvalCoords.size();
         }
-        return countEvalStates(myEvalCoords, boardStateInfo) - countEvalStates(opponentEvalCoords, boardStateInfo);
+        return countEvalStates(myEvalCoords, objectInfo) - countEvalStates(opponentEvalCoords, objectInfo);
     }
 
     private ArrayList<Coordinate> getEvalStateCoords(int stateToFind, List<List<Integer>> config) {

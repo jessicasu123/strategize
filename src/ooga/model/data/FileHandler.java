@@ -125,4 +125,5 @@ public interface FileHandler {
     int getImmovableStateForPlayer(int player);
 
     boolean getOnlyChangeOpponent();
+    List<String> getSquareClickTypes();
 }

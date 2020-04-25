@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * This neighborhood is for calculating horizontal (row) neighbors.
+ *
+ * @author Jessica Su
  */
 public class HorizontalNeighborhood extends Neighborhood {
     public HorizontalNeighborhood(int rows, int cols) {

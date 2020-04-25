@@ -81,47 +81,17 @@ public class GameSetupOptions {
         VBox gameOptions = new VBox(PADDING);
         JSONObject labelText = setupData.getJSONObject("Text").getJSONObject("LabelText");
         JSONObject buttonText = setupData.getJSONObject("Text").getJSONObject("ButtonText");
-        HBox opponentOptions = createOpponentOptions(labelText);
-        HBox playerOptions = createPlayerOptions(opponentOptions.getAlignment(), labelText);
+        HBox playerOptions = createPlayerOptions(labelText);
         HBox boardOptions = createBoardOptions(playerOptions.getAlignment(), labelText);
         Button start = createStartButton(buttonText);
         Button mainMenu = createMenuButton(buttonText);
-        gameOptions.getChildren().addAll(opponentOptions, playerOptions, boardOptions, start, mainMenu);
+        gameOptions.getChildren().addAll(playerOptions, boardOptions, start, mainMenu);
         gameOptions.setAlignment(Pos.CENTER);
         return gameOptions;
     }
 
-    /**
-     * Sets options for playing against the computer or against another player.
-     * Defaults to computer
-     * @return HBox with radio buttons to select opponent type
-     */
-    private HBox createOpponentOptions(JSONObject labelText) {
-        Text selectionPrompt = new Text(labelText.getString("SelectOpponent"));
-        selectionPrompt.setId("SelectOpponentText");
-        ToggleGroup group = new ToggleGroup();
-        group.selectedToggleProperty().addListener((ob, o, n) -> {
-            RadioButton rb = (RadioButton)group.getSelectedToggle();
-            if (rb != null) {
-                opponent = rb.getText();
-            }
-        });
-        RadioButton vsComputer = createOpponentButton(labelText, group, "VsComputer");
-        RadioButton vsPlayer = createOpponentButton(labelText, group, "VsPlayer");
-        vsComputer.setSelected(true);
-        HBox opponentOptions = new HBox(SPACING, selectionPrompt, vsComputer, vsPlayer);
-        opponentOptions.setAlignment(Pos.CENTER);
-        return opponentOptions;
-    }
 
-    private RadioButton createOpponentButton(JSONObject labelText, ToggleGroup group, String vs) {
-        RadioButton vsSelection = new RadioButton(labelText.getString(vs));
-        vsSelection.setToggleGroup(group);
-        vsSelection.setId(vs);
-        return vsSelection;
-    }
-
-    private HBox createPlayerOptions(Pos position, JSONObject labelText) {
+    private HBox createPlayerOptions(JSONObject labelText) {
         HBox playerOptions = new HBox(SPACING);
         Text selectionPrompt = new Text(labelText.getString("SelectPlayer"));
         selectionPrompt.setId("SelectPlayerText");
@@ -136,7 +106,7 @@ public class GameSetupOptions {
         RadioButton player2Button = createPlayerRadioButton(group,"Player2");
         player1Button.setSelected(true);
         playerOptions.getChildren().addAll(selectionPrompt, player1Button, player2Button);
-        playerOptions.setAlignment(position);
+        playerOptions.setAlignment(Pos.CENTER);
         return playerOptions;
     }
 

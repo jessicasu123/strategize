@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * This neighborhood is for calculating vertical (column) neighbors.
+ *
+ * @author Jessica Su, Holly Ansel
  */
 public class VerticalNeighborhood extends Neighborhood {
 

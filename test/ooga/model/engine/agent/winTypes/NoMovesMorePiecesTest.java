@@ -32,8 +32,8 @@ class NoMovesMorePiecesTest {
 
     @Test
     void testMancalaPlayer1Win() {
-        List<Integer> userWinRow1 = new ArrayList<>(List.of(14, 2, 0, 3, 0, 2, 0, 0));
-        List<Integer> userWinRow2 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 25));
+        List<Integer> userWinRow1 = new ArrayList<>(List.of(20, 0, 0, 0, 0, 0, 0, 0));
+        List<Integer> userWinRow2 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 28));
         List<List<Integer>> boardForUserWin = new ArrayList<>(List.of(userWinRow1, userWinRow2));
         assertTrue(mancalaWinType.isWin(mancalaPlayer1States, boardForUserWin,boardForUserWin, true));
         assertFalse(mancalaWinType.isWin(mancalaPlayer2States, boardForUserWin,boardForUserWin, true));
@@ -41,8 +41,8 @@ class NoMovesMorePiecesTest {
 
     @Test
     void testMancalaPlayer2Win() {
-        List<Integer> userLoseRow1 = new ArrayList<>(List.of(14, 7, 8, 0, 0, 2, 0, 0));
-        List<Integer> userLoseRow2 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 17));
+        List<Integer> userLoseRow1 = new ArrayList<>(List.of(25, 0, 0, 0, 0, 0, 0, 0));
+        List<Integer> userLoseRow2 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 23));
         List<List<Integer>> boardForUserLose = new ArrayList<>(List.of(userLoseRow1, userLoseRow2));
         assertFalse(mancalaWinType.isWin(mancalaPlayer1States, boardForUserLose,boardForUserLose, true));
         assertTrue(mancalaWinType.isWin(mancalaPlayer2States, boardForUserLose,boardForUserLose, true));

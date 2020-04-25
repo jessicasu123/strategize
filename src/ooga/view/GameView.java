@@ -33,7 +33,7 @@ import java.util.Map;
  * game instructions.
  * Upon clicking the settings icon, a CustomizationView is created.
  * Upon clicking save, a SaveView is created.
- * @author Brian Li, Holly Ansel
+ * @author Brian Li, Holly Ansel, Jessica Su
  */
 
 public class GameView {
