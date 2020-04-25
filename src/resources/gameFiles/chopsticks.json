@@ -87,10 +87,10 @@
   "possibleMove": "",
 
   "Rules": ["First, click on a bottom square (left or right) containing your chopsticks hand.",
-            "Next, click on an opponents square to add your chopstick count to their hand. Press play move",
+            "Next, click on an opponents square to add as many chopsticks as you have to their hand.",
+            "Alternatively, if you have a second live hand, you can click on it to redistribute your chopsticks.",
+            "Press play move",
             "When a hand reaches 5 chopsticks, it dies",
-            "If a hand exceeds 5 chopsticks, sum of sticks minus 5 sticks remain",
-            "If you have no sticks on one hand and >= 2 in the other, you can click your hand to split\n it and revive the empty hand",
             "The player who has two empty hands loses."]
 
 }
