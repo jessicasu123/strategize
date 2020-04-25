@@ -80,6 +80,12 @@ public interface BoardFramework {
      */
     List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates);
 
+    /**
+     * METHOD PURPOSE:
+     * Determines whether the turn should be switched
+     * according to the moves made by the pieces.
+     * @return true if the turn changes, false if it doesn't
+     */
     boolean changeTurns();
 
     /*
