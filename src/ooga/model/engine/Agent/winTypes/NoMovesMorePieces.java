@@ -1,7 +1,5 @@
 package ooga.model.engine.Agent.winTypes;
 
-import ooga.model.engine.Agent.winTypes.WinType;
-
 import ooga.model.engine.Coordinate;
 
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ public class NoMovesMorePieces implements WinType {
         if (checkCurrConfig) {
             numPlayerPieces = myStateCoords.size();
         } else {
-            numPlayerPieces = countStateOccurrences(myStateCoords);
+            numPlayerPieces = countObjectOccurrences(myStateCoords, objectInfo);
         }
         return noMovesLeft && numPlayerPieces > countAllPieces()/2;
     }
@@ -76,10 +74,10 @@ public class NoMovesMorePieces implements WinType {
         return stateCoords;
     }
 
-    private int countStateOccurrences(ArrayList<Coordinate> stateCoords) {
+    private int countObjectOccurrences(ArrayList<Coordinate> stateCoords, List<List<Integer>> objectInfo) {
         int total = 0;
         for (Coordinate pos : stateCoords) {
-            total += myCurrConfig.get(pos.getRow()).get(pos.getCol());
+            total += objectInfo.get(pos.getRow()).get(pos.getCol());
         }
         return total;
     }
