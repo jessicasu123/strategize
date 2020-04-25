@@ -75,6 +75,10 @@ public class GamePiece {
         return possibleMoves;
     }
 
+    /*
+     * @deprecated List<Coordinate> calculateAllPossibleMoves(List<GamePiece> neighbors);
+     */
+
     private boolean checkSelfConditions(List<GamePiece> neighbors, int playerID) {
         for (MoveCheck check : myMoveChecks) {
             if (!check.isConditionMet(myPosition, this, neighbors, playerID, myDirections)) {
@@ -89,7 +93,6 @@ public class GamePiece {
             boolean neighborConditionsMet = false;
             for (MoveCheck check : myNeighborMoveChecks) {
                 boolean isCheckMet = check.isConditionMet(myPosition, neighbor, neighbors, playerID, myDirections);
-                // TODO: for state, should this be taking neighbor state or myState or playerID?
                 neighborConditionsMet = neighborConditionsMet || isCheckMet;
 
             }
@@ -112,6 +115,10 @@ public class GamePiece {
             move.completeMoveType(this, endCoordinateInfo, neighbors, playerState, myMainDirection);
         }
     }
+
+    /*
+     * @deprecated void makeMove(Coordinate endCoordinateInfo, List<GamePiece> neighbors);
+     */
 
     /**
      * @return the state of the piece
@@ -177,4 +184,8 @@ public class GamePiece {
             myDirections.add(newDirection);
         }
     }
+
+    /*
+     * @deprecated int evaluateState( List<GamePiece> neighbors);
+     */
 }

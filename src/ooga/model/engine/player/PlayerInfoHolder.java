@@ -41,7 +41,7 @@ public class PlayerInfoHolder {
      * @return an unmodifiable list of the player states
      */
     public List<Integer> getPlayerStates() {
-        return myPlayerStates;
+        return Collections.unmodifiableList(myPlayerStates);
     }
 
     /**
@@ -56,21 +56,21 @@ public class PlayerInfoHolder {
      * @return an unmodifiable list of the self move checks
      */
     public List<MoveCheck> getMoveChecks() {
-        return myMoveChecks;
+        return Collections.unmodifiableList(myMoveChecks);
     }
 
     /**
      * @return an unmodifiable list of the neighbor move checks
      */
     public List<MoveCheck> getNeighborMoveChecks() {
-        return myNeighborMoveChecks;
+        return Collections.unmodifiableList(myNeighborMoveChecks);
     }
 
     /**
      * @return an unmodifiable list of the move types
      */
     public List<MoveType> getMoveTypes() {
-        return myMoveTypes;
+        return Collections.unmodifiableList(myMoveTypes);
     }
 
     /**

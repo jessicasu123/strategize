@@ -38,6 +38,9 @@ public interface FileHandler {
      */
     void saveToFile(String fileName, List<List<Integer>> configurationInfo, List<List<Integer>> objectConfigInfo);
 
+    @Deprecated
+    //void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
+
     /**
      * METHOD PURPOSE:
      * - gets a list of all the neighborhood types a certain game piece
