@@ -7,12 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.engine.exceptions.InvalidFileFormatException;
-import ooga.model.engine.exceptions.InvalidGameTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameButton;
 import ooga.view.components.GameDropDown;
@@ -22,7 +19,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -70,7 +66,7 @@ public class GameSetupOptions {
         displayToStage();
     }
 
-    public void displayToStage(){
+    protected void displayToStage(){
         Scene startScene = makeSetupDisplay();
         myStage.setScene(startScene);
         myStage.show();
@@ -176,8 +172,6 @@ public class GameSetupOptions {
         return dimensionDropdown.createDropDownContainer(position, options, prompt + gameFileData.getString("Default"), label);
     }
 
-
-
     private Button createStartButton(JSONObject buttonText) {
         Button start = new GameButton().createGameButton(buttonText.getString("Start"));
         start.setOnAction(e -> {
@@ -185,7 +179,7 @@ public class GameSetupOptions {
                 String chosenDimension = getChosenDimension();
                 Controller c = new Controller(gameFileName, userPlayerID, opponent, chosenDimension);
                 new GameView(myStage, c);
-            } catch(InvalidGameTypeException | FileNotFoundException | InvalidFileFormatException ex){
+            } catch(Exception ex){
                 new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
                 new StartView(myStage).displayToStage(WIDTH,HEIGHT);
             }

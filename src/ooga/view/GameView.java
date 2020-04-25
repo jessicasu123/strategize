@@ -7,7 +7,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
+import ooga.model.engine.exceptions.InvalidWinTypeException;
 import ooga.view.components.ErrorAlerts;
 import ooga.view.components.GameScene;
 import org.json.JSONObject;
@@ -30,7 +33,7 @@ import java.util.Map;
  * game instructions.
  * Upon clicking the settings icon, a CustomizationView is created.
  * Upon clicking save, a SaveView is created.
- * @author Brian Li
+ * @author Brian Li, Holly Ansel, Jessica Su
  */
 
 public class GameView {
@@ -191,11 +194,11 @@ public class GameView {
             });
         }
     }
-    private void playAgain() throws IOException, ParseException {
+    private void playAgain() throws InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidNeighborhoodException {
         gameEnd.close();
         restart();
     }
-    private void restart() throws IOException, ParseException {
+    private void restart() throws InvalidWinTypeException, InvalidEvaluationFunctionException, InvalidNeighborhoodException {
         gameInProgress = true;
         didPass = false;
         myController.restartGame();
@@ -258,26 +261,38 @@ public class GameView {
 
     private void makeMove(){
         try {
-            if (didPass) {
-                gameButtonManager.resetButtonText("MAKEMOVE",
-                        gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("MakeMoveText"));
-                didPass = false;
-            }
+            checkIfTurnIsPass();
             if (gameInProgress && myController.userTurn()) {
-                if(myController.userTurn()) {
-                    grid.makeUserMove();
-                    checkGameStatus(false);
-                    if (gameInProgress) {
-                        grid.makeAgentMove();
-                        PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
-                        wait.setOnFinished(e -> checkGameStatus(true));
-                        wait.play();
-                    }
-
-                }
+                completeUserTurn();
             }
         }catch(InvalidMoveException ex){
             new ErrorAlerts(ex.getClass().getCanonicalName(), ex.getMessage());
+        }
+    }
+
+    private void completeUserTurn() {
+        if(myController.userTurn()) {
+            grid.makeUserMove();
+            checkGameStatus(false);
+            if (gameInProgress) {
+                completeAgentTurnAfterUsers();
+            }
+
+        }
+    }
+
+    private void completeAgentTurnAfterUsers() {
+        grid.makeAgentMove();
+        PauseTransition wait = new PauseTransition(Duration.seconds(DELAY));
+        wait.setOnFinished(e -> checkGameStatus(true));
+        wait.play();
+    }
+
+    private void checkIfTurnIsPass() {
+        if (didPass) {
+            gameButtonManager.resetButtonText("MAKEMOVE",
+                    gameScreenData.getJSONObject("Buttons").getJSONObject("MakeMoveButton").getString("MakeMoveText"));
+            didPass = false;
         }
     }
 

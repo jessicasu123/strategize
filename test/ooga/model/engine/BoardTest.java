@@ -1,5 +1,6 @@
 package ooga.model.engine;
 
+import ooga.model.engine.Neighborhood.*;
 import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.InvalidMoveException;
 import ooga.model.engine.pieces.GamePieceFactory;
@@ -38,7 +39,7 @@ public class BoardTest {
 
     //creating tic tac toe board with one player in center
     List<List<Integer>> config = createTestConfig(startingConfig);
-    List<String> neighborhoods = new ArrayList<>();
+    List<Neighborhood> neighborhoods = new ArrayList<>();
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
     List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
@@ -51,11 +52,11 @@ public class BoardTest {
 
     GamePieceCreator gamePieceCreatorTicTacToe = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
-    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods);
+    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods,0);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods);
+    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods,0);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -79,9 +80,12 @@ public class BoardTest {
     GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
 
     List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
-    List<String> othelloNeighborhoods = List.of("horizontal", "vertical", "diagonal");
+    Neighborhood horizontal = new HorizontalNeighborhood(8,8);
+    Neighborhood vertical = new VerticalNeighborhood(8,8);
+    Neighborhood diagonal = new DiagonalNeighborhood(8,8);
+    List<Neighborhood> othelloNeighborhoods = List.of(horizontal, vertical, diagonal);
     List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
-    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods);
+    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods,0);
 
     @Test
     void testOthelloBoard() {
@@ -159,7 +163,6 @@ public class BoardTest {
         List<Integer> player1Direction = new ArrayList<>(List.of(1));
         List<Integer> player2 = new ArrayList<>(List.of(2,4));
         List<Integer> player2Direction = new ArrayList<>(List.of(-1));
-        List<Integer> bothDirections = new ArrayList<>(List.of(-1,1));
         int emptyState = 0;
         ConvertibleNeighborFinder myFinder = new NeighborsBetweenCoordinatesFinder();
         MoveCheck ownPiecePlayer1 = new OwnPieceCheck(player1);
@@ -195,8 +198,9 @@ public class BoardTest {
         row7 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         row8 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
-        List<String> checkersNeighborhoods = List.of("horizontal", "vertical", "diagonal");
-       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods);
+        Neighborhood diagonal = new DiagonalNeighborhood(8,8);
+        List<Neighborhood> checkersNeighborhoods = List.of(diagonal);
+       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods,0);
 
         Coordinate start = new Coordinate(1,2);
         Coordinate end = new Coordinate(2,3);
@@ -242,10 +246,11 @@ public class BoardTest {
         row1 =new ArrayList<>(List.of(1,2,2,2,2,2,2,0));
         row2 =new ArrayList<>(List.of(0,4,4,4,4,4,4,3));
         List<List<Integer>> mancalaConfig = new ArrayList<>(List.of(row1, row2));
-        List<String> mancalaNeighborhoods = List.of("horizontal", "vertical");
+        Neighborhood all = new CompleteNeighborhood(2,8);
+        List<Neighborhood> mancalaNeighborhoods = List.of(all);
         List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
         List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
-        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods);
+        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods,0);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);

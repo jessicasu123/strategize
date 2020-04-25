@@ -25,7 +25,7 @@ public class EvaluationFunctionFactory {
     public EvaluationFunction createEvaluationFunction(String evaluationType, int stateIndex, List<Integer> maxStates,
                                                        List<Integer> minStates, List<List<Integer>> boardWeights,
                                                        int maxDirection, int minDirection, int winValue, boolean checkCurrConfig,
-                                                       List<List<Integer>> initialConfig) {
+                                                       List<List<Integer>> initialConfig) throws InvalidEvaluationFunctionException {
         switch (evaluationType) {
             case "MorePieces":
                 return new MorePieces(stateIndex, maxStates, minStates, initialConfig, checkCurrConfig);

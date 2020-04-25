@@ -14,7 +14,7 @@ import ooga.view.components.GameButton;
  * kinds of buttons (with images, without images) and also
  * returns a mapping of the buttons themselves to the actions they are associated with.
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public class GameButtonManager {
 
@@ -47,7 +47,7 @@ public class GameButtonManager {
      * @param imageName - name of the image to be displayed on button
      * @return
      */
-    public Button createButtonWithImage(String buttonName, String methodName, int width, String imageName) {
+    protected Button createButtonWithImage(String buttonName, String methodName, int width, String imageName) {
         Button buttonWithImage = new GameButton().createGameButtonWithImage(buttonName,width,imageName);
         buttonActionsMap.put(buttonWithImage, methodName);
         return buttonWithImage;
@@ -60,7 +60,7 @@ public class GameButtonManager {
      * @return - Map with keys as the Buttons and values
      * as the string names of the methods (in GameView) that the buttons trigger
      */
-    public Map<Button,String> getButtonActionsMap() {
+    protected Map<Button,String> getButtonActionsMap() {
         return buttonActionsMap;
     }
 
@@ -70,7 +70,7 @@ public class GameButtonManager {
      * so that buttons aren't attached to actions more than once.
      * @param b - button
      */
-    public void hasHandledButton(Button b) {
+    protected void hasHandledButton(Button b) {
         handledButtons.add(b);
     }
 
@@ -79,7 +79,7 @@ public class GameButtonManager {
      * @param b - button
      * @return - true if button doesn't have action handler, false if it does
      */
-    public boolean needsToAddActionToButton(Button b) {
+    protected boolean needsToAddActionToButton(Button b) {
         return ! handledButtons.contains(b);
     }
 
@@ -90,7 +90,7 @@ public class GameButtonManager {
      * @param buttonID - the button whose text needs to be changed
      * @param newText - the new text
      */
-    public void resetButtonText(String buttonID, String newText) {
+    protected void resetButtonText(String buttonID, String newText) {
         Button buttonToResetText = findButton(buttonID);
         buttonToResetText.setText(newText);
     }

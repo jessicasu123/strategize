@@ -5,7 +5,7 @@
     "Player1PromotionIsLastRow", "OnlyChangeOpponent", "EmptyState",
     "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4", "5 x 5", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+    "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4",  "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
   "Gametype": "Tic-Tac-Toe",
 
@@ -72,14 +72,6 @@
     "ObjectConfig": "1,1,1;1,1,1;1,1,1;1,1,1",
     "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
     "WinValue": 4
-  },
-  "5 x 5": {
-    "Height": "5",
-    "Width": "5",
-    "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
-    "ObjectConfig": "1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1",
-    "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
-    "WinValue": 5
   },
 
   "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],

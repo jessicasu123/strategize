@@ -5,6 +5,14 @@ import ooga.model.engine.pieces.newPieces.ConvertableNeighborFinder.ConvertibleN
 
 import java.util.List;
 
+/**
+ * This class is responsible for changing the state of a series of
+ * opponents/neighbors, whether it's to the empty state or to the current player state.
+ * The neighbors are decided by a ConvertibleNeighborFinder object and passed
+ * in as a parameter.
+ *
+ * @author Jessica Su
+ */
 public class ChangeOpponentPiecesMove implements MoveType {
     private ConvertibleNeighborFinder myNeighborhoodConverterFinder;
     private int myEmptyState;

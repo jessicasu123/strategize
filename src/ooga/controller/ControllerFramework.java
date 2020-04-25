@@ -1,6 +1,9 @@
 package ooga.controller;
 
+import ooga.model.engine.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.engine.exceptions.InvalidMoveException;
+import ooga.model.engine.exceptions.InvalidNeighborhoodException;
+import ooga.model.engine.exceptions.InvalidWinTypeException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -20,21 +23,21 @@ public interface ControllerFramework {
      * METHOD PURPOSE:
      *  -creates a new game and board when the "Restart" button is clicked
      */
-    void restartGame() throws IOException, ParseException;
+    void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException;
 
     /**
      * METHOD PURPOSE:
      *  -sends the needed properties and the filename to the file handler to be saved
      * @param fileName - the String the user indicates they want the file to be saved as
      */
-    void saveANewFile(String fileName, Map<String, String> startingProperties) throws IOException, ParseException;
+    void saveANewFile(String fileName, Map<String, String> startingProperties);
 
     /**
      * METHOD PURPOSE:
      *  -sends the needed properties from the file handler to the view/model
      * @return a map of the key,value pairs from the file
      */
-    Map<String, String> getStartingProperties() throws IOException, ParseException;
+    Map<String, String> getStartingProperties();
 
     /**
      * METHOD PURPOSE:

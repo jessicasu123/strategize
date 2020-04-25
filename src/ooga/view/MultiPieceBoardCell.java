@@ -15,7 +15,7 @@ import java.util.List;
  * This is especially relevant for games such as Mancala
  * and Chopsticks.
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public class MultiPieceBoardCell extends BoardCell{
 
@@ -70,7 +70,7 @@ public class MultiPieceBoardCell extends BoardCell{
     /**
      * Allows the user to hover over a multi-piece cell and see
      * how many pieces it holds.
-     * @param message
+     * @param message - the message to present
      */
     @Override
     public void setMessage(int message) {
@@ -91,7 +91,7 @@ public class MultiPieceBoardCell extends BoardCell{
      * @param image - the image to update the cell with.
      */
     @Override
-    public void updateImageOnSquare(Image image) {
+    protected void updateImageOnSquare(Image image) {
         if (positionIndex==totalPiecesPerSquare) positionIndex = 0;
         ImageView pieceImage = new ImageView(image);
         pieceImage.setFitWidth(pieceWidth);
@@ -112,7 +112,7 @@ public class MultiPieceBoardCell extends BoardCell{
      *                 position from the x positions/y positions list.
      */
     @Override
-    public void setImagePositionIndex(int newIndex) {
+    protected void setImagePositionIndex(int newIndex) {
         positionIndex = newIndex;
     }
 
@@ -122,7 +122,7 @@ public class MultiPieceBoardCell extends BoardCell{
      * @param color - the color to set the cell to
      */
     @Override
-    public void updateCellFill(String color) {
+    protected void updateCellFill(String color) {
         myCellPane.setStyle(BACKGROUND_COLOR_STYLING + color);
     }
 
@@ -130,7 +130,7 @@ public class MultiPieceBoardCell extends BoardCell{
      * Clears the contents of the cell.
      */
     @Override
-    public void clearFill(String color) {
+    protected void clearFill(String color) {
         if (myCellPane.getChildren().size()!=0) {
             myCellPane.getChildren().clear();
         }
@@ -143,12 +143,12 @@ public class MultiPieceBoardCell extends BoardCell{
      * @param boardOutline - outline of the cell
      */
     @Override
-    public void setStyle(String boardColor, String boardOutline) {
+    protected void setStyle(String boardColor, String boardOutline) {
         updateCellFill(boardColor);
         myCellPane.setStyle(BORDER_COLOR_STYLING + boardOutline);
     }
 
-    public void createPiecePositions() {
+    protected void createPiecePositions() {
         createSetPositions();
     }
 

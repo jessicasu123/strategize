@@ -27,7 +27,7 @@ import java.util.List;
  * clicks on the "SET PREFERENCES" button and reflected
  * in the view.
  *
- * @author: Jessica Su
+ * @author Jessica Su
  */
 public class CustomizationPopUp extends GamePopUp{
 
@@ -90,20 +90,20 @@ public class CustomizationPopUp extends GamePopUp{
      * Tells the view in which this pop-up is created what the user's piece choice was.
      * @return - the image that the user has chosen to represent his/her piece
      */
-    public List<String> getUserImageChoice() {
+    protected List<String> getUserImageChoice() {
         return List.of(userImage.split(",")); }
 
     /**
      * Tells the view in which this pop-up is created what the opponent's piece should be.
      * @return - the image the user selected for the opponent's piece
      */
-    public List<String> getOpponentImageChoice() { return List.of(opponentImage.split(",")); }
+    protected List<String> getOpponentImageChoice() { return List.of(opponentImage.split(",")); }
 
     /**
      * Tells the view in which this pop-up is created what the board color should be.
      * @return - the desired board color
      */
-    public String getBoardColorChoice() {
+    protected String getBoardColorChoice() {
         if (colorChoice.getValue()==null) {
             if (userModeChoice.equals(DARK_MODE)) {
                 return DARK_MODE_BOARD_FILL;
@@ -119,14 +119,14 @@ public class CustomizationPopUp extends GamePopUp{
      * dark mode or light mode.
      * @return - the desired mode setting (dark or light)
      */
-    public boolean isLightMode() {return userModeChoice.equals(LIGHT_MODE);}
+    protected boolean isLightMode() {return userModeChoice.equals(LIGHT_MODE);}
 
     /**
      * Tells the view in which this pop-up is created what the board outline color
      * should be. Relevant for switching to dark or light mode.
      * @return - the board outline color depending on the mode
      */
-    public String getBoardOutlineColor() {
+    protected String getBoardOutlineColor() {
         if (userModeChoice.equals(LIGHT_MODE)) return LIGHT_MODE_BOARD_OUTLINE;
         else return DARK_MODE_BOARD_OUTLINE;
     }

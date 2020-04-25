@@ -8,6 +8,8 @@ import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.Agent.evaluationFunctions.EvaluationFunctionFactory;
 import ooga.model.engine.Agent.winTypes.WinType;
 import ooga.model.engine.Agent.winTypes.WinTypeFactory;
+import ooga.model.engine.Neighborhood.Neighborhood;
+import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.*;
 import ooga.model.engine.pieces.GamePieceFactory;
@@ -41,7 +43,7 @@ public class Controller implements ControllerFramework {
     private GamePieceCreator myGamePieceCreator;
     private int emptyState;
 
-    public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidGameTypeException, InvalidFileFormatException {
+    public Controller(String fileName, String userID, String opponent, String dimensions) throws InvalidFileFormatException, InvalidNeighborhoodException, InvalidMoveCheckException, InvalidEvaluationFunctionException, InvalidWinTypeException, InvalidConvertibleNeighborFinderException {
         gameFileName = fileName;
         myFileHandler = new JSONFileReader(gameFileName, dimensions);
         myFileHandler.parseFile();
@@ -53,13 +55,21 @@ public class Controller implements ControllerFramework {
         List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
         Agent gameAgent = createAgent(startingConfiguration);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-
+        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfiguration.size(), startingConfiguration.get(0).size());
         makeGamePieceCreator();
-        myGame = new Game(myGamePieceCreator, startingConfiguration, objectConfig, myFileHandler.getNeighborhood(), myUserPlayerInfoHolder,
-                myAgentPlayerInfoHolder, gameAgent);
+        myGame = new Game(myGamePieceCreator, startingConfiguration, objectConfig, allNeighborhoods, myUserPlayerInfoHolder,
+                myAgentPlayerInfoHolder, gameAgent, emptyState);
     }
 
-    private void createUserAndAgentPlayers() {
+    private List<Neighborhood> createNeighborhoods(int numRows, int numCols) throws InvalidNeighborhoodException {
+        List<Neighborhood> neighborhoods = new ArrayList<>();
+        NeighborhoodFactory neighborFactory = new NeighborhoodFactory();
+        for(String neighborhood: myFileHandler.getNeighborhood()){
+            neighborhoods.add(neighborFactory.createNeighborhood(neighborhood,numRows, numCols));
+        }
+        return neighborhoods;
+    }
+    private void createUserAndAgentPlayers() throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException {
         if(userIsPlayer1){
             myUserPlayerInfoHolder = makePlayer(1);
             myAgentPlayerInfoHolder = makePlayer(2);
@@ -72,11 +82,11 @@ public class Controller implements ControllerFramework {
         addPlayerStateImageInfoToMap(2);
     }
 
-    private void makeGamePieceCreator() {
+    private void makeGamePieceCreator(){
         myGamePieceCreator = new GamePieceCreator(myUserPlayerInfoHolder, myAgentPlayerInfoHolder);
     }
 
-    private PlayerInfoHolder makePlayer(int player) {
+    private PlayerInfoHolder makePlayer(int player) throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException {
         List<Integer> playerStates = myFileHandler.getPlayerStateInfo(player);
         int immovableState = myFileHandler.getImmovableStateForPlayer(player);
         List<MoveCheck> selfMoveChecks = createSelfMoveCheckForPlayer(playerStates, immovableState);
@@ -88,12 +98,12 @@ public class Controller implements ControllerFramework {
                 neighborMoveChecks, moveTypes,isPlayer1);
     }
 
-    private ConvertibleNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore){
+    private ConvertibleNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore) throws InvalidConvertibleNeighborFinderException{
         String finderType = myFileHandler.getConverterType();
         return new ConvertibleNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
-    private List<MoveType> createMoveTypesForPlayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException {
+    private List<MoveType> createMoveTypesForPlayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException, InvalidConvertibleNeighborFinderException {
         List<MoveType> moveTypes = new ArrayList<>();
         List<String> moveTypeNames = myFileHandler.getMoveTypes();
         boolean convertToEmptyState = myFileHandler.convertToEmptyState();
@@ -112,7 +122,7 @@ public class Controller implements ControllerFramework {
         return moveTypes;
     }
 
-    private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates, int immovableState) {
+    private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
         return createMoveCheck(selfMoveCheck, playerStates, immovableState);
     }
@@ -128,12 +138,12 @@ public class Controller implements ControllerFramework {
         return moveChecks;
     }
 
-    private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates, int immovableState) {
+    private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> neighborMoveChecks = myFileHandler.getNeighborMoveChecks();
         return createMoveCheck(neighborMoveChecks, playerStates, immovableState);
     }
 
-    private Agent createAgent(List<List<Integer>> startingConfig){
+    private Agent createAgent(List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException, InvalidWinTypeException {
         int winValue = myFileHandler.getWinValue();
         WinType winType = createWinType(winValue, startingConfig);
         List<EvaluationFunction> allEvals = createEvaluationFunctions(winValue, startingConfig);
@@ -143,7 +153,7 @@ public class Controller implements ControllerFramework {
 
     }
 
-    private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) {
+    private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException{
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         int userDirection = myUserPlayerInfoHolder.getDirections().get(0);
         int agentDirection = myAgentPlayerInfoHolder.getDirections().get(0);
@@ -163,7 +173,7 @@ public class Controller implements ControllerFramework {
         return allEvals;
     }
 
-    private WinType createWinType(int winValue, List<List<Integer>> startingConfig){
+    private WinType createWinType(int winValue, List<List<Integer>> startingConfig) throws InvalidWinTypeException{
         String winTypeStr = myFileHandler.getWinType();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
@@ -195,14 +205,16 @@ public class Controller implements ControllerFramework {
         return Collections.unmodifiableList(myAgentPlayerInfoHolder.getPlayerStates());
     }
 
-    public void restartGame() throws IOException, ParseException {
+    public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
 //        squareSelected(-1,-1);
 //        squareSelected(-1, -1);
         List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-        myGame = new Game(myGamePieceCreator, myFileHandler.loadFileConfiguration(), objectConfig, myFileHandler.getNeighborhood(),
-                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()));
+        List<List<Integer>> startConfig = myFileHandler.loadFileConfiguration();
+        List<Neighborhood> allNeighborhoods = createNeighborhoods(startConfig.size(), startConfig.get(0).size());
+        myGame = new Game(myGamePieceCreator, startConfig, objectConfig, allNeighborhoods,
+                myUserPlayerInfoHolder, myAgentPlayerInfoHolder, createAgent(myFileHandler.loadFileConfiguration()), emptyState);
     }
 
     public String playerPass() {return myGame.whichPlayerPassed();}

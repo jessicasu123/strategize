@@ -2,12 +2,12 @@
 
   "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
-    "Player1PromotionIsLastRow","EmptyState",
-    "PiecesMove",  "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
+    "Player1PromotionIsLastRow", "OnlyChangeOpponent", "EmptyState",
+    "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
-    "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+    "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4", "5 x 5", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
 
-  "Gametype": "Tic-Tac-Toe",
+  "Gametype": ["Tic-Tac-Toe", "checkers"],
 
   "Neighborhood": "",
 
@@ -17,15 +17,17 @@
 
   "SelfMoveChecks": ["EmptyStateCheck"],
 
-  "SelfNumObjectsToCompare": 0,
+  "SelfNumObjectsToCompare": " ",
 
   "NeighborMoveChecks": [],
 
-  "NeighborNumObjectsToCompare": 0,
+  "NeighborNumObjectsToCompare": false,
 
   "ConvertToEmptyState": true,
 
   "Player1PromotionIsLastRow": false,
+
+  "OnlyChangeOpponent": false,
 
   "MoveTypes": ["ChangeToNewStateMove"],
 
@@ -49,7 +51,7 @@
 
   "SquareClickType": "empty",
 
-  "DimensionOptions": [ "3 x 3", "4 x 4"],
+  "DimensionOptions": [ "3 x 3", "4 x 4", "5 x 5" ],
 
   "BoardKeys": ["Height", "Width", "InitialConfig", "ObjectConfig", "WinValue", "BoardWeights"],
 
@@ -58,7 +60,7 @@
   "3 x 3": {
     "Height": "3",
     "Width": "3",
-    "InitialConfig": "0,0,0;0,0,0",
+    "InitialConfig": "0,0,0;0,0,0;0,0,0",
     "ObjectConfig": "1,1,1;1,1,1;1,1,1",
     "BoardWeights": "0,0,0;0,0,0;0,0,0",
     "WinValue": 3
@@ -66,12 +68,19 @@
   "4 x 4": {
     "Height": "4",
     "Width": "4",
-    "InitialConfig": "0,0,0;0,0,0;0,0,0;0,0,0",
+    "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
     "ObjectConfig": "1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1",
     "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
     "WinValue": 4
   },
-
+  "5 x 5": {
+    "Height": "5",
+    "Width": "5",
+    "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+    "ObjectConfig": "1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1",
+    "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+    "WinValue": 5
+  },
 
   "PlayerKeys": ["States", "Images", "Colors", "StatesToIgnore","ImmovableState", "Direction"],
 
@@ -79,7 +88,7 @@
     "States": [1],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [0],
+    "Direction": [],
     "Images": ["X.png"],
     "Colors": ["white"]
   },
@@ -88,7 +97,7 @@
     "States": [2],
     "StatesToIgnore": [],
     "ImmovableState": -1,
-    "Direction": [0],
+    "Direction": [],
     "Images": ["O.png"],
     "Colors": ["white"]
   },

@@ -1,14 +1,10 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Neighborhood.Neighborhood;
-import ooga.model.engine.Neighborhood.NeighborhoodFactory;
 import ooga.model.engine.exceptions.InvalidMoveException;
-import ooga.model.engine.exceptions.InvalidNeighborhoodException;
 import ooga.model.engine.pieces.newPieces.GamePiece;
 import ooga.model.engine.pieces.newPieces.GamePieceCreator;
-
 import java.util.*;
-
 
 /**
  * This class is responsible for managing the GamePieces, which includes
@@ -18,7 +14,7 @@ import java.util.*;
  * as well as what the current states/number of objects/number of possible moves
  * that the view may need.
  *
- * @author: Jessica Su
+ * @author Jessica Su, Holly Ansel
  */
 public class Board implements BoardFramework{
     private List<List<GamePiece>> myGamePieces;
@@ -27,9 +23,9 @@ public class Board implements BoardFramework{
     private GamePieceCreator myGamePieceFactory;
     private int numRows;
     private int numCols;
+    private int myEmptyState;
     private boolean doesTurnChange;
-    private List<String> myNeighborhoods;
-    private NeighborhoodFactory neighborFactory;
+    private List<Neighborhood> myNeighborhoods;
 
     /**
      * Constructor to create a Board object.
@@ -37,13 +33,13 @@ public class Board implements BoardFramework{
      * @param startingConfiguration - the starting configuration read from the JSON file
      */
     public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                 List<List<Integer>> objectConfiguration, List<String> neighborhoods) {
+                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, int emptyState) {
         myGamePieces = new ArrayList<>();
+        myEmptyState = emptyState;
         myStartingConfiguration = startingConfiguration;
         myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
         myObjectConfiguration = objectConfiguration;
-        neighborFactory = new NeighborhoodFactory();
         createBoardFromStartingConfig();
     }
 
@@ -92,7 +88,7 @@ public class Board implements BoardFramework{
         int pieceRow = currPiece.getPosition().getRow();
         int pieceCol = currPiece.getPosition().getCol();
         List<Coordinate> coordinates = getNeighborCoordinates(pieceRow,pieceCol);
-        List<GamePiece> allNeighbors = new ArrayList<GamePiece>();
+        List<GamePiece> allNeighbors = new ArrayList<>();
         for (Coordinate coord: coordinates) {
             int row = coord.getRow();
             int col = coord.getCol();
@@ -103,14 +99,9 @@ public class Board implements BoardFramework{
 
     private List<Coordinate> getNeighborCoordinates(int pieceRow, int pieceCol) {
         List<Coordinate> allCoords = new ArrayList<>();
-        for (String neighbor: myNeighborhoods) {
-            try {
-                Neighborhood neighborhood = neighborFactory.createNeighborhood(neighbor, numRows, numCols);
-                List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
-                allCoords.addAll(neighbors);
-            } catch (InvalidNeighborhoodException e) {
-                System.out.println(e.getMessage());
-            }
+        for (Neighborhood neighborhood: myNeighborhoods) {
+            List<Coordinate> neighbors = neighborhood.getNeighbors(pieceRow,pieceCol);
+            allCoords.addAll(neighbors);
         }
         return allCoords;
     }
@@ -129,8 +120,7 @@ public class Board implements BoardFramework{
         Map<Coordinate, List<Coordinate>> allLegalMoves = new TreeMap<>();
         for (List<GamePiece> row: myGamePieces) {
             for(GamePiece currPiece: row){
-                //TODO: later change to use data value for empty state
-                if (playerStates.contains(currPiece.getState()) || currPiece.getState() == 0) {
+                if (playerStates.contains(currPiece.getState()) || currPiece.getState() == myEmptyState) {
                     Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece), playerStates.get(0));
                     if (moves.size() > 0) {
@@ -208,12 +198,12 @@ public class Board implements BoardFramework{
         List<List<Integer>> visualInfo = new ArrayList<>();
         for (List<GamePiece> row: myGamePieces) {
             List<Integer> rowObjects = new ArrayList<>();
-            for (int col = 0; col < row.size(); col++) {
+            for (GamePiece gamePiece : row) {
                 int curr;
                 if (visualInfoType.equals("state")) {
-                    curr = row.get(col).getState();
+                    curr = gamePiece.getState();
                 } else {
-                    curr = row.get(col).getNumObjects();
+                    curr = gamePiece.getNumObjects();
                 }
                 rowObjects.add(curr);
             }
@@ -250,9 +240,7 @@ public class Board implements BoardFramework{
     private List<Coordinate> getPossibleMovesAsList(List<Integer> playerStates) {
         List<Coordinate> possibleMoves = new ArrayList<>();
         for (List<Coordinate> moves: getAllLegalMoves(playerStates).values()) {
-            for (Coordinate c: moves) {
-                possibleMoves.add(c);
-            }
+            possibleMoves.addAll(moves);
         }
         return possibleMoves;
     }
@@ -266,6 +254,6 @@ public class Board implements BoardFramework{
     @Override
     public BoardFramework copyBoard() {
         return new Board(myGamePieceFactory, new ArrayList<>(this.getStateInfo()),new ArrayList<>(this.getObjectInfo()),
-                new ArrayList<>(this.myNeighborhoods));
+                new ArrayList<>(this.myNeighborhoods), myEmptyState);
     }
 }

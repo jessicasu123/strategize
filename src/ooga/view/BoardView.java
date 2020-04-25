@@ -21,7 +21,7 @@ import java.util.Map;
  * player and opponent moves, as well as updating the visual
  * appearance of the board after a move.
  *
- * @author: Brian Li, Holly Ansel, Jessica Su
+ * @author Brian Li, Holly Ansel, Jessica Su
  */
 public class BoardView {
     public static final String PIECES_RESOURCES = "resources/images/pieces/";
@@ -56,7 +56,6 @@ public class BoardView {
     private boolean hasSelectedSquare;
     private Map<Integer, List<Image>> myStateToImageMapping;
     private Map<Integer, String> mySpecialStateToColorMapping;
-    private Map<Integer, String> stateToFileMapping;
     private List<Integer> myUser;
     private List<Integer> myAgent;
     private String boardOutlineColor;
@@ -83,7 +82,7 @@ public class BoardView {
 
     }
     private void initializeStateImageMapping(){
-        stateToFileMapping = myController.getStateImageMapping();
+        Map<Integer, String> stateToFileMapping = myController.getStateImageMapping();
         for(Map.Entry<Integer, String> entry: stateToFileMapping.entrySet()){
             List<String> images = List.of(entry.getValue().split(","));
             myStateToImageMapping.put(entry.getKey(), convertStringToImages(images));
@@ -111,7 +110,7 @@ public class BoardView {
      * @return - the container holding the grid where
      * the game will be played
      */
-    public VBox getGridContainer() {
+    protected VBox getGridContainer() {
         return myBoard;
     }
 
@@ -235,10 +234,10 @@ public class BoardView {
             currImage = myStateToImageMapping.get(currGameState).get(STATE_ID_POS);
             if (multiplePiecesPerSquare) possiblePieceImages = myStateToImageMapping.get(currGameState);
         }
-        if (mySpecialStateToColorMapping.keySet().contains(currGameState)) {
+
+        if (mySpecialStateToColorMapping.containsKey(currGameState)) {
             currSquare.updateCellFill(mySpecialStateToColorMapping.get(currGameState));
         }
-
         updateAllPiecesOnCell(currSquare, numPieces, currImage,
                 currGameState, possiblePieceImages, r, c);
     }
@@ -338,6 +337,7 @@ public class BoardView {
         currSquare.getShape().setOnMouseClicked(userClick);
         currSquare.getShape().removeEventHandler(MouseEvent.MOUSE_CLICKED, userClick);
     }
+
 
     private void handlePieceSelected(int r, int c, Image img, boolean possibleMove) {
         if(piecesMove || squareClickType.contains(AGENT_CLICK_TYPE)){

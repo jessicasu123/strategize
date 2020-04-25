@@ -1,6 +1,7 @@
 package ooga.model.engine;
 
 import ooga.model.engine.Agent.Agent;
+import ooga.model.engine.Neighborhood.Neighborhood;
 import ooga.model.engine.Player.AgentPlayer;
 import ooga.model.engine.Player.PlayerInfoHolder;
 import ooga.model.engine.exceptions.InvalidMoveException;
@@ -36,11 +37,10 @@ public class Game implements GameFramework{
     private boolean noMovesForUser;
     private boolean noMovesForAgent;
 
-    //TODO: decide if we want to pass in UserPlayer and AgentPlayer instead
     public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                List<List<Integer>> objectConfiguration, List<String> neighborhoods, PlayerInfoHolder userPlayerInfo,
-                PlayerInfoHolder agentPlayerInfo, Agent agent) {
-        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods);
+                List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
+                PlayerInfoHolder agentPlayerInfo, Agent agent, int emptyState) {
+        myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods, emptyState);
         myUserStates = userPlayerInfo.getPlayerStates();
         myAgentStates = agentPlayerInfo.getPlayerStates();
         isUserTurn = userPlayerInfo.isPlayer1();
@@ -98,8 +98,6 @@ public class Game implements GameFramework{
     private void makeUserMove(List<Integer> moveCoordinates) throws InvalidMoveException {
         Coordinate startCoord = new Coordinate(moveCoordinates.get(0), moveCoordinates.get(1));
         Coordinate endCoord = new Coordinate(moveCoordinates.get(2), moveCoordinates.get(3));
-        System.out.println("start" + startCoord);
-        System.out.println("end" + endCoord);
         myBoard.makeMove(myUserStates.get(ID_STATE_POS), startCoord, endCoord);
     }
 
