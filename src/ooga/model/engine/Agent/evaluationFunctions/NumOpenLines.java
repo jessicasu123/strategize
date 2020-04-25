@@ -6,6 +6,12 @@ import ooga.model.engine.Neighborhood.VerticalNeighborhood;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class allows the agent
+ * to determine the max difference between lines
+ * in order for it to place a piece
+ * @author Brian Li
+ */
 public class NumOpenLines implements EvaluationFunction {
     private int myInARow;
     private final int myStateEvalFor;
@@ -13,12 +19,25 @@ public class NumOpenLines implements EvaluationFunction {
     private DiagonalNeighborhood calculateDiagonals;
     private VerticalNeighborhood calculateColumns;
 
+    /**
+     * Constructor for NumOpenLines
+     * @param stateIndex - the index of the state
+     * @param maxStates - List of the player states
+     * @param minStates - List of the opponent states
+     * @param inaRow - target number of pieces in a row
+     */
     public NumOpenLines(int stateIndex, List<Integer> maxStates, List<Integer> minStates, int inaRow){
         myStateEvalFor = maxStates.get(stateIndex);
         myOpponentStateEvalFor = minStates.get(stateIndex);
         myInARow = inaRow;
     }
 
+    /**
+     * @param boardStateInfo - the current state configuration of the board
+     * @param objectInfo
+     * @param noMovesLeft - boolean that represents if there are moves left
+     * @return integer representing the number of open lines
+     */
     @Override
     public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
         int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
@@ -27,6 +46,10 @@ public class NumOpenLines implements EvaluationFunction {
         return rowEvaluation + colEvaluation + diagEvaluation;
     }
 
+    /**
+     * @param neighborhood - nested list of neighbors
+     * @return - calculates the max open - min open
+     */
     private int evaluateMaxOpenMinusMinOpen(List<List<Integer>> neighborhood){
         int numOpenMax = 0;
         int numOpenMin = 0;
@@ -41,6 +64,11 @@ public class NumOpenLines implements EvaluationFunction {
         return numOpenMax - numOpenMin;
     }
 
+    /**
+     * @param check - list of states to check
+     * @param playerOpenFor open player
+     * @return - whether or not the neighborhood is open
+     */
     private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
         for(int state: check){
