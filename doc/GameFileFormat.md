@@ -5,32 +5,39 @@
 - Permissible values for certain keys are included in the appendix below
 - For keys that are not used by all games, default values are included
 
-## Format
+## Template
 {
 
-  > these keys must be included for the file to be read in with no errors. If any values are added, these keys must be updated 
-
-  "Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
+"Keys": ["Gametype", "Neighborhood", "WinType", "EvaluationFunctions", "SelfMoveChecks", "SelfNumObjectsToCompare",
     "NeighborMoveChecks", "NeighborNumObjectsToCompare", "MoveTypes", "NeighborConverterType","SpecialPieceIndex",
     "Player1PromotionIsLastRow", "OnlyChangeOpponent", "EmptyState",
     "PiecesMove", "Player1PosDirection", "CheckCurrConfig", "MultiplePiecesPerSquare", "ConvertToEmptyState",
     "NumVisualRowsPerSquare","MaxNumObjectsPerSquare","SquareClickOptions","SquareClickType",
     "DimensionOptions", "BoardKeys", "Default","3 x 3", "4 x 4", "5 x 5", "PlayerKeys","Player1", "Player2", "possibleMove", "Rules"],
+  
+   > these keys must be included for the file to be read in with no errors. If any values are added, these keys must be updated 
 
   "Gametype": "",
-   > Specify name of the game; String
+   
+   > * Specify name of the game
+   > * String
   
   "Neighborhood": "",
-   > Specify neighborhood type from appendix; String
-
+   
+   > * Specify neighborhood type from appendix
+   > * String
+  
   "WinType": "", 
-   > Specify WinType to be used by the agent from appendix; String
+   > * Specify WinType to be used by the agent from appendix
+   > * String
 
   "EvaluationFunctions": [], 
-  > Specify evaluation functions to be used by the agent from appendix, separated by commas; String Array
+  > * Specify evaluation functions to be used by the agent from appendix, separated by commas
+  > * String Array
 
   "SelfMoveChecks": [],
-  > Specify MoveChecks to be carried out on a piece itself from appendix, separated by commas; String Array
+  > * Specify MoveChecks to be carried out on a piece itself from appendix, separated by commas
+  > * String Array
 
   "SelfNumObjectsToCompare": 0,
   > Default 0; relevant for games whose pieces have objects and use NumObjectsCheck; specifies the min bound for number of objects of that piece to be compared; int
@@ -58,7 +65,8 @@
   > Specify ConvertibleNeighborFinder from the appendix below based on neighbors the game's piece can impact; String
 
   "SpecialPieceIndex": 0,
-  > Default 0; relevant for games that have special pieces (Eg: Checkers has kings at index 1 of their PlayerStates ArrayList); int
+  > * Default 0
+  > * Relevant for games that have special pieces (Eg: Checkers has kings at index 1 of their PlayerStates ArrayList); int
 
   "EmptyState": 0,
   > Empty state for that game's pieces; int
@@ -67,11 +75,13 @@
   > Indicates whether game pieces move or are stationary; boolean
 
   "CheckCurrConfig": true,
-  > Default: true; relevant for games that use MorePieces evaluation function or NoMovesMorePieces WinType to indicate
->whether the current piece configuration is to be checked (true) or the object configuration (false); boolean
+  > * Default: true
+  > * Relevant for games that use MorePieces evaluation function or NoMovesMorePieces WinType to indicate
+  > whether the current piece configuration is to be checked (true) or the object configuration (false); boolean
 
   "MultiplePiecesPerSquare": false,
-  > Default: false; relevant for games whose pieces have objects; boolean
+  > * Default: false
+  > * Relevant for games whose pieces have objects; boolean
 
   "NumVisualRowsPerSquare": 1,
   > Default: 1; relevant for games like Mancala where multiple rows may be represented on one board coordinate; int
@@ -103,20 +113,34 @@
     "WinValue": 3,
     "BoardWeights": "0,0,0;0,0,0;0,0,0"
   },
+
   "4 x 4": {
+
     "Height": "4",
+
     "Width": "4",
+
     "InitialConfig": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0",
+
     "ObjectConfig": "1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1",
+
     "WinValue": 4,
+
     "BoardWeights": "0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0"
   },
+
   "5 x 5": {
+
     "Height": "5",
+
     "Width": "5",
+
     "InitialConfig": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0",
+
     "ObjectConfig": "1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;1,1,1,1,1",
+
     "WinValue": 5,
+
     "BoardWeights": "0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0;0,0,0,0,0"
   },
   > JSON objects indicating values associated with the board configuration. Must match board dimensions indicated in array above.
@@ -131,20 +155,32 @@
   > Keys for player objects to be read in next; used internally by the file handler
 
   "Player1": {
+  
     "States": [1],
+  
     "StatesToIgnore": [],
+  
     "ImmovableState": -1,
+  
     "Direction": [0],
+  
     "Images": ["X.png"],
+  
     "Colors": ["white"]
   },
 
   "Player2": {
+
     "States": [2],
+
     "StatesToIgnore": [],
+
     "ImmovableState": -1,
+
     "Direction": [0],
+
     "Images": ["O.png"],
+
     "Colors": ["white"]
   },
   > JSON objects to indicate important player values; format as above
@@ -177,20 +213,24 @@
         - NumOpenLines
         - PositionWeights
         - SumOfDistances
+    
     - WinTypes:
         - ConsecutivePieces
         - NoMovesMorePieces
         - NoPiecesForOpponent
+    
     - Neighborhoods:
         - CompleteNeighborhood
         - DiagonalNeighborhood
         - HorizontalNeighborhood
         - VerticalNeighborhood
+    
     - ConvertibleNeighborFinders:
         - FlippableNeighborFinder
         - NeighborAtEndCoordinateFinder
         - NeighborsBetweenCoordinatesFinder
         - NeighborsUntilNoObjectsFinder
+    
     - MoveChecks:
         - AllFlippableDirectionsCheck
         - BelowCheck
@@ -202,6 +242,7 @@
         - OpponentPieceCheck
         - OwnPieceCheck
         - StepCheck    
+        
     - MoveTypes
         - ChangeNeighborObjectsMove
         - ChangeOpponentPiecesMove
