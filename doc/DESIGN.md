@@ -117,7 +117,7 @@
                 * To customize evaluations, new MoveTypes, evaluation functions, convertible neighbor finders, MoveChecks, etc. can be created.
         * Alternatively, to permanently add the game to the selections available in the main menu:
             * Update the GameCenterView.json to include the title, game icon, description and default data file of the new game description and image
-            * Add a new default json file for the game following the format of the existing games, as indicated in the attached doc GameFileFormat
+            * Add a new default json file for the game following the format of the existing games, as indicated in the attached doc GamefileTemplate.md
             * If new images are required for game components such as pieces, they must be added to the /resources/images folder
         * If you wanted to add a game that has some sort of functionality that is not already supported the program can easily be extended to accommodate new functionality. For whatever you are implementing, for example a move type, you just need to create a class that implements the interface for whatever it is and then add it to the factory for that interface (ex: MoveTypeFactory). Then you will be able to list it in your data file.
 
