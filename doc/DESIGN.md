@@ -104,6 +104,9 @@
     * The game will always be for two players. 
     * All pieces in a particular game share basic functionality (i.e. our game does not support games like chess, where there are 6 types of pieces with varying functionality but does support games like checkers and mancala where there are 2 different types of pieces with similar functionality).
     * Users can only play against a computer AI player and not against another human player.
+    * The game space is a board and the board does not move
+    * Players take turns to play, i.e., they never make moves simultaneously
+
 
 * describe, in detail, how to add new features to your project, especially ones you were not able to complete by the deadline
     * Customizing games:
