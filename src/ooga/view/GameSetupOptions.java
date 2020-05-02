@@ -47,6 +47,8 @@ public class GameSetupOptions {
     /**
      * Creates the GameSetupOptions object based on JSON instructions
      * Uses game file instructions to set up options for players and board dimensions
+     * Allows the user to choose which player to play as and select from a dropdown
+     * of board dimensions if they do not wish to use the default dimensions
      * @param displayStage - the stage that the screen will be displayed on
      * @param fileName - the game file for the game the user has chosen
      * @throws FileNotFoundException - if the JSON file can't be found
@@ -90,7 +92,9 @@ public class GameSetupOptions {
         return gameOptions;
     }
 
-
+    /**
+     * Creates an HBox containing radiobuttons to select player 1 or player 2, defaults to player 1
+     */
     private HBox createPlayerOptions(JSONObject labelText) {
         HBox playerOptions = new HBox(SPACING);
         Text selectionPrompt = new Text(labelText.getString("SelectPlayer"));
@@ -129,6 +133,10 @@ public class GameSetupOptions {
         return playerButton;
     }
 
+    /**
+     * Creates an HBox to display board dimension options specified by the game file
+     * Defaults to the default option listed in the data file
+     */
     private HBox createBoardOptions(Pos position, JSONObject labelText) {
         JSONArray boardArray = gameFileData.getJSONArray("DimensionOptions");
         String prompt = labelText.getString("BoardDropdown");
@@ -141,6 +149,11 @@ public class GameSetupOptions {
         return dimensionDropdown.createDropDownContainer(position, options, prompt + gameFileData.getString("Default"), label);
     }
 
+    /**
+     * Creates a start button that, on click, gathers selections
+     * from the player and board options and creates a Controller.
+     * The Controller is then passed in to a new GameView
+     */
     private Button createStartButton(JSONObject buttonText) {
         Button start = new GameButton().createGameButton(buttonText.getString("Start"));
         start.setOnAction(e -> {
@@ -156,6 +169,9 @@ public class GameSetupOptions {
         return start;
     }
 
+    /**
+     * Creates a button that allows the user to return to the main menu
+     */
     private Button createMenuButton(JSONObject buttonText) {
         Button backToMenu = new GameButton().createGameButton(buttonText.getString("Menu"));
         backToMenu.setOnAction(event -> {

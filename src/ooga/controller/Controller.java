@@ -23,11 +23,11 @@ import ooga.model.engine.pieces.MoveTypeFactory;
 import java.util.*;
 
 /**
- * This class is the controller that facilitates communication between the
- * data files, the model and the view. It uses data extracted by the
- * JSON file handler to pass initializing information to the various
- * game components and is queried about game status changes by the board.
- *
+ * This class is the controller that facilitates communication between the data files, the model and the view.
+ *  - It uses data extracted by the JSON file handler to pass initializing information to the various game
+ *      components and is queried about game status changes by the board.
+ *  - It is also responsible for creating some of the key game components such as the agent and the game.
+ *  - It handles the players' turn logic.
  * @author Sanya Kochhar
  */
 
@@ -49,7 +49,7 @@ public class Controller implements ControllerFramework {
     private int emptyState;
 
     /**
-     * Contructor to create a Controller object
+     * Constructor to create a Controller object
      * @param fileName of the game selected by the user
      * @param userID of the player selected by the user
      * @param dimensions of the board chosen by the user
@@ -78,6 +78,7 @@ public class Controller implements ControllerFramework {
                 myAgentPlayerInfoHolder, gameAgent, emptyState);
     }
 
+    /** Creates the neighborhoods for the pieces to act on as dictated by the game file */
     private List<Neighborhood> createNeighborhoods(int numRows, int numCols) throws InvalidNeighborhoodException {
         List<Neighborhood> neighborhoods = new ArrayList<>();
         NeighborhoodFactory neighborFactory = new NeighborhoodFactory();
@@ -87,9 +88,7 @@ public class Controller implements ControllerFramework {
         return neighborhoods;
     }
 
-    /**
-     * Based on user selection, assigns the user and agent players to player 1 or 2
-     */
+    /** Based on user selection, assigns the user and agent players to player 1 or 2 and creates their information holders */
     private void createUserAndAgentPlayers() throws InvalidMoveCheckException, InvalidConvertibleNeighborFinderException, InvalidMoveTypeException {
         if(userIsPlayer1){
             myUserPlayerInfoHolder = makePlayer(1);
@@ -119,19 +118,16 @@ public class Controller implements ControllerFramework {
                 neighborMoveChecks, moveTypes,isPlayer1);
     }
 
-    /**
-     * Creates a ConvertibleNeighborFinder based on specification from the data file
-     */
+    /** Creates a ConvertibleNeighborFinder based on specification from the data file */
     private ConvertibleNeighborFinder createConvertibleNeighborFinderForPlayer(List<Integer> stateToIgnore) throws InvalidConvertibleNeighborFinderException{
         String finderType = myFileHandler.getConverterType();
         return new ConvertibleNeighborFinderFactory().createNeighborhoodConverterFinder(finderType, stateToIgnore);
     }
 
     /**
-     * Creates various MoveTypes specified in the game data file based on player selected
      * @param player for whom MoveTypes are being created
      * @param playerStates used by specific MoveTypes to consider a player's alternate states
-     * @return a list of MoveTypes
+     * @return a list of MoveTypes as specified by the game data file
      */
     private List<MoveType> createMoveTypesForPlayer(int player, List<Integer> playerStates) throws InvalidMoveTypeException, InvalidConvertibleNeighborFinderException {
         List<MoveType> moveTypes = new ArrayList<>();
@@ -152,9 +148,7 @@ public class Controller implements ControllerFramework {
         return moveTypes;
     }
 
-    /**
-     * Call to creates MoveChecks the piece must perform on itself to calculate potential valid moves
-     */
+    /** Calls createMoveCheck to create MoveChecks the piece must perform on itself to calculate valid moves */
     private List<MoveCheck> createSelfMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> selfMoveCheck = myFileHandler.getSelfMoveChecks();
         return createMoveCheck(selfMoveCheck, playerStates, immovableState);
@@ -171,17 +165,13 @@ public class Controller implements ControllerFramework {
         return moveChecks;
     }
 
-    /**
-     * Call to create MoveChecks the piece must perform in its neighbors to calculate potential valid moves
-     */
+    /** Calls createMoveCheck to create MoveChecks the piece must perform on its neighbors to calculate valid moves */
     private List<MoveCheck> createNeighborMoveCheckForPlayer(List<Integer> playerStates, int immovableState) throws InvalidMoveCheckException {
         List<String> neighborMoveChecks = myFileHandler.getNeighborMoveChecks();
         return createMoveCheck(neighborMoveChecks, playerStates, immovableState);
     }
 
-    /**
-     * Creates the agent to carry out evaluations on the game state and potential moves
-     */
+    /** Creates the agent to carry out evaluations on the game state and potential moves */
     private Agent createAgent(List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException, InvalidWinTypeException {
         int winValue = myFileHandler.getWinValue();
         WinType winType = createWinType(winValue, startingConfig);
@@ -192,9 +182,7 @@ public class Controller implements ControllerFramework {
 
     }
 
-    /**
-     * Creates the evaluation functions that compose the agent, as specified in the game data file
-     */
+    /** Creates the evaluation functions that compose the agent, as specified in the game data file */
     private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException{
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         int userDirection = myUserPlayerInfoHolder.getDirections().get(0);
@@ -215,10 +203,7 @@ public class Controller implements ControllerFramework {
         return allEvals;
     }
 
-    /**
-     * Creates the WinTypes to be used by the agent to evaluate win status,
-     * as specified in the data file
-     */
+    /** Creates the WinTypes to be used by the agent to evaluate win status, as specified in the data file */
     private WinType createWinType(int winValue, List<List<Integer>> startingConfig) throws InvalidWinTypeException{
         String winTypeStr = myFileHandler.getWinType();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
@@ -245,8 +230,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Gets a mapping of the states for all players and the images
-     * that represent them.
+     * Gets a mapping of the states for all players and the images that represent them.
      * @return map with keys as states and values as images.
      */
     @Override
@@ -272,9 +256,7 @@ public class Controller implements ControllerFramework {
         return Collections.unmodifiableList(myAgentPlayerInfoHolder.getPlayerStates());
     }
 
-    /**
-     * Resets game variables and creates a new game
-     */
+    /** Resets game instance-specific variables and creates a new game */
     @Override
     public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
@@ -302,7 +284,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Returns whether pieces have the ability to move based on the data specificaiton
+     * Returns whether pieces have the ability to move based on the data specification
      */
     @Override
     public boolean doPiecesMove(){
@@ -310,8 +292,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Communicates file saving actions from the view to the filehandler to pass in the
-     * game file name and configuration being saved
+     * Passes in the destination file name and configuration to be saved from the view to the filehandler
      * @param fileName - the String the user indicates they want the file to be saved as
      * @param startingProperties - starting properties
      */
@@ -321,8 +302,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Allows the view to differentiate whether a piece can contain multiple
-     * objects to be displayed by the view
+     * Allows the view to differentiate whether a piece can contain multiple objects to be displayed by the view
      */
     @Override
     public boolean hasMultiplePiecesPerSquare() {return myFileHandler.hasMultiplePiecesPerSquare();}
@@ -348,9 +328,8 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Keeps track of the square selected by the user if
-     * the game involves selected a piece to move as well
-     * as a destination square to impact
+     * Keeps track of the square selected by the user if the game involves
+     * selected a piece to move as well as a destination square to impact
      * @param row - row coordinate of square selected
      * @param col - column coordinate of square selected
      */
@@ -362,6 +341,9 @@ public class Controller implements ControllerFramework {
 
     /**
      * Is called by the Make Move button in GameView to make the move on the back-end
+     * For games that require only one click to make a move (i.e., pieces are placed, not moved),
+     * pieceSelected is initialized as a dummy to the same location as the square selected for placement
+     * @throws InvalidMoveException if the board deems the move invalid for that piece
      */
     @Override
     public void playMove() throws InvalidMoveException {
@@ -401,7 +383,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * @return true if the game has ended (win/loss/tie)
+     * @return true if the game has ended (by a win, loss or tie)
      */
     @Override
     public boolean gameOver() {
@@ -409,7 +391,7 @@ public class Controller implements ControllerFramework {
     }
 
     /**
-     * Used to check who won the game to be reflected by the View
+     * Used to check which playerID won the game, or if there was a tie, to be reflected by the View
      */
     @Override
     public int gameWinner() {
@@ -424,8 +406,8 @@ public class Controller implements ControllerFramework {
         return myGame.possibleMovesForView(); }
 
     /**
-     * Gets the number of rows per square that should be
-     * visually represented. Relevant for games with multi-piece cells.
+     * Gets the number of rows per square that should be visually represented.
+     * Relevant for games with multi-object cells.
      * @return number of rows that the images should populate in the view
      */
     @Override

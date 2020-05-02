@@ -25,7 +25,7 @@ public class PieceAtMaxObjectsMove implements MoveType {
 
 
     /**
-     * Finds all neighbors to possible convert using the neighborhood converter finder and
+     * Finds all neighbors to possibly convert using the neighborhood converter finder and
      * based on the neighborhood converter type.
      * @param selfPiece - the current piece that is being considered
      * @param endCoordinateInfo - the end coordinate of where the piece is potentially moving to

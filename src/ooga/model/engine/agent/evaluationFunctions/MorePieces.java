@@ -19,7 +19,6 @@ public class MorePieces implements EvaluationFunction{
     private final List<List<Integer>> myInitialConfig;
 
     /**
-     *
      * @param stateIndex - index of the specific state to be checked for
      * @param maxStates - player states
      * @param minStates - opponent states
@@ -34,12 +33,12 @@ public class MorePieces implements EvaluationFunction{
     }
 
     /**
-     * Function to determine the difference between the player's and opponents
-     * pieces matching a specific player state
+     * Function to determine the difference between the player's and
+     * opponent's pieces matching a specific player state
      * @param boardStateInfo - the current state configuration of the board
      * @param objectInfo - current configuration of objects on the board - used by object-based games (ex: Mancala)
      * @param noMovesLeft - boolean that represents if there are moves left
-     * @return
+     * @return numerical value of the move in question. Higher number represents a better move
      */
     @Override
     public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
