@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.engine.neighborhood.DiagonalNeighborhood;
 import ooga.model.engine.neighborhood.VerticalNeighborhood;
 
@@ -18,6 +19,7 @@ public class NumOpenLines implements EvaluationFunction {
     private final int myOpponentStateEvalFor;
     private DiagonalNeighborhood calculateDiagonals;
     private VerticalNeighborhood calculateColumns;
+    private List<List<Integer>> stateInfo;
 
     /**
      * Constructor for NumOpenLines
@@ -39,10 +41,18 @@ public class NumOpenLines implements EvaluationFunction {
      * @return integer representing the number of open lines
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
-        int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
-        int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));
+    public int evaluate(BoardConfiguration boardStateInfo, BoardConfiguration objectInfo, boolean noMovesLeft) {
+        stateInfo = new ArrayList<>();
+        for (int r = 0; r < boardStateInfo.getNumRows();r++) {
+            List<Integer> row = new ArrayList<>();
+            for (int c = 0; c < boardStateInfo.getNumCols();c++) {
+                row.add(boardStateInfo.getValue(r,c));
+            }
+            stateInfo.add(row);
+        }
+        int rowEvaluation = evaluateMaxOpenMinusMinOpen((stateInfo));
+        int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(stateInfo));
+        int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(stateInfo));
         return rowEvaluation + colEvaluation + diagEvaluation;
     }
 

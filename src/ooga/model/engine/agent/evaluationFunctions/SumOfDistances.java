@@ -1,5 +1,7 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.BoardConfiguration;
+
 import java.util.List;
 
 /**
@@ -37,13 +39,14 @@ public class SumOfDistances implements EvaluationFunction {
      *         - this is then multiplied by a factor to minimize it
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
+    public int evaluate(BoardConfiguration boardStateInfo, BoardConfiguration objectInfo, boolean noMovesLeft) {
         int maxDistanceEval = 0;
         int minDistanceEval = 0;
         int rowNum = 0;
-        for(List<Integer> row: boardStateInfo){
+        for(int r = 0; r < boardStateInfo.getNumRows();r++){
             int colNum = 0;
-            for(int state: row){
+            for(int c = 0; c < boardStateInfo.getNumCols();c++){
+                int state = boardStateInfo.getValue(r,c);
                 if(state == myStateEvalFor){
                     maxDistanceEval += sumDistanceToOpponent(boardStateInfo, myOpponentsStates, rowNum, colNum);
                 }else if(state == myOpponentStateEvalFor){
@@ -56,16 +59,18 @@ public class SumOfDistances implements EvaluationFunction {
 
         return (MINIMIZE_FACTOR * (maxDistanceEval - minDistanceEval));
     }
-    private int sumDistanceToOpponent(List<List<Integer>> boardStateInfo, List<Integer> opponent, int startX, int startY){
+    private int sumDistanceToOpponent(BoardConfiguration boardStateInfo, List<Integer> opponent, int startX, int startY){
         int rowNum = 0;
         int sumManhattanDistances = 0;
-        for(List<Integer> row: boardStateInfo){
+        for (int r = 0; r < boardStateInfo.getNumRows();r++) {
             int colNum = 0;
-            for(int state: row){
+            for (int c = 0; c < boardStateInfo.getNumCols();c++) {
+                int state = boardStateInfo.getValue(r,c);
                 if(opponent.contains(state)){
                     sumManhattanDistances += manhattanDistance(startX, startY, rowNum, colNum);
                 }
                 colNum++;
+
             }
             rowNum++;
         }

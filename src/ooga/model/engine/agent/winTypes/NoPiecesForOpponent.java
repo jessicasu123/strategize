@@ -1,5 +1,7 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.BoardConfiguration;
+
 import java.util.List;
 
 /**
@@ -27,10 +29,11 @@ public class NoPiecesForOpponent implements WinType {
      * @return whether opponent states (states other than the players and the empty state) are on the board
      */
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
+    public boolean isWin(List<Integer> playerStates, BoardConfiguration boardStateInfo, BoardConfiguration objectInfo, boolean noMovesLeft) {
         int numOfOpponentsPieces = 0;
-        for(List<Integer> row: boardStateInfo){
-            for(int state : row){
+        for (int r = 0; r < boardStateInfo.getNumRows();r++) {
+            for (int c = 0; c < boardStateInfo.getNumCols();c++) {
+                int state = boardStateInfo.getValue(r,c);
                 if(!playerStates.contains(state) && state != myEmptyState){
                     numOfOpponentsPieces++;
                 }

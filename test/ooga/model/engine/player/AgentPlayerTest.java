@@ -1,5 +1,6 @@
 package ooga.model.engine.player;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.engine.agent.Agent;
 import ooga.model.engine.agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.agent.evaluationFunctions.NumOpenLines;
@@ -29,7 +30,7 @@ class AgentPlayerTest {
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
     private AgentPlayer myTicTacToeAgentPlayer = new AgentPlayer(agent, myAgent,user, 1);
     List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
-    List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
+    BoardConfiguration objectConfig = new BoardConfiguration(new ArrayList<>(List.of(zeros,zeros,zeros)));
     List<Integer> direction = new ArrayList<>(List.of(1));
     MoveCheck checkEmptyState = new EmptyStateCheck(0);
     MoveType changeToNewState = new ChangeToNewStateMove();
@@ -44,7 +45,7 @@ class AgentPlayerTest {
         List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0));
         List<Integer> row2 = new ArrayList<>(List.of(0, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2, row3)));
         BoardFramework myBoard = new Board(gamePieceCreator, sampleConfig,objectConfig, new ArrayList<>(),0);
         Coordinate coord = new Coordinate(1, 1);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -62,7 +63,7 @@ class AgentPlayerTest {
         List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0));
         List<Integer> row2 = new ArrayList<>(List.of(1, 0, 2));
         List<Integer> row3 = new ArrayList<>(List.of(0, 0, 0));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2, row3)));
         BoardFramework myBoard = new Board(gamePieceCreator, sampleConfig, objectConfig, new ArrayList<>(),0);
         Coordinate coord = new Coordinate(2,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -80,7 +81,7 @@ class AgentPlayerTest {
         List<Integer> row1 = new ArrayList<>(List.of(1, 1, 0));
         List<Integer> row2 = new ArrayList<>(List.of(2, 0, 0));
         List<Integer> row3 = new ArrayList<>(List.of(2, 0, 0));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1, row2, row3));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2, row3)));
         BoardFramework myBoard = new Board(gamePieceCreator, sampleConfig,objectConfig, new ArrayList<>(),0);
         Coordinate coord = new Coordinate(0, 2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);
@@ -98,7 +99,7 @@ class AgentPlayerTest {
         List<Integer> row1 = new ArrayList<>(List.of(1,2,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,1,1));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        BoardConfiguration sampleConfig =  new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         BoardFramework myBoard = new Board(gamePieceCreator, sampleConfig,objectConfig, new ArrayList<>(),0);
         Coordinate coord = new Coordinate(0,2);
         Map.Entry<Coordinate, Coordinate> move = new AbstractMap.SimpleImmutableEntry<>(coord, coord);

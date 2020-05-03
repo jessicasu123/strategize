@@ -1,5 +1,6 @@
 package ooga.model.engine.agent;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.engine.agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.agent.winTypes.WinType;
 
@@ -38,7 +39,7 @@ public class Agent {
      * @param noMovesLeft - whether there are moves on the board or not
      * @return an integer representing the evaluation function's evaluation of the current game state
      */
-    public int evaluateCurrentGameState(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+    public int evaluateCurrentGameState(BoardConfiguration boardStateInfo, BoardConfiguration objectInfo, boolean noMovesLeft){
         if(myWinType.isWin(myAgentStates, boardStateInfo, objectInfo,noMovesLeft)){
             return Integer.MAX_VALUE;
         }else if(myWinType.isWin(myUserStates, boardStateInfo, objectInfo,noMovesLeft)){
@@ -58,7 +59,7 @@ public class Agent {
      * @param noMovesLeft - whether there are moves on the board or not
      * @return if a player has won the game or not
      */
-    public boolean isGameWon(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+    public boolean isGameWon(BoardConfiguration boardStateInfo,BoardConfiguration objectInfo, boolean noMovesLeft){
         return myWinType.isWin(myAgentStates, boardStateInfo,objectInfo, noMovesLeft) ||
                 myWinType.isWin(myUserStates, boardStateInfo,objectInfo, noMovesLeft);
     }
@@ -70,7 +71,7 @@ public class Agent {
      *          - if the game is won this is the player ID of the winner
      *          - if there is no winner returns 0
      */
-    public int findGameWinner(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft){
+    public int findGameWinner(BoardConfiguration boardStateInfo,BoardConfiguration objectInfo, boolean noMovesLeft){
         if(isGameWon(boardStateInfo,objectInfo, noMovesLeft)){
             if(myWinType.isWin(myAgentStates, boardStateInfo, objectInfo,noMovesLeft)){
                 return myAgentStates.get(0);

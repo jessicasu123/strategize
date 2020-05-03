@@ -49,8 +49,8 @@ public class Game implements GameFramework{
      * @param agent - will perform the AI calculation with minimax function
      * @param emptyState - the integer representing the empty state
      */
-    public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
+    public Game(GamePieceCreator gamePieces, BoardConfiguration startingConfiguration,
+                BoardConfiguration objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
                 PlayerInfoHolder agentPlayerInfo, Agent agent, int emptyState) {
         myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods, emptyState);
         myUserStates = userPlayerInfo.getPlayerStates();
@@ -145,7 +145,7 @@ public class Game implements GameFramework{
      *  so the view can access it
      */
     @Override
-    public List<List<Integer>> getVisualInfo() {
+    public BoardConfiguration getVisualInfo() {
         return myBoard.getStateInfo();
     }
 
@@ -155,7 +155,7 @@ public class Game implements GameFramework{
      *  so the view can access it
      */
     @Override
-    public List<List<Integer>> getObjectInfo() {return myBoard.getObjectInfo();}
+    public BoardConfiguration getObjectInfo() {return myBoard.getObjectInfo();}
 
     /**
      * METHOD PURPOSE:
@@ -164,7 +164,7 @@ public class Game implements GameFramework{
      *  row, col position is NOT a possible move.
      */
     @Override
-    public List<List<Integer>> possibleMovesForView() {
-        return myBoard.possibleMovesVisualInfo(myUserStates);
+    public BoardConfiguration possibleMovesForView() {
+        return myBoard.getPossibleMovesInfo(myUserStates);
     }
 }

@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.BoardConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ class NumOpenLinesTest {
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         List<Integer> row5 = new ArrayList<>(List.of(0,0,2,0,0,0,0));
         List<Integer> row6 = new ArrayList<>(List.of(0,0,1,1,0,0,0));
-        List<List<Integer>> boardconfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        BoardConfiguration boardconfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
 
         int stateIndex = 0;
         List<Integer> minstates = new ArrayList<>(List.of(0,0,0,0,0,0,0));
@@ -33,7 +34,7 @@ class NumOpenLinesTest {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,0));
         List<Integer> row2 = new ArrayList<>(List.of(0,1,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,2,1));
-        List<List<Integer>> boardconfig = new ArrayList<>(List.of(row1,row2,row3));
+        BoardConfiguration boardconfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
 
         int stateIndex = 0;
         List<Integer> minstates = new ArrayList<>(List.of(0,0,0));

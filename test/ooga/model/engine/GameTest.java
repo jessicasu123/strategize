@@ -56,7 +56,7 @@ public class GameTest {
     WinType win = new ConsecutivePieces(3);
     Agent myAgent = new Agent(win, new ArrayList<>(List.of(eval)),agent,user);
    List<Integer> zeros = new ArrayList<>(List.of(0,0,0));
-    List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
+    BoardConfiguration objectConfig = new BoardConfiguration(new ArrayList<>(List.of(zeros,zeros,zeros)));
 
     List<Integer> direction = new ArrayList<>(List.of(1));
     MoveCheck checkEmptyState = new EmptyStateCheck(0);
@@ -66,13 +66,15 @@ public class GameTest {
 
     GamePieceCreator gamePieceCreator = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
-    Game inProgressGame = new Game(gamePieceCreator, createTestConfig(startingConfig),objectConfig,
+    BoardConfiguration startingBoardConfig = new BoardConfiguration(createTestConfig(startingConfig));
+
+    Game inProgressGame = new Game(gamePieceCreator, startingBoardConfig,objectConfig,
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game noMovesLeftGame = new Game(gamePieceCreator, createTestConfig(noMovesConfig),objectConfig,
+    Game noMovesLeftGame = new Game(gamePieceCreator, startingBoardConfig,objectConfig,
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game player1WinGame = new Game(gamePieceCreator, createTestConfig(player1Win),objectConfig,
+    Game player1WinGame = new Game(gamePieceCreator, startingBoardConfig,objectConfig,
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game player2WinGme = new Game(gamePieceCreator, createTestConfig(player2Win),objectConfig,
+    Game player2WinGme = new Game(gamePieceCreator, startingBoardConfig,objectConfig,
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
 
     @Test
@@ -89,8 +91,12 @@ public class GameTest {
         //making the agent move somewhere, as calculated by AI algo
         inProgressGame.makeGameMove(Arrays.asList(new Integer[]{2,2,2,2}));
         int numAgents = 0;
-        for (List<Integer> row: inProgressGame.getVisualInfo()) {
-            numAgents += Collections.frequency(row, 2); //agentID = 2
+        for (int r = 0; r < inProgressGame.getVisualInfo().getNumRows();r++) {
+            for (int c = 0; c < inProgressGame.getVisualInfo().getNumCols();c++) {
+                if (inProgressGame.getVisualInfo().getValue(r,c)==2) {
+                    numAgents++;
+                }
+            }
         }
         assertEquals(1,numAgents);
     }

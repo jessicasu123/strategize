@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.engine.Coordinate;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class MorePieces implements EvaluationFunction{
     private int myStateEvalFor;
     private int opponentStateEvalFor;
     private final Boolean checkCurrConfig;
-    private final List<List<Integer>> myInitialConfig;
+    private final BoardConfiguration myInitialConfig;
 
     /**
      *
@@ -26,7 +27,7 @@ public class MorePieces implements EvaluationFunction{
      * @param initialConfig - used for some games to determine board layout of specific states
      * @param checkCurrConfig - indicates whether to determine states to be checked from current config or initial config
      */
-    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, List<List<Integer>> initialConfig, Boolean checkCurrConfig){
+    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, BoardConfiguration initialConfig, Boolean checkCurrConfig){
         myStateEvalFor = maxStates.get(stateIndex);
         opponentStateEvalFor = minStates.get(stateIndex);
         myInitialConfig = initialConfig;
@@ -42,8 +43,8 @@ public class MorePieces implements EvaluationFunction{
      * @return
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        List<List<Integer>> boardStates;
+    public int evaluate(BoardConfiguration boardStateInfo,BoardConfiguration objectInfo, boolean noMovesLeft) {
+        BoardConfiguration boardStates;
         if (checkCurrConfig) {
             boardStates = boardStateInfo;
         } else {
@@ -63,11 +64,11 @@ public class MorePieces implements EvaluationFunction{
      * @param config - board configuration
      * @return list of coordinates matching the given state
      */
-    private ArrayList<Coordinate> getEvalStateCoords(int stateToFind, List<List<Integer>> config) {
+    private ArrayList<Coordinate> getEvalStateCoords(int stateToFind, BoardConfiguration config) {
         ArrayList<Coordinate> stateCoords = new ArrayList<>();
-        for (int r = 0; r < config.size(); r++) {
-            for (int c = 0; c < config.get(0).size(); c++) {
-                if (config.get(r).get(c) == stateToFind) {
+        for (int r = 0; r < config.getNumRows(); r++) {
+            for (int c = 0; c < config.getNumCols(); c++) {
+                if (config.getValue(r,c) == stateToFind) {
                     stateCoords.add(new Coordinate(r, c));
                 }
             }
@@ -78,10 +79,10 @@ public class MorePieces implements EvaluationFunction{
     /**
      * Counts the objects corresponding to the specific state occurrences for object-based games
      */
-    private int countEvalStates(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
+    private int countEvalStates(ArrayList<Coordinate> stateCoords, BoardConfiguration boardStateInfo) {
         int total = 0;
         for (Coordinate coord : stateCoords) {
-            total += boardStateInfo.get(coord.getRow()).get(coord.getCol());
+            total += boardStateInfo.getValue(coord.getRow(), coord.getCol());
         }
         return total;
     }

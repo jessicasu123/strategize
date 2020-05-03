@@ -48,7 +48,7 @@ public interface BoardFramework {
      *  - gets the info for all of the current states of the game pieces for the front-end to use
      * @return list of list of the integers used to represent the state at each location
      */
-    List<List<Integer>> getStateInfo();
+    BoardConfiguration getStateInfo();
 
     /**
      * METHOD PURPOSE:
@@ -56,7 +56,7 @@ public interface BoardFramework {
      *  for games where there are multiple pieces per square
      * @return list of list of the integers used to represent the number of objects at each location
      */
-    List<List<Integer>> getObjectInfo();
+    BoardConfiguration getObjectInfo();
 
     /**
      * METHOD PURPOSE:
@@ -78,7 +78,7 @@ public interface BoardFramework {
      *  - 1 indicates that a position is a possible move
      *  - 0 indicated that a position is NOT a possible move
      */
-    List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates);
+    BoardConfiguration getPossibleMovesInfo(List<Integer> playerStates);
 
     /**
      * METHOD PURPOSE:

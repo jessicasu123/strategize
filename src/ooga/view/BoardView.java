@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.model.engine.BoardConfiguration;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -40,9 +42,9 @@ public class BoardView {
     public static final String OWN_PLAYER_CLICK_TYPE = "own player";
 
     private List<List<BoardCell>> myBoardCells;
-    private List<List<Integer>> gameStates;
-    private List<List<Integer>> possibleMoves;
-    private List<List<Integer>> numPiecesInfo;
+    private BoardConfiguration gameStates;
+    private BoardConfiguration possibleMoves;
+    private BoardConfiguration numPiecesInfo;
     private VBox myBoard;
     private Controller myController;
     private String boardColor;
@@ -192,10 +194,10 @@ public class BoardView {
 
     }
 
-    private Image findImageForSquare(List<List<Integer>> gameStates) {
+    private Image findImageForSquare(BoardConfiguration gameStates) {
         Image img;
         if(hasSelectPiece){
-            img = myStateToImageMapping.get(gameStates.get(lastPieceSelectedX).get(lastPieceSelectedY)).get(0);
+            img = myStateToImageMapping.get(gameStates.getValue(lastPieceSelectedX, lastPieceSelectedY)).get(0);
         }else{
             img = myStateToImageMapping.get(myUser.get(STATE_ID_POS)).get(0);
         }
@@ -223,9 +225,9 @@ public class BoardView {
     private void updateCellAppearance(BoardCell currSquare, int r, int c) {
         currSquare.setStyle(boardColor, boardOutlineColor);
         currSquare.clearFill(boardColor);
-        int currGameState = gameStates.get(r).get(c);
+        int currGameState = gameStates.getValue(r,c);
         Image currImage = null;
-        int numPieces = numPiecesInfo.get(r).get(c);
+        int numPieces = numPiecesInfo.getValue(r,c);
 
         List<Image> possiblePieceImages = new ArrayList<>();
         if (myUser.contains(currGameState) || myAgent.contains(currGameState)) {
@@ -248,7 +250,7 @@ public class BoardView {
             if (multiplePiecesPerSquare) {
                 currImage = possiblePieceImages.get(imageIndex);
             }
-            boolean isPossibleMove = possibleMoves.get(r).get(c)==1;
+            boolean isPossibleMove = possibleMoves.getValue(r,c)==1;
             updatePossibleMoveImageOnSquare(currSquare, isPossibleMove);
             if (myUser.contains(currGameState)) {
                 updatePlayerCell(currImage, currSquare, r, c, isPossibleMove);
@@ -306,7 +308,7 @@ public class BoardView {
         List<BoardCell> otherPlayerCells = new ArrayList<>();
         for (int r = 0; r < myBoardCells.size();r++) {
             for (int c= 0; c < myBoardCells.get(0).size();c++) {
-                if (myUser.contains(gameStates.get(r).get(c))) {
+                if (myUser.contains(gameStates.getValue(r,c))) {
                     otherPlayerCells.add(myBoardCells.get(r).get(c));
                 }
             }

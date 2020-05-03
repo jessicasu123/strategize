@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.BoardConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ class SumOfDistancesTest {
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,3,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,4,0,0));
-        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
+        BoardConfiguration boardConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4)));
         assertEquals((-1 * ((2 + 2) - (2 + 4))),sumOfDistances.evaluate(boardConfig,boardConfig,false));
     }
 
@@ -28,7 +29,7 @@ class SumOfDistancesTest {
         List<Integer> row2 = new ArrayList<>(List.of(0,1,0,0));
         List<Integer> row3 = new ArrayList<>(List.of(0,0,4,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,0));
-        List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
+        BoardConfiguration boardConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4)));
         assertEquals((-1 * ((2 + 4) - (2 + 2))),sumOfDistances.evaluate(boardConfig,boardConfig,false));
     }
 }

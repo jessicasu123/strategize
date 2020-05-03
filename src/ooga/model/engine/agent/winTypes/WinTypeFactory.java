@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.exceptions.InvalidWinTypeException;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class WinTypeFactory {
      * @return WinType object matching the specified string identifier from a config file
      */
     public WinType createWinType(String winType, int emptyState, int stateIndex, int winValue, boolean checkCurrConfig,
-                                                                  List<List<Integer>> initialConfig) throws InvalidWinTypeException {
+                                                                  BoardConfiguration initialConfig) throws InvalidWinTypeException {
         switch (winType) {
             case "ConsecutivePieces":
                 return new ConsecutivePieces(winValue);

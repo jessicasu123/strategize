@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.engine.neighborhood.DiagonalNeighborhood;
 import ooga.model.engine.neighborhood.VerticalNeighborhood;
 
@@ -16,6 +17,7 @@ public class ConsecutivePieces implements WinType {
     private int myInARow;
     private DiagonalNeighborhood calculateDiagonals;
     private VerticalNeighborhood calculateColumns;
+    private List<List<Integer>> stateInfo;
 
     public ConsecutivePieces(int InARow){
         myInARow = InARow;
@@ -29,8 +31,16 @@ public class ConsecutivePieces implements WinType {
      * @return whether player has won
      */
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        List<List<Integer>> rows = boardStateInfo;
+    public boolean isWin(List<Integer> playerStates, BoardConfiguration boardStateInfo, BoardConfiguration objectInfo, boolean noMovesLeft) {
+        stateInfo = new ArrayList<>();
+        for (int r = 0; r < boardStateInfo.getNumRows();r++) {
+            List<Integer> row = new ArrayList<>();
+            for (int c = 0; c < boardStateInfo.getNumCols();c++) {
+                row.add(boardStateInfo.getValue(r,c));
+            }
+            stateInfo.add(row);
+        }
+        List<List<Integer>> rows = stateInfo;
         List<List<Integer>> cols = getCols(boardStateInfo);
         List<List<Integer>> diags = getDiagonals(boardStateInfo);
         return checkWinInGroup(rows, playerStates) || checkWinInGroup(cols,playerStates) || checkWinInGroup(diags, playerStates);
@@ -59,18 +69,18 @@ public class ConsecutivePieces implements WinType {
     }
 
 
-    private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
-        return calculateDiagonals.getAllDiagonals(boardStateInfo,
+    private List<List<Integer>> getDiagonals(BoardConfiguration boardStateInfo){
+        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.getNumRows(),
+                boardStateInfo.getNumCols());
+        return calculateDiagonals.getAllDiagonals(stateInfo,
                 myInARow);
     }
 
 
 
-    private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
-        calculateColumns = new VerticalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
-        return calculateColumns.getAllVerticals(boardStateInfo);
+    private List<List<Integer>> getCols(BoardConfiguration boardStateInfo){
+        calculateColumns = new VerticalNeighborhood(boardStateInfo.getNumRows(),
+                boardStateInfo.getNumCols());
+        return calculateColumns.getAllVerticals(stateInfo);
     }
 }

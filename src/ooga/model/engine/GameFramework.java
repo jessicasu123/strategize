@@ -63,14 +63,14 @@ public interface GameFramework {
      *  - passes along the visual state info about which PLAYER is in which position
      *  from the board so the view can access it
      */
-    List<List<Integer>> getVisualInfo();
+    BoardConfiguration getVisualInfo();
 
     /**
      * METHOD PURPOSE:
      *  - passes along the info from the board about how many OBJECTS are in each position
      *  so the view can access it
      */
-    List<List<Integer>> getObjectInfo();
+    BoardConfiguration getObjectInfo();
 
     /**
      * METHOD PURPOSE:
@@ -78,5 +78,5 @@ public interface GameFramework {
      *  - represented as a list of lists of integers, where a position is marked as 1
      *  if it is a possible move, 0 otherwise.
      */
-    List<List<Integer>> possibleMovesForView();
+    BoardConfiguration possibleMovesForView();
 }

@@ -20,8 +20,8 @@ public class Board implements BoardFramework{
     public static final String STATE_INFO_IDENTIFIER = "state";
     public static final String OBJECT_INFO_IDENTIFIER = "object";
     private List<List<GamePiece>> myGamePieces;
-    private List<List<Integer>> myStartingConfiguration;
-    private List<List<Integer>> myObjectConfiguration;
+    private BoardConfiguration myStartingConfiguration;
+    private BoardConfiguration myObjectConfiguration;
     private GamePieceCreator myGamePieceFactory;
     private int numRows;
     private int numCols;
@@ -39,14 +39,16 @@ public class Board implements BoardFramework{
      * @param neighborhoods - the types of neighbors to consider while making a move on this board
      * @param emptyState - the integer representing the empty state (ex. 0)
      */
-    public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, int emptyState) {
+    public Board(GamePieceCreator gamePieces, BoardConfiguration startingConfiguration,
+                 BoardConfiguration objectConfiguration, List<Neighborhood> neighborhoods, int emptyState) {
         myGamePieces = new ArrayList<>();
         myEmptyState = emptyState;
         myStartingConfiguration = startingConfiguration;
         myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
         myObjectConfiguration = objectConfiguration;
+        numRows = myStartingConfiguration.getNumRows();
+        numCols = myStartingConfiguration.getNumCols();
         createBoardFromStartingConfig();
     }
 
@@ -89,14 +91,12 @@ public class Board implements BoardFramework{
     }
 
     private void createBoardFromStartingConfig() {
-        numRows = myStartingConfiguration.size();
-        numCols = myStartingConfiguration.get(0).size();
         for (int r = 0; r < numRows; r++) {
             List<GamePiece> boardRow = new ArrayList<>();
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
-                int state = myStartingConfiguration.get(r).get(c);
-                int object = myObjectConfiguration.get(r).get(c);
+                int state = myStartingConfiguration.getValue(r,c);
+                int object = myObjectConfiguration.getValue(r,c);
                 GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, object);
                 boardRow.add(newPiece);
             }
@@ -197,9 +197,8 @@ public class Board implements BoardFramework{
      * @return list of list of the integers used to represent the state at each location
      */
     @Override
-    public List<List<Integer>> getStateInfo() {
-        List<List<Integer>> currStateConfig = getVisualInfoFromPieces(STATE_INFO_IDENTIFIER);
-        return Collections.unmodifiableList(currStateConfig);
+    public BoardConfiguration getStateInfo() {
+        return getVisualInfoFromPieces(STATE_INFO_IDENTIFIER);
     }
 
     /**
@@ -209,27 +208,25 @@ public class Board implements BoardFramework{
      * @return list of list of the integers used to represent the number of objects at each location
      */
     @Override
-    public List<List<Integer>> getObjectInfo() {
-        List<List<Integer>> currObjectConfig = getVisualInfoFromPieces(OBJECT_INFO_IDENTIFIER);
-        return Collections.unmodifiableList(currObjectConfig);
+    public BoardConfiguration getObjectInfo() {
+        return getVisualInfoFromPieces(OBJECT_INFO_IDENTIFIER);
     }
 
-    private List<List<Integer>> getVisualInfoFromPieces(String visualInfoType) {
-        List<List<Integer>> visualInfo = new ArrayList<>();
-        for (List<GamePiece> row: myGamePieces) {
-            List<Integer> rowObjects = new ArrayList<>();
-            for (GamePiece gamePiece : row) {
+    private BoardConfiguration getVisualInfoFromPieces(String visualInfoType) {
+        BoardConfiguration boardInfoConfig = new BoardConfiguration(myGamePieces.size(), myGamePieces.get(0).size());
+        for (int r = 0; r < numRows; r++) {
+            for (int c = 0; c < numCols; c++) {
                 int curr;
                 if (visualInfoType.equals(STATE_INFO_IDENTIFIER)) {
-                    curr = gamePiece.getState();
+                    curr = myGamePieces.get(r).get(c).getState();
                 } else {
-                    curr = gamePiece.getNumObjects();
+                    curr = myGamePieces.get(r).get(c).getNumObjects();
                 }
-                rowObjects.add(curr);
+                boardInfoConfig.setValue(r,c,curr);
             }
-            visualInfo.add(rowObjects);
+
         }
-        return visualInfo;
+        return boardInfoConfig;
     }
 
     /**
@@ -240,19 +237,17 @@ public class Board implements BoardFramework{
      *  - 0 indicated that a position is NOT a possible move
      */
     @Override
-    public List<List<Integer>> possibleMovesVisualInfo(List<Integer> playerStates) {
-        List<List<Integer>> possibleMovesConfig = new ArrayList<>();
+    public BoardConfiguration getPossibleMovesInfo(List<Integer> playerStates) {
+        BoardConfiguration possibleMovesConfig = new BoardConfiguration(myGamePieces.size(), myGamePieces.get(0).size());
         List<Coordinate> possibleMoves = getPossibleMovesAsList(playerStates);
         for (int r = 0; r< numRows;r++) {
-            List<Integer> possibleMovesRow = new ArrayList<>();
             for (int c = 0; c < numCols;c++) {
                 if (possibleMoves.contains(new Coordinate(r,c))) {
-                    possibleMovesRow.add(1);
+                    possibleMovesConfig.setValue(r,c,1);
                 } else {
-                    possibleMovesRow.add(0);
+                    possibleMovesConfig.setValue(r,c,0);
                 }
             }
-            possibleMovesConfig.add(possibleMovesRow);
         }
         return possibleMovesConfig; 
     }
@@ -264,7 +259,6 @@ public class Board implements BoardFramework{
         }
         return possibleMoves;
     }
-
 
     /**
      * METHOD PURPOSE:

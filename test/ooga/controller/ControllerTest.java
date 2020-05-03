@@ -1,5 +1,6 @@
 package ooga.controller;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.exceptions.*;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ class ControllerTest {
 
     @Test
     void testPlayMove() {
-        List<List<Integer>> originalBoardConfig = testController.getGameVisualInfo();
+        BoardConfiguration originalBoardConfig = testController.getGameVisualInfo();
         testController.squareSelected(1,1);
         testController.playMove();
         assertNotEquals(testController.getGameVisualInfo(), originalBoardConfig);
@@ -68,10 +69,10 @@ class ControllerTest {
 
     @Test
     void testHaveAgentMove() {
-        List<List<Integer>> originalBoardConfig = testController.getGameVisualInfo();
+        BoardConfiguration originalBoardConfig = testController.getGameVisualInfo();
         testController.squareSelected(1,1);
         testController.playMove();
-        List<List<Integer>> afterUserTurnBoardConfig = testController.getGameVisualInfo();
+        BoardConfiguration afterUserTurnBoardConfig = testController.getGameVisualInfo();
         testController.playMove();
         assertNotEquals(testController.getGameVisualInfo(), afterUserTurnBoardConfig);
     }

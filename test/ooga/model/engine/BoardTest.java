@@ -37,7 +37,7 @@ public class BoardTest {
     }
 
     //creating tic tac toe board with one player in center
-    List<List<Integer>> config = createTestConfig(startingConfig);
+    BoardConfiguration config = new BoardConfiguration(createTestConfig(startingConfig));
     List<Neighborhood> neighborhoods = new ArrayList<>();
     List<Integer> user = new ArrayList<>(List.of(1));
     List<Integer> agent = new ArrayList<>(List.of(2));
@@ -45,7 +45,7 @@ public class BoardTest {
     List<Integer> direction = new ArrayList<>(List.of(1));
     MoveCheck checkEmptyState = new EmptyStateCheck(0);
     MoveType changeToNewState = new ChangeToNewStateMove();
-    List<List<Integer>> objectConfig = new ArrayList<>(List.of(zeros,zeros,zeros));
+    BoardConfiguration objectConfig = new BoardConfiguration(new ArrayList<>(List.of(zeros,zeros,zeros)));
     PlayerInfoHolder player1InfoTicTacToe = new PlayerInfoHolder(user, direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),true);
     PlayerInfoHolder player2InfoTicTacToe = new PlayerInfoHolder(agent,direction,new ArrayList<>(List.of(checkEmptyState)),new ArrayList<>(),new ArrayList<>(List.of(changeToNewState)),false);
 
@@ -54,7 +54,7 @@ public class BoardTest {
     Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods,0);
 
     //board that has no more moves
-    List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
+    BoardConfiguration noMoves = new BoardConfiguration(createTestConfig(noMovesConfig));
     Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods,0);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
@@ -78,12 +78,12 @@ public class BoardTest {
 
     GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
 
-    List<List<Integer>> othelloConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
+    BoardConfiguration othelloConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8)));
     Neighborhood horizontal = new HorizontalNeighborhood(8,8);
     Neighborhood vertical = new VerticalNeighborhood(8,8);
     Neighborhood diagonal = new DiagonalNeighborhood(8,8);
     List<Neighborhood> othelloNeighborhoods = List.of(horizontal, vertical, diagonal);
-    List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
+    BoardConfiguration objectConfig2 = new BoardConfiguration(new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1)));
     Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods,0);
 
     @Test
@@ -104,7 +104,7 @@ public class BoardTest {
          * config values.
          */
 
-        List<List<Integer>> stateInfo = ticTacToeBoard.getStateInfo();
+        BoardConfiguration stateInfo = ticTacToeBoard.getStateInfo();
         assertEquals(stateInfo, config);
     }
 
@@ -196,7 +196,7 @@ public class BoardTest {
         row6 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         row7 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
         row8 =new ArrayList<>(List.of(0,0,0,0,0,0,0,0));
-        List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
+        BoardConfiguration checkersConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8)));
         Neighborhood diagonal = new DiagonalNeighborhood(8,8);
         List<Neighborhood> checkersNeighborhoods = List.of(diagonal);
        Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods,0);
@@ -244,11 +244,11 @@ public class BoardTest {
         GamePieceCreator gamePieceCreator = new GamePieceCreator(player1Info, player2Info);
         row1 =new ArrayList<>(List.of(1,2,2,2,2,2,2,0));
         row2 =new ArrayList<>(List.of(0,4,4,4,4,4,4,3));
-        List<List<Integer>> mancalaConfig = new ArrayList<>(List.of(row1, row2));
+        BoardConfiguration mancalaConfig = new BoardConfiguration(new ArrayList<>(List.of(row1, row2)));
         Neighborhood all = new CompleteNeighborhood(2,8);
         List<Neighborhood> mancalaNeighborhoods = List.of(all);
         List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
-        List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
+        BoardConfiguration objectConfig3 = new BoardConfiguration(new ArrayList<>(List.of(rowConfig,rowConfig)));
         Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods,0);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);

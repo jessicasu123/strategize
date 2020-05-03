@@ -1,5 +1,6 @@
 package ooga.controller;
 
+import ooga.model.engine.BoardConfiguration;
 import ooga.model.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.exceptions.InvalidMoveException;
 import ooga.model.exceptions.InvalidNeighborhoodException;
@@ -72,9 +73,9 @@ public interface ControllerFramework {
      *  - gives the visual info from the back-end to the front-end to display
      * @return list of list of integers to use to display the game state visually
      */
-    List<List<Integer>> getGameVisualInfo();
+    BoardConfiguration getGameVisualInfo();
 
-    List<List<Integer>> getNumPiecesVisualInfo();
+    BoardConfiguration getNumPiecesVisualInfo();
 
     /**
      * METHOD PURPOSE:
@@ -112,7 +113,7 @@ public interface ControllerFramework {
      * @return List of List of integers, where a 1 represents a possible move and a 0
      * represents everything else
      */
-    List<List<Integer>> getPossibleMovesForView();
+    BoardConfiguration getPossibleMovesForView();
 
     /**
      * METHOD PURPOSE:

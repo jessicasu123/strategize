@@ -1,5 +1,7 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.Board;
+import ooga.model.engine.BoardConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ class ConsecutivePiecesTest {
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0,0,0,0));
         List<Integer> row5 = new ArrayList<>(List.of(0,0,2,2,2,0,0));
         List<Integer> row6 = new ArrayList<>(List.of(0,0,1,1,1,1,0));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        BoardConfiguration sampleConfig =  new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         List<Integer> playerstate = new ArrayList<>(List.of(0,1,2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
@@ -29,7 +31,7 @@ class ConsecutivePiecesTest {
         row4 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
         row5 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
         row6 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         playerstate = new ArrayList<>(List.of(0,1,2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
@@ -41,7 +43,7 @@ class ConsecutivePiecesTest {
         row4 = new ArrayList<>(List.of(0,0,0,0,2,1,2));
         row5 = new ArrayList<>(List.of(0,0,0,0,1,2,2));
         row6 = new ArrayList<>(List.of(0,0,0,1,2,1,1));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         playerstate = new ArrayList<>(List.of(1));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
@@ -55,7 +57,7 @@ class ConsecutivePiecesTest {
         List<Integer> row4 = new ArrayList<>(List.of(0, 0, 1, 1, 0, 0, 0));
         List<Integer> row5 = new ArrayList<>(List.of(0, 0, 2, 2, 2, 2, 0));
         List<Integer> row6 = new ArrayList<>(List.of(0, 0, 1, 1, 1, 2, 0));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         List<Integer> playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
@@ -65,7 +67,7 @@ class ConsecutivePiecesTest {
         row4 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
         row5 = new ArrayList<>(List.of(0,0,0,1,2,0,0));
         row6 = new ArrayList<>(List.of(0,0,1,1,2,0,0));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
@@ -75,7 +77,7 @@ class ConsecutivePiecesTest {
         row4 = new ArrayList<>(List.of(0,0,0,1,2,1,2));
         row5 = new ArrayList<>(List.of(0,0,0,1,1,2,2));
         row6 = new ArrayList<>(List.of(0,0,1,1,2,1,2));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6)));
         playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
@@ -86,21 +88,21 @@ class ConsecutivePiecesTest {
         List<Integer> row1 = new ArrayList<>(List.of(1,1,1));
         List<Integer> row2 = new ArrayList<>(List.of(0,2,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,0,2));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         List<Integer> playerstate = new ArrayList<>(List.of(1));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(2,1,2));
         row2 = new ArrayList<>(List.of(0,1,0));
         row3 = new ArrayList<>(List.of(2,1,2));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         playerstate = new ArrayList<>(List.of(1));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(1,2,2));
         row2 = new ArrayList<>(List.of(0,1,0));
         row3 = new ArrayList<>(List.of(2,2,1));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         playerstate = new ArrayList<>(List.of(1));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
@@ -111,21 +113,21 @@ class ConsecutivePiecesTest {
         List<Integer> row1 = new ArrayList<>(List.of(1,0,1));
         List<Integer> row2 = new ArrayList<>(List.of(1,2,0));
         List<Integer> row3 = new ArrayList<>(List.of(2,2,2));
-        List<List<Integer>> sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        BoardConfiguration sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         List<Integer> playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(1,1,2));
         row2 = new ArrayList<>(List.of(0,0,2));
         row3 = new ArrayList<>(List.of(1,1,2));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
 
         row1 = new ArrayList<>(List.of(2,1,1));
         row2 = new ArrayList<>(List.of(0,2,0));
         row3 = new ArrayList<>(List.of(2,1,2));
-        sampleConfig = new ArrayList<>(List.of(row1,row2,row3));
+        sampleConfig = new BoardConfiguration(new ArrayList<>(List.of(row1,row2,row3)));
         playerstate = new ArrayList<>(List.of(2));
         assertTrue(cp.isWin(playerstate,sampleConfig,sampleConfig, false));
     }
