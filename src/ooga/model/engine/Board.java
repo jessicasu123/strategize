@@ -109,10 +109,8 @@ public class Board implements BoardFramework{
         int pieceCol = currPiece.getPosition().getCol();
         List<Coordinate> coordinates = getNeighborCoordinates(pieceRow,pieceCol);
         List<GamePiece> allNeighbors = new ArrayList<>();
-        for (Coordinate coord: coordinates) {
-            int row = coord.getRow();
-            int col = coord.getCol();
-            allNeighbors.add(myGamePieces.get(row).get(col));
+        for (Coordinate c: coordinates) {
+            allNeighbors.add(myGamePieces.get(c.getRow()).get(c.getCol()));
         }
         return allNeighbors;
     }
@@ -141,10 +139,9 @@ public class Board implements BoardFramework{
         for (List<GamePiece> row: myGamePieces) {
             for(GamePiece currPiece: row){
                 if (playerStates.contains(currPiece.getState()) || currPiece.getState() == myEmptyState) {
-                    Coordinate currCoord = currPiece.getPosition();
                     List<Coordinate> moves = currPiece.calculateAllPossibleMoves(getNeighbors(currPiece), playerStates.get(0));
                     if (moves.size() > 0) {
-                        allLegalMoves.put(currCoord, moves);
+                        allLegalMoves.put(currPiece.getPosition(), moves);
                     }
                 }
             }
