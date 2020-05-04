@@ -1,5 +1,6 @@
 package ooga.model.engine.player;
 
+import ooga.model.engine.LegalMovesCollection;
 import ooga.model.engine.agent.Agent;
 import ooga.model.engine.BoardFramework;
 import ooga.model.engine.Coordinate;
@@ -78,15 +79,15 @@ public class AgentPlayer{
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMaxVal = Integer.MIN_VALUE;
-
-        for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myStates).entrySet()){
-            for(Coordinate moveTo: moves.getValue()){
+        LegalMovesCollection legalMoves = boardCopy.getAllLegalMoves(myStates);
+        for(Coordinate coordinate: legalMoves.getKeys()){
+            for(Coordinate moveTo: legalMoves.getValueFromKey(coordinate)){
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
-                testMoveBoard.makeMove(myID, moves.getKey(), moveTo);
+                testMoveBoard.makeMove(myID, coordinate, moveTo);
                 int curr = getMinPlayerMove(testMoveBoard, depth, alpha, beta);
                 currMaxVal = Math.max(currMaxVal, curr);
                 if(depth == 0){
-                    moveMappings.put(curr, new AbstractMap.SimpleImmutableEntry<>(moves.getKey(), moveTo));
+                    moveMappings.put(curr, new AbstractMap.SimpleImmutableEntry<>(coordinate, moveTo));
                 }
                 if(currMaxVal > beta){
                     return currMaxVal;
@@ -105,10 +106,11 @@ public class AgentPlayer{
             return myAgent.evaluateCurrentGameState(boardCopy.getStateInfo(),boardCopy.getObjectInfo(), noMovesLeft);
         }
         int currMinVal = Integer.MAX_VALUE;
-        for(Map.Entry<Coordinate, List<Coordinate>> moves: boardCopy.getAllLegalMoves(myOpponentStates).entrySet()) {
-            for (Coordinate moveTo : moves.getValue()) {
+        LegalMovesCollection legalMoves = boardCopy.getAllLegalMoves(myOpponentStates);
+        for(Coordinate coordinate: legalMoves.getKeys()) {
+            for (Coordinate moveTo : legalMoves.getValueFromKey(coordinate)) {
                 BoardFramework testMoveBoard = boardCopy.copyBoard();
-                testMoveBoard.makeMove(myOpponentID, moves.getKey(), moveTo);
+                testMoveBoard.makeMove(myOpponentID, coordinate, moveTo);
                 int curr = getMaxPlayerMove(testMoveBoard, depth + 1, alpha, beta);
                 currMinVal = Math.min(currMinVal, curr);
                 if(currMinVal < alpha){

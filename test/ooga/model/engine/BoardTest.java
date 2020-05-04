@@ -88,9 +88,9 @@ public class BoardTest {
 
     @Test
     void testOthelloBoard() {
-        Map<Coordinate, List<Coordinate>> moves = othelloBoard.getAllLegalMoves(user);
-        for (Coordinate c : moves.keySet()) {
-            System.out.println(moves.get(c));
+        LegalMovesCollection moves = othelloBoard.getAllLegalMoves(user);
+        for (Coordinate c : moves.getKeys()) {
+            System.out.println(moves.getValueFromKey(c));
         }
     }
 
@@ -140,12 +140,12 @@ public class BoardTest {
 
     @Test
     void testGetAllLegalMoves() {
-        Map<Coordinate, List<Coordinate>> moves = ticTacToeBoard.getAllLegalMoves(user);
+        LegalMovesCollection moves = ticTacToeBoard.getAllLegalMoves(user);
         Coordinate squareWithPlayer = new Coordinate(1, 1);
 
         //checking that a coordinate with an empty square is a legal "move"
         Coordinate emptySquare = new Coordinate(1, 2);
-        assertEquals(1, moves.get(emptySquare).size());
+        assertEquals(1, moves.getValueFromKey(emptySquare).size());
     }
 
     @Test

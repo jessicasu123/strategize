@@ -21,7 +21,7 @@ public interface BoardFramework {
      * @return a map which maps the start coordinates of a piece to all of the possible end coordinates that piece
      * can legally move to
      */
-    Map<Coordinate, List<Coordinate>> getAllLegalMoves(List<Integer> playerStates);
+    LegalMovesCollection getAllLegalMoves(List<Integer> playerStates);
 
     /*
      * @deprecated Map<Coordinate, List<Coordinate>> getAllLegalMoves(int player);

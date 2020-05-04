@@ -5,12 +5,7 @@ import ooga.model.engine.pieces.GamePiece;
 
 import java.util.Collection;
 import java.util.List;
-/**
- * CODE MASTERPIECE (PT 2):
- * This class goes along with the Code Masterpiece because it shows the ConvertibleNeighborFinder interface,
- * which is a good example of FLEXIBILITY because any concrete class that chooses to implement
- * the findNeighborsToConvert method can be called on by the ChangeOpponentPiecesMove (PT 1) class.
- */
+
 
 /**
  * This interface is responsible for finding all the neighbors that

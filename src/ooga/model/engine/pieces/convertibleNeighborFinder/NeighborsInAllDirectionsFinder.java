@@ -7,25 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 /**
- * CODE MASTERPIECE (PT 4):
- * This final aspect of my Code MasterPiece is a specific implementation of the ConvertibleNeighborFinder (PT 2)
- * that could be used by ChangeOpponentPiecesMove (PT 1) to obtain which opponent pieces to convert to a new state.
- * In this case, the NeighborsInAllDirectionsFinder searches for all the neighbors in the surrounding 8
- * directions that are sandwiched consecutively between an empty spot and a player's piece.
- *
- * The Othello game JSON file has "NeighborsInAllDirectionsFinder" as its converter type because this
- * class calculates the kinds of neighbors that Othello would need to convert to the player state. However,
- * this code is FLEXIBLE enough so that ANY game could technically use this functionality if it needed
- * to find neighbors with the opponent state in a consecutive line between an empty spot and a piece with the player's
- * state.
- *
- * Similar to the other classes, the code is also well-commented, modular, and has methods that each have a clear
- * purpose, and abides by the single responsibility principle. The checkOneFlippableDirection method seems long, but it
- * contains a while loop with logic that is dependent on many variables within the local scope and is constantly updated
- * on every iteration. Therefore, it's really hard to extract the method into smaller chunks.
- */
-
-/**
  * This class is responsible for finding neighbors in ALL 8 directions
  * that could possibly be flipped.
  * The criteria for an opponent being flipped is that there is
@@ -67,16 +48,16 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
         myPlayerID = playerID;
         currRowPos = currCoordinate.getRow();
         currColPos = currCoordinate.getCol();
-        return findFlippableNeighborsInAllDirections(neighbors);
+        findFlippableNeighborsInAllDirections(neighbors);
+        return neighborsToConvert;
     }
 
     //check neighbors in all 8 directions and adds neighbors that can be flipped to a neighborsToConvert variable
-    private List<GamePiece> findFlippableNeighborsInAllDirections(List<GamePiece> neighbors) {
+    private void findFlippableNeighborsInAllDirections(List<GamePiece> neighbors) {
         for (int i = 0; i < directions.length;i++) {
             int[] direction = directions[i];
             checkOneFlippableDirection(currRowPos, currColPos, myPlayerID, direction[0], direction[1], neighbors);
         }
-        return neighborsToConvert;
     }
     /**
      * Also used by AllFlippableDirectionsCheck. The logic of checking that there is at least 1 out of 8
@@ -97,9 +78,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
         List<GamePiece> possibleNeighborsToConvert = new ArrayList<>();
         GamePiece neighbor = getPieceNeighborFromCoordinate(neighbors, new Coordinate(currRow, currCol));
         while (neighbor!=null) {
-            if (neighbor.getState()==0) return false;
-            else if (neighbor.getState()==myPlayerID && numOpponents==0) return false;
-            else if (neighbor.getState()!= myPlayerID && neighbor.getState()!=0) {
+            if (neighbor.getState()!= myPlayerID && neighbor.getState()!=0) {
                 possibleNeighborsToConvert.add(neighbor);
                 numOpponents++;
             }
