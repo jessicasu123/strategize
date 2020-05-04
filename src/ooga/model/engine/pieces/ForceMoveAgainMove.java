@@ -3,6 +3,7 @@ package ooga.model.engine.pieces;
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.convertibleNeighborFinder.ConvertibleNeighborFinder;
 
+import java.util.Collection;
 import java.util.List;
 
 /**

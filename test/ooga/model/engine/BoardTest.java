@@ -1,12 +1,12 @@
 package ooga.model.engine;
 
 import ooga.model.engine.neighborhood.*;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsInAllDirectionsFinder;
 import ooga.model.engine.player.PlayerInfoHolder;
 import ooga.model.exceptions.InvalidMoveException;
 import ooga.model.engine.pieces.*;
 import ooga.model.engine.pieces.moveChecks.*;
 import ooga.model.engine.pieces.convertibleNeighborFinder.ConvertibleNeighborFinder;
-import ooga.model.engine.pieces.convertibleNeighborFinder.FlippableNeighborFinder;
 import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsBetweenCoordinatesFinder;
 import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsUntilNoObjectsFinder;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ public class BoardTest {
     MoveCheck checkAllFlippableDirections = new AllFlippableDirectionsCheck();
     List<MoveCheck> moveChecks = List.of(checkEmptyState, checkAllFlippableDirections);
 
-    FlippableNeighborFinder allFlippableNeighbors = new FlippableNeighborFinder();
+    NeighborsInAllDirectionsFinder allFlippableNeighbors = new NeighborsInAllDirectionsFinder();
     ChangeOpponentPiecesMove changeOpponentPiecesMove = new ChangeOpponentPiecesMove(allFlippableNeighbors, false,0);
     List<MoveType> moveTypes = List.of(changeToNewState, changeOpponentPiecesMove);
 

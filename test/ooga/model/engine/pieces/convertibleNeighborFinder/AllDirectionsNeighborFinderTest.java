@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FlippableNeighborFinderTest {
-    FlippableNeighborFinder flippableNeighbors = new FlippableNeighborFinder();
+public class AllDirectionsNeighborFinderTest {
+    NeighborsInAllDirectionsFinder flippableNeighbors = new NeighborsInAllDirectionsFinder();
 
     int numObjects = 1;
     int playerID = 1;

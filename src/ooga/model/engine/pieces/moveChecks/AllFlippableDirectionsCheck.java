@@ -1,7 +1,7 @@
 package ooga.model.engine.pieces.moveChecks;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.convertibleNeighborFinder.FlippableNeighborFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsInAllDirectionsFinder;
 import ooga.model.engine.pieces.GamePiece;
 
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
  * @author Jessica Su
  */
 public class AllFlippableDirectionsCheck implements MoveCheck{
-    private FlippableNeighborFinder myNeighborhoodFinder;
+    private NeighborsInAllDirectionsFinder myNeighborhoodFinder;
     private int[][] myDirections;
 
     public AllFlippableDirectionsCheck() {
-        myNeighborhoodFinder = new FlippableNeighborFinder();
+        myNeighborhoodFinder = new NeighborsInAllDirectionsFinder();
         myDirections = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
 

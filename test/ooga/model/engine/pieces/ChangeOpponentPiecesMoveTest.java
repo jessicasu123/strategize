@@ -1,7 +1,7 @@
 package ooga.model.engine.pieces;
 
 import ooga.model.engine.Coordinate;
-import ooga.model.engine.pieces.convertibleNeighborFinder.FlippableNeighborFinder;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsInAllDirectionsFinder;
 import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsBetweenCoordinatesFinder;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ public class ChangeOpponentPiecesMoveTest {
         List<Integer> direction = List.of(1);
 
         //test for changing opponent pieces with a flippable neighbors from multiple directions
-        FlippableNeighborFinder allFlippableNeighbors = new FlippableNeighborFinder();
+        NeighborsInAllDirectionsFinder allFlippableNeighbors = new NeighborsInAllDirectionsFinder();
         ChangeOpponentPiecesMove changeOpponentPiecesMove = new ChangeOpponentPiecesMove(allFlippableNeighbors, false,0);
 
         GamePiece rightDiagNext = new GamePiece(0, new Coordinate(3,2),1,direction,  new ArrayList<>(),new ArrayList<>(), new ArrayList<>());

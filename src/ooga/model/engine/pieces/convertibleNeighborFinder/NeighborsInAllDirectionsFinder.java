@@ -5,6 +5,22 @@ import ooga.model.engine.pieces.GamePiece;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * CODE MASTERPIECE (PT 4):
+ * This final aspect of my Code MasterPiece is a specific implementation of the ConvertibleNeighborFinder (PT 2)
+ * that could be used by ChangeOpponentPiecesMove (PT 1) to obtain which opponent pieces to convert to a new state.
+ * In this case, the NeighborsInAllDirectionsFinder searches for all the neighbors in the surrounding 8
+ * directions that are sandwiched consecutively between an empty spot and a player's piece.
+ *
+ * The Othello game JSON file has "NeighborsInAllDirectionsFinder" as its converter type because this
+ * class calculates the kinds of neighbors that Othello would need to convert to the player state. However,
+ * this code is FLEXIBLE enough so that ANY game could technically use this functionality if it needed
+ * to find neighbors with the opponent state in a consecutive line between an empty spot and a piece with the player's
+ * state.
+ *
+ * Similar to the other classes, the code is also well-commented, modular, and has methods that each have a clear
+ * purpose, and abides by the single responsibility principle.
+ */
 
 /**
  * This class is responsible for finding neighbors in ALL 8 directions
@@ -17,7 +33,7 @@ import java.util.List;
  *
  * @author Jessica Su
  */
-public class FlippableNeighborFinder implements ConvertibleNeighborFinder {
+public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder {
 
     private int currRowPos;
     private int currColPos;
@@ -25,7 +41,7 @@ public class FlippableNeighborFinder implements ConvertibleNeighborFinder {
     private List<GamePiece> neighborsToConvert;
     private int myPlayerID;
 
-    public FlippableNeighborFinder() {
+    public NeighborsInAllDirectionsFinder() {
         neighborsToConvert = new ArrayList<>();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
@@ -61,7 +77,7 @@ public class FlippableNeighborFinder implements ConvertibleNeighborFinder {
     }
 
     /**
-     * Used by AllFlippableDirectionsCheck. The logic of checking that there is at least 1 out of 8
+     * Also used by AllFlippableDirectionsCheck. The logic of checking that there is at least 1 out of 8
      * valid directions to flip and actually flipping all the neighbors is essentially the same.
      * @param  currRowPos - the current row position of the piece whose neighbors are being checked
      * @param currColPos - the current col position of the piece whose neighbors are being checked

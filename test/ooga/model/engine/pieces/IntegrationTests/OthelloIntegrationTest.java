@@ -2,10 +2,10 @@ package ooga.model.engine.pieces.IntegrationTests;
 
 import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
+import ooga.model.engine.pieces.convertibleNeighborFinder.NeighborsInAllDirectionsFinder;
 import ooga.model.engine.pieces.moveChecks.MoveCheck;
 import ooga.model.engine.pieces.ChangeOpponentPiecesMove;
 import ooga.model.engine.pieces.ChangeToNewStateMove;
-import ooga.model.engine.pieces.convertibleNeighborFinder.FlippableNeighborFinder;
 import ooga.model.engine.pieces.moveChecks.AllFlippableDirectionsCheck;
 import ooga.model.engine.pieces.moveChecks.EmptyStateCheck;
 import ooga.model.engine.pieces.MoveType;
@@ -27,7 +27,7 @@ public class OthelloIntegrationTest {
     List<MoveCheck> moveChecks = List.of(checkEmptyState, checkAllFlippableDirections);
 
     MoveType changeToNewState = new ChangeToNewStateMove();
-    FlippableNeighborFinder allFlippableNeighbors = new FlippableNeighborFinder();
+    NeighborsInAllDirectionsFinder allFlippableNeighbors = new NeighborsInAllDirectionsFinder();
     ChangeOpponentPiecesMove changeOpponentPiecesMove = new ChangeOpponentPiecesMove(allFlippableNeighbors, false,0);
     List<MoveType> moveTypes = List.of(changeToNewState, changeOpponentPiecesMove);
 
