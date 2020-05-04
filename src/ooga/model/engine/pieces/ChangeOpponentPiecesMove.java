@@ -17,7 +17,7 @@ import java.util.List;
  *      - methods are concise and streamlined
  *  - MODULARITY / SINGLE RESPONSIBILITY
  *      - all instance field variables are private
- *      - this class is solely responsible for CHANGING opponent pieces, and it delegates responsibilities on LINE 67
+ *      - this class is solely responsible for CHANGING opponent pieces, and it delegates responsibilities on LINE 70
  *      to a different object (ConvertibleNeighborFinder) to FIND which neighbors actually need to be changed
  *          - the ConvertibleNeighborFinder interface and factory is included to demonstrate its design as well
  *  - POLYMORPHISM / FLEXIBILITY

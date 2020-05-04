@@ -63,7 +63,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
     @Override
     public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                         int playerID, int direction, List<GamePiece> neighbors) {
-        neighborsToConvert = new ArrayList<>();
+        neighborsToConvert = new ArrayList<>(); //has to be reset each time this method is called
         myPlayerID = playerID;
         currRowPos = currCoordinate.getRow();
         currColPos = currCoordinate.getCol();
