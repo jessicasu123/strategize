@@ -51,11 +51,11 @@ public class BoardTest {
 
     GamePieceCreator gamePieceCreatorTicTacToe = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
-    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, config,objectConfig, neighborhoods,0);
+    Board ticTacToeBoard = new Board(gamePieceCreatorTicTacToe, new Grid(config),new Grid(objectConfig), neighborhoods,0);
 
     //board that has no more moves
     List<List<Integer>> noMoves = createTestConfig(noMovesConfig);
-    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, noMoves,objectConfig, neighborhoods,0);
+    Board noMovesBoard = new Board(gamePieceCreatorTicTacToe, new Grid(noMoves),new Grid(objectConfig), neighborhoods,0);
 
     List<Integer> row1 = new ArrayList<>(List.of(0, 0, 0, 0, 0, 0, 0, 0));
     List<Integer> row2 = new ArrayList<>(List.of(0, 0, 1, 0, 0, 0, 0, 0));
@@ -84,7 +84,7 @@ public class BoardTest {
     Neighborhood diagonal = new DiagonalNeighborhood(8,8);
     List<Neighborhood> othelloNeighborhoods = List.of(horizontal, vertical, diagonal);
     List<List<Integer>> objectConfig2 = new ArrayList<>(List.of(row1,row1,row1,row1,row1,row1,row1,row1));
-    Board othelloBoard = new Board(gamePieceCreator, othelloConfig,objectConfig2, othelloNeighborhoods,0);
+    Board othelloBoard = new Board(gamePieceCreator, new Grid(othelloConfig),new Grid(objectConfig2), othelloNeighborhoods,0);
 
     @Test
     void testOthelloBoard() {
@@ -104,8 +104,8 @@ public class BoardTest {
          * config values.
          */
 
-        List<List<Integer>> stateInfo = ticTacToeBoard.getStateInfo();
-        assertEquals(stateInfo, config);
+        ImmutableGrid stateInfo = ticTacToeBoard.getStateInfo();
+        assertEquals(stateInfo, new Grid(config));
     }
 
     @Test
@@ -118,7 +118,7 @@ public class BoardTest {
         assertNotEquals(newBoard.getStateInfo(), ticTacToeBoard.getStateInfo());
 
         //b should still reflect starting config
-        assertEquals(ticTacToeBoard.getStateInfo(), config);
+        assertEquals(ticTacToeBoard.getStateInfo(), new Grid(config));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class BoardTest {
                 {0, 1, 0},
                 {0, 0, 1}
         };
-        assertEquals(createTestConfig(desiredConfig), testMoveBoard.getStateInfo());
+        assertEquals(new Grid(createTestConfig(desiredConfig)), testMoveBoard.getStateInfo());
 
         //test for invalid move - can't try to move on a square that already has a player
         assertThrows(InvalidMoveException.class,
@@ -199,12 +199,12 @@ public class BoardTest {
         List<List<Integer>> checkersConfig = new ArrayList<>(List.of(row1, row2, row3, row4, row5, row6, row7, row8));
         Neighborhood diagonal = new DiagonalNeighborhood(8,8);
         List<Neighborhood> checkersNeighborhoods = List.of(diagonal);
-       Board checkersBoard = new Board(gamePieceCreator, checkersConfig,objectConfig2, checkersNeighborhoods,0);
+        Board checkersBoard = new Board(gamePieceCreator, new Grid(checkersConfig),new Grid(objectConfig2), checkersNeighborhoods,0);
 
         Coordinate start = new Coordinate(1,2);
         Coordinate end = new Coordinate(2,3);
         checkersBoard.makeMove(1,start,end);
-        assertNotEquals(checkersConfig, checkersBoard.getStateInfo());
+        assertNotEquals(new Grid(checkersConfig), checkersBoard.getStateInfo());
     }
 
     @Test
@@ -249,12 +249,12 @@ public class BoardTest {
         List<Neighborhood> mancalaNeighborhoods = List.of(all);
         List<Integer> rowConfig = new ArrayList<>(List.of(0,4,4,4,4,4,4,0));
         List<List<Integer>> objectConfig3 = new ArrayList<>(List.of(rowConfig,rowConfig));
-        Board mancalaBoard = new Board(gamePieceCreator, mancalaConfig,objectConfig3, mancalaNeighborhoods,0);
+        Board mancalaBoard = new Board(gamePieceCreator, new Grid(mancalaConfig),new Grid(objectConfig3), mancalaNeighborhoods,0);
         Coordinate start = new Coordinate(0,2);
         Coordinate end = new Coordinate(0,2);
         mancalaBoard.makeMove(2,start,end);
-        assertNotEquals(objectConfig3, mancalaBoard.getObjectInfo());
-        assertEquals(mancalaConfig, mancalaBoard.getStateInfo());
+        assertNotEquals(new Grid(objectConfig3), mancalaBoard.getObjectInfo());
+        assertEquals(new Grid(mancalaConfig), mancalaBoard.getStateInfo());
     }
 }
 

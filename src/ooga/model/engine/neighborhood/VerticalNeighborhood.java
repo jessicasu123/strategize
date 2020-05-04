@@ -1,6 +1,8 @@
 package ooga.model.engine.neighborhood;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +44,16 @@ public class VerticalNeighborhood extends Neighborhood {
      * @param config - the List of Lists of integers representing an entire board.
      * @return - a List of the columns in the board, where each column is represented as a List of integers
      */
-    public List<List<Integer>> getAllVerticals(List<List<Integer>> config) {
+    public ImmutableGrid getAllVerticals(ImmutableGrid config) {
         List<List<Integer>> allCols = new ArrayList<>();
-        for(int i = 0; i < config.get(0).size(); i++) {
+        for(int i = 0; i < config.numCols(); i++) {
             List<Integer> col = new ArrayList<>();
-            for (List<Integer> row : config) {
-                col.add(row.get(i));
+            for(int j = 0; j < config.numRows(); j++){
+                col.add(config.getVal(j,i));
             }
             allCols.add(col);
         }
-        return allCols;
+        return new Grid(allCols);
     }
 
 }

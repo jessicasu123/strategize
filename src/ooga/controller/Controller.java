@@ -69,10 +69,10 @@ public class Controller implements ControllerFramework {
         myStateToImageMapping = new HashMap<>();
         createUserAndAgentPlayers();
         emptyState = myFileHandler.getEmptyState();
-        List<List<Integer>> startingConfiguration = myFileHandler.loadFileConfiguration();
+        ImmutableGrid startingConfiguration = myFileHandler.loadFileConfiguration();
         Agent gameAgent = createAgent(startingConfiguration);
-        List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfiguration.size(), startingConfiguration.get(0).size());
+        ImmutableGrid objectConfig = myFileHandler.getObjectConfig();
+        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfiguration.numRows(), startingConfiguration.numCols());
         makeGamePieceCreator();
         myGame = new Game(myGamePieceCreator, startingConfiguration, objectConfig, allNeighborhoods, myUserPlayerInfoHolder,
                 myAgentPlayerInfoHolder, gameAgent, emptyState);
@@ -182,7 +182,7 @@ public class Controller implements ControllerFramework {
     /**
      * Creates the agent to carry out evaluations on the game state and potential moves
      */
-    private Agent createAgent(List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException, InvalidWinTypeException {
+    private Agent createAgent(ImmutableGrid startingConfig) throws InvalidEvaluationFunctionException, InvalidWinTypeException {
         int winValue = myFileHandler.getWinValue();
         WinType winType = createWinType(winValue, startingConfig);
         List<EvaluationFunction> allEvals = createEvaluationFunctions(winValue, startingConfig);
@@ -195,12 +195,12 @@ public class Controller implements ControllerFramework {
     /**
      * Creates the evaluation functions that compose the agent, as specified in the game data file
      */
-    private List<EvaluationFunction> createEvaluationFunctions(int winValue, List<List<Integer>> startingConfig) throws InvalidEvaluationFunctionException{
+    private List<EvaluationFunction> createEvaluationFunctions(int winValue, ImmutableGrid startingConfig) throws InvalidEvaluationFunctionException{
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         int userDirection = myUserPlayerInfoHolder.getDirections().get(0);
         int agentDirection = myAgentPlayerInfoHolder.getDirections().get(0);
 
-        List<List<Integer>> boardWeights = myFileHandler.getBoardWeights();
+        ImmutableGrid boardWeights = myFileHandler.getBoardWeights();
         List<String> evalFunctions = myFileHandler.getEvaluationFunctions();
         List<EvaluationFunction> allEvals = new ArrayList<>();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
@@ -219,7 +219,7 @@ public class Controller implements ControllerFramework {
      * Creates the WinTypes to be used by the agent to evaluate win status,
      * as specified in the data file
      */
-    private WinType createWinType(int winValue, List<List<Integer>> startingConfig) throws InvalidWinTypeException{
+    private WinType createWinType(int winValue, ImmutableGrid startingConfig) throws InvalidWinTypeException{
         String winTypeStr = myFileHandler.getWinType();
         int specialPieceIndex = myFileHandler.getSpecialPieceIndex();
         boolean checkCurrConfig = myFileHandler.shouldCheckCurrConfig();
@@ -279,9 +279,9 @@ public class Controller implements ControllerFramework {
     public void restartGame() throws InvalidNeighborhoodException, InvalidEvaluationFunctionException, InvalidWinTypeException {
         userTurn = userIsPlayer1;
         isPieceSelected = false;
-        List<List<Integer>> startingConfig = myFileHandler.loadFileConfiguration();
-        List<List<Integer>> objectConfig = myFileHandler.getObjectConfig();
-        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfig.size(), startingConfig.get(0).size());
+        ImmutableGrid startingConfig = myFileHandler.loadFileConfiguration();
+        ImmutableGrid objectConfig = myFileHandler.getObjectConfig();
+        List<Neighborhood> allNeighborhoods = createNeighborhoods(startingConfig.numRows(), startingConfig.numCols());
         myGame = new Game(myGamePieceCreator, startingConfig, objectConfig, allNeighborhoods, myUserPlayerInfoHolder,
                 myAgentPlayerInfoHolder, createAgent(startingConfig), emptyState);
     }
@@ -382,7 +382,7 @@ public class Controller implements ControllerFramework {
      * @return configuration of board that is to be represented on screen
      */
     @Override
-    public List<List<Integer>> getGameVisualInfo() {
+    public ImmutableGrid getGameVisualInfo() {
         return myGame.getVisualInfo();
     }
 
@@ -390,7 +390,7 @@ public class Controller implements ControllerFramework {
      * @return configuration of objects on the board
      */
     @Override
-    public List<List<Integer>> getNumPiecesVisualInfo() { return myGame.getObjectInfo();}
+    public ImmutableGrid getNumPiecesVisualInfo() { return myGame.getObjectInfo();}
 
     /**
      * @return name of game file

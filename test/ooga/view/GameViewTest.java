@@ -106,7 +106,7 @@ public class GameViewTest extends DukeApplicationTest {
         List<Integer> coords = new ArrayList<>();
         for (int r = 0; r < numRows; r++) {
             for (int c = 0; c < numCols; c++) {
-                if (testController.getGameVisualInfo().get(r).get(c)==2) {
+                if (testController.getGameVisualInfo().getVal(r,c)==2) {
                     coords.add(r);
                     coords.add(c);
                 }

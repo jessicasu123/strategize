@@ -1,5 +1,8 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
+
 import java.util.List;
 
 /**
@@ -22,5 +25,5 @@ public interface WinType {
      * @param noMovesLeft - true if there are no moves left, false if there are
      * @return true if a player has won the game, false if the game is continuing/tie
      */
-    boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft);
+    boolean isWin(List<Integer> playerStates, ImmutableGrid boardStateInfo, ImmutableGrid objectInfo, boolean noMovesLeft);
 }

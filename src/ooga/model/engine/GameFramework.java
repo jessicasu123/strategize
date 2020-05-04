@@ -63,14 +63,14 @@ public interface GameFramework {
      *  - passes along the visual state info about which PLAYER is in which position
      *  from the board so the view can access it
      */
-    List<List<Integer>> getVisualInfo();
+    ImmutableGrid getVisualInfo();
 
     /**
      * METHOD PURPOSE:
      *  - passes along the info from the board about how many OBJECTS are in each position
      *  so the view can access it
      */
-    List<List<Integer>> getObjectInfo();
+    ImmutableGrid getObjectInfo();
 
     /**
      * METHOD PURPOSE:

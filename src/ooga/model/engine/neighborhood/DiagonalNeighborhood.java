@@ -1,6 +1,8 @@
 package ooga.model.engine.neighborhood;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.engine.pieces.GamePiece;
 
 import java.util.ArrayList;
@@ -38,8 +40,8 @@ public class DiagonalNeighborhood extends Neighborhood {
      * @param diagonalLength - the length of the diagonal being looked for
      * @return
      */
-    public List<List<Integer>> getAllDiagonals(List<List<Integer>> config, int diagonalLength) {
-        boolean isSquare = config.size() == config.get(0).size();
+    public ImmutableGrid getAllDiagonals(ImmutableGrid config, int diagonalLength) {
+        boolean isSquare = config.numRows() == config.numCols();
         if (isSquare) {
             return getDiagonalsForSquareGrid(config);
         } else {
@@ -47,34 +49,34 @@ public class DiagonalNeighborhood extends Neighborhood {
         }
     }
 
-    private List<List<Integer>> getDiagonalsForSquareGrid(List<List<Integer>> config) {
+    private ImmutableGrid getDiagonalsForSquareGrid(ImmutableGrid config) {
         List<Integer> leftDiag = new ArrayList<>();
         List<Integer> rightDiag = new ArrayList<>();
-        for(int i = 0; i < Math.min(config.size(), config.get(0).size()); i++){
-            leftDiag.add(config.get(i).get(i));
-            rightDiag.add(config.get(i).get(config.size() - 1 - i));
+        for(int i = 0; i < config.numRows(); i++){
+            leftDiag.add(config.getVal(i,i));
+            rightDiag.add(config.getVal(i,config.numRows() - 1 - i));
         }
-        return new ArrayList<>(List.of(leftDiag, rightDiag));
+        return new Grid(new ArrayList<>(List.of(leftDiag, rightDiag)));
     }
 
-    private List<List<Integer>> getDiagonalsForRectangularGrid(List<List<Integer>> config, int diagonalLength) {
-        List<List<Integer>> allDiag = new ArrayList<List<Integer>>();
-        int rows = config.size();
-        int cols = config.get(0).size();
+    private ImmutableGrid getDiagonalsForRectangularGrid(ImmutableGrid config, int diagonalLength) {
+        List<List<Integer>> allDiag = new ArrayList<>();
+        int rows = config.numRows();
+        int cols = config.numCols();
         int remainder = diagonalLength - 1;
         for (int row = rows - diagonalLength; row >= 0; row--) {
             for (int col = cols - diagonalLength; col >= 0; col--) {
-                List<Integer> leftDiag = new ArrayList<Integer>();
-                List<Integer> rightDiag = new ArrayList<Integer>();
+                List<Integer> leftDiag = new ArrayList<>();
+                List<Integer> rightDiag = new ArrayList<>();
                 for (int i = 0; i < diagonalLength; i++) {
-                    rightDiag.add(config.get(row + i).get(col - i + remainder));
-                    leftDiag.add(config.get(row + i).get(col + i));
+                    rightDiag.add(config.getVal(row + i,col - i + remainder));
+                    leftDiag.add(config.getVal(row + i,col + i));
                 }
                 allDiag.add(leftDiag);
                 allDiag.add(rightDiag);
             }
         }
-        return allDiag;
+        return new Grid(allDiag);
     }
 
     /**

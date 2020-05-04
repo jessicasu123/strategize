@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.Grid;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(noPieces.isWin(user,boardConfig,boardConfig, false));
-        assertFalse(noPieces.isWin(agent,boardConfig,boardConfig,false));
+        assertFalse(noPieces.isWin(user,new Grid(boardConfig),new Grid(boardConfig), false));
+        assertFalse(noPieces.isWin(agent,new Grid(boardConfig),new Grid(boardConfig),false));
     }
 
     @Test
@@ -30,8 +31,8 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(noPieces.isWin(user,boardConfig,boardConfig,false));
-        assertTrue(noPieces.isWin(agent,boardConfig,boardConfig,true));
+        assertFalse(noPieces.isWin(user,new Grid(boardConfig),new Grid(boardConfig),false));
+        assertTrue(noPieces.isWin(agent,new Grid(boardConfig),new Grid(boardConfig),true));
     }
 
     @Test
@@ -41,7 +42,7 @@ class NoPiecesForOpponentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(noPieces.isWin(user,boardConfig,boardConfig,true));
-        assertFalse(noPieces.isWin(agent,boardConfig,boardConfig,false));
+        assertTrue(noPieces.isWin(user,new Grid(boardConfig),new Grid(boardConfig),true));
+        assertFalse(noPieces.isWin(agent,new Grid(boardConfig),new Grid(boardConfig),false));
     }
 }

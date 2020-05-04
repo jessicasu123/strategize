@@ -1,4 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.exceptions.InvalidEvaluationFunctionException;
 
 import java.util.List;
@@ -23,9 +25,9 @@ public class EvaluationFunctionFactory {
      * @return EvaluationFunction object, as specified by the evaluationType
      */
     public EvaluationFunction createEvaluationFunction(String evaluationType, int stateIndex, List<Integer> maxStates,
-                                                       List<Integer> minStates, List<List<Integer>> boardWeights,
+                                                       List<Integer> minStates, ImmutableGrid boardWeights,
                                                        int maxDirection, int minDirection, int winValue, boolean checkCurrConfig,
-                                                       List<List<Integer>> initialConfig) throws InvalidEvaluationFunctionException {
+                                                       ImmutableGrid initialConfig) throws InvalidEvaluationFunctionException {
         switch (evaluationType) {
             case "MorePieces":
                 return new MorePieces(stateIndex, maxStates, minStates, initialConfig, checkCurrConfig);

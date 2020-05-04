@@ -52,8 +52,8 @@ public class Game implements GameFramework{
      * @param agent - will perform the AI calculation with minimax function
      * @param emptyState - the integer representing the empty state
      */
-    public Game(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
+    public Game(GamePieceCreator gamePieces, ImmutableGrid startingConfiguration,
+                ImmutableGrid objectConfiguration, List<Neighborhood> neighborhoods, PlayerInfoHolder userPlayerInfo,
                 PlayerInfoHolder agentPlayerInfo, Agent agent, int emptyState) {
         myBoard = new Board(gamePieces, startingConfiguration, objectConfiguration, neighborhoods, emptyState);
         myUserStates = userPlayerInfo.getPlayerStates();
@@ -137,9 +137,16 @@ public class Game implements GameFramework{
     public int getEndGameStatus() {
         int numMovesStatus = myBoard.checkNoMovesLeft(myUserStates, myAgentStates);
         boolean noMovesLeft = numMovesStatus == 0;
-        int result = myAgent.findGameWinner(myBoard.getStateInfo(),myBoard.getObjectInfo(), noMovesLeft);
-        if (result == 0 && noMovesLeft) { return TIE; }
-        return result;
+        if(myAgent.isGameWon(myBoard.getStateInfo(),myBoard.getObjectInfo(), noMovesLeft)){
+            if(myAgent.hasAgentWon(myBoard.getStateInfo(),myBoard.getObjectInfo(), noMovesLeft)){
+                return myAgentStates.get(ID_STATE_POS);
+            }else{
+                return myUserStates.get(ID_STATE_POS);
+            }
+        }else if(noMovesLeft){
+            return TIE;
+        }
+        return 0;
     }
 
     /**
@@ -148,7 +155,7 @@ public class Game implements GameFramework{
      *  so the view can access it
      */
     @Override
-    public List<List<Integer>> getVisualInfo() {
+    public ImmutableGrid getVisualInfo() {
         return myBoard.getStateInfo();
     }
 
@@ -158,7 +165,7 @@ public class Game implements GameFramework{
      *  so the view can access it
      */
     @Override
-    public List<List<Integer>> getObjectInfo() {return myBoard.getObjectInfo();}
+    public ImmutableGrid getObjectInfo() {return myBoard.getObjectInfo();}
 
     /**
      * METHOD PURPOSE:

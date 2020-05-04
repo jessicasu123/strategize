@@ -48,7 +48,7 @@ public interface BoardFramework {
      *  - gets the info for all of the current states of the game pieces for the front-end to use
      * @return list of list of the integers used to represent the state at each location
      */
-    List<List<Integer>> getStateInfo();
+    ImmutableGrid getStateInfo();
 
     /**
      * METHOD PURPOSE:
@@ -56,7 +56,7 @@ public interface BoardFramework {
      *  for games where there are multiple pieces per square
      * @return list of list of the integers used to represent the number of objects at each location
      */
-    List<List<Integer>> getObjectInfo();
+    ImmutableGrid getObjectInfo();
 
     /**
      * METHOD PURPOSE:

@@ -1,6 +1,8 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ public class MorePieces implements EvaluationFunction{
     private int myStateEvalFor;
     private int opponentStateEvalFor;
     private final Boolean checkCurrConfig;
-    private final List<List<Integer>> myInitialConfig;
+    private final ImmutableGrid myInitialConfig;
 
     /**
      *
@@ -26,7 +28,7 @@ public class MorePieces implements EvaluationFunction{
      * @param initialConfig - used for some games to determine board layout of specific states
      * @param checkCurrConfig - indicates whether to determine states to be checked from current config or initial config
      */
-    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, List<List<Integer>> initialConfig, Boolean checkCurrConfig){
+    public MorePieces(int stateIndex, List<Integer> maxStates, List<Integer> minStates, ImmutableGrid initialConfig, Boolean checkCurrConfig){
         myStateEvalFor = maxStates.get(stateIndex);
         opponentStateEvalFor = minStates.get(stateIndex);
         myInitialConfig = initialConfig;
@@ -38,19 +40,18 @@ public class MorePieces implements EvaluationFunction{
      * pieces matching a specific player state
      * @param boardStateInfo - the current state configuration of the board
      * @param objectInfo - current configuration of objects on the board - used by object-based games (ex: Mancala)
-     * @param noMovesLeft - boolean that represents if there are moves left
      * @return
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        List<List<Integer>> boardStates;
+    public int evaluate(ImmutableGrid boardStateInfo, ImmutableGrid objectInfo) {
+        ImmutableGrid boardStates;
         if (checkCurrConfig) {
             boardStates = boardStateInfo;
         } else {
             boardStates = myInitialConfig;
         }
-        ArrayList<Coordinate> myEvalCoords = getEvalStateCoords(myStateEvalFor, boardStates);
-        ArrayList<Coordinate> opponentEvalCoords = getEvalStateCoords(opponentStateEvalFor, boardStates);
+        List<Coordinate> myEvalCoords = getEvalStateCoords(myStateEvalFor, boardStates);
+        List<Coordinate> opponentEvalCoords = getEvalStateCoords(opponentStateEvalFor, boardStates);
         if (checkCurrConfig) {
             return myEvalCoords.size() - opponentEvalCoords.size();
         }
@@ -63,11 +64,11 @@ public class MorePieces implements EvaluationFunction{
      * @param config - board configuration
      * @return list of coordinates matching the given state
      */
-    private ArrayList<Coordinate> getEvalStateCoords(int stateToFind, List<List<Integer>> config) {
-        ArrayList<Coordinate> stateCoords = new ArrayList<>();
-        for (int r = 0; r < config.size(); r++) {
-            for (int c = 0; c < config.get(0).size(); c++) {
-                if (config.get(r).get(c) == stateToFind) {
+    private List<Coordinate> getEvalStateCoords(int stateToFind, ImmutableGrid config) {
+        List<Coordinate> stateCoords = new ArrayList<>();
+        for (int r = 0; r < config.numRows(); r++) {
+            for (int c = 0; c < config.numCols(); c++) {
+                if (config.getVal(r,c) == stateToFind) {
                     stateCoords.add(new Coordinate(r, c));
                 }
             }
@@ -78,10 +79,10 @@ public class MorePieces implements EvaluationFunction{
     /**
      * Counts the objects corresponding to the specific state occurrences for object-based games
      */
-    private int countEvalStates(ArrayList<Coordinate> stateCoords, List<List<Integer>> boardStateInfo) {
+    private int countEvalStates(List<Coordinate> stateCoords, ImmutableGrid boardStateInfo) {
         int total = 0;
         for (Coordinate coord : stateCoords) {
-            total += boardStateInfo.get(coord.getRow()).get(coord.getCol());
+            total += boardStateInfo.getVal(coord.getRow(),coord.getCol());
         }
         return total;
     }

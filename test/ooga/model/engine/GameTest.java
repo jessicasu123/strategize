@@ -66,13 +66,13 @@ public class GameTest {
 
     GamePieceCreator gamePieceCreator = new GamePieceCreator(player1InfoTicTacToe, player2InfoTicTacToe);
 
-    Game inProgressGame = new Game(gamePieceCreator, createTestConfig(startingConfig),objectConfig,
+    Game inProgressGame = new Game(gamePieceCreator, new Grid(createTestConfig(startingConfig)), new Grid(objectConfig),
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game noMovesLeftGame = new Game(gamePieceCreator, createTestConfig(noMovesConfig),objectConfig,
+    Game noMovesLeftGame = new Game(gamePieceCreator, new Grid(createTestConfig(noMovesConfig)),new Grid(objectConfig),
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game player1WinGame = new Game(gamePieceCreator, createTestConfig(player1Win),objectConfig,
+    Game player1WinGame = new Game(gamePieceCreator, new Grid(createTestConfig(player1Win)),new Grid(objectConfig),
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
-    Game player2WinGme = new Game(gamePieceCreator, createTestConfig(player2Win),objectConfig,
+    Game player2WinGme = new Game(gamePieceCreator, new Grid(createTestConfig(player2Win)),new Grid(objectConfig),
             new ArrayList<>(), player1InfoTicTacToe,player2InfoTicTacToe, myAgent,0);
 
     @Test
@@ -84,14 +84,19 @@ public class GameTest {
                 {0,1,0},
                 {0,0,1}
         };
-        assertEquals(createTestConfig(userMove), inProgressGame.getVisualInfo());
+        assertEquals(new Grid(createTestConfig(userMove)), inProgressGame.getVisualInfo());
 
         //making the agent move somewhere, as calculated by AI algo
         inProgressGame.makeGameMove(Arrays.asList(new Integer[]{2,2,2,2}));
         int numAgents = 0;
-        for (List<Integer> row: inProgressGame.getVisualInfo()) {
-            numAgents += Collections.frequency(row, 2); //agentID = 2
+        for(int r = 0 ; r < inProgressGame.getVisualInfo().numRows(); r++){
+            for(int c = 0 ; c < inProgressGame.getVisualInfo().numCols(); c++){
+                if(inProgressGame.getVisualInfo().getVal(r,c) == 2){
+                    numAgents++;
+                }
+            }
         }
+
         assertEquals(1,numAgents);
     }
 

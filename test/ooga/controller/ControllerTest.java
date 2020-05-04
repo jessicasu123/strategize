@@ -1,5 +1,7 @@
 package ooga.controller;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.exceptions.*;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
@@ -47,12 +49,12 @@ class ControllerTest {
         List<List<Integer>> expectedConfig = createTestConfig(newConfig);
         testController.squareSelected(1,1);
         testController.playMove();
-        assertEquals(expectedConfig, testController.getGameVisualInfo());
+        assertEquals(new Grid(expectedConfig), testController.getGameVisualInfo());
     }
 
     @Test
     void testPlayMove() {
-        List<List<Integer>> originalBoardConfig = testController.getGameVisualInfo();
+        ImmutableGrid originalBoardConfig = testController.getGameVisualInfo();
         testController.squareSelected(1,1);
         testController.playMove();
         assertNotEquals(testController.getGameVisualInfo(), originalBoardConfig);
@@ -60,10 +62,10 @@ class ControllerTest {
 
     @Test
     void testHaveAgentMove() {
-        List<List<Integer>> originalBoardConfig = testController.getGameVisualInfo();
+        ImmutableGrid originalBoardConfig = testController.getGameVisualInfo();
         testController.squareSelected(1,1);
         testController.playMove();
-        List<List<Integer>> afterUserTurnBoardConfig = testController.getGameVisualInfo();
+        ImmutableGrid afterUserTurnBoardConfig = testController.getGameVisualInfo();
         testController.playMove();
         assertNotEquals(testController.getGameVisualInfo(), afterUserTurnBoardConfig);
     }
@@ -76,7 +78,7 @@ class ControllerTest {
                 {0,0,0}
         };
         List<List<Integer>> expectedConfig = createTestConfig(newConfig);
-        assertEquals(expectedConfig, testController.getGameVisualInfo());
+        assertEquals(new Grid(expectedConfig), testController.getGameVisualInfo());
     }
 
 

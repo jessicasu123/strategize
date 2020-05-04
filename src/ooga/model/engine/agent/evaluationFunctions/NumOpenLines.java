@@ -1,9 +1,10 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.engine.neighborhood.DiagonalNeighborhood;
 import ooga.model.engine.neighborhood.VerticalNeighborhood;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,12 +36,11 @@ public class NumOpenLines implements EvaluationFunction {
     /**
      * @param boardStateInfo - the current state configuration of the board
      * @param objectInfo
-     * @param noMovesLeft - boolean that represents if there are moves left
      * @return integer representing the number of open lines
      */
     @Override
-    public int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        int rowEvaluation = evaluateMaxOpenMinusMinOpen((boardStateInfo));
+    public int evaluate(ImmutableGrid boardStateInfo, ImmutableGrid objectInfo) {
+        int rowEvaluation = evaluateMaxOpenMinusMinOpen(boardStateInfo);
         int colEvaluation = evaluateMaxOpenMinusMinOpen(getCols(boardStateInfo));
         int diagEvaluation = evaluateMaxOpenMinusMinOpen(getDiagonals(boardStateInfo));
         return rowEvaluation + colEvaluation + diagEvaluation;
@@ -50,28 +50,30 @@ public class NumOpenLines implements EvaluationFunction {
      * @param neighborhood - nested list of neighbors
      * @return - calculates the max open - min open
      */
-    private int evaluateMaxOpenMinusMinOpen(List<List<Integer>> neighborhood){
+    private int evaluateMaxOpenMinusMinOpen(ImmutableGrid neighborhood){
         int numOpenMax = 0;
         int numOpenMin = 0;
-        for(List<Integer> group : neighborhood){
-            if(checkNeighborhoodOpen(group, myStateEvalFor)){
+        for(int i = 0; i < neighborhood.numRows(); i++){
+            if(checkNeighborhoodOpen(neighborhood, i, myStateEvalFor)){
                 numOpenMax++;
             }
-            if(checkNeighborhoodOpen(group, myOpponentStateEvalFor)){
+            if(checkNeighborhoodOpen(neighborhood,i, myOpponentStateEvalFor)){
                 numOpenMin++;
             }
         }
+
         return numOpenMax - numOpenMin;
     }
 
     /**
-     * @param check - list of states to check
+     * @param gridChecking - list of states to check
      * @param playerOpenFor open player
      * @return - whether or not the neighborhood is open
      */
-    private boolean checkNeighborhoodOpen(List<Integer> check, int playerOpenFor){
+    private boolean checkNeighborhoodOpen(ImmutableGrid gridChecking, int rowChecking, int playerOpenFor){
         int consecutiveUnblockedSpots = 0;
-        for(int state: check){
+        for(int j = 0; j < gridChecking.numCols(); j++){
+            int state = gridChecking.getVal(rowChecking,j);
             if(state == playerOpenFor || (state != myStateEvalFor && state != myOpponentStateEvalFor)){
                 consecutiveUnblockedSpots++;
             }else{
@@ -81,9 +83,9 @@ public class NumOpenLines implements EvaluationFunction {
         return consecutiveUnblockedSpots >= myInARow;
     }
 
-    private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
+    private ImmutableGrid getDiagonals(ImmutableGrid boardStateInfo){
+        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.numRows(),
+                boardStateInfo.numCols());
         return calculateDiagonals.getAllDiagonals(boardStateInfo,
                 myInARow);
     }
@@ -91,9 +93,9 @@ public class NumOpenLines implements EvaluationFunction {
 
 
 
-    private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
-        calculateColumns = new VerticalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
+    private ImmutableGrid getCols(ImmutableGrid boardStateInfo){
+        calculateColumns = new VerticalNeighborhood(boardStateInfo.numRows(),
+                boardStateInfo.numCols());
         return calculateColumns.getAllVerticals(boardStateInfo);
     }
 }

@@ -1,5 +1,7 @@
 package ooga.controller;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.exceptions.InvalidEvaluationFunctionException;
 import ooga.model.exceptions.InvalidMoveException;
 import ooga.model.exceptions.InvalidNeighborhoodException;
@@ -72,9 +74,9 @@ public interface ControllerFramework {
      *  - gives the visual info from the back-end to the front-end to display
      * @return list of list of integers to use to display the game state visually
      */
-    List<List<Integer>> getGameVisualInfo();
+    ImmutableGrid getGameVisualInfo();
 
-    List<List<Integer>> getNumPiecesVisualInfo();
+    ImmutableGrid getNumPiecesVisualInfo();
 
     /**
      * METHOD PURPOSE:

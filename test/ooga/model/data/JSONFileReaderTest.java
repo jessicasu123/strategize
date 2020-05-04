@@ -1,5 +1,6 @@
 package ooga.model.data;
 
+import ooga.model.engine.Grid;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,7 +123,7 @@ class JSONFileReaderTest {
         List<Integer> row8 = new ArrayList<>(List.of(4,0,4,0,4,0,4,0));
         List<List<Integer>> weights = new ArrayList<List<Integer>>();
         weights.addAll(Arrays.asList(row1,row2,row3,row4,row5,row6,row7,row8));
-        assertEquals(weights, fr.getBoardWeights());
+        assertEquals(new Grid(weights), fr.getBoardWeights());
     }
 
 
@@ -138,7 +139,7 @@ class JSONFileReaderTest {
         List<Integer> row8 = new ArrayList<>(List.of(1,0,1,0,1,0,1,0));
         List<List<Integer>> weights = new ArrayList<List<Integer>>();
         weights.addAll(Arrays.asList(row1,row2,row3,row4,row5,row6,row7,row8));
-        assertEquals(weights, fr.getObjectConfig());
+        assertEquals(new Grid(weights), fr.getObjectConfig());
     }
 
     @Test
@@ -223,7 +224,7 @@ class JSONFileReaderTest {
         List<Integer> row8 = new ArrayList<>(List.of(3,0,3,0,3,0,3,0));
         List<List<Integer>> config = new ArrayList<List<Integer>>();
         config.addAll(Arrays.asList(row1,row2,row3,row4,row5,row6,row7,row8));
-        assertEquals(config, fr.loadFileConfiguration());
+        assertEquals(new Grid(config), fr.loadFileConfiguration());
     }
 
     @Test

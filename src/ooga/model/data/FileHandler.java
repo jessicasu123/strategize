@@ -1,5 +1,7 @@
 package ooga.model.data;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.exceptions.InvalidFileFormatException;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ public interface FileHandler {
      *      - will be passed to the view from the controller (getting the information from the game and board)
      * @return list of list of integers to represent the state configuration specified in the file
      */
-    List<List<Integer>> loadFileConfiguration();
+    ImmutableGrid loadFileConfiguration();
 
     /**
      * METHOD PURPOSE:
@@ -36,7 +38,7 @@ public interface FileHandler {
      * @param fileName - the name of the file it will be saved to
      * @param configurationInfo  - the board configuration to save to the file
      */
-    void saveToFile(String fileName, List<List<Integer>> configurationInfo, List<List<Integer>> objectConfigInfo);
+    void saveToFile(String fileName, ImmutableGrid configurationInfo, ImmutableGrid objectConfigInfo);
 
     /*@deprecated
     /void saveToFile(String fileName,  Map<String, String> properties, List<List<Integer>> configurationInfo);
@@ -71,7 +73,7 @@ public interface FileHandler {
      * @return a list of list of integers, where each row,col position represents the number
      * of objects at that location.
      */
-    List<List<Integer>> getObjectConfig();
+    ImmutableGrid getObjectConfig();
 
 
     /**
@@ -129,7 +131,7 @@ public interface FileHandler {
     /**
      * @return a nested list of the boardweights
      */
-    List<List<Integer>> getBoardWeights();
+    ImmutableGrid getBoardWeights();
 
     /**
      * @return the empty state of the board

@@ -1,6 +1,7 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
-import java.util.List;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 
 /**
  * This interface provides the evaluation function
@@ -18,8 +19,7 @@ public interface EvaluationFunction {
      * representing more desirable/strategic moves, and lower negative values
      * representing unfavorable ones.
      * @param boardStateInfo - the current state configuration of the board
-     * @param noMovesLeft - boolean that represents if there are moves left
      * @return an integer that represents the evaluation of a certain move
      */
-    int evaluate(List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft);
+    int evaluate(ImmutableGrid boardStateInfo, ImmutableGrid objectInfo);
 }

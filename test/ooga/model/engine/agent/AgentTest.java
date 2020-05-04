@@ -1,5 +1,6 @@
 package ooga.model.engine.agent;
 
+import ooga.model.engine.Grid;
 import ooga.model.engine.agent.evaluationFunctions.EvaluationFunction;
 import ooga.model.engine.agent.evaluationFunctions.MorePieces;
 import ooga.model.engine.agent.evaluationFunctions.PositionWeights;
@@ -27,8 +28,8 @@ class AgentTest {
     List<Integer> weightrow3 = new ArrayList<>(List.of(1,0,1,0));
     List<Integer> weightrow4 = new ArrayList<>(List.of(0,2,0,2));
     List<List<Integer>> weightboardConfig = new ArrayList<>(List.of(weightrow1,weightrow2,weightrow3,weightrow4));
-    EvaluationFunction morePieces = new MorePieces(0,agent, user,boardConfig,true);
-    EvaluationFunction weights = new PositionWeights(weightboardConfig,agent,user,1,-1);
+    EvaluationFunction morePieces = new MorePieces(0,agent, user,new Grid(boardConfig),true);
+    EvaluationFunction weights = new PositionWeights(new Grid(weightboardConfig),agent,user,1,-1);
     EvaluationFunction sumOfDistances = new SumOfDistances(1,agent,user);
     List<EvaluationFunction> evals = new ArrayList<>(List.of(morePieces,weights,sumOfDistances));
     Agent checkersAgent = new Agent(noPieces,evals,agent,user);
@@ -41,7 +42,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(0,checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
+        assertEquals(0,checkersAgent.evaluateCurrentGameState(new Grid(boardConfig),new Grid(boardConfig), noMovesLeft));
     }
 
     @Test
@@ -52,7 +53,7 @@ class AgentTest {
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
 
-        assertEquals(1 + (-2 + -2 - -2), checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
+        assertEquals(1 + (-2 + -2 - -2), checkersAgent.evaluateCurrentGameState(new Grid(boardConfig),new Grid(boardConfig), noMovesLeft));
 
 
         row1 = new ArrayList<>(List.of(0,0,1,0));
@@ -60,7 +61,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,3,0,3));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-1 + (2 + 2 - 2),checkersAgent.evaluateCurrentGameState(boardConfig, boardConfig,noMovesLeft));
+        assertEquals(-1 + (2 + 2 - 2),checkersAgent.evaluateCurrentGameState(new Grid(boardConfig), new Grid(boardConfig),noMovesLeft));
 
     }
     @Test
@@ -70,7 +71,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(1,0,1,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((1+1) - (-2 + -2), checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
+        assertEquals((1+1) - (-2 + -2), checkersAgent.evaluateCurrentGameState(new Grid(boardConfig),new Grid(boardConfig), noMovesLeft));
 
         //test better position for pawns for min
         row1 = new ArrayList<>(List.of(1,0,1,0));
@@ -78,7 +79,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-2+-2) - (1 + 1), checkersAgent.evaluateCurrentGameState(boardConfig, boardConfig,noMovesLeft));
+        assertEquals((-2+-2) - (1 + 1), checkersAgent.evaluateCurrentGameState(new Grid(boardConfig), new Grid(boardConfig),noMovesLeft));
     }
 
     @Test
@@ -89,7 +90,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,3,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,4,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-1 * ((2 + 2) - (2 + 4))),checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
+        assertEquals((-1 * ((2 + 2) - (2 + 4))),checkersAgent.evaluateCurrentGameState(new Grid(boardConfig),new Grid(boardConfig), noMovesLeft));
 
         //test min king has lower distance
         row1 = new ArrayList<>(List.of(0,0,2,0));
@@ -97,7 +98,7 @@ class AgentTest {
         row3 = new ArrayList<>(List.of(0,0,4,0));
         row4 = new ArrayList<>(List.of(0,3,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals((-1 * ((2 + 4) - (2 + 2))),checkersAgent.evaluateCurrentGameState(boardConfig,boardConfig, noMovesLeft));
+        assertEquals((-1 * ((2 + 4) - (2 + 2))),checkersAgent.evaluateCurrentGameState(new Grid(boardConfig),new Grid(boardConfig), noMovesLeft));
 
     }
     @Test
@@ -107,7 +108,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertFalse(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
+        assertFalse(checkersAgent.isGameWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
 
     }
 
@@ -118,7 +119,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
+        assertTrue(checkersAgent.isGameWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
     }
 
     @Test
@@ -128,7 +129,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertTrue(checkersAgent.isGameWon(boardConfig,boardConfig,noMovesLeft));
+        assertTrue(checkersAgent.isGameWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
     }
 
     @Test
@@ -138,7 +139,8 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(0, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
+        assertFalse(checkersAgent.hasAgentWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
+        assertFalse(checkersAgent.hasUserWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
     }
 
     @Test
@@ -148,7 +150,8 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,0,0,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(1, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
+        assertTrue(checkersAgent.hasAgentWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
+        assertFalse(checkersAgent.hasUserWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
     }
 
     @Test
@@ -158,6 +161,7 @@ class AgentTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,0,0,0));
         List<Integer> row4 = new ArrayList<>(List.of(0,3,0,3));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(3, checkersAgent.findGameWinner(boardConfig,boardConfig,noMovesLeft));
+        assertFalse(checkersAgent.hasAgentWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
+        assertTrue(checkersAgent.hasUserWon(new Grid(boardConfig),new Grid(boardConfig),noMovesLeft));
     }
 }

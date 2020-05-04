@@ -1,5 +1,6 @@
 package ooga.model.data;
 
+import ooga.model.engine.Grid;
 import ooga.model.engine.agent.evaluationFunctions.EvaluationFunctionFactory;
 import ooga.model.engine.agent.winTypes.WinTypeFactory;
 import ooga.model.engine.Coordinate;
@@ -151,8 +152,8 @@ public class BadDataTest {
         List<String> evals = file.getEvaluationFunctions();
         assertThrows(InvalidEvaluationFunctionException.class, () ->
                 new EvaluationFunctionFactory().createEvaluationFunction(evals.get(1), 0, new ArrayList<>(),
-                        new ArrayList<>(), new ArrayList<>(),0,0,0, true,
-                        new ArrayList<>()));
+                        new ArrayList<>(), new Grid(new ArrayList<>()),0,0,0, true,
+                        new Grid(new ArrayList<>())));
     }
     @Test
     void testInvalidWinType(){
@@ -161,7 +162,7 @@ public class BadDataTest {
         file.parseFile();
         String win = file.getWinType();
         assertThrows(InvalidWinTypeException.class, () -> new WinTypeFactory().createWinType(win,0,
-                0,0, true,new ArrayList<>()));
+                0,0, true,new Grid(new ArrayList<>())));
     }
     @Test
     void testInvalidConvertibleNeighborFinder(){

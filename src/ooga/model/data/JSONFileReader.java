@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.exceptions.InvalidFileFormatException;
 import org.json.JSONArray;
 import org.json.JSONTokener;
@@ -212,19 +214,21 @@ public class JSONFileReader implements FileHandler {
      * parses the configuration string and adds to the configuration 2-D List
      * @param config - the String configuration from the JSON File
      */
-    private List<List<Integer>> parseJSONConfiguration(String config){
-        List<List<Integer>> configuration = new ArrayList<>();
-        List<Integer> row = new ArrayList<>();
+    private ImmutableGrid parseJSONConfiguration(String config){
         String[] rows = config.split(";");
-        for(String rowConfig: rows){
+        int numCols = rows[0].split(",").length;
+        Grid configGrid = new Grid(rows.length, numCols);
+        for(int i = 0; i < rows.length; i++){
+            String rowConfig = rows[i];
             int[] rowTemp = Arrays.stream(rowConfig.split(",")).mapToInt(Integer::parseInt).toArray();
-            for(int i : rowTemp){
-                row.add(i);
+            if(rowTemp.length != numCols){
+                throw new InvalidFileFormatException(ERROR_MESSAGE);
             }
-            configuration.add(row);
-            row = new ArrayList<>();
+            for(int j = 0; j < rowTemp.length; j++){
+                configGrid.update(i,j,rowTemp[j]);
+            }
         }
-        return configuration;
+        return configGrid;
     }
 
     /**
@@ -244,7 +248,7 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return a nested list of the boardweights
      */
-    public List<List<Integer>> getBoardWeights(){
+    public ImmutableGrid getBoardWeights(){
         String boardWeightStr = gameStringProperties.get("BoardWeights");
         return parseJSONConfiguration(boardWeightStr);
     }
@@ -252,7 +256,7 @@ public class JSONFileReader implements FileHandler {
     /**
      * @return a nested list of the Object configurations
      */
-    public List<List<Integer>> getObjectConfig(){
+    public ImmutableGrid getObjectConfig(){
         String boardObjectStr = gameStringProperties.get("ObjectConfig");
         return parseJSONConfiguration(boardObjectStr);
     }
@@ -331,11 +335,11 @@ public class JSONFileReader implements FileHandler {
      * @param config - 2-D list of game configuration
      * @return configuration in string form
      */
-    private String configAsString(List<List<Integer>> config){
+    private String configAsString(ImmutableGrid config){
         StringBuilder configAsString = new StringBuilder();
-        for (List<Integer> integers : config) {
-            for (int j = 0; j < config.get(0).size(); j++) {
-                configAsString.append(integers.get(j)).append(",");
+        for (int r = 0; r < config.numRows(); r++) {
+            for (int c = 0; c < config.numCols(); c++) {
+                configAsString.append(config.getVal(r,c)).append(",");
             }
             configAsString = new StringBuilder(configAsString.substring(0, configAsString.length() - 1));
             configAsString.append(";");
@@ -384,7 +388,7 @@ public class JSONFileReader implements FileHandler {
      * @return - a 2-D arraylist of integers representing the game configuration
      */
     @Override
-    public List<List<Integer>> loadFileConfiguration(){
+    public ImmutableGrid loadFileConfiguration(){
         return parseJSONConfiguration(gameStringProperties.get("InitialConfig"));
     }
 
@@ -461,8 +465,8 @@ public class JSONFileReader implements FileHandler {
     }
 
     private boolean checkBoardObjectDimensions(){
-        return Integer.parseInt(gameStringProperties.get("Width")) != getObjectConfig().get(0).size() ||
-                Integer.parseInt(gameStringProperties.get("Height")) != getObjectConfig().size();
+        return Integer.parseInt(gameStringProperties.get("Width")) != getObjectConfig().numCols() ||
+                Integer.parseInt(gameStringProperties.get("Height")) != getObjectConfig().numRows();
     }
     private boolean checkPlayerStatesSameLength() {
         return gameArrayProperties.get("Player1States").length() != gameArrayProperties.get("Player2States").length();
@@ -478,13 +482,13 @@ public class JSONFileReader implements FileHandler {
     }
 
     private boolean checkBoardWeightDimensions() {
-        return Integer.parseInt(gameStringProperties.get("Width")) != getBoardWeights().get(0).size() ||
-                Integer.parseInt(gameStringProperties.get("Height")) != getBoardWeights().size();
+        return Integer.parseInt(gameStringProperties.get("Width")) != getBoardWeights().numCols() ||
+                Integer.parseInt(gameStringProperties.get("Height")) != getBoardWeights().numRows();
     }
 
     private boolean checkBoardDimensions() {
-        return Integer.parseInt(gameStringProperties.get("Width")) != loadFileConfiguration().get(0).size() ||
-        Integer.parseInt(gameStringProperties.get("Height")) != loadFileConfiguration().size();
+        return Integer.parseInt(gameStringProperties.get("Width")) != loadFileConfiguration().numCols() ||
+        Integer.parseInt(gameStringProperties.get("Height")) != loadFileConfiguration().numRows();
     }
 
 
@@ -496,8 +500,8 @@ public class JSONFileReader implements FileHandler {
         return gameStringProperties;
     }
 
-    private void writeBasicValues(String searchKey, JSONObject writeTo, String key, List<List<Integer>> currentConfig,
-                                  List<List<Integer>> objectConfig) {
+    private void writeBasicValues(String searchKey, JSONObject writeTo, String key, ImmutableGrid currentConfig,
+                                  ImmutableGrid objectConfig) {
         if (gameStringProperties.containsKey(searchKey)) {
             if (key.equals("InitialConfig")) {
                 writeTo.put(key,configAsString(currentConfig));
@@ -526,8 +530,8 @@ public class JSONFileReader implements FileHandler {
      * @param objectInfo - nested list of object information
      * @return a JSONObject containing the values
      */
-    private JSONObject writeNestedObject(String key, String valuesList, List<List<Integer>> config,
-                                         List<List<Integer>> objectInfo) {
+    private JSONObject writeNestedObject(String key, String valuesList, ImmutableGrid config,
+                                         ImmutableGrid objectInfo) {
         JSONObject nestedObject = new JSONObject();
         JSONArray values = gameArrayProperties.get(valuesList);
         for (int val = 0; val < values.length(); val++) {
@@ -546,8 +550,8 @@ public class JSONFileReader implements FileHandler {
      * @param configurationInfo - a 2-D list of the current game view configuration
      */
     @Override
-    public void saveToFile(String fileName, List<List<Integer>> configurationInfo,
-                           List<List<Integer>> objectConfigurationInfo) {
+    public void saveToFile(String fileName, ImmutableGrid configurationInfo,
+                           ImmutableGrid objectConfigurationInfo) {
         JSONObject jsonFile = new JSONObject();
         JSONArray allKeys = gameArrayProperties.get("Keys");
         for (int i = 0; i < allKeys.length();i++) {

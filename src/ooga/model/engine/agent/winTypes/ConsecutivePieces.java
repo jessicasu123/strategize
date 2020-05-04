@@ -1,9 +1,9 @@
 package ooga.model.engine.agent.winTypes;
 
+import ooga.model.engine.ImmutableGrid;
 import ooga.model.engine.neighborhood.DiagonalNeighborhood;
 import ooga.model.engine.neighborhood.VerticalNeighborhood;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,11 +29,10 @@ public class ConsecutivePieces implements WinType {
      * @return whether player has won
      */
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
-        List<List<Integer>> rows = boardStateInfo;
-        List<List<Integer>> cols = getCols(boardStateInfo);
-        List<List<Integer>> diags = getDiagonals(boardStateInfo);
-        return checkWinInGroup(rows, playerStates) || checkWinInGroup(cols,playerStates) || checkWinInGroup(diags, playerStates);
+    public boolean isWin(List<Integer> playerStates, ImmutableGrid boardStateInfo, ImmutableGrid objectInfo, boolean noMovesLeft) {
+        ImmutableGrid cols = getCols(boardStateInfo);
+        ImmutableGrid diags = getDiagonals(boardStateInfo);
+        return checkWinInGroup(boardStateInfo, playerStates) || checkWinInGroup(cols,playerStates) || checkWinInGroup(diags, playerStates);
     }
 
     /**
@@ -41,10 +40,11 @@ public class ConsecutivePieces implements WinType {
      * @param player - nested list of players
      * @return whether a group has a win
      */
-    private boolean checkWinInGroup(List<List<Integer>> spaceChecking, List<Integer> player){
-        for(List<Integer> allOfGroup: spaceChecking){
+    private boolean checkWinInGroup(ImmutableGrid spaceChecking, List<Integer> player){
+        for(int i = 0; i < spaceChecking.numRows(); i++){
             int consecutive = 0;
-            for(int state : allOfGroup){
+            for(int j = 0; j < spaceChecking.numCols(); j++){
+                int state = spaceChecking.getVal(i,j);
                 if(player.contains(state)){
                     consecutive++;
                 }else{
@@ -59,18 +59,18 @@ public class ConsecutivePieces implements WinType {
     }
 
 
-    private List<List<Integer>> getDiagonals(List<List<Integer>> boardStateInfo){
-        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
+    private ImmutableGrid getDiagonals(ImmutableGrid boardStateInfo){
+        calculateDiagonals = new DiagonalNeighborhood(boardStateInfo.numRows(),
+                boardStateInfo.numCols());
         return calculateDiagonals.getAllDiagonals(boardStateInfo,
                 myInARow);
     }
 
 
 
-    private List<List<Integer>> getCols(List<List<Integer>> boardStateInfo){
-        calculateColumns = new VerticalNeighborhood(boardStateInfo.size(),
-                boardStateInfo.get(0).size());
+    private ImmutableGrid getCols(ImmutableGrid boardStateInfo){
+        calculateColumns = new VerticalNeighborhood(boardStateInfo.numRows(),
+                boardStateInfo.numCols());
         return calculateColumns.getAllVerticals(boardStateInfo);
     }
 }

@@ -17,17 +17,15 @@ import java.util.*;
  * @author Jessica Su, Holly Ansel
  */
 public class Board implements BoardFramework{
-    public static final String STATE_INFO_IDENTIFIER = "state";
-    public static final String OBJECT_INFO_IDENTIFIER = "object";
     public static final int NO_MOVES_PLAYER1 = 1;
     public static final int NO_MOVES_PLAYER2 = 2;
     public static final int BOTH_PLAYERS_HAVE_MOVES = 3;
     private List<List<GamePiece>> myGamePieces;
-    private List<List<Integer>> myStartingConfiguration;
-    private List<List<Integer>> myObjectConfiguration;
     private GamePieceCreator myGamePieceFactory;
     private int numRows;
     private int numCols;
+    private Grid myStatesGrid;
+    private Grid myObjectsGrid;
     private int myEmptyState;
     private boolean doesTurnChange;
     private List<Neighborhood> myNeighborhoods;
@@ -37,19 +35,18 @@ public class Board implements BoardFramework{
      * @param gamePieces - a GamePieceCreator object, which is responsible for storing all the
      *                   information (ex. move types, move checks, user states, agent states, etc.)
      *                   needed to create the game pieces and can be called on to create those pieces
-     * @param startingConfiguration - the starting configuration read from the JSON file
-     * @param objectConfiguration - the number of objects at each row,col position
+     * @param states - the starting state configuration read from the JSON file
+     * @param objects - the number of objects at each row,col position
      * @param neighborhoods - the types of neighbors to consider while making a move on this board
      * @param emptyState - the integer representing the empty state (ex. 0)
      */
-    public Board(GamePieceCreator gamePieces, List<List<Integer>> startingConfiguration,
-                 List<List<Integer>> objectConfiguration, List<Neighborhood> neighborhoods, int emptyState) {
+    public Board(GamePieceCreator gamePieces, ImmutableGrid states, ImmutableGrid objects, List<Neighborhood> neighborhoods, int emptyState) {
         myGamePieces = new ArrayList<>();
         myEmptyState = emptyState;
-        myStartingConfiguration = startingConfiguration;
         myGamePieceFactory = gamePieces;
         myNeighborhoods = neighborhoods;
-        myObjectConfiguration = objectConfiguration;
+        myStatesGrid = (Grid) states.copy();
+        myObjectsGrid = (Grid) objects.copy();
         createBoardFromStartingConfig();
     }
 
@@ -59,7 +56,9 @@ public class Board implements BoardFramework{
      * @param neighborhoods - the types of neighbors to consider while making a move on this board
      * @param emptyState - the integer representing the empty state (ex. 0)
      */
-    public Board(List<List<GamePiece>> pieces, List<Neighborhood> neighborhoods, int emptyState){
+    private Board(List<List<GamePiece>> pieces, List<Neighborhood> neighborhoods, int emptyState, Grid states, Grid objects){
+        myStatesGrid = states;
+        myObjectsGrid = objects;
         myGamePieces = pieces;
         myNeighborhoods = neighborhoods;
         myEmptyState = emptyState;
@@ -92,14 +91,14 @@ public class Board implements BoardFramework{
     }
 
     private void createBoardFromStartingConfig() {
-        numRows = myStartingConfiguration.size();
-        numCols = myStartingConfiguration.get(0).size();
+        numRows = myStatesGrid.numRows();
+        numCols = myStatesGrid.numCols();
         for (int r = 0; r < numRows; r++) {
             List<GamePiece> boardRow = new ArrayList<>();
             for (int c = 0; c < numCols; c++) {
                 Coordinate pos = new Coordinate(r,c);
-                int state = myStartingConfiguration.get(r).get(c);
-                int object = myObjectConfiguration.get(r).get(c);
+                int state = myStatesGrid.getVal(r,c);
+                int object = myObjectsGrid.getVal(r,c);
                 GamePiece newPiece = myGamePieceFactory.createGamePiece(state, pos, object);
                 boardRow.add(newPiece);
             }
@@ -182,6 +181,7 @@ public class Board implements BoardFramework{
         } else {
             throw new InvalidMoveException("Your move to " + endCoordinate.toString() + " is invalid");
         }
+        updateGrids();
     }
 
 
@@ -200,9 +200,8 @@ public class Board implements BoardFramework{
      * @return list of list of the integers used to represent the state at each location
      */
     @Override
-    public List<List<Integer>> getStateInfo() {
-        List<List<Integer>> currStateConfig = getVisualInfoFromPieces(STATE_INFO_IDENTIFIER);
-        return Collections.unmodifiableList(currStateConfig);
+    public ImmutableGrid getStateInfo() {
+        return myStatesGrid.copy();
     }
 
     /**
@@ -212,27 +211,19 @@ public class Board implements BoardFramework{
      * @return list of list of the integers used to represent the number of objects at each location
      */
     @Override
-    public List<List<Integer>> getObjectInfo() {
-        List<List<Integer>> currObjectConfig = getVisualInfoFromPieces(OBJECT_INFO_IDENTIFIER);
-        return Collections.unmodifiableList(currObjectConfig);
+    public ImmutableGrid getObjectInfo() {
+        return myObjectsGrid.copy();
     }
 
-    private List<List<Integer>> getVisualInfoFromPieces(String visualInfoType) {
-        List<List<Integer>> visualInfo = new ArrayList<>();
+    private void updateGrids(){
         for (List<GamePiece> row: myGamePieces) {
-            List<Integer> rowObjects = new ArrayList<>();
             for (GamePiece gamePiece : row) {
-                int curr;
-                if (visualInfoType.equals(STATE_INFO_IDENTIFIER)) {
-                    curr = gamePiece.getState();
-                } else {
-                    curr = gamePiece.getNumObjects();
-                }
-                rowObjects.add(curr);
+                int rowPos = gamePiece.getPosition().getRow();
+                int colPos = gamePiece.getPosition().getCol();
+                myStatesGrid.update(rowPos,colPos,gamePiece.getState());
+                myObjectsGrid.update(rowPos,colPos,gamePiece.getNumObjects());
             }
-            visualInfo.add(rowObjects);
         }
-        return visualInfo;
     }
 
     /**
@@ -284,6 +275,6 @@ public class Board implements BoardFramework{
             }
             pieceCopies.add(rowOfPieceCopies);
         }
-        return new Board(pieceCopies,new ArrayList<>(myNeighborhoods),myEmptyState);
+        return new Board(pieceCopies,new ArrayList<>(myNeighborhoods),myEmptyState, myStatesGrid.copy(), myObjectsGrid.copy());
     }
 }

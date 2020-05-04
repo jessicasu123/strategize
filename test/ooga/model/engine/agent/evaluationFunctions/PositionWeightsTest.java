@@ -1,5 +1,6 @@
 package ooga.model.engine.agent.evaluationFunctions;
 
+import ooga.model.engine.Grid;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ public class PositionWeightsTest {
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4,row5,row6,row7,row8));
         //player 2 (max player) has better positions on the board - 3 corners, as well as the entire
         //stable border rows on the top and bottom
-        PositionWeights othelloPosWeights = new PositionWeights(othelloWeights, agent, user, maxDirection, minDirection);
-        assertEquals(42, othelloPosWeights.evaluate(boardConfig,boardConfig, false));
+        PositionWeights othelloPosWeights = new PositionWeights(new Grid(othelloWeights), agent, user, maxDirection, minDirection);
+        assertEquals(42, othelloPosWeights.evaluate(new Grid(boardConfig),new Grid(boardConfig)));
     }
 
 
@@ -55,7 +56,7 @@ public class PositionWeightsTest {
         List<Integer> agent = new ArrayList<>(List.of(1,2));
         int maxDirection = 1;
         int minDirection = -1;
-        PositionWeights checkersPosWeightsEval = new PositionWeights(checkersWeights, agent, user, maxDirection, minDirection);
+        PositionWeights checkersPosWeightsEval = new PositionWeights(new Grid(checkersWeights), agent, user, maxDirection, minDirection);
 
         //test better position for pawns for max
         List<Integer> row1 = new ArrayList<>(List.of(0,0,0,0));
@@ -63,7 +64,7 @@ public class PositionWeightsTest {
         List<Integer> row3 = new ArrayList<>(List.of(0,1,0,1));
         List<Integer> row4 = new ArrayList<>(List.of(3,0,3,0));
         List<List<Integer>> boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(6, checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
+        assertEquals(6, checkersPosWeightsEval.evaluate(new Grid(boardConfig),new Grid(boardConfig)));
 
         //test better position for pawns for min
         row1 = new ArrayList<>(List.of(0,1,0,1));
@@ -71,7 +72,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
+        assertEquals(-6,checkersPosWeightsEval.evaluate(new Grid(boardConfig),new Grid(boardConfig)));
 
         //test better position for kings for min
         row1 = new ArrayList<>(List.of(0,2,0,2));
@@ -79,7 +80,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,0,0,0));
         row4 = new ArrayList<>(List.of(0,0,0,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(-6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
+        assertEquals(-6,checkersPosWeightsEval.evaluate(new Grid(boardConfig),new Grid(boardConfig)));
 
         //test better position for kings for max
         row1 = new ArrayList<>(List.of(0,0,0,0));
@@ -87,7 +88,7 @@ public class PositionWeightsTest {
         row3 = new ArrayList<>(List.of(0,2,0,2));
         row4 = new ArrayList<>(List.of(4,0,4,0));
         boardConfig = new ArrayList<>(List.of(row1,row2,row3,row4));
-        assertEquals(6,checkersPosWeightsEval.evaluate(boardConfig,boardConfig, false));
+        assertEquals(6,checkersPosWeightsEval.evaluate(new Grid(boardConfig),new Grid(boardConfig)));
 
     }
 

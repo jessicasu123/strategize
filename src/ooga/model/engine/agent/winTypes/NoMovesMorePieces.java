@@ -2,6 +2,8 @@
 package ooga.model.engine.agent.winTypes;
 
 import ooga.model.engine.Coordinate;
+import ooga.model.engine.Grid;
+import ooga.model.engine.ImmutableGrid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +21,8 @@ import java.util.List;
 
 public class NoMovesMorePieces implements WinType {
     private final int myStateIndex;
-    private final List<List<Integer>> myInitialConfig;
-    private List<List<Integer>> myCurrConfig;
+    private final ImmutableGrid myInitialConfig;
+    private ImmutableGrid myCurrConfig;
     private final Boolean checkCurrConfig;
     private int myPlayerState;
     private int myEmptyState;
@@ -32,7 +34,7 @@ public class NoMovesMorePieces implements WinType {
      * @param checkCurrConfig - determines whether to check curr board config or use object config instead
      * @param emptyState - state of the empty piece for the game
      */
-    public NoMovesMorePieces(int stateIndex, List<List<Integer>> initialConfig, Boolean checkCurrConfig, int emptyState){
+    public NoMovesMorePieces(int stateIndex, ImmutableGrid initialConfig, Boolean checkCurrConfig, int emptyState){
         myStateIndex = stateIndex;
         myInitialConfig = initialConfig;
         this.checkCurrConfig = checkCurrConfig;
@@ -49,16 +51,16 @@ public class NoMovesMorePieces implements WinType {
      * @return - whether the player in question has won
      */
     @Override
-    public boolean isWin(List<Integer> playerStates, List<List<Integer>> boardStateInfo,List<List<Integer>> objectInfo, boolean noMovesLeft) {
+    public boolean isWin(List<Integer> playerStates, ImmutableGrid boardStateInfo, ImmutableGrid objectInfo, boolean noMovesLeft) {
         myPlayerState = playerStates.get(myStateIndex);
         myCurrConfig = boardStateInfo;
-        List<List<Integer>> boardToCheck;
+        ImmutableGrid boardToCheck;
         if (checkCurrConfig) {
             boardToCheck = myCurrConfig;
         } else {
             boardToCheck = myInitialConfig;
         }
-        ArrayList<Coordinate> myStateCoords = getStateCoords(boardToCheck);
+        List<Coordinate> myStateCoords = getStateCoords(boardToCheck);
         int numPlayerPieces;
         if (checkCurrConfig) {
             numPlayerPieces = myStateCoords.size();
@@ -75,8 +77,9 @@ public class NoMovesMorePieces implements WinType {
      */
     private int countAllPieces() {
         int allPieceCount = 0;
-        for (List<Integer> row: myCurrConfig) {
-            for (int colValue: row) {
+        for (int r = 0; r < myCurrConfig.numRows(); r++) {
+            for (int c = 0; c < myCurrConfig.numCols(); c++) {
+                int colValue = myCurrConfig.getVal(r,c);
                 if (colValue != myEmptyState && checkCurrConfig) {
                         allPieceCount += 1;
                 } else {
@@ -90,11 +93,11 @@ public class NoMovesMorePieces implements WinType {
     /**
      * Gets coordinates corresponding to a specific states
      */
-    private ArrayList<Coordinate> getStateCoords(List<List<Integer>> boardToCheck) {
-        ArrayList<Coordinate> stateCoords = new ArrayList<>();
-        for (int r = 0; r < boardToCheck.size(); r++) {
-            for (int c = 0; c < boardToCheck.get(0).size(); c++) {
-                if (boardToCheck.get(r).get(c) == myPlayerState) {
+    private List<Coordinate> getStateCoords(ImmutableGrid boardToCheck) {
+        List<Coordinate> stateCoords = new ArrayList<>();
+        for (int r = 0; r < boardToCheck.numRows(); r++) {
+            for (int c = 0; c < boardToCheck.numCols(); c++) {
+                if (boardToCheck.getVal(r,c) == myPlayerState) {
                     stateCoords.add(new Coordinate(r, c));
                 }
             }
@@ -108,10 +111,10 @@ public class NoMovesMorePieces implements WinType {
      * @param objectInfo - current config of objects on the board
      * @return - number of object occurrences
      */
-    private int countObjectOccurrences(ArrayList<Coordinate> stateCoords, List<List<Integer>> objectInfo) {
+    private int countObjectOccurrences(List<Coordinate> stateCoords, ImmutableGrid objectInfo) {
         int total = 0;
         for (Coordinate pos : stateCoords) {
-            total += objectInfo.get(pos.getRow()).get(pos.getCol());
+            total += objectInfo.getVal(pos.getRow(),pos.getCol());
         }
         return total;
     }
