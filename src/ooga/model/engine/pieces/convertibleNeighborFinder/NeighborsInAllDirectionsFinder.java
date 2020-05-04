@@ -45,7 +45,6 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
     private int myPlayerID;
 
     public NeighborsInAllDirectionsFinder() {
-        neighborsToConvert = new ArrayList<>();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
 
