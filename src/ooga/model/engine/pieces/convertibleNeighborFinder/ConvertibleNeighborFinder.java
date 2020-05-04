@@ -30,6 +30,6 @@ public interface ConvertibleNeighborFinder {
      * @param neighbors - the list of all possible neighbors to be considered
      * @return a list of all of the game pieces to convert
      */
-    List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate,
+    Collection<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate,
                                                  int numObjects, int playerID, int direction, List<GamePiece> neighbors);
 }

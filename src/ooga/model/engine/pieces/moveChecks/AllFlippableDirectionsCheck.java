@@ -36,7 +36,7 @@ public class AllFlippableDirectionsCheck implements MoveCheck{
     public boolean isConditionMet(Coordinate startingLocation, GamePiece checking, List<GamePiece> neighbors, int player, List<Integer> directions) {
         for (int i = 0; i < myDirections.length;i++) {
             int[] direction = myDirections[i];
-            if (myNeighborhoodFinder.checkFlippableDirection(startingLocation.getRow(),
+            if (myNeighborhoodFinder.checkOneFlippableDirection(startingLocation.getRow(),
                     startingLocation.getCol(), player, direction[0], direction[1], neighbors)) {
                 return true;
             }

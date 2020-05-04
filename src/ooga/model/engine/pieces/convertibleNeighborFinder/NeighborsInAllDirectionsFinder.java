@@ -4,6 +4,7 @@ import ooga.model.engine.Coordinate;
 import ooga.model.engine.pieces.GamePiece;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 /**
  * CODE MASTERPIECE (PT 4):
@@ -19,7 +20,9 @@ import java.util.List;
  * state.
  *
  * Similar to the other classes, the code is also well-commented, modular, and has methods that each have a clear
- * purpose, and abides by the single responsibility principle.
+ * purpose, and abides by the single responsibility principle. The checkOneFlippableDirection method seems long, but it
+ * contains a while loop with logic that is dependent on many variables within the local scope and is constantly updated
+ * on every iteration. Therefore, it's really hard to extract the method into smaller chunks.
  */
 
 /**
@@ -48,8 +51,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
 
     /**
      * This method finds all the neighbors in potentially multiple of the 8 directions
-     * that should be flipped to the player state.
-     *
+     * that are consecutive opponent pieces and followed by a player piece.
      * @param currCoordinate - current (start) coordinate
      * @param endCoordinate - end coordinate (position of the last neighbor to be converted)
      * @param numObjects - number of objects (continue giving number of objects until there are none left)
@@ -59,23 +61,23 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
      * @return
      */
     @Override
-    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
-                                                  int playerID,int direction, List<GamePiece> neighbors) {
+    public Collection<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
+                                                        int playerID, int direction, List<GamePiece> neighbors) {
         neighborsToConvert = new ArrayList<>();
         myPlayerID = playerID;
         currRowPos = currCoordinate.getRow();
         currColPos = currCoordinate.getCol();
-        return checkValidMoveInAnyDirection(neighbors);
+        return findFlippableNeighborsInAllDirections(neighbors);
     }
 
-    private List<GamePiece> checkValidMoveInAnyDirection(List<GamePiece> neighbors) {
+    //check neighbors in all 8 directions and adds neighbors that can be flipped to a neighborsToConvert variable
+    private List<GamePiece> findFlippableNeighborsInAllDirections(List<GamePiece> neighbors) {
         for (int i = 0; i < directions.length;i++) {
             int[] direction = directions[i];
-            checkFlippableDirection(currRowPos, currColPos, myPlayerID, direction[0], direction[1], neighbors);
+            checkOneFlippableDirection(currRowPos, currColPos, myPlayerID, direction[0], direction[1], neighbors);
         }
         return neighborsToConvert;
     }
-
     /**
      * Also used by AllFlippableDirectionsCheck. The logic of checking that there is at least 1 out of 8
      * valid directions to flip and actually flipping all the neighbors is essentially the same.
@@ -87,8 +89,8 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
      * @param neighbors - the list of all the neighbors
      * @return a boolean of whether there is at least ONE neighbor to flip
      */
-    public boolean checkFlippableDirection(int currRowPos, int currColPos, int myPlayerID,
-                                           int rowOffset, int colOffset, List<GamePiece> neighbors) {
+    public boolean checkOneFlippableDirection(int currRowPos, int currColPos, int myPlayerID,
+                                              int rowOffset, int colOffset, List<GamePiece> neighbors) {
         int currRow = currRowPos + rowOffset;
         int currCol = currColPos + colOffset;
         int numOpponents = 0;
@@ -113,7 +115,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
         }
         return false;
     }
-
+    //finds the GamePiece in the List of GamePiece neighbors based on the current coordinate
     private GamePiece getPieceNeighborFromCoordinate(List<GamePiece> neighbors, Coordinate c) {
         for (GamePiece g: neighbors) {
             if (g.getPosition().equals(c)) {
