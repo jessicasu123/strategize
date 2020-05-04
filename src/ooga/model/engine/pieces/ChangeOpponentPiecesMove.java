@@ -67,7 +67,7 @@ public class ChangeOpponentPiecesMove implements MoveType {
      */
     @Override
     public void completeMoveType(GamePiece moving, Coordinate endCoordinateInfo, List<GamePiece> neighbors, int playerState, int direction) {
-        Collection<GamePiece> neighborsToConvert = myConvertibleNeighborFinder.findNeighborsToConvert(moving.getPosition(), endCoordinateInfo,
+        List<GamePiece> neighborsToConvert = myConvertibleNeighborFinder.findNeighborsToConvert(moving.getPosition(), endCoordinateInfo,
                 moving.getNumObjects(), playerState,direction, neighbors);
         for (GamePiece neighbor: neighborsToConvert) {
             if(convertToEmptyState){

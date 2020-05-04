@@ -45,6 +45,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
     private int myPlayerID;
 
     public NeighborsInAllDirectionsFinder() {
+        neighborsToConvert = new ArrayList<>();
         directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
     }
 
@@ -60,7 +61,7 @@ public class NeighborsInAllDirectionsFinder implements ConvertibleNeighborFinder
      * @return
      */
     @Override
-    public Collection<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
+    public List<GamePiece> findNeighborsToConvert(Coordinate currCoordinate, Coordinate endCoordinate, int numObjects,
                                                         int playerID, int direction, List<GamePiece> neighbors) {
         neighborsToConvert = new ArrayList<>();
         myPlayerID = playerID;
